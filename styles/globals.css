@@ -1,0 +1,370 @@
+h3 {
+  margin: 0px;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  background-color: #555;
+}
+
+nav li {
+  float: left;
+  border-right: 1px solid #bbb;
+}
+
+nav li:nth-child(2) {
+  border-right: none;
+}
+
+nav li:not(:first-child) a {
+  padding: 16px;
+}
+
+nav li:not(:first-child) {
+  float: right;
+}
+
+nav li:first-child a {
+  line-height: 23px;
+}
+
+nav li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+nav li a:hover:not(.active) {
+  background-color: #444;
+}
+
+nav .active {
+  background-color: #4f86f7;
+}
+
+#nav-fav {
+  display: none;
+}
+
+#nav-header {
+  display: block;
+}
+
+@media only screen and (max-width: 1200px) {
+  #whats-new-wrapper,
+  #projects-link-wrapper,
+  #left-content-wrapper {
+    width: unset !important;
+  }
+
+  #top-left-wrapper {
+    flex-direction: column;
+  }
+
+  #contact-form-wrapper {
+    margin: 0px 10px -10px 0px !important;
+  }
+
+  #whats-new-wrapper,
+  #projects-link-wrapper {
+    margin: 50px 50px 0px !important;
+  }
+
+  #twitter-feed-wrapper div:first-child {
+    max-height: 105vh !important;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  #twitter-feed-wrapper {
+    width: unset !important;
+    margin: 0px 40px 0px !important;
+  }
+
+  #page-content {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #nav-fav {
+    display: block;
+  }
+
+  #nav-header,
+  #copyright,
+  thead {
+    display: none;
+  }
+
+  nav li:first-child a {
+    padding: 4.5px 16px;
+  }
+
+  .contact-fields,
+  .contact-form {
+    flex-direction: column;
+  }
+
+  #contact-form {
+    margin: 0px !important;
+    padding: 20px !important;
+  }
+
+  #whats-new-wrapper,
+  #projects-link-wrapper,
+  #contact-form-wrapper {
+    margin: 50px 20px 0px !important;
+  }
+
+  #twitter-feed-wrapper div:first-child {
+    overflow: unset !important;
+    max-height: unset !important;
+  }
+
+  #twitter-feed-wrapper {
+    margin: 40px 10px 0px !important;
+  }
+
+  .contact-child {
+    margin: 0px !important;
+  }
+
+  footer {
+    position: fixed;
+  }
+
+  #whats-new,
+  #projects-link-btn {
+    margin: 0px !important;
+  }
+
+  .projects-table-data {
+    display: flex !important;
+    justify-content: stretch;
+  }
+
+  .app-description,
+  .app-demo {
+    max-width: calc(100vw - 25px) !important;
+    max-height: unset !important;
+    height: unset !important;
+  }
+
+  .app-demo {
+    width: 100%;
+  }
+
+  .content,
+  #resume-root {
+    margin-bottom: 95px !important;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  #resume-root {
+    margin-bottom: 195px !important;
+  }
+}
+
+footer {
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  background-color: #555;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+footer div {
+  align-self: center;
+  color: #fff;
+}
+
+footer ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  padding: 0px;
+}
+
+footer ul li {
+  margin: 10px;
+}
+
+footer img {
+  width: 30px;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.content {
+  margin: 10px;
+  flex: 1;
+}
+
+.tweet-hover {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+#page-content {
+  display: flex;
+  flex: 1;
+}
+
+#twitter-feed-wrapper {
+  flex: 1 1 30%;
+  display: flex;
+  align-self: stretch;
+}
+
+#left-content-wrapper {
+  display: flex;
+  flex: 1 1 70%;
+  flex-direction: column;
+}
+
+#contact-form-wrapper {
+  display: flex;
+  flex: 1 1 100%;
+}
+
+#contact-form {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 50px;
+  border: solid #ccc;
+  border-radius: 5px;
+  margin: 50px 40px 50px 50px;
+  justify-content: space-between;
+  text-align: center;
+}
+
+#contact-form label {
+  text-align: left;
+}
+
+#contact-form textarea {
+  height: 150px;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-fields {
+  display: flex;
+}
+
+.contact-child {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0px;
+  justify-content: space-around;
+}
+
+.contact-child:last-child {
+  margin-left: 25px;
+}
+
+.contact-child:first-child {
+  margin-right: 25px;
+}
+
+#whats-new-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 50px 25px 0px 50px;
+  text-align: center;
+  justify-content: space-between;
+  flex: 1 1 0px;
+  width: 0px;
+}
+
+#whats-new {
+  display: flex;
+  align-items: stretch;
+  flex: 1 1;
+  margin: 0px 30px;
+}
+
+#projects-link-btn {
+  border: solid #aaa;
+  border-radius: 15px;
+  padding: 25px;
+  margin: 0px 30px;
+}
+
+#projects-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 50px 40px 0px 25px;
+  text-align: center;
+  justify-content: space-between;
+  flex: 1 1 0px;
+  width: 0px;
+}
+
+#top-left-wrapper {
+  display: flex;
+}
+
+div h4 {
+  margin-top: 0px;
+}
+
+.app-description,
+.app-demo {
+  max-height: calc(100vh - 270px);
+  height: 100vh;
+  overflow: auto;
+}
+
+.app-demo {
+  max-width: calc(75vw - 35px);
+}
+
+.app-description {
+  max-width: calc(25vw - 35px);
+}
+
+#toggle-theme-root button {
+  margin: 5px;
+}
+
+#resume-root {
+  width: -webkit-fill-available;
+  margin: 10px;
+}
+
+#resume-root div.MuiBox-root:first-child {
+  height: calc(100% - 49px);
+}

@@ -1,0 +1,31 @@
+.tab {
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px;
+  float: left;
+}
+.tabs {
+  overflow: hidden;
+  margin-bottom: -2px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  padding: 10px;
+}
+td:first-child {
+  display: contents;
+}
+button.active {
+  background-color: #ccc;
+}
+#react-timeclock-demo {
+  max-width: unset;
+}
+#react-timeclock-demo table {
+  width: unset;
+}
+#react-timeclock-demo td:first-child {
+  display: table-cell;
+}
