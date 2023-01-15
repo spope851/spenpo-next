@@ -1,22 +1,19 @@
-import Script from "next/script"
+import { useRef, useEffect } from "react"
+import LanguageFlash from "spenpo-svelte"
 
 export default function LanguageFlashDemo() {
-  return (
-    <>
-      language flash demo
-      {/* <Script src="/static/svelte-apps/lang-flash-bundle.js" />
-      <Script
-        dangerouslySetInnerHTML={{
-          __html: `
-        const lfTarget = document.getElementById("lang-flash")
-        console.log(lfTarget)
+  const demoRoot = useRef<HTMLDivElement | null>(null)
 
-        new LanguageFlash({
-          target: lfTarget,
-        })
-      `,
-        }}
-      /> */}
-    </>
-  )
+  useEffect(() => {
+    const lf =
+      demoRoot &&
+      new LanguageFlash({
+        target: demoRoot.current,
+      })
+
+    return () => {
+      lf.$destroy()
+    }
+  }, [])
+  return <div ref={demoRoot}></div>
 }

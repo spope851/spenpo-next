@@ -15,7 +15,11 @@ const projects: Record<Projects, JSX.Element> = {
   "two-truths": (
     <tr id="two-truths" className="projects-row">
       <TwoTruthsDes />
-      <TwoTruthsDemo />
+      <td className="projects-table-data">
+        <div id="two-truths-demo" className="app-demo">
+          <TwoTruthsDemo />
+        </div>
+      </td>
     </tr>
   ),
   "language-flash": (
