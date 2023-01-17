@@ -8,6 +8,9 @@ class Tag {
   @Field(() => String!)
   name!: string
 
+  @Field(() => String!)
+  slug!: string
+
   @Field(() => Int!)
   post_count!: number
 }

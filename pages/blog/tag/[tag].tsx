@@ -1,12 +1,15 @@
 import { useQuery } from "@apollo/client"
-import { PostList } from "../../components/postList"
-import { graphql } from "../../generated"
+import { useRouter } from "next/router"
+import { PostList } from "../../../components/postList"
+import { graphql } from "../../../generated"
 
 export default function Blog() {
+  const router = useRouter()
+  const tag = router.query.tag as string
   const { loading, data } = useQuery(
     graphql(`
-      query getBlogPosts {
-        allPosts {
+      query getBlogPostsWithTag($tag: String) {
+        allPosts(tag: $tag) {
           posts {
             ID
             content
@@ -21,7 +24,8 @@ export default function Blog() {
           }
         }
       }
-    `)
+    `),
+    { variables: { tag } }
   )
 
   return <PostList posts={data} loading={loading} />
