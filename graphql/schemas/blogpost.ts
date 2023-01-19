@@ -22,7 +22,7 @@ class BlogPost {
   excerpt!: string
 
   @Field(() => [Tag])
-  tags!: Tag[]
+  tags?: Tag[]
 }
 
 export { BlogPost }

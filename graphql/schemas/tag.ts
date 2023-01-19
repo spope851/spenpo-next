@@ -11,8 +11,8 @@ class Tag {
   @Field(() => String!)
   slug!: string
 
-  @Field(() => Int!)
-  post_count!: number
+  @Field(() => Int, { nullable: true })
+  post_count?: number
 }
 
 export { Tag }

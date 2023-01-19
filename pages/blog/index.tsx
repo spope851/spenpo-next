@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { PostList } from "../../components/postList"
+import { PostList } from "./components/postList"
 import { graphql } from "../../generated"
 
 export default function Blog() {
@@ -17,6 +17,7 @@ export default function Blog() {
               name
               ID
               slug
+              post_count
             }
           }
         }

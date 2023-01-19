@@ -18,6 +18,9 @@ export const ThemeProvider = ({ children }) => {
       createTheme({
         palette: {
           mode,
+          primary: {
+            main: "#4f86f7",
+          },
         },
         components: {
           MuiAccordion: {

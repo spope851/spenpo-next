@@ -1,7 +1,8 @@
 import { useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
-import { PostList } from "../../../components/postList"
+import { PostList } from "../components/postList"
 import { graphql } from "../../../generated"
+import { BackButton } from "../../../components/backButton"
 
 export default function Blog() {
   const router = useRouter()
@@ -20,6 +21,7 @@ export default function Blog() {
               name
               ID
               slug
+              post_count
             }
           }
         }
@@ -28,5 +30,10 @@ export default function Blog() {
     { variables: { tag } }
   )
 
-  return <PostList posts={data} loading={loading} />
+  return (
+    <>
+      <BackButton href="/blog" />
+      <PostList posts={data} loading={loading} />
+    </>
+  )
 }

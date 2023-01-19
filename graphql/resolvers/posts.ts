@@ -1,5 +1,6 @@
 import { Resolver, Query, Arg } from "type-graphql"
 import { Posts } from "../schemas"
+import { extractTagsFromPosts } from "../utils"
 
 @Resolver(Posts)
 class PostsResolver {
@@ -11,16 +12,7 @@ class PostsResolver {
       }`
     )
       .then((res) => res.json())
-      .then((data) => {
-        const newData = data
-        const posts = data.posts
-        const tags = posts.map((post) => Object.values(post.tags))
-        posts.forEach((post, idx) => {
-          post.tags = tags[idx]
-        })
-        newData.posts = posts
-        return newData
-      })
+      .then(extractTagsFromPosts)
   }
 }
 
