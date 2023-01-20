@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { useRouter } from "next/router"
 import React, { useState, useEffect, useRef } from "react"
 
 interface TweetEntity {
@@ -12,11 +11,33 @@ interface ExtendedEntity {
   media_url_https: string
 }
 
+const Tweet: React.FC<{
+  children: React.ReactNode
+  onClick: () => void
+}> = ({ onClick, children }) => {
+  const [btnClass, setBtnClass] = useState<string>()
+
+  return (
+    <div
+      style={{
+        border: "solid #999",
+        margin: 10,
+        borderRadius: 5,
+        padding: 10,
+      }}
+      onClick={onClick}
+      onMouseOver={() => setBtnClass("tweet-hover")}
+      onMouseOut={() => setBtnClass("")}
+      className={btnClass}
+    >
+      {children}
+    </div>
+  )
+}
+
 export const TwitterFeed: React.FC = () => {
-  const router = useRouter()
   const [tweets, setTweets] = useState<Record<string, any>[]>([])
   const [count, setCount] = useState(10)
-  const tweetRef = useRef<HTMLDivElement | null>(null)
   const tweetBtn = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
@@ -128,23 +149,15 @@ export const TwitterFeed: React.FC = () => {
           ? tweet.retweeted_status.favorite_count
           : tweet.favorite_count
         return (
-          <div
-            key={tweet.id}
-            ref={tweetRef}
-            id={`tweet-${tweet.id}`}
-            style={{
-              border: "solid #999",
-              margin: 10,
-              borderRadius: 5,
-              padding: 10,
-            }}
+          <Tweet
             onClick={() =>
-              router.push(
-                `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
-              )
+              window
+                .open(
+                  `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
+                  "_blank"
+                )
+                ?.focus()
             }
-            onMouseOver={() => tweetRef.current?.classList.add("tweet-hover")}
-            onMouseLeave={() => tweetRef.current?.classList.remove("tweet-hover")}
           >
             {tweetImg}
             {rt && (
@@ -177,7 +190,7 @@ export const TwitterFeed: React.FC = () => {
             {extendedEntities}
             <span>{`♡ ${favorites > 0 ? favorites : ""}`}</span>
             {infoLink}
-          </div>
+          </Tweet>
         )
       })}
       <button
