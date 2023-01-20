@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cd svelte-apps && npm i && npm run build && cd ../ && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "compile": "graphql-codegen",
