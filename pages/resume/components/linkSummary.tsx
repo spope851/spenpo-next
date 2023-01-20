@@ -2,7 +2,12 @@ import { AccordionSummary, Typography, Box, Link } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import React from "react"
 
-const LinkSummary = ({ title, href, linkTitle, subTitle }) => {
+const LinkSummary: React.FC<{
+  title: string
+  href: string
+  linkTitle: string
+  subTitle: string
+}> = ({ title, href, linkTitle, subTitle }) => {
   return (
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography

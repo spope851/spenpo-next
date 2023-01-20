@@ -4,7 +4,7 @@ import AccordionDetails from "./accordionDetails"
 import List from "./list"
 import LinkSummary from "./linkSummary"
 
-const Experience = () => {
+const Experience: React.FC = () => {
   return (
     <>
       <Accordion>

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from "react"
+import { RobotError } from "@/components/robotError"
 import CubeDemo from "./demos/cubeSolverDemo"
 import LanguageFlashDemo from "./demos/languageFlashDemo"
 import ReactTimeclockDemo from "./demos/reactTimeclockDemo"
@@ -111,7 +112,20 @@ export default function Projects() {
             </th>
           </tr>
         </thead>
-        <tbody>{projects[project]}</tbody>
+        <tbody>
+          {projects[project] || (
+            <tr className="projects-row">
+              <td className="projects-table-data">
+                <ul className="app-description"></ul>
+              </td>
+              <td className="projects-table-data">
+                <div className="app-demo">
+                  <RobotError>this project doesn't exist yet</RobotError>
+                </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </div>
   )

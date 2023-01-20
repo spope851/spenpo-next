@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { useState } from "react"
-import { TwitterFeed } from "../components/twitter-feed"
-import { WhatsNew } from "../components/whats-new"
+import { TwitterFeed } from "@/components/twitter-feed"
+import { WhatsNew } from "@/components/whats-new"
 
 export default function Home() {
   const [btnClass, setBtnClass] = useState<string>()

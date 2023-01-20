@@ -1,6 +1,6 @@
 import { Chip, Link, Tooltip } from "@mui/material"
 import React from "react"
-import { Tag } from "../../../generated/graphql"
+import { Tag } from "@/generated/graphql"
 
 export const TagList: React.FC<{
   tags?: Tag[]

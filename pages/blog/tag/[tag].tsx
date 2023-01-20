@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
 import { PostList } from "../components/postList"
-import { graphql } from "../../../generated"
-import { BackButton } from "../../../components/backButton"
+import { graphql } from "@/generated"
+import { BackButton } from "@/components/backButton"
 import { Box } from "@mui/material"
-import { OneThingLayout } from "../../../components/oneThingLayout"
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined"
+import { RobotError } from "@/components/robotError"
+import { OneThingLayout } from "@/components/oneThingLayout"
 
 export default function Blog() {
   const router = useRouter()
@@ -39,14 +39,11 @@ export default function Blog() {
   return data?.allPosts.posts && data.allPosts.posts.length > 0 ? (
     <>
       <Box ml={"15%"} mt={5}>
-        <BackButton href="/blog" />
+        <BackButton />
       </Box>
       <PostList posts={data} loading={loading} />
     </>
   ) : (
-    <OneThingLayout>
-      <SmartToyOutlinedIcon />
-      this tag doesn't exist
-    </OneThingLayout>
+    <RobotError>this tag doesn't exist</RobotError>
   )
 }

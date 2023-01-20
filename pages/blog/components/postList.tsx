@@ -1,11 +1,9 @@
 import { Box, styled, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
-import { OneThingLayout } from "../../../components/oneThingLayout"
-import {
-  GetBlogPostsQuery,
-  GetBlogPostsWithTagQuery,
-} from "../../../generated/graphql"
+import { OneThingLayout } from "@/components/oneThingLayout"
+import { RobotError } from "@/components/robotError"
+import { GetBlogPostsQuery, GetBlogPostsWithTagQuery } from "@/generated/graphql"
 import { TagList } from "./tagList"
 
 const Wrapper = styled(Box)`
@@ -55,9 +53,9 @@ export const PostList: React.FC<{
 
   const found = posts?.allPosts.found
 
-  return (
+  return posts ? (
     <Wrapper>
-      {posts?.allPosts.posts.map(({ ID, title, date, excerpt, tags }) => (
+      {posts.allPosts.posts.map(({ ID, title, date, excerpt, tags }) => (
         <Post key={ID} href={ID}>
           <Typography variant="caption" align="right">
             {new Date(date).toLocaleDateString()}
@@ -71,5 +69,10 @@ export const PostList: React.FC<{
         {`showing ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
       </Typography>
     </Wrapper>
+  ) : (
+    <RobotError>
+      <Typography component="p">deepest apologies,</Typography>
+      <Typography component="p">somethings wrong with our server</Typography>
+    </RobotError>
   )
 }

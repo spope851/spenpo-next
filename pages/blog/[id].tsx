@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client"
 import { Box, Typography } from "@mui/material"
 import { useRouter } from "next/router"
-import { BackButton } from "../../components/backButton"
-import { OneThingLayout } from "../../components/oneThingLayout"
-import { graphql } from "../../generated"
+import { BackButton } from "@/components/backButton"
+import { OneThingLayout } from "@/components/oneThingLayout"
+import { RobotError } from "@/components/robotError"
+import { graphql } from "@/generated"
 import { TagList } from "./components/tagList"
-import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined"
 
 export default function Post() {
   const router = useRouter()
@@ -46,9 +46,6 @@ export default function Post() {
       <TagList tags={data.post.tags} />
     </Box>
   ) : (
-    <OneThingLayout>
-      <SmartToyOutlinedIcon />
-      this post doesn't exist yet
-    </OneThingLayout>
+    <RobotError>this post doesn't exist yet</RobotError>
   )
 }

@@ -1,6 +1,18 @@
-import React, { useState, useEffect } from "react"
-export const WhatsNew = ({ endpoint }) => {
-  const [content, setContent] = useState() //{"id":3,"title":"How to be happy","img":null,"domain":"https://introspective20s.wordpress.com/2022/04/09/how-to-be-happy/","summary":"A framework for maintaining enjoyment and satisfaction"}) //{"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"}) // {"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"} }
+import { useRouter } from "next/router"
+import React, { useState, useEffect, useRef } from "react"
+
+export interface Content {
+  id: string
+  title: string
+  img?: string
+  domain: string
+  summary: string
+}
+
+export const WhatsNew: React.FC<{ endpoint: string }> = ({ endpoint }) => {
+  const router = useRouter()
+  const [content, setContent] = useState<Content>() //{"id":3,"title":"How to be happy","img":null,"domain":"https://introspective20s.wordpress.com/2022/04/09/how-to-be-happy/","summary":"A framework for maintaining enjoyment and satisfaction"}) //{"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"}) // {"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"} }
+  const linkRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     ;(async () => {
@@ -13,6 +25,7 @@ export const WhatsNew = ({ endpoint }) => {
   return content ? (
     <div
       id="link-preview"
+      ref={linkRef}
       style={{
         display: "flex",
         border: "solid #aaa",
@@ -20,13 +33,9 @@ export const WhatsNew = ({ endpoint }) => {
         alignItems: "stretch",
         flex: "1 1 0px",
       }}
-      onClick={() => window.open(content.domain, "_blank").focus()}
-      onMouseOver={() =>
-        document.getElementById(`link-preview`).classList.add("tweet-hover")
-      }
-      onMouseLeave={() =>
-        document.getElementById(`link-preview`).classList.remove("tweet-hover")
-      }
+      onClick={() => router.push(content.domain)}
+      onMouseOver={() => linkRef.current?.classList.add("tweet-hover")}
+      onMouseLeave={() => linkRef.current?.classList.remove("tweet-hover")}
     >
       <img
         style={{ objectFit: "cover", borderRadius: "15px 0 0 15px", width: 100 }}

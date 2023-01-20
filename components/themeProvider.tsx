@@ -2,8 +2,10 @@ import React, { useState, useMemo } from "react"
 import { createTheme, ThemeProvider as MuiProvider } from "@mui/material"
 import { ColorModeContext } from "./toggleTheme"
 
-export const ThemeProvider = ({ children }) => {
-  const [mode, setMode] = useState("light")
+export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [mode, setMode] = useState<"light" | "dark">("light")
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {

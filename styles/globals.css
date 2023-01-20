@@ -347,3 +347,7 @@ div h4 {
   width: -webkit-fill-available;
   margin: 10px;
 }
+
+#send-email:hover {
+  cursor: pointer;
+}

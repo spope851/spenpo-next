@@ -1,4 +1,4 @@
-import * as keys from "./keys.js"
+import * as keys from "./keys"
 import pkg from "pg"
 delete pkg.native
 const { Pool } = pkg

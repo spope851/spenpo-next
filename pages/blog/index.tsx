@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { PostList } from "./components/postList"
-import { graphql } from "../../generated"
+import { graphql } from "@/generated"
 
 export default function Blog() {
   const { loading, data } = useQuery(

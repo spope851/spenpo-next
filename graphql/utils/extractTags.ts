@@ -1,17 +1,27 @@
-const extractTagsFromPosts = (data: any) => {
-  const newData = data
-  const posts = data.posts
-  const tags = posts.map((post: any) => Object.values(post.tags))
-  posts.forEach((post: any, idx: number) => {
+import { Tag } from "../schemas/tag"
+
+interface Post {
+  tags: Record<string, Tag>
+}
+
+interface NewPost {
+  tags: Tag[]
+}
+
+const extractTagsFromPosts = (data: { posts: Post[] }): { posts: NewPost[] } => {
+  const newData: any = data
+  const posts: Post[] | NewPost[] = data.posts as Post[] | NewPost[]
+  const tags: Tag[][] = posts.map((post) => Object.values(post.tags))
+  posts.forEach((post, idx: number) => {
     post.tags = tags[idx]
   })
-  newData.posts = posts
+  newData.posts = posts as NewPost[]
   return newData
 }
 
-const extractTagsFromPost = (data: any) => {
-  const newData = data
-  const tags = Object.values(data.tags)
+const extractTagsFromPost = (data: Post) => {
+  const newData: any = data
+  const tags: Tag[] = Object.values(data.tags)
   newData.tags = tags
   return newData
 }

@@ -1,9 +1,23 @@
 import Image from "next/image"
-import React, { useState, useEffect } from "react"
+import { useRouter } from "next/router"
+import React, { useState, useEffect, useRef } from "react"
 
-export const TwitterFeed = () => {
-  const [tweets, setTweets] = useState([])
+interface TweetEntity {
+  url: string
+  display_url: string
+}
+
+interface ExtendedEntity {
+  id: string
+  media_url_https: string
+}
+
+export const TwitterFeed: React.FC = () => {
+  const router = useRouter()
+  const [tweets, setTweets] = useState<Record<string, any>[]>([])
   const [count, setCount] = useState(10)
+  const tweetRef = useRef<HTMLDivElement | null>(null)
+  const tweetBtn = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
     ;(async () => {
@@ -60,28 +74,34 @@ export const TwitterFeed = () => {
         const created = rt ? tweet.retweeted_status.created_at : tweet.created_at
         const entities = rt
           ? tweet.retweeted_status.entities &&
-            tweet.retweeted_status.entities.urls.map((entity) => (
-              <span key={entity.url}>
-                <a href={entity.url} style={{ overflowWrap: "break-word" }}>
-                  {entity.display_url}
-                </a>
-              </span>
-            ))
+            tweet.retweeted_status.entities.urls.map(
+              ({ url, display_url }: TweetEntity) => (
+                <span key={url}>
+                  <a href={url} style={{ overflowWrap: "break-word" }}>
+                    {display_url}
+                  </a>
+                </span>
+              )
+            )
           : tweet.entities &&
-            tweet.entities.urls.map((entity) => (
-              <span key={entity.url}>
-                <a href={entity.url} style={{ overflowWrap: "break-word" }}>
-                  {entity.display_url}
+            tweet.entities.urls.map(({ url, display_url }: TweetEntity) => (
+              <span key={url}>
+                <a href={url} style={{ overflowWrap: "break-word" }}>
+                  {display_url}
                 </a>
               </span>
             ))
         const extendedEntities = rt
           ? tweet.retweeted_status.extended_entities &&
             tweet.retweeted_status.extended_entities.media.map(
-              (entity, _idx, arr) => (
+              (
+                { id, media_url_https }: ExtendedEntity,
+                _idx: string,
+                arr: ExtendedEntity[]
+              ) => (
                 <img
-                  key={entity.id}
-                  src={entity.media_url_https}
+                  key={id}
+                  src={media_url_https}
                   width={`${100 / arr.length}%`}
                   style={{ borderRadius: 10 }}
                   alt="tweet content"
@@ -89,21 +109,28 @@ export const TwitterFeed = () => {
               )
             )
           : tweet.extended_entities &&
-            tweet.extended_entities.media.map((entity, _idx, arr) => (
-              <img
-                key={entity.id}
-                src={entity.media_url_https}
-                alt="tweet content"
-                width={`${100 / arr.length}%`}
-                style={{ borderRadius: 10 }}
-              />
-            ))
+            tweet.extended_entities.media.map(
+              (
+                { id, media_url_https }: ExtendedEntity,
+                _idx: string,
+                arr: ExtendedEntity[]
+              ) => (
+                <img
+                  key={id}
+                  src={media_url_https}
+                  alt="tweet content"
+                  width={`${100 / arr.length}%`}
+                  style={{ borderRadius: 10 }}
+                />
+              )
+            )
         const favorites = rt
           ? tweet.retweeted_status.favorite_count
           : tweet.favorite_count
         return (
           <div
             key={tweet.id}
+            ref={tweetRef}
             id={`tweet-${tweet.id}`}
             style={{
               border: "solid #999",
@@ -112,23 +139,12 @@ export const TwitterFeed = () => {
               padding: 10,
             }}
             onClick={() =>
-              window
-                .open(
-                  `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`,
-                  "_blank"
-                )
-                .focus()
+              router.push(
+                `https://twitter.com/${tweet.user.screen_name}/status/${tweet.id_str}`
+              )
             }
-            onMouseOver={() =>
-              document
-                .getElementById(`tweet-${tweet.id}`)
-                .classList.add("tweet-hover")
-            }
-            onMouseLeave={() =>
-              document
-                .getElementById(`tweet-${tweet.id}`)
-                .classList.remove("tweet-hover")
-            }
+            onMouseOver={() => tweetRef.current?.classList.add("tweet-hover")}
+            onMouseLeave={() => tweetRef.current?.classList.remove("tweet-hover")}
           >
             {tweetImg}
             {rt && (
@@ -151,7 +167,7 @@ export const TwitterFeed = () => {
               {` @${screenName} - ${new Date(created).toLocaleDateString()}`}
             </span>
             <p>
-              {text.map((line, idx) => (
+              {text.map((line: string, idx: string) => (
                 <span key={line + idx}>
                   {`${line || ""} `}
                   {entities[idx] || ""}
@@ -166,13 +182,10 @@ export const TwitterFeed = () => {
       })}
       <button
         id="tweet-btn"
+        ref={tweetBtn}
         onClick={async () => setCount(count + 10)}
-        onMouseOver={() =>
-          document.getElementById(`tweet-btn`).classList.add("tweet-hover")
-        }
-        onMouseLeave={() =>
-          document.getElementById(`tweet-btn`).classList.remove("tweet-hover")
-        }
+        onMouseOver={() => tweetBtn.current?.classList.add("tweet-hover")}
+        onMouseLeave={() => tweetBtn.current?.classList.remove("tweet-hover")}
         style={{
           borderColor: "#1DA1F2",
           color: "#1DA1F2",
