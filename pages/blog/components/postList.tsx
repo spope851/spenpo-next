@@ -1,6 +1,7 @@
 import { Box, styled, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import React, { useState } from "react"
+import { OneThingLayout } from "../../../components/oneThingLayout"
 import {
   GetBlogPostsQuery,
   GetBlogPostsWithTagQuery,
@@ -50,7 +51,7 @@ export const PostList: React.FC<{
   posts?: GetBlogPostsQuery | GetBlogPostsWithTagQuery
   loading: boolean
 }> = ({ posts, loading }) => {
-  if (loading) return <>...Loading</>
+  if (loading) return <OneThingLayout>...Loading</OneThingLayout>
 
   const found = posts?.allPosts.found
 

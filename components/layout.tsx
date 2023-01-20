@@ -6,7 +6,6 @@ import { Box } from "@mui/material"
 
 export default function Layout({ children }) {
   const { pathname } = useRouter()
-  console.log()
 
   const active = (pathname.split("/")[1] as Tabs) || "root"
 

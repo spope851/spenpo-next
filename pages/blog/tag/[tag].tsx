@@ -3,6 +3,9 @@ import { useRouter } from "next/router"
 import { PostList } from "../components/postList"
 import { graphql } from "../../../generated"
 import { BackButton } from "../../../components/backButton"
+import { Box } from "@mui/material"
+import { OneThingLayout } from "../../../components/oneThingLayout"
+import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined"
 
 export default function Blog() {
   const router = useRouter()
@@ -31,10 +34,19 @@ export default function Blog() {
     { variables: { tag } }
   )
 
-  return (
+  if (loading) return <OneThingLayout>...Loading</OneThingLayout>
+
+  return data?.allPosts.posts && data.allPosts.posts.length > 0 ? (
     <>
-      <BackButton href="/blog" />
+      <Box ml={"15%"} mt={5}>
+        <BackButton href="/blog" />
+      </Box>
       <PostList posts={data} loading={loading} />
     </>
+  ) : (
+    <OneThingLayout>
+      <SmartToyOutlinedIcon />
+      this tag doesn't exist
+    </OneThingLayout>
   )
 }
