@@ -7,7 +7,7 @@ import { TagList } from "./components/tagList"
 
 export default function Post() {
   const router = useRouter()
-  const pid = router.query.id as string
+  const id = router.query.id as string
   const { loading, data } = useQuery(
     graphql(`
       query getPost($id: String!) {
@@ -24,7 +24,7 @@ export default function Post() {
         }
       }
     `),
-    { variables: { id: pid } }
+    { variables: { id } }
   )
 
   if (loading) return <>...Loading</>

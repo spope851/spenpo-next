@@ -103,8 +103,12 @@ export default function Projects() {
       <table border={2}>
         <thead>
           <tr id="thead">
-            <th style={{ width: "25%" }}>info</th>
-            <th style={{ width: "75%" }}>demo</th>
+            <th className="projects-table-head" style={{ width: "25%" }}>
+              info
+            </th>
+            <th className="projects-table-head" style={{ width: "75%" }}>
+              demo
+            </th>
           </tr>
         </thead>
         <tbody>{projects[project]}</tbody>

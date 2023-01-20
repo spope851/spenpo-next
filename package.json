@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "cd svelte-apps && npm i && npm run build && cd ../ && next build",
     "start": "next start",
     "lint": "next lint",
     "compile": "graphql-codegen",
@@ -34,7 +34,7 @@
     "pg": "^8.8.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-timeclock": "^0.0.3",
+    "react-timeclock": "^0.1.0",
     "reflect-metadata": "^0.1.13",
     "spenpo-svelte": "./svelte-apps",
     "type-graphql": "^1.1.1",

@@ -13,7 +13,6 @@ import AccordionDetails from "./components/accordionDetails"
 import List from "./components/list"
 
 export default function Resume() {
-  const [skillsExp, setSkillsExp] = useState(true)
   const [epxerienceExp, setExperienceExp] = useState(true)
 
   return (
@@ -36,7 +35,7 @@ export default function Resume() {
       >
         Spencer Pope: Professional Web Developer and Software Engineer
       </Typography>
-      <Accordion expanded={skillsExp} onChange={() => setSkillsExp(!skillsExp)}>
+      <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography variant="h6">Skills</Typography>
         </AccordionSummary>

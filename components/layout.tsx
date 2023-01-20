@@ -16,10 +16,13 @@ export default function Layout({ children }) {
       sx={{
         bgcolor: "background.default",
         color: "text.primary",
+        minHeight: "100vh",
       }}
+      display="flex"
+      flexDirection="column"
     >
       <Navbar active={active} />
-      <Box className="content">{children}</Box>
+      {children}
       <Footer />
     </Box>
   )

@@ -11,6 +11,7 @@ export default function Blog() {
     graphql(`
       query getBlogPostsWithTag($tag: String) {
         allPosts(tag: $tag) {
+          found
           posts {
             ID
             content

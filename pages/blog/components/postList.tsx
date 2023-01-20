@@ -28,7 +28,7 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
     border: solid #999;
     border-radius: 5px;
     padding: 20px;
-    margin: 50px 25px 0px 50px;
+    margin: 50px;
     text-align: center;
     justify-content: space-between;
     flex: 1 1 0px;
@@ -52,6 +52,8 @@ export const PostList: React.FC<{
 }> = ({ posts, loading }) => {
   if (loading) return <>...Loading</>
 
+  const found = posts?.allPosts.found
+
   return (
     <Wrapper>
       {posts?.allPosts.posts.map(({ ID, title, date, excerpt, tags }) => (
@@ -64,6 +66,9 @@ export const PostList: React.FC<{
           <TagList tags={tags} />
         </Post>
       ))}
+      <Typography textAlign="right" mb="50px">
+        {`showing ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
+      </Typography>
     </Wrapper>
   )
 }

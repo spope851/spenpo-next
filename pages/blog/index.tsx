@@ -7,6 +7,7 @@ export default function Blog() {
     graphql(`
       query getBlogPosts {
         allPosts {
+          found
           posts {
             ID
             content

@@ -1,6 +1,5 @@
 import Image from "next/image"
 import React, { useState, useEffect } from "react"
-// import data from "../data/tweets.json"
 
 export const TwitterFeed = () => {
   const [tweets, setTweets] = useState([])

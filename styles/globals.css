@@ -98,7 +98,7 @@ nav .active {
 
   #nav-header,
   #copyright,
-  thead {
+  .projects-table-head {
     display: none;
   }
 
@@ -135,10 +135,6 @@ nav .active {
     margin: 0px !important;
   }
 
-  footer {
-    position: fixed;
-  }
-
   #whats-new,
   #projects-link-btn {
     margin: 0px !important;
@@ -159,23 +155,11 @@ nav .active {
   .app-demo {
     width: 100%;
   }
-
-  .content,
-  #resume-root {
-    margin-bottom: 95px !important;
-  }
-}
-
-@media only screen and (max-width: 320px) {
-  #resume-root {
-    margin-bottom: 195px !important;
-  }
 }
 
 footer {
-  left: 0px;
-  bottom: 0px;
   width: 100%;
+  margin-top: auto;
   background-color: #555;
   display: flex;
   justify-content: space-evenly;
@@ -213,7 +197,6 @@ body {
 #wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
 }
 
 .content {
@@ -232,7 +215,8 @@ body {
 }
 
 #twitter-feed-wrapper {
-  flex: 1 1 30%;
+  flex: 1 1;
+  width: 30%;
   display: flex;
   align-self: stretch;
 }
@@ -343,8 +327,7 @@ div h4 {
 
 .app-description,
 .app-demo {
-  max-height: calc(100vh - 270px);
-  height: 100vh;
+  height: calc(100vh - 270px);
   overflow: auto;
 }
 
@@ -363,8 +346,4 @@ div h4 {
 #resume-root {
   width: -webkit-fill-available;
   margin: 10px;
-}
-
-#resume-root div.MuiBox-root:first-child {
-  height: calc(100% - 49px);
 }
