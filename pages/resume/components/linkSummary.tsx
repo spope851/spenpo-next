@@ -3,7 +3,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import React from "react"
 
 const LinkSummary: React.FC<{
-  title: string
+  title?: string
   href: string
   linkTitle: string
   subTitle: string

@@ -135,7 +135,6 @@ export default function Resume() {
           </Accordion>
           <Accordion>
             <LinkSummary
-              title={undefined}
               linkTitle="Beijing Language and Culture University"
               href="http://english.blcu.edu.cn/"
               subTitle="January 2019"
