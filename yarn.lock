@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"3x3-cube@^1.4.2":
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/3x3-cube/-/3x3-cube-1.4.2.tgz#245719df2a97b06d7c6bc37cabb08cbc9d4e7449"
-  integrity sha512-0QU735VRet8LkDzMRD7yfspQNs91Oh9fsSjSIH6dzP4XodCGtGs5Lq5tkUBCP0ak/gldqLGmM5OycoAmSp2Y4Q==
+"3x3-cube@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/3x3-cube/-/3x3-cube-2.0.0.tgz#d8ab79913ed2485fc2a311decc6f093f0e5383cd"
+  integrity sha512-Nlep8lX185cQvHFN0iq82SI77XuHpFTxRRnlpeLtAVvfIXMXvBFQgCAZHbVePLoX6CWgAQVO7RPPMtgHy/4oDA==
   dependencies:
     "@babel/polyfill" "^7.12.1"
     "@emotion/react" "^11.10.5"
@@ -11632,10 +11632,10 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
-react-timeclock@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/react-timeclock/-/react-timeclock-0.0.3.tgz#db0c0f8172326fba0a4ae7d492541d1e14b96eb4"
-  integrity sha512-IkRxuQRCuvqut+iF5M5ggzufDrEsobcspHlb30u1Fb+Qh8oNbuMykdlbsmBw6HRnHeEA3nngw4IOYSsshdHmeg==
+react-timeclock@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-timeclock/-/react-timeclock-0.1.0.tgz#b5b22293b459116a6318edfa18aa1383b1c223ac"
+  integrity sha512-nmWkYQdpSfowYwGKAqop33kb4a13oz1uXK2lFk2p+9a3JlYZ8g4mg12qEQNfzzq7Vif3ToNXpyAdDa/MP1whHg==
   dependencies:
     react-scripts "5.0.1"
     typescript "^4.9.4"

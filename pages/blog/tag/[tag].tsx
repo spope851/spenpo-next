@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { PostList } from "../components/postList"
 import { graphql } from "@/generated"
 import { BackButton } from "@/components/backButton"
-import { Box } from "@mui/material"
+import { Box, Chip, Typography } from "@mui/material"
 import { RobotError } from "@/components/robotError"
 import { OneThingLayout } from "@/components/oneThingLayout"
 
@@ -38,8 +38,23 @@ export default function Blog() {
 
   return data?.allPosts.posts && data.allPosts.posts.length > 0 ? (
     <>
-      <Box ml={"15%"} mt={5}>
-        <BackButton />
+      <Box
+        mt={5}
+        display="grid"
+        gridTemplateColumns="1fr 1fr 1fr"
+        flexWrap="wrap-reverse"
+        alignItems="flex-end"
+      >
+        <BackButton sx={{ gridColumn: 1, m: "auto" }} />
+        <Chip
+          color="primary"
+          label={tag}
+          sx={{
+            mx: "auto",
+            fontSize: 16,
+            gridColumn: 2,
+          }}
+        />
       </Box>
       <PostList posts={data} loading={loading} />
     </>

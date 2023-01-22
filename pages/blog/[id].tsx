@@ -31,20 +31,24 @@ export default function Post() {
 
   if (loading) return <OneThingLayout>...Loading</OneThingLayout>
   return data ? (
-    <Box mx={"15%"} my={5}>
-      <BackButton href="/blog" />
-      <TagList tags={data.post.tags} />
-      <Box display="flex" justifyContent="space-between" alignItems="end">
-        <Typography component="span" variant="h4">
-          {data.post.title}
-        </Typography>
-        <Typography component="span" variant="caption">
-          {data.post.date && new Date(data.post.date).toLocaleDateString()}
-        </Typography>
+    <>
+      <Box mt={5} ml="5%">
+        <BackButton href="/blog" />
       </Box>
-      <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
-      <TagList tags={data.post.tags} />
-    </Box>
+      <Box mx="15%" my={5}>
+        <TagList tags={data.post.tags} />
+        <Box display="flex" justifyContent="space-between" alignItems="end">
+          <Typography component="span" variant="h4">
+            {data.post.title}
+          </Typography>
+          <Typography component="span" variant="caption">
+            {data.post.date && new Date(data.post.date).toLocaleDateString()}
+          </Typography>
+        </Box>
+        <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
+        <TagList tags={data.post.tags} />
+      </Box>
+    </>
   ) : (
     <RobotError>this post doesn't exist yet</RobotError>
   )

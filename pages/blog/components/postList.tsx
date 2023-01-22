@@ -8,7 +8,7 @@ import { TagList } from "./tagList"
 
 const Wrapper = styled(Box)`
   width: 60%;
-  margin: auto;
+  margin: 0 auto;
   ${({ theme }) => theme.breakpoints.down("md")} {
     width: 85%;
   }

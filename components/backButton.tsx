@@ -1,12 +1,16 @@
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import React from "react"
 import { useRouter } from "next/router"
-import { Button } from "@mui/material"
+import { Button, ButtonProps } from "@mui/material"
 
-export const BackButton: React.FC<{ href?: string }> = ({ href }) => {
+export const BackButton: React.FC<{ href?: string } & ButtonProps> = ({
+  href,
+  sx,
+}) => {
   const router = useRouter()
   return (
     <Button
+      sx={sx}
       href={href}
       onClick={() => {
         if (!href) {
