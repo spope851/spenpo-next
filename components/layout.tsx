@@ -3,8 +3,9 @@ import Footer from "./footer"
 import { useRouter } from "next/router"
 import { Tabs } from "../types"
 import { Box } from "@mui/material"
+import React from "react"
 
-export default function Layout({ children }) {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { pathname } = useRouter()
 
   const active = (pathname.split("/")[1] as Tabs) || "root"
@@ -26,3 +27,5 @@ export default function Layout({ children }) {
     </Box>
   )
 }
+
+export default Layout
