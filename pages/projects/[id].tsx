@@ -69,11 +69,6 @@ const TabBtn: React.FC<
 }
 
 export default function Projects() {
-  // const demoRef: LegacyRef<HTMLDivElement> = useRef(null)
-
-  // useEffect(() => {
-  //   LanguageFlashDemo()
-  // }, [demoRef])
   const router = useRouter()
   const project = router.query.id as Projects
 
@@ -120,7 +115,7 @@ export default function Projects() {
               </td>
               <td className="projects-table-data">
                 <div className="app-demo">
-                  <RobotError>this project doesn't exist yet</RobotError>
+                  <RobotError>this project doesn&apos;t exist yet</RobotError>
                 </div>
               </td>
             </tr>

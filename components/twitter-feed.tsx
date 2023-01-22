@@ -150,6 +150,7 @@ export const TwitterFeed: React.FC = () => {
           : tweet.favorite_count
         return (
           <Tweet
+            key={tweet.id}
             onClick={() =>
               window
                 .open(

@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { PostList } from "../components/postList"
 import { graphql } from "@/generated"
 import { BackButton } from "@/components/backButton"
-import { Box, Chip, Typography } from "@mui/material"
+import { Box, Chip } from "@mui/material"
 import { RobotError } from "@/components/robotError"
 import { OneThingLayout } from "@/components/oneThingLayout"
 
@@ -59,6 +59,6 @@ export default function Blog() {
       <PostList posts={data} loading={loading} />
     </>
   ) : (
-    <RobotError>this tag doesn't exist</RobotError>
+    <RobotError>this tag doesn&apos;t exist</RobotError>
   )
 }

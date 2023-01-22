@@ -50,6 +50,6 @@ export default function Post() {
       </Box>
     </>
   ) : (
-    <RobotError>this post doesn't exist yet</RobotError>
+    <RobotError>this post doesn&apos;t exist yet</RobotError>
   )
 }

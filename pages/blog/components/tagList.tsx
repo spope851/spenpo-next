@@ -8,13 +8,12 @@ export const TagList: React.FC<{
   return (
     <p>
       {tags?.map(({ ID, slug, name, post_count }) => (
-        <Tooltip title={post_count} placement="top">
+        <Tooltip title={post_count} placement="top" key={ID}>
           <Chip
             color="primary"
             label={name}
             component={Link}
             href={`/blog/tag/${slug}`}
-            key={ID}
             clickable
             size="small"
             sx={{

@@ -18,7 +18,7 @@ export default function Home() {
             </div>
           </div>
           <div id="projects-link-wrapper">
-            <h4>see what else I'm working on</h4>
+            <h4>see what else I&apos;m working on</h4>
             <div
               id="projects-link-btn"
               className={btnClass}

@@ -4,9 +4,12 @@ export default function ReactTimeclockDes() {
       <ul className="app-description">
         <li>description: timeclock component for tracking work done on a website</li>
         <ul>
-          <li>clock in/out when working on your site and record what you've done</li>
           <li>
-            add to a site during development to easily track how long you've worked
+            clock in/out when working on your site and record what you&apos;ve done
+          </li>
+          <li>
+            add to a site during development to easily track how long you&apos;ve
+            worked
           </li>
         </ul>
         <li>

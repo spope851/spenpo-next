@@ -8,11 +8,11 @@ export default function LanguageFlashDes() {
           <li>
             choose how many times you must get the definition right before moving on
           </li>
-          <li>I've supplied it with data on Mandarin Chinese for this demo</li>
+          <li>I&apos;ve supplied it with data on Mandarin Chinese for this demo</li>
           <ul>
             <li>
-              you can pass in data on any language you're able to get it for through
-              props. just import the{" "}
+              you can pass in data on any language you&apos;re able to get it for
+              through props. just import the{" "}
               <a
                 href="https://www.npmjs.com/package/language-flash"
                 target="_blank"
