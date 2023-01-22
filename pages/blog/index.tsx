@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client"
-import { PostList } from "./components/postList"
+import { PostList } from "../../components/blog/postList"
 import { graphql } from "@/generated"
 import { Typography } from "@mui/material"
 

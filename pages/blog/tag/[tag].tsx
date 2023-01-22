@@ -1,6 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { useRouter } from "next/router"
-import { PostList } from "../components/postList"
+import { PostList } from "../../../components/blog/postList"
 import { graphql } from "@/generated"
 import { BackButton } from "@/components/backButton"
 import { Box, Chip } from "@mui/material"
