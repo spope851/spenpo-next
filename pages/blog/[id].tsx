@@ -5,7 +5,7 @@ import { BackButton } from "@/components/backButton"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
 import { graphql } from "@/generated"
-import { TagList } from "./components/tagList"
+import { TagList } from "@/components/blog/tagList"
 
 export default function Post() {
   const router = useRouter()
