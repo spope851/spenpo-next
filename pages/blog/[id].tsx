@@ -1,11 +1,20 @@
 import { useQuery } from "@apollo/client"
-import { Box, Typography } from "@mui/material"
+import { Box, styled, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import { BackButton } from "@/components/backButton"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
 import { graphql } from "@/generated"
 import { TagList } from "@/components/blog/tagList"
+
+const StyledBox = styled(Box)`
+  margin-right: 15%;
+  margin-left: 15%;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    margin-right: 5%;
+    margin-left: 5%;
+  }
+`
 
 export default function Post() {
   const router = useRouter()
@@ -35,7 +44,7 @@ export default function Post() {
       <Box mt={5} ml="5%">
         <BackButton href="/blog" />
       </Box>
-      <Box mx="15%" my={5}>
+      <StyledBox my={5}>
         <TagList tags={data.post.tags} />
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography component="span" variant="h4">
@@ -47,7 +56,7 @@ export default function Post() {
         </Box>
         <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
         <TagList tags={data.post.tags} />
-      </Box>
+      </StyledBox>
     </>
   ) : (
     <RobotError>this post doesn&apos;t exist yet</RobotError>

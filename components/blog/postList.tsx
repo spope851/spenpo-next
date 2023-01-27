@@ -12,6 +12,9 @@ const Wrapper = styled(Box)`
   ${({ theme }) => theme.breakpoints.down("md")} {
     width: 85%;
   }
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    width: 100%;
+  }
 `
 
 const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
