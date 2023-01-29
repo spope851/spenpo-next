@@ -6,7 +6,6 @@ import { WhatsNew } from "@/components/whats-new"
 export default function Home() {
   const [btnClass, setBtnClass] = useState<string>()
   const router = useRouter()
-  console.log(process.env.TWITTER_BEARER)
 
   return (
     <div id="page-content">

@@ -3,8 +3,6 @@ import pkg from "pg"
 delete pkg.native
 const { Pool } = pkg
 
-console.log(keys)
-
 export const pool = new Pool({
   user: keys.pgUser,
   host: keys.pgHost,
