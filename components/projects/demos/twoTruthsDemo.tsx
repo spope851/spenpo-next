@@ -1,18 +1,22 @@
 import { useRef, useEffect } from "react"
-import TwoTruths from "spenpo-svelte/dist/two-truths-bundle"
 
 export default function TwoTruthsDemo() {
   const demoRoot = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const tt =
-      demoRoot &&
-      new TwoTruths({
-        target: demoRoot.current,
-      })
-
+    let tt: { $destroy: () => void }
+    ;(async () => {
+      const TwoTruths = (await import("spenpo-svelte/dist/two-truths-bundle"))
+        .default
+      tt =
+        demoRoot &&
+        demoRoot.current?.children.length === 0 &&
+        new TwoTruths({
+          target: demoRoot.current,
+        })
+    })()
     return () => {
-      tt.$destroy()
+      tt && tt.$destroy()
     }
   }, [])
   return <div ref={demoRoot}></div>
