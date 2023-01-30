@@ -40,11 +40,11 @@ export default function Post() {
 
   if (loading) return <OneThingLayout>...Loading</OneThingLayout>
   return data ? (
-    <>
+    <Box overflow="auto">
       <Box mt={5} ml="5%">
         <BackButton href="/blog" />
       </Box>
-      <StyledBox my={5} overflow="auto">
+      <StyledBox my={5}>
         <TagList tags={data.post.tags} />
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography component="span" variant="h4">
@@ -57,7 +57,7 @@ export default function Post() {
         <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
         <TagList tags={data.post.tags} />
       </StyledBox>
-    </>
+    </Box>
   ) : (
     <RobotError>this post doesn&apos;t exist yet</RobotError>
   )
