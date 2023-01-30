@@ -36,6 +36,9 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
     flex: 1 1 0px;
     background-color: ${bg};
     cursor: ${bg && "pointer"};
+    ${({ theme }) => theme.breakpoints.down("md")} {
+      margin: 20px;
+    }
   `
   return (
     <StyledBox
