@@ -9,6 +9,7 @@ import CubeDes from "@/components/projects/descriptions/cubeSolverDes"
 import LanguageFlashDes from "@/components/projects/descriptions/languageFlashDes"
 import ReactTimeclockDes from "@/components/projects/descriptions/reactTimeclockDes"
 import TwoTruthsDes from "@/components/projects/descriptions/twoTruthsDes"
+import { Tabs } from "@mui/material"
 
 type Projects = "two-truths" | "language-flash" | "3x3-cube" | "react-timeclock"
 
@@ -74,7 +75,12 @@ export default function Projects() {
 
   return (
     <div className="content">
-      <div className="tabs">
+      <Tabs
+        scrollButtons
+        allowScrollButtonsMobile
+        variant="scrollable"
+        className="tabs"
+      >
         <TabBtn
           onClick={() => router.push("/projects/two-truths")}
           id="two-truths"
@@ -95,7 +101,7 @@ export default function Projects() {
           id="react-timeclock"
           active={project}
         />
-      </div>
+      </Tabs>
       <table border={2}>
         <thead>
           <tr id="thead">

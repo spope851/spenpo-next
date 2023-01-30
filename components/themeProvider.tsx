@@ -43,6 +43,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
               },
             },
           },
+          MuiTabs: {
+            styleOverrides: {
+              scrollButtons: {
+                "&.Mui-disabled": {
+                  display: "none",
+                },
+              },
+              root: {
+                minHeight: "unset",
+              },
+            },
+          },
         },
       }),
     [mode]
