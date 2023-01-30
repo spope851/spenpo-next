@@ -36,6 +36,9 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
     flex: 1 1 0px;
     background-color: ${bg};
     cursor: ${bg && "pointer"};
+    ${({ theme }) => theme.breakpoints.down("md")} {
+      margin: 20px;
+    }
   `
   return (
     <StyledBox
@@ -47,6 +50,12 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
     </StyledBox>
   )
 }
+
+const NumberPosts = styled(Typography)`
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    margin-right: 10px;
+  }
+`
 
 export const PostList: React.FC<{
   posts?: GetBlogPostsQuery | GetBlogPostsWithTagQuery
@@ -68,9 +77,9 @@ export const PostList: React.FC<{
           <TagList tags={tags} />
         </Post>
       ))}
-      <Typography textAlign="right" mb="50px">
+      <NumberPosts textAlign="right" mb="50px">
         {`showing ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
-      </Typography>
+      </NumberPosts>
     </Wrapper>
   ) : (
     <RobotError>
