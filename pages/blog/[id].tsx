@@ -44,7 +44,7 @@ export default function Post() {
       <Box mt={5} ml="5%">
         <BackButton href="/blog" />
       </Box>
-      <StyledBox my={5}>
+      <StyledBox my={5} overflow="auto">
         <TagList tags={data.post.tags} />
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography component="span" variant="h4">
