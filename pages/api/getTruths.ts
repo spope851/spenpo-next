@@ -8,7 +8,7 @@ export interface Truth {
   sentence: string
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse<Truth[]>) => {
+const getTruths = async (req: NextApiRequest, res: NextApiResponse<Truth[]>) => {
   console.log("GET truths  ", req.query)
   const truths = await pool.query(
     `SELECT * FROM truths WHERE is_true = CAST(1 as BIT) ORDER BY random() LIMIT 2;`
@@ -20,3 +20,5 @@ export default async (req: NextApiRequest, res: NextApiResponse<Truth[]>) => {
   twoTruths.push(lie.rows[0])
   res.status(200).send(shuffle(twoTruths))
 }
+
+export default getTruths

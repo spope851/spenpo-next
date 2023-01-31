@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default async (
+const getTweets = async (
   req: NextApiRequest,
   res: NextApiResponse<Record<string, any>>
 ) => {
@@ -16,3 +16,5 @@ export default async (
     .then((data) => data.json())
     .then((r) => res.send(r))
 }
+
+export default getTweets

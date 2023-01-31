@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { useRouter } from "next/router"
 import React, { useState, useEffect, useRef } from "react"
 
@@ -20,7 +21,7 @@ export const WhatsNew: React.FC<{ endpoint: string }> = ({ endpoint }) => {
         res.json().then((data) => setContent(data))
       )
     })()
-  }, [])
+  }, [endpoint])
 
   return content ? (
     <div
@@ -37,6 +38,7 @@ export const WhatsNew: React.FC<{ endpoint: string }> = ({ endpoint }) => {
       onMouseOver={() => linkRef.current?.classList.add("tweet-hover")}
       onMouseLeave={() => linkRef.current?.classList.remove("tweet-hover")}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         style={{ objectFit: "cover", borderRadius: "15px 0 0 15px", width: 100 }}
         src={content.img || "/favicon.ico"}
@@ -80,7 +82,7 @@ export const WhatsNew: React.FC<{ endpoint: string }> = ({ endpoint }) => {
             maxWidth: "inherit",
           }}
         >
-          <img width="15px" src="/images/link.svg" alt="link" />
+          <Image width={15} height={15} src="/images/link.svg" alt="link" />
           {content.domain.split("://")[1]}
         </a>
       </div>

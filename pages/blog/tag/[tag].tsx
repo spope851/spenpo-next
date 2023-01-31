@@ -6,6 +6,7 @@ import { BackButton } from "@/components/backButton"
 import { Box, Chip } from "@mui/material"
 import { RobotError } from "@/components/robotError"
 import { OneThingLayout } from "@/components/oneThingLayout"
+import Head from "next/head"
 
 export default function Blog() {
   const router = useRouter()
@@ -36,29 +37,36 @@ export default function Blog() {
 
   if (loading) return <OneThingLayout>...Loading</OneThingLayout>
 
-  return data?.allPosts.posts && data.allPosts.posts.length > 0 ? (
+  return (
     <>
-      <Box
-        mt={5}
-        display="grid"
-        gridTemplateColumns="1fr 1fr 1fr"
-        flexWrap="wrap-reverse"
-        alignItems="flex-end"
-      >
-        <BackButton sx={{ gridColumn: 1, m: "auto" }} />
-        <Chip
-          color="primary"
-          label={tag}
-          sx={{
-            mx: "auto",
-            fontSize: 16,
-            gridColumn: 2,
-          }}
-        />
-      </Box>
-      <PostList posts={data} loading={loading} />
+      <Head>
+        <title>spencer pope</title>
+      </Head>
+      {data?.allPosts.posts && data.allPosts.posts.length > 0 ? (
+        <>
+          <Box
+            mt={5}
+            display="grid"
+            gridTemplateColumns="1fr 1fr 1fr"
+            flexWrap="wrap-reverse"
+            alignItems="flex-end"
+          >
+            <BackButton sx={{ gridColumn: 1, m: "auto" }} />
+            <Chip
+              color="primary"
+              label={tag}
+              sx={{
+                mx: "auto",
+                fontSize: 16,
+                gridColumn: 2,
+              }}
+            />
+          </Box>
+          <PostList posts={data} loading={loading} />
+        </>
+      ) : (
+        <RobotError>this tag doesn&apos;t exist</RobotError>
+      )}
     </>
-  ) : (
-    <RobotError>this tag doesn&apos;t exist</RobotError>
   )
 }

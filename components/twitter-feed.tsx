@@ -1,3 +1,4 @@
+import { Box } from "@mui/system"
 import Image from "next/image"
 import React, { useState, useEffect, useRef } from "react"
 
@@ -9,6 +10,7 @@ interface TweetEntity {
 interface ExtendedEntity {
   id: string
   media_url_https: string
+  sizes: { thumb: { w: number; h: number } }
 }
 
 const Tweet: React.FC<{
@@ -115,15 +117,12 @@ export const TwitterFeed: React.FC = () => {
         const extendedEntities = rt
           ? tweet.retweeted_status.extended_entities &&
             tweet.retweeted_status.extended_entities.media.map(
-              (
-                { id, media_url_https }: ExtendedEntity,
-                _idx: string,
-                arr: ExtendedEntity[]
-              ) => (
-                <img
+              ({ id, media_url_https, sizes }: ExtendedEntity, _idx: string) => (
+                <Image
                   key={id}
                   src={media_url_https}
-                  width={`${100 / arr.length}%`}
+                  width={sizes.thumb.w}
+                  height={sizes.thumb.h}
                   style={{ borderRadius: 10 }}
                   alt="tweet content"
                 />
@@ -131,16 +130,13 @@ export const TwitterFeed: React.FC = () => {
             )
           : tweet.extended_entities &&
             tweet.extended_entities.media.map(
-              (
-                { id, media_url_https }: ExtendedEntity,
-                _idx: string,
-                arr: ExtendedEntity[]
-              ) => (
-                <img
+              ({ id, media_url_https, sizes }: ExtendedEntity, _idx: string) => (
+                <Image
                   key={id}
                   src={media_url_https}
                   alt="tweet content"
-                  width={`${100 / arr.length}%`}
+                  width={sizes.thumb.w}
+                  height={sizes.thumb.h}
                   style={{ borderRadius: 10 }}
                 />
               )
@@ -175,7 +171,13 @@ export const TwitterFeed: React.FC = () => {
                 {`${tweet.user.name} retweeted`}
               </p>
             )}
-            <img src={profileImg} alt="profile" style={{ borderRadius: "25px" }} />
+            <Image
+              height={48}
+              width={48}
+              src={profileImg}
+              alt="profile"
+              style={{ borderRadius: "25px" }}
+            />
             <span>
               <strong>{name}</strong>
               {` @${screenName} - ${new Date(created).toLocaleDateString()}`}
@@ -188,7 +190,7 @@ export const TwitterFeed: React.FC = () => {
                 </span>
               ))}
             </p>
-            {extendedEntities}
+            <Box>{extendedEntities}</Box>
             <span>{`♡ ${favorites > 0 ? favorites : ""}`}</span>
             {infoLink}
           </Tweet>

@@ -1,7 +1,7 @@
 import { pool } from "@/utils/postgres"
 import type { NextApiRequest, NextApiResponse } from "next"
 
-export default async (
+const getMandarin = async (
   req: NextApiRequest,
   res: NextApiResponse<
     {
@@ -17,3 +17,5 @@ export default async (
   const data = await pool.query(`SELECT * FROM mandarin;`)
   res.status(200).send(data.rows)
 }
+
+export default getMandarin
