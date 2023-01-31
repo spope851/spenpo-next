@@ -30,6 +30,7 @@ export default function Resume() {
           borderRadius: 1,
           p: 3,
         }}
+        mx={{ lg: "20%", md: "10%" }}
       >
         <Typography
           variant="h5"
