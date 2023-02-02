@@ -1,5 +1,3 @@
-type Tabs = 'root' | 'projects' | 'resume' | 'blog'
+type Tabs = "root" | "projects" | "resume" | "blog" | "contact"
 
-export type {
-    Tabs
-}
+export type { Tabs }

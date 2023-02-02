@@ -112,7 +112,7 @@ nav .active {
   }
 
   #contact-form {
-    margin: 0px !important;
+    margin: 50px 0px 0px !important;
     padding: 20px !important;
   }
 
@@ -120,6 +120,10 @@ nav .active {
   #projects-link-wrapper,
   #contact-form-wrapper {
     margin: 50px 20px 0px !important;
+  }
+
+  #contact-form-wrapper {
+    margin: 0px 20px 0px !important;
   }
 
   #twitter-feed-wrapper div:first-child {
