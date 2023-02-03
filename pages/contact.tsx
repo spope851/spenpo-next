@@ -19,7 +19,9 @@ export default function Home() {
         <Header variant="h6">did you read my blog?</Header>
         <Header variant="h6">like one of my projects?</Header>
         <Header variant="h6">interested in working together?</Header>
-        <ContactForm />
+        <Box mb={{ xs: 5 }}>
+          <ContactForm />
+        </Box>
       </Box>
     </>
   )
