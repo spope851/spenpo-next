@@ -220,7 +220,7 @@ body {
 
 #twitter-feed-wrapper {
   flex: 1 1;
-  width: 30%;
+  min-width: 30%;
   display: flex;
   align-self: stretch;
 }

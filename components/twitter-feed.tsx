@@ -96,8 +96,7 @@ export const TwitterFeed: React.FC = () => {
           : tweet.user.screen_name
         const created = rt ? tweet.retweeted_status.created_at : tweet.created_at
         const entities = rt
-          ? tweet.retweeted_status.entities &&
-            tweet.retweeted_status.entities.urls.map(
+          ? tweet.retweeted_status.entities?.urls.map(
               ({ url, display_url }: TweetEntity) => (
                 <span key={url}>
                   <a href={url} style={{ overflowWrap: "break-word" }}>
@@ -106,8 +105,7 @@ export const TwitterFeed: React.FC = () => {
                 </span>
               )
             )
-          : tweet.entities &&
-            tweet.entities.urls.map(({ url, display_url }: TweetEntity) => (
+          : tweet.entities?.urls.map(({ url, display_url }: TweetEntity) => (
               <span key={url}>
                 <a href={url} style={{ overflowWrap: "break-word" }}>
                   {display_url}
@@ -115,8 +113,7 @@ export const TwitterFeed: React.FC = () => {
               </span>
             ))
         const extendedEntities = rt
-          ? tweet.retweeted_status.extended_entities &&
-            tweet.retweeted_status.extended_entities.media.map(
+          ? tweet.retweeted_status.extended_entities?.media.map(
               ({ id, media_url_https, sizes }: ExtendedEntity, _idx: string) => (
                 <Image
                   key={id}
@@ -128,8 +125,7 @@ export const TwitterFeed: React.FC = () => {
                 />
               )
             )
-          : tweet.extended_entities &&
-            tweet.extended_entities.media.map(
+          : tweet.extended_entities?.media.map(
               ({ id, media_url_https, sizes }: ExtendedEntity, _idx: string) => (
                 <Image
                   key={id}
