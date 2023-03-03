@@ -67,7 +67,7 @@ export default function Post() {
               target="_blank"
               rel="noreferrer"
             >
-              please go to my Wordpress site to leave a comment
+              please visit my Wordpress site to leave a comment on this post
             </Link>
             <TagList tags={data.post.tags} />
           </StyledBox>
