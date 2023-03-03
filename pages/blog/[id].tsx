@@ -7,6 +7,7 @@ import { RobotError } from "@/components/robotError"
 import { graphql } from "@/generated"
 import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
+import Link from "next/link"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -61,6 +62,13 @@ export default function Post() {
               </Typography>
             </Box>
             <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
+            <Link
+              href={`https://introspective20s.wordpress.com/?p=${id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              please go to my Wordpress site to leave a comment
+            </Link>
             <TagList tags={data.post.tags} />
           </StyledBox>
         </Box>
