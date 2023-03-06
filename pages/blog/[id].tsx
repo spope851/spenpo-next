@@ -1,14 +1,13 @@
-import { useQuery } from "@apollo/client"
 import { Box, styled, Typography } from "@mui/material"
 import { BackButton } from "@/components/backButton"
-import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
 import { graphql } from "@/generated"
 import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
-import { ReactNode } from "react"
+import client from "@/graphql/apolloClient"
+import { GetPostQuery } from "@/generated/graphql"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -19,40 +18,20 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function Post({ id }: { id: string }) {
-  const { loading, data } = useQuery(
-    graphql(`
-      query getPost($id: String!) {
-        post(id: $id) {
-          title
-          content
-          date
-          excerpt
-          tags {
-            ID
-            slug
-            name
-            post_count
-          }
-        }
-      }
-    `),
-    { variables: { id } }
-  )
-
-  const PostParent: React.FC<{ children: ReactNode }> = ({ children }) => (
+export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
+  return (
     <>
       <Head>
         <title>spencer pope</title>
-        <meta name="description" content={data?.post.excerpt} key="desc" />
-        <meta property="og:title" content={data?.post.title} />
-        <meta property="og:description" content={data?.post.excerpt} />
+        <meta name="description" content={data.post.excerpt} key="desc" />
+        <meta property="og:title" content={data.post.title} />
+        <meta property="og:description" content={data.post.excerpt} />
         <meta
           property="og:image"
           content={previewImages[id] || previewImages.default}
         />
-        <meta property="twitter:title" content={data?.post.title} />
-        <meta property="twitter:description" content={data?.post.excerpt} />
+        <meta property="twitter:title" content={data.post.title} />
+        <meta property="twitter:description" content={data.post.excerpt} />
         <meta
           property="twitter:image"
           content={previewImages[id] || previewImages.default}
@@ -62,19 +41,6 @@ export default function Post({ id }: { id: string }) {
           content={previewImages[id] || previewImages.default}
         />
       </Head>
-      {children}
-    </>
-  )
-
-  if (loading)
-    return (
-      <PostParent>
-        <OneThingLayout>...Loading</OneThingLayout>
-      </PostParent>
-    )
-
-  return (
-    <PostParent>
       {data ? (
         <Box overflow="auto">
           <Box mt={5} ml="5%">
@@ -104,12 +70,31 @@ export default function Post({ id }: { id: string }) {
       ) : (
         <RobotError>this post doesn&apos;t exist yet</RobotError>
       )}
-    </PostParent>
+    </>
   )
 }
 
 export async function getServerSideProps({ params }: { params: { id: string } }) {
+  const data = client.query({
+    query: graphql(`
+      query getPost($id: String!) {
+        post(id: $id) {
+          title
+          content
+          date
+          excerpt
+          tags {
+            ID
+            slug
+            name
+            post_count
+          }
+        }
+      }
+    `),
+    variables: { id: params.id },
+  })
   return {
-    props: { id: params.id },
+    props: { id: params.id, data },
   }
 }
