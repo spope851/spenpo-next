@@ -8,7 +8,7 @@ import { graphql } from "@/generated"
 import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
-import { previewImages } from "./constants"
+import { previewImages } from "@/constants"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
