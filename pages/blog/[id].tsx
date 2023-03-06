@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client"
 import { Box, styled, Typography } from "@mui/material"
-import { useRouter } from "next/router"
 import { BackButton } from "@/components/backButton"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
@@ -9,6 +8,7 @@ import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
+import { GetPostQuery } from "@/generated/graphql"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -19,29 +19,17 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function Post() {
-  const router = useRouter()
-  const id = router.query.id as string
-  const { loading, data } = useQuery(
-    graphql(`
-      query getPost($id: String!) {
-        post(id: $id) {
-          title
-          content
-          date
-          excerpt
-          tags {
-            ID
-            slug
-            name
-            post_count
-          }
-        }
-      }
-    `),
-    { variables: { id } }
-  )
-
+export default function Post({
+  data,
+  loading,
+  previewImage,
+  wordpressLink,
+}: {
+  data: GetPostQuery
+  loading: boolean
+  previewImage: string
+  wordpressLink: string
+}) {
   if (loading) return <OneThingLayout>...Loading</OneThingLayout>
   return (
     <>
@@ -50,19 +38,16 @@ export default function Post() {
         <meta name="description" content={data?.post.excerpt} key="desc" />
         <meta property="og:title" content={"test"} />
         <meta property="og:description" content={"test"} />
-        <meta
-          property="og:image"
-          content={previewImages[id] || previewImages.default}
-        />
+        <meta property="og:image" content={previewImage || previewImages.default} />
         <meta property="twitter:title" content={data?.post.title} />
         <meta property="twitter:description" content={data?.post.excerpt} />
         <meta
           property="twitter:image"
-          content={previewImages[id] || previewImages.default}
+          content={previewImage || previewImages.default}
         />
         <meta
           property="twitter:card"
-          content={previewImages[id] || previewImages.default}
+          content={previewImage || previewImages.default}
         />
       </Head>
       {data ? (
@@ -81,11 +66,7 @@ export default function Post() {
               </Typography>
             </Box>
             <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
-            <Link
-              href={`https://introspective20s.wordpress.com/?p=${id}`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <Link href={wordpressLink} target="_blank" rel="noreferrer">
               please visit my Wordpress site to leave a comment on this post
             </Link>
             <TagList tags={data.post.tags} />
@@ -96,4 +77,60 @@ export default function Post() {
       )}
     </>
   )
+}
+
+export async function getStaticPaths() {
+  const { loading: _staticLoading, data: staticData } = useQuery(
+    graphql(`
+      query getStaticBlogPosts {
+        allPosts {
+          posts {
+            ID
+          }
+        }
+      }
+    `)
+  )
+
+  // Get the paths we want to pre-render based on posts
+  const paths = staticData?.allPosts.posts.map((post) => ({
+    params: { id: post.ID },
+  }))
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false }
+}
+
+// This also gets called at build time
+export async function getStaticProps({ params }: { params: { id: string } }) {
+  const { loading, data } = useQuery(
+    graphql(`
+      query getPost($id: String!) {
+        post(id: $id) {
+          title
+          content
+          date
+          excerpt
+          tags {
+            ID
+            slug
+            name
+            post_count
+          }
+        }
+      }
+    `),
+    { variables: { id: params.id } }
+  )
+
+  // Pass post data to the page via props
+  return {
+    props: {
+      data,
+      loading,
+      previewImage: previewImages[params.id],
+      wordpressLink: `https://introspective20s.wordpress.com/?p=${params.id}`,
+    },
+  }
 }
