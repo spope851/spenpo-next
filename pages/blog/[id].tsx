@@ -1,6 +1,5 @@
 import { useQuery } from "@apollo/client"
 import { Box, styled, Typography } from "@mui/material"
-import { useRouter } from "next/router"
 import { BackButton } from "@/components/backButton"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
@@ -20,9 +19,7 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function Post() {
-  const router = useRouter()
-  const id = router.query.id as string
+export default function Post({ id }: { id: string }) {
   const { loading, data } = useQuery(
     graphql(`
       query getPost($id: String!) {
@@ -109,4 +106,10 @@ export default function Post() {
       )}
     </PostParent>
   )
+}
+
+export async function getServerSideProps({ params }: { params: { id: string } }) {
+  return {
+    props: { id: params.id },
+  }
 }
