@@ -48,18 +48,21 @@ export default function Post() {
       <Head>
         <title>spencer pope</title>
         <meta name="description" content={data?.post.excerpt} key="desc" />
-        <meta property="og:title" content={data?.post.title} />
-        <meta property="og:description" content={data?.post.excerpt} />
-        <meta property="og:image" content={previewImages[id] || "/favicon.ico"} />
+        <meta property="og:title" content={"test"} />
+        <meta property="og:description" content={"test"} />
+        <meta
+          property="og:image"
+          content={previewImages[id] || previewImages.default}
+        />
         <meta property="twitter:title" content={data?.post.title} />
         <meta property="twitter:description" content={data?.post.excerpt} />
         <meta
           property="twitter:image"
-          content={previewImages[id] || "/favicon.ico"}
+          content={previewImages[id] || previewImages.default}
         />
         <meta
           property="twitter:card"
-          content={previewImages[id] || "/favicon.ico"}
+          content={previewImages[id] || previewImages.default}
         />
       </Head>
       {data ? (
