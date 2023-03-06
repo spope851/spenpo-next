@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client"
 import { Box, styled, Typography } from "@mui/material"
+import { useRouter } from "next/router"
 import { BackButton } from "@/components/backButton"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
@@ -8,6 +9,7 @@ import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
+import { ReactNode } from "react"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -18,7 +20,9 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function Post({ id }: { id: string }) {
+export default function Post() {
+  const router = useRouter()
+  const id = router.query.id as string
   const { loading, data } = useQuery(
     graphql(`
       query getPost($id: String!) {
@@ -39,14 +43,13 @@ export default function Post({ id }: { id: string }) {
     { variables: { id } }
   )
 
-  if (loading) return <OneThingLayout>...Loading</OneThingLayout>
-  return (
+  const PostParent: React.FC<{ children: ReactNode }> = ({ children }) => (
     <>
       <Head>
         <title>spencer pope</title>
         <meta name="description" content={data?.post.excerpt} key="desc" />
-        <meta property="og:title" content={"test"} />
-        <meta property="og:description" content={"test"} />
+        <meta property="og:title" content={data?.post.title} />
+        <meta property="og:description" content={data?.post.excerpt} />
         <meta
           property="og:image"
           content={previewImages[id] || previewImages.default}
@@ -62,6 +65,19 @@ export default function Post({ id }: { id: string }) {
           content={previewImages[id] || previewImages.default}
         />
       </Head>
+      {children}
+    </>
+  )
+
+  if (loading)
+    return (
+      <PostParent>
+        <OneThingLayout>...Loading</OneThingLayout>
+      </PostParent>
+    )
+
+  return (
+    <PostParent>
       {data ? (
         <Box overflow="auto">
           <Box mt={5} ml="5%">
@@ -91,26 +107,6 @@ export default function Post({ id }: { id: string }) {
       ) : (
         <RobotError>this post doesn&apos;t exist yet</RobotError>
       )}
-    </>
+    </PostParent>
   )
-}
-
-export async function getStaticPaths() {
-  const req = await fetch(
-    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts`
-  ).then((res) => res.json())
-
-  // Get the paths we want to pre-render based on posts
-  const paths = req.posts.map((post: { ID: string }) => ({
-    params: { id: post.ID.toString() },
-  }))
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: false } means other routes should 404.
-  return { paths, fallback: false }
-}
-
-// This also gets called at build time
-export async function getStaticProps({ params }: { params: { id: string } }) {
-  return { props: { id: params.id } }
 }
