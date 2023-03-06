@@ -8,7 +8,6 @@ import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
-import { GetPostQuery } from "@/generated/graphql"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -19,17 +18,27 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function Post({
-  data,
-  loading,
-  previewImage,
-  wordpressLink,
-}: {
-  data: GetPostQuery
-  loading: boolean
-  previewImage: string
-  wordpressLink: string
-}) {
+export default function Post({ id }: { id: string }) {
+  const { loading, data } = useQuery(
+    graphql(`
+      query getPost($id: String!) {
+        post(id: $id) {
+          title
+          content
+          date
+          excerpt
+          tags {
+            ID
+            slug
+            name
+            post_count
+          }
+        }
+      }
+    `),
+    { variables: { id } }
+  )
+
   if (loading) return <OneThingLayout>...Loading</OneThingLayout>
   return (
     <>
@@ -38,16 +47,19 @@ export default function Post({
         <meta name="description" content={data?.post.excerpt} key="desc" />
         <meta property="og:title" content={"test"} />
         <meta property="og:description" content={"test"} />
-        <meta property="og:image" content={previewImage || previewImages.default} />
+        <meta
+          property="og:image"
+          content={previewImages[id] || previewImages.default}
+        />
         <meta property="twitter:title" content={data?.post.title} />
         <meta property="twitter:description" content={data?.post.excerpt} />
         <meta
           property="twitter:image"
-          content={previewImage || previewImages.default}
+          content={previewImages[id] || previewImages.default}
         />
         <meta
           property="twitter:card"
-          content={previewImage || previewImages.default}
+          content={previewImages[id] || previewImages.default}
         />
       </Head>
       {data ? (
@@ -66,7 +78,11 @@ export default function Post({
               </Typography>
             </Box>
             <div dangerouslySetInnerHTML={{ __html: data.post.content }} />
-            <Link href={wordpressLink} target="_blank" rel="noreferrer">
+            <Link
+              href={`https://introspective20s.wordpress.com/?p=${id}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               please visit my Wordpress site to leave a comment on this post
             </Link>
             <TagList tags={data.post.tags} />
@@ -80,20 +96,12 @@ export default function Post({
 }
 
 export async function getStaticPaths() {
-  const { loading: _staticLoading, data: staticData } = useQuery(
-    graphql(`
-      query getStaticBlogPosts {
-        allPosts {
-          posts {
-            ID
-          }
-        }
-      }
-    `)
-  )
+  const req = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts`
+  ).then((res) => res.json())
 
   // Get the paths we want to pre-render based on posts
-  const paths = staticData?.allPosts.posts.map((post) => ({
+  const paths = req.posts.map((post: { ID: string }) => ({
     params: { id: post.ID },
   }))
 
@@ -104,33 +112,5 @@ export async function getStaticPaths() {
 
 // This also gets called at build time
 export async function getStaticProps({ params }: { params: { id: string } }) {
-  const { loading, data } = useQuery(
-    graphql(`
-      query getPost($id: String!) {
-        post(id: $id) {
-          title
-          content
-          date
-          excerpt
-          tags {
-            ID
-            slug
-            name
-            post_count
-          }
-        }
-      }
-    `),
-    { variables: { id: params.id } }
-  )
-
-  // Pass post data to the page via props
-  return {
-    props: {
-      data,
-      loading,
-      previewImage: previewImages[params.id],
-      wordpressLink: `https://introspective20s.wordpress.com/?p=${params.id}`,
-    },
-  }
+  return { props: { id: params.id } }
 }
