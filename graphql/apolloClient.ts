@@ -7,7 +7,9 @@ const client = (ssr: boolean = false) =>
   new ApolloClient({
     // Provide required constructor fields
     cache: cache,
-    uri: `${ssr ? "https://spenpo.com" : ""}/api/graphql`,
+    uri: `http${
+      __prod__ ? `s://${process.env.VERCEL_URL}` : `://localhost:3000`
+    }/api/graphql`,
 
     // Provide some optional constructor fields
     name: "react-web-client",

@@ -19,6 +19,8 @@ const StyledBox = styled(Box)`
 `
 
 export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
+  console.log(process.env.NODE_ENV)
+
   return (
     <>
       <Head>
