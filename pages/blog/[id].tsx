@@ -75,7 +75,7 @@ export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
 }
 
 export async function getServerSideProps({ params }: { params: { id: string } }) {
-  const data = client.query({
+  const { data } = await client(true).query({
     query: graphql(`
       query getPost($id: String!) {
         post(id: $id) {

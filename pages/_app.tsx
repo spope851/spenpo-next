@@ -12,7 +12,7 @@ import { ThemeProvider } from "@/components/themeProvider"
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
-      <ApolloProvider client={client}>
+      <ApolloProvider client={client()}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
