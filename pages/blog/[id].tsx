@@ -19,19 +19,20 @@ const StyledBox = styled(Box)`
 `
 
 export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
+  const description = data.post.excerpt.slice(3).slice(0, 200)
   return (
     <>
       <Head>
         <title>spencer pope</title>
-        <meta name="description" content={data.post.excerpt} key="desc" />
+        <meta name="description" content={description} key="desc" />
         <meta property="og:title" content={data.post.title} />
-        <meta property="og:description" content={data.post.excerpt} />
+        <meta property="og:description" content={description} />
         <meta
           property="og:image"
           content={previewImages[id] || previewImages.default}
         />
         <meta property="twitter:title" content={data.post.title} />
-        <meta property="twitter:description" content={data.post.excerpt} />
+        <meta property="twitter:description" content={description} />
         <meta
           property="twitter:image"
           content={previewImages[id] || previewImages.default}
