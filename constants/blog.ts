@@ -1,4 +1,6 @@
-const previewImages: { [key: string]: string } = {
+const previewImages: { [key: string]: string } & { default: string } = {
+  default:
+    "https://introspective20s.files.wordpress.com/2023/01/screenshot-2022-10-31-at-1.02.37-pm.png?w=43",
   "152":
     "https://images.unsplash.com/photo-1525545575852-94dac00e6836?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ",
   "156":

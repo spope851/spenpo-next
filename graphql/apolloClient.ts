@@ -1,4 +1,3 @@
-import { __prod__ } from "@/utils/env"
 import { ApolloClient, InMemoryCache } from "@apollo/client"
 
 const cache = new InMemoryCache()
