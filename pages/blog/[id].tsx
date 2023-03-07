@@ -37,10 +37,8 @@ export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
           property="twitter:image"
           content={previewImages[id] || previewImages.default}
         />
-        <meta
-          property="twitter:card"
-          content={previewImages[id] || previewImages.default}
-        />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@s_pop3" />
       </Head>
       {data ? (
         <Box overflow="auto">
