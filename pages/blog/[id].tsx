@@ -6,8 +6,8 @@ import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
-import client from "@/graphql/apolloClient"
 import { GetPostQuery } from "@/generated/graphql"
+import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client"
 
 const StyledBox = styled(Box)`
   margin-right: 15%;
@@ -19,8 +19,6 @@ const StyledBox = styled(Box)`
 `
 
 export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
-  console.log(process.env.NODE_ENV)
-
   return (
     <>
       <Head>
@@ -77,7 +75,25 @@ export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
 }
 
 export async function getServerSideProps({ params }: { params: { id: string } }) {
-  const { data } = await client(true).query({
+  const url = process.env.VERCEL_URL
+  const client = new ApolloClient({
+    // Provide required constructor fields
+    cache: new InMemoryCache(),
+    link: createHttpLink({
+      uri: `http${url ? `s://${url}` : "://localhost:3000"}/api/graphql`,
+    }),
+    ssrMode: true,
+    // Provide some optional constructor fields
+    name: "react-web-client",
+    version: "1.3",
+    queryDeduplication: false,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+      },
+    },
+  })
+  const { data } = await client.query({
     query: graphql(`
       query getPost($id: String!) {
         post(id: $id) {
