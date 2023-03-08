@@ -1,12 +1,13 @@
 import React from "react"
 import Head from "next/head"
 import ContactForm from "@/components/contactForm"
-import { Box, styled, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
+import { styled } from "@mui/material/styles"
 
-const Header = styled(Typography)`
-  text-align: center;
-  margin: 10px;
-`
+const Header = styled(Typography)({
+  textAlign: "center",
+  margin: "10px",
+})
 
 export default function Home() {
   return (
