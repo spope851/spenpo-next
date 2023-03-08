@@ -25,10 +25,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`)
 })
 
-const url = process.env.VERCEL_URL
-
 const httpLink = new HttpLink({
-  uri: `http${url ? `s://spenpo.com` : "://localhost:3000"}/api/graphql`, // Server URL (must be absolute)
+  uri: `https://spenpo.com/api/graphql`, // Server URL (must be absolute)
   // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
 })
 

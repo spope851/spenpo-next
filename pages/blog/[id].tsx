@@ -19,13 +19,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   },
 }))
 
-export default function Post({
-  id,
-  data,
-}: {
-  id: string
-  data: GetPostQuery | null
-}) {
+export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
   const description = data?.post.excerpt.slice(3).slice(0, 200)
   return (
     <>
