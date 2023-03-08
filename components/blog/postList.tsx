@@ -70,7 +70,7 @@ export const PostList: React.FC<{
     setDates(
       posts.allPosts.posts.map((post) => new Date(post.date).toLocaleDateString())
     )
-  }, [])
+  }, [posts.allPosts.posts])
 
   return posts ? (
     <Wrapper>

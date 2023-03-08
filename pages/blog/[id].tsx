@@ -8,7 +8,7 @@ import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
 import { GetPostQuery } from "@/generated/graphql"
-import client from "@/graphql/apolloClient"
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client"
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginRight: "15%",
@@ -81,6 +81,24 @@ export default function Post({
 }
 
 export async function getStaticPaths() {
+  const url = process.env.VERCEL_URL
+  const client = new ApolloClient({
+    // Provide required constructor fields
+    cache: new InMemoryCache(),
+    link: createHttpLink({
+      uri: `http${url ? `s://${url}` : "://localhost:3000"}/api/graphql`,
+    }),
+    ssrMode: true,
+    // Provide some optional constructor fields
+    name: "react-web-client",
+    version: "1.3",
+    queryDeduplication: false,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+      },
+    },
+  })
   const { data } = await client.query({
     query: graphql(`
       query getBlogIds {
@@ -101,6 +119,24 @@ export async function getStaticProps({
 }: {
   params: { id: string }
 }) {
+  const url = process.env.VERCEL_URL
+  const client = new ApolloClient({
+    // Provide required constructor fields
+    cache: new InMemoryCache(),
+    link: createHttpLink({
+      uri: `http${url ? `s://${url}` : "://localhost:3000"}/api/graphql`,
+    }),
+    ssrMode: true,
+    // Provide some optional constructor fields
+    name: "react-web-client",
+    version: "1.3",
+    queryDeduplication: false,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "cache-and-network",
+      },
+    },
+  })
   try {
     const { data } = await client.query({
       query: graphql(`
