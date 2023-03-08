@@ -3,7 +3,7 @@ import { graphql } from "@/generated"
 import { Typography } from "@mui/material"
 import Head from "next/head"
 import { GetBlogPostsQuery } from "@/generated/graphql"
-import client from "@/graphql/apolloClient"
+import { initializeApollo } from "@/graphql/ssgClient"
 
 export default function Blog({ data }: { data: GetBlogPostsQuery }) {
   return (
@@ -20,6 +20,7 @@ export default function Blog({ data }: { data: GetBlogPostsQuery }) {
 }
 
 export async function getStaticProps() {
+  const client = initializeApollo()
   const { data } = await client.query({
     query: graphql(`
       query getBlogPosts {

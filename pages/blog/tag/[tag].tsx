@@ -5,7 +5,7 @@ import { Box, Chip } from "@mui/material"
 import { RobotError } from "@/components/robotError"
 import Head from "next/head"
 import { GetBlogPostsWithTagQuery } from "@/generated/graphql"
-import client from "@/graphql/apolloClient"
+import { initializeApollo } from "@/graphql/ssgClient"
 
 export default function Blog({
   data,
@@ -49,6 +49,7 @@ export default function Blog({
 }
 
 export async function getStaticPaths() {
+  const client = initializeApollo()
   const { data } = await client.query({
     query: graphql(`
       query getAllTags {
@@ -71,6 +72,7 @@ export async function getStaticProps({
 }: {
   params: { tag: string }
 }) {
+  const client = initializeApollo()
   const { data } = await client.query({
     query: graphql(`
       query getBlogPostsWithTag($tag: String) {
