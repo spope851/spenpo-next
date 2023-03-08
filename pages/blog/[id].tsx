@@ -8,8 +8,7 @@ import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
 import { GetPostQuery } from "@/generated/graphql"
-import client from "@/graphql/apolloClient"
-import { initializeApollo, addApolloState } from "@/graphql/ssgClient"
+import { initializeApollo } from "@/graphql/ssgClient"
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginRight: "15%",
