@@ -13,8 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
-    "\n      query getPost($id: String!) {\n        post(id: $id) {\n          title\n          content\n          date\n          excerpt\n          tags {\n            ID\n            slug\n            name\n            post_count\n          }\n        }\n      }\n    ": types.GetPostDocument,
+    "\n      query getBlogIds {\n        allPosts {\n          posts {\n            ID\n          }\n        }\n      }\n    ": types.GetBlogIdsDocument,
+    "\n        query getPost($id: String!) {\n          post(id: $id) {\n            title\n            content\n            date\n            excerpt\n            tags {\n              ID\n              slug\n              name\n              post_count\n            }\n          }\n        }\n      ": types.GetPostDocument,
     "\n      query getBlogPosts {\n        allPosts {\n          found\n          posts {\n            ID\n            content\n            title\n            date\n            excerpt\n            tags {\n              name\n              ID\n              slug\n              post_count\n            }\n          }\n        }\n      }\n    ": types.GetBlogPostsDocument,
+    "\n      query getAllTags {\n        allTags {\n          tags {\n            slug\n          }\n        }\n      }\n    ": types.GetAllTagsDocument,
     "\n      query getBlogPostsWithTag($tag: String) {\n        allPosts(tag: $tag) {\n          found\n          posts {\n            ID\n            content\n            title\n            date\n            excerpt\n            tags {\n              name\n              ID\n              slug\n              post_count\n            }\n          }\n        }\n      }\n    ": types.GetBlogPostsWithTagDocument,
 };
 
@@ -35,11 +37,19 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n      query getPost($id: String!) {\n        post(id: $id) {\n          title\n          content\n          date\n          excerpt\n          tags {\n            ID\n            slug\n            name\n            post_count\n          }\n        }\n      }\n    "): (typeof documents)["\n      query getPost($id: String!) {\n        post(id: $id) {\n          title\n          content\n          date\n          excerpt\n          tags {\n            ID\n            slug\n            name\n            post_count\n          }\n        }\n      }\n    "];
+export function graphql(source: "\n      query getBlogIds {\n        allPosts {\n          posts {\n            ID\n          }\n        }\n      }\n    "): (typeof documents)["\n      query getBlogIds {\n        allPosts {\n          posts {\n            ID\n          }\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n        query getPost($id: String!) {\n          post(id: $id) {\n            title\n            content\n            date\n            excerpt\n            tags {\n              ID\n              slug\n              name\n              post_count\n            }\n          }\n        }\n      "): (typeof documents)["\n        query getPost($id: String!) {\n          post(id: $id) {\n            title\n            content\n            date\n            excerpt\n            tags {\n              ID\n              slug\n              name\n              post_count\n            }\n          }\n        }\n      "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n      query getBlogPosts {\n        allPosts {\n          found\n          posts {\n            ID\n            content\n            title\n            date\n            excerpt\n            tags {\n              name\n              ID\n              slug\n              post_count\n            }\n          }\n        }\n      }\n    "): (typeof documents)["\n      query getBlogPosts {\n        allPosts {\n          found\n          posts {\n            ID\n            content\n            title\n            date\n            excerpt\n            tags {\n              name\n              ID\n              slug\n              post_count\n            }\n          }\n        }\n      }\n    "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n      query getAllTags {\n        allTags {\n          tags {\n            slug\n          }\n        }\n      }\n    "): (typeof documents)["\n      query getAllTags {\n        allTags {\n          tags {\n            slug\n          }\n        }\n      }\n    "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

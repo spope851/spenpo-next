@@ -34,6 +34,7 @@ export type Posts = {
 export type Query = {
   __typename?: 'Query';
   allPosts: Posts;
+  allTags: Tags;
   post: BlogPost;
 };
 
@@ -55,6 +56,17 @@ export type Tag = {
   slug: Scalars['String'];
 };
 
+export type Tags = {
+  __typename?: 'Tags';
+  found: Scalars['Int'];
+  tags: Array<Tag>;
+};
+
+export type GetBlogIdsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBlogIdsQuery = { __typename?: 'Query', allPosts: { __typename?: 'Posts', posts: Array<{ __typename?: 'BlogPost', ID: string }> } };
+
 export type GetPostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -67,6 +79,11 @@ export type GetBlogPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetBlogPostsQuery = { __typename?: 'Query', allPosts: { __typename?: 'Posts', found: number, posts: Array<{ __typename?: 'BlogPost', ID: string, content: string, title: string, date: string, excerpt: string, tags: Array<{ __typename?: 'Tag', name: string, ID: string, slug: string, post_count?: number | null }> }> } };
 
+export type GetAllTagsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllTagsQuery = { __typename?: 'Query', allTags: { __typename?: 'Tags', tags: Array<{ __typename?: 'Tag', slug: string }> } };
+
 export type GetBlogPostsWithTagQueryVariables = Exact<{
   tag?: InputMaybe<Scalars['String']>;
 }>;
@@ -75,6 +92,8 @@ export type GetBlogPostsWithTagQueryVariables = Exact<{
 export type GetBlogPostsWithTagQuery = { __typename?: 'Query', allPosts: { __typename?: 'Posts', found: number, posts: Array<{ __typename?: 'BlogPost', ID: string, content: string, title: string, date: string, excerpt: string, tags: Array<{ __typename?: 'Tag', name: string, ID: string, slug: string, post_count?: number | null }> }> } };
 
 
+export const GetBlogIdsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBlogIds"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ID"}}]}}]}}]}}]} as unknown as DocumentNode<GetBlogIdsQuery, GetBlogIdsQueryVariables>;
 export const GetPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"post"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"post_count"}}]}}]}}]}}]} as unknown as DocumentNode<GetPostQuery, GetPostQueryVariables>;
 export const GetBlogPostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBlogPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allPosts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"found"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"post_count"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetBlogPostsQuery, GetBlogPostsQueryVariables>;
+export const GetAllTagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getAllTags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allTags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]}}]} as unknown as DocumentNode<GetAllTagsQuery, GetAllTagsQueryVariables>;
 export const GetBlogPostsWithTagDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"getBlogPostsWithTag"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"tag"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allPosts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"tag"},"value":{"kind":"Variable","name":{"kind":"Name","value":"tag"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"found"}},{"kind":"Field","name":{"kind":"Name","value":"posts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"excerpt"}},{"kind":"Field","name":{"kind":"Name","value":"tags"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"ID"}},{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"post_count"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetBlogPostsWithTagQuery, GetBlogPostsWithTagQueryVariables>;
