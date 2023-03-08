@@ -27,6 +27,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const httpLink = new HttpLink({
   uri: `https://spenpo.com/api/graphql`, // Server URL (must be absolute)
+  headers: {
+    "Access-Control-Allow-Origin": "https://spenpo.com",
+  },
   // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
 })
 
