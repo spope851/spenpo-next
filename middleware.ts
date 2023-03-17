@@ -8,8 +8,8 @@ export function middleware(request: NextRequest) {
 
   // Add new request headers
   requestHeaders.set(
-    "user-agent",
-    "node-fetch/1.0 (+https://github.com/bitinn/node-fetch)"
+    "content-length",
+    JSON.stringify(request.body).length.toString()
   )
 
   // Delete an existing request header
