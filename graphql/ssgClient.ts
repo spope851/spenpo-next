@@ -28,6 +28,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const httpLink = new HttpLink({
   uri: `https://spenpo.com/api/graphql`, // Server URL (must be absolute)
   // credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+  useGETForQueries: true,
 })
 
 function createApolloClient() {
