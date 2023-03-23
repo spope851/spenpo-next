@@ -1,11 +1,21 @@
 import React, { useState } from "react"
 import { TwitterFeed } from "@/components/twitter-feed"
-import { WhatsNew } from "@/components/whats-new"
+import { Content, WhatsNew } from "@/components/whats-new"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import ContactForm from "@/components/contactForm"
+import { pool } from "@/utils/postgres"
 
-export default function Home() {
+export async function getStaticProps() {
+  const data = await pool.query(`SELECT * FROM content ORDER BY id DESC LIMIT 1;`)
+  const content = data.rows[0]
+
+  return {
+    props: { content },
+  }
+}
+
+export default function Home({ content }: { content: Content }) {
   const [btnClass, setBtnClass] = useState<string>()
   const router = useRouter()
 
@@ -20,7 +30,7 @@ export default function Home() {
             <div id="whats-new-wrapper">
               <h4>check out my latest post</h4>
               <div id="whats-new">
-                <WhatsNew endpoint={"/api/getContent"} />
+                <WhatsNew content={content} />
               </div>
             </div>
             <div id="projects-link-wrapper">
