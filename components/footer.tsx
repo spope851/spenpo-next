@@ -5,22 +5,24 @@ import twitter from "../public/images/twitter.svg"
 import youtube from "../public/images/youtube.svg"
 import wordpress from "../public/images/wordpress.svg"
 import twitch from "../public/images/twitch.svg"
+import mail from "../public/images/mail.svg"
+import { Box } from "@mui/material"
 
 export default function Footer() {
   return (
-    <footer>
-      <ul>
-        <li>
+    <Box component="footer">
+      <Box component="ul">
+        <Box component="li">
           <Link href="https://github.com/spope851" target="_blank" rel="noreferrer">
             <Image src={github} width={30} height={30} alt="github" />
           </Link>
-        </li>
-        <li>
+        </Box>
+        <Box component="li">
           <Link href="https://twitter.com/s_pop3" target="_blank" rel="noreferrer">
             <Image src={twitter} width={30} height={30} alt="twitter" />
           </Link>
-        </li>
-        <li>
+        </Box>
+        <Box component="li">
           <Link
             href="https://www.youtube.com/@spope"
             target="_blank"
@@ -28,8 +30,8 @@ export default function Footer() {
           >
             <Image src={youtube} width={30} height={30} alt="youtube" />
           </Link>
-        </li>
-        <li>
+        </Box>
+        <Box component="li">
           <Link
             href="https://www.introspective20s.com"
             target="_blank"
@@ -37,16 +39,27 @@ export default function Footer() {
           >
             <Image src={wordpress} width={30} height={30} alt="blog" />
           </Link>
-        </li>
-        <li>
+        </Box>
+        <Box component="li">
           <Link href="https://www.twitch.tv/spenpo" target="_blank" rel="noreferrer">
-            <Image src={twitch} width={30} height={30} alt="blog" />
+            <Image
+              src={twitch}
+              width={30}
+              height={30}
+              alt="twitch"
+              style={{ backgroundColor: "#fff", borderRadius: 2 }}
+            />
           </Link>
-        </li>
-      </ul>
-      <div id="copyright">
-        <span>© 2022 Spencer Pope</span>
-      </div>
-    </footer>
+        </Box>
+        <Box component="li">
+          <Link href="mailto:spenpo@spenpo.com" target="_blank" rel="noreferrer">
+            <Image src={mail} width={30} height={30} alt="mail" />
+          </Link>
+        </Box>
+      </Box>
+      <Box id="copyright">
+        <Box component="span">© 2023 Spencer Pope</Box>
+      </Box>
+    </Box>
   )
 }
