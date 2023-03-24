@@ -1,6 +1,8 @@
+import { Box } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import React, { useRef } from "react"
+import React from "react"
 
 export interface Content {
   id: string
@@ -10,26 +12,24 @@ export interface Content {
   summary: string
 }
 
+const StyledBox = styled(Box)(() => ({
+  display: "flex",
+  border: "solid #aaa",
+  borderRadius: "15px",
+  alignItems: "stretch",
+  flex: "1 1 0px",
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: "#ddd",
+  },
+}))
+
 export const WhatsNew: React.FC<{ content: Content }> = ({ content }) => {
   const router = useRouter()
   // const [content, setContent] = useState<Content>() //{"id":3,"title":"How to be happy","img":null,"domain":"https://introspective20s.wordpress.com/2022/04/09/how-to-be-happy/","summary":"A framework for maintaining enjoyment and satisfaction"}) //{"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"}) // {"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"} }
-  const linkRef = useRef<HTMLDivElement | null>(null)
 
   return content ? (
-    <div
-      id="link-preview"
-      ref={linkRef}
-      style={{
-        display: "flex",
-        border: "solid #aaa",
-        borderRadius: "15px",
-        alignItems: "stretch",
-        flex: "1 1 0px",
-      }}
-      onClick={() => router.push(content.domain)}
-      onMouseOver={() => linkRef.current?.classList.add("tweet-hover")}
-      onMouseLeave={() => linkRef.current?.classList.remove("tweet-hover")}
-    >
+    <StyledBox id="link-preview" onClick={() => router.push(content.domain)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         style={{ objectFit: "cover", borderRadius: "15px 0 0 15px", width: 100 }}
@@ -78,7 +78,7 @@ export const WhatsNew: React.FC<{ content: Content }> = ({ content }) => {
           {content.domain.split("://")[1]}
         </a>
       </div>
-    </div>
+    </StyledBox>
   ) : (
     <div
       style={{

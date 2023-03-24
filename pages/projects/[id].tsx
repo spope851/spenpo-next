@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { ButtonHTMLAttributes, DetailedHTMLProps, useState } from "react"
+import { ButtonHTMLAttributes, DetailedHTMLProps, useEffect, useState } from "react"
 import { RobotError } from "@/components/robotError"
 import CubeDemo from "@/components/projects/demos/cubeSolverDemo"
 import LanguageFlashDemo from "@/components/projects/demos/languageFlashDemo"
@@ -10,6 +10,7 @@ import LanguageFlashDes from "@/components/projects/descriptions/languageFlashDe
 import ReactTimeclockDes from "@/components/projects/descriptions/reactTimeclockDes"
 import TwoTruthsDes from "@/components/projects/descriptions/twoTruthsDes"
 import { Tabs } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import Head from "next/head"
 
 type Projects = "two-truths" | "language-flash" | "3x3-cube" | "react-timeclock"
@@ -49,26 +50,27 @@ const projects: Record<Projects, JSX.Element> = {
   ),
 }
 
+const StyledButton = styled("button")(() => ({
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: "#ddd",
+  },
+}))
+
 const TabBtn: React.FC<
   DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
     active: Projects
     id: Projects
   }
-> = ({ id, onClick, active }) => {
-  const [btnClass, setBtnClass] = useState<string>()
-
-  return (
-    <button
-      onClick={onClick}
-      onMouseOver={() => setBtnClass("tweet-hover")}
-      onMouseOut={() => setBtnClass("")}
-      id={`${id}-btn`}
-      className={`tab ${btnClass} ${active === id && "active"}`}
-    >
-      {id}
-    </button>
-  )
-}
+> = ({ id, onClick, active }) => (
+  <StyledButton
+    onClick={onClick}
+    id={`${id}-btn`}
+    className={`tab ${active === id && "active"}`}
+  >
+    {id}
+  </StyledButton>
+)
 
 export default function Projects() {
   const router = useRouter()
@@ -85,6 +87,7 @@ export default function Projects() {
           allowScrollButtonsMobile
           variant="scrollable"
           className="tabs"
+          value={Object.keys(projects).indexOf(project || "two-truths")}
         >
           <TabBtn
             onClick={() => router.push("/projects/two-truths")}

@@ -23,7 +23,6 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
   href,
 }) => {
   const router = useRouter()
-  const [bg, setBg] = useState<string>()
 
   const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -35,21 +34,17 @@ const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
     textAlign: "center",
     justifyContent: "space-between",
     flex: "1 1 0px",
-    backgroundColor: bg,
-    cursor: bg && "pointer",
     [theme.breakpoints.down("md")]: {
       margin: "20px",
+    },
+    ":hover": {
+      cursor: "pointer",
+      backgroundColor: "#ddd",
     },
   }))
 
   return (
-    <StyledBox
-      onMouseOver={() => setBg("#ddd")}
-      onMouseOut={() => setBg(undefined)}
-      onClick={() => router.push(`/blog/${href}`)}
-    >
-      {children}
-    </StyledBox>
+    <StyledBox onClick={() => router.push(`/blog/${href}`)}>{children}</StyledBox>
   )
 }
 
@@ -92,9 +87,11 @@ export const PostList: React.FC<{
       </NumberPosts>
     </Wrapper>
   ) : (
-    <RobotError>
-      <Typography component="p">deepest apologies,</Typography>
-      <Typography component="p">somethings wrong with our server</Typography>
-    </RobotError>
+    <OneThingLayout>
+      <RobotError>
+        <Typography component="p">deepest apologies,</Typography>
+        <Typography component="p">somethings wrong with our server</Typography>
+      </RobotError>
+    </OneThingLayout>
   )
 }
