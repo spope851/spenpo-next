@@ -12,8 +12,8 @@
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
-    "3x3-cube": "^2.0.0",
     "@apollo/client": "^3.7.3",
+    "3x3-cube": "^2.0.0",
     "@apollo/server": "^4.3.0",
     "@as-integrations/next": "^1.2.0",
     "@emailjs/browser": "^3.10.0",
