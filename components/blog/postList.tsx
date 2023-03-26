@@ -77,7 +77,7 @@ export const PostList: React.FC<{
           <Typography variant="h6">{title}</Typography>
           <Typography
             component="span"
-            dangerouslySetInnerHTML={{ __html: excerpt }}
+            dangerouslySetInnerHTML={{ __html: excerpt.split(/[\[\]]/).join("") }}
           />
           <TagList tags={tags} />
         </Post>
