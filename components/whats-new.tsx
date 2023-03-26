@@ -8,8 +8,9 @@ export interface Content {
   id: string
   title: string
   img?: string
-  domain: string
-  summary: string
+  href: string
+  description: string
+  target_blank: boolean
 }
 
 const StyledBox = styled(Box)(() => ({
@@ -29,7 +30,14 @@ export const WhatsNew: React.FC<{ content: Content }> = ({ content }) => {
   // const [content, setContent] = useState<Content>() //{"id":3,"title":"How to be happy","img":null,"domain":"https://introspective20s.wordpress.com/2022/04/09/how-to-be-happy/","summary":"A framework for maintaining enjoyment and satisfaction"}) //{"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"}) // {"id":1,"title":"big title","img":"https://product-image.juniqe-production.juniqe.com/media/catalog/product/seo-cache/x800/34/83/34-83-101P/Stay-Cool-Balazs-Solti-Poster.jpg","domain":"https://google.com","summary":"sick"} }
 
   return content ? (
-    <StyledBox id="link-preview" onClick={() => router.push(content.domain)}>
+    <StyledBox
+      id="link-preview"
+      onClick={() =>
+        content.target_blank
+          ? window.open(content.href, "_blank")
+          : router.push(content.href)
+      }
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         style={{ objectFit: "cover", borderRadius: "15px 0 0 15px", width: 100 }}
@@ -59,10 +67,10 @@ export const WhatsNew: React.FC<{ content: Content }> = ({ content }) => {
             fontSize: "14px",
           }}
         >
-          {content.summary}
+          {content.description}
         </p>
         <a
-          href={content.domain}
+          href={content.href}
           style={{
             textDecoration: "none",
             color: "#aaa",
@@ -75,7 +83,7 @@ export const WhatsNew: React.FC<{ content: Content }> = ({ content }) => {
           }}
         >
           <Image width={15} height={15} src="/images/link.svg" alt="link" />
-          {content.domain.split("://")[1]}
+          {content.href.split("://")[1]}
         </a>
       </div>
     </StyledBox>

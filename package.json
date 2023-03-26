@@ -9,7 +9,11 @@
     "lint": "next lint",
     "compile": "graphql-codegen",
     "watch": "graphql-codegen -w",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen --config codegen.ts",
+    "start:server": "cd server && docker-compose up -d",
+    "new:db": "cd server && rm -rf postgres-data && docker-compose build && docker-compose up",
+    "it:db": "docker exec -it pg sh",
+    "it:cache": "docker exec -it redis redis-cli"
   },
   "dependencies": {
     "3x3-cube": "^2.0.0",
