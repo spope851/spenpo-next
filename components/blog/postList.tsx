@@ -1,79 +1,84 @@
-import { Box, styled, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
 import { GetBlogPostsQuery, GetBlogPostsWithTagQuery } from "@/generated/graphql"
 import { TagList } from "./tagList"
 
-const Wrapper = styled(Box)`
-  width: 60%;
-  margin: 0 auto;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    width: 85%;
-  }
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    width: 100%;
-  }
-`
+const Wrapper = styled(Box)(({ theme }) => ({
+  width: "60%",
+  margin: "0 auto",
+  [theme.breakpoints.down("md")]: {
+    width: "85%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+}))
 
 const Post: React.FC<{ children: React.ReactNode; href: string }> = ({
   children,
   href,
 }) => {
   const router = useRouter()
-  const [bg, setBg] = useState<string>()
 
-  const StyledBox = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    border: solid #999;
-    border-radius: 5px;
-    padding: 20px;
-    margin: 50px;
-    text-align: center;
-    justify-content: space-between;
-    flex: 1 1 0px;
-    background-color: ${bg};
-    cursor: ${bg && "pointer"};
-    ${({ theme }) => theme.breakpoints.down("md")} {
-      margin: 20px;
-    }
-  `
+  const StyledBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    border: "solid #999",
+    borderRadius: "5px",
+    padding: "20px",
+    margin: "50px",
+    textAlign: "center",
+    justifyContent: "space-between",
+    flex: "1 1 0px",
+    [theme.breakpoints.down("md")]: {
+      margin: "20px",
+    },
+    ":hover": {
+      cursor: "pointer",
+      backgroundColor: "#ddd",
+    },
+  }))
+
   return (
-    <StyledBox
-      onMouseOver={() => setBg("#ddd")}
-      onMouseOut={() => setBg(undefined)}
-      onClick={() => router.push(`/blog/${href}`)}
-    >
-      {children}
-    </StyledBox>
+    <StyledBox onClick={() => router.push(`/blog/${href}`)}>{children}</StyledBox>
   )
 }
 
-const NumberPosts = styled(Typography)`
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    margin-right: 10px;
-  }
-`
+const NumberPosts = styled(Typography)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    marginRight: "10px",
+  },
+}))
 
 export const PostList: React.FC<{
-  posts?: GetBlogPostsQuery | GetBlogPostsWithTagQuery
-  loading: boolean
-}> = ({ posts, loading }) => {
-  if (loading) return <OneThingLayout>...Loading</OneThingLayout>
-
-  const found = posts?.allPosts.found
+  posts: GetBlogPostsQuery | GetBlogPostsWithTagQuery
+}> = ({ posts }) => {
+  const found = posts.allPosts.found
+  const [dates, setDates] = useState<string[]>(
+    posts.allPosts.posts.map((post) => new Date(post.date).toUTCString())
+  )
+  useEffect(() => {
+    setDates(
+      posts.allPosts.posts.map((post) => new Date(post.date).toLocaleDateString())
+    )
+  }, [posts.allPosts.posts])
 
   return posts ? (
     <Wrapper>
-      {posts.allPosts.posts.map(({ ID, title, date, excerpt, tags }) => (
+      {posts.allPosts.posts.map(({ ID, title, excerpt, tags }, idx) => (
         <Post key={ID} href={ID}>
           <Typography variant="caption" align="right">
-            {new Date(date).toLocaleDateString()}
+            {dates[idx]}
           </Typography>
           <Typography variant="h6">{title}</Typography>
-          <Typography dangerouslySetInnerHTML={{ __html: excerpt }} />
+          <Typography
+            component="span"
+            dangerouslySetInnerHTML={{ __html: excerpt.split(/[\[\]]/).join("") }}
+          />
           <TagList tags={tags} />
         </Post>
       ))}
@@ -82,9 +87,11 @@ export const PostList: React.FC<{
       </NumberPosts>
     </Wrapper>
   ) : (
-    <RobotError>
-      <Typography component="p">deepest apologies,</Typography>
-      <Typography component="p">somethings wrong with our server</Typography>
-    </RobotError>
+    <OneThingLayout>
+      <RobotError>
+        <Typography component="p">deepest apologies,</Typography>
+        <Typography component="p">somethings wrong with our server</Typography>
+      </RobotError>
+    </OneThingLayout>
   )
 }

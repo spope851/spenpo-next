@@ -1,12 +1,30 @@
-import React, { useState } from "react"
+import React from "react"
 import { TwitterFeed } from "@/components/twitter-feed"
-import { WhatsNew } from "@/components/whats-new"
+import { Content, WhatsNew } from "@/components/whats-new"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import ContactForm from "@/components/contactForm"
+import { pool } from "@/utils/postgres"
+import { styled } from "@mui/material/styles"
+import { Box } from "@mui/material"
 
-export default function Home() {
-  const [btnClass, setBtnClass] = useState<string>()
+export async function getStaticProps() {
+  const data = await pool.query(`SELECT * FROM content ORDER BY id DESC LIMIT 1;`)
+  const content = data.rows[0]
+
+  return {
+    props: { content },
+  }
+}
+
+const StyledBox = styled(Box)(() => ({
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: "#ddd",
+  },
+}))
+
+export default function Home({ content }: { content: Content }) {
   const router = useRouter()
 
   return (
@@ -20,20 +38,17 @@ export default function Home() {
             <div id="whats-new-wrapper">
               <h4>check out my latest post</h4>
               <div id="whats-new">
-                <WhatsNew endpoint={"/api/getContent"} />
+                <WhatsNew content={content} />
               </div>
             </div>
             <div id="projects-link-wrapper">
               <h4>see what else I&apos;m working on</h4>
-              <div
+              <StyledBox
                 id="projects-link-btn"
-                className={btnClass}
                 onClick={() => router.push("/projects")}
-                onMouseOver={() => setBtnClass("tweet-hover")}
-                onMouseOut={() => setBtnClass("")}
               >
                 click here!
-              </div>
+              </StyledBox>
             </div>
           </div>
           <div id="contact-form-wrapper">

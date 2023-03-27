@@ -1,6 +1,7 @@
-import { Box } from "@mui/system"
 import Image from "next/image"
 import React, { useState, useEffect, useRef } from "react"
+import { styled } from "@mui/material/styles"
+import { Box } from "@mui/material"
 
 interface TweetEntity {
   url: string
@@ -13,29 +14,33 @@ interface ExtendedEntity {
   sizes: { thumb: { w: number; h: number } }
 }
 
+const StyledBox = styled(Box)(() => ({
+  border: "solid #999",
+  margin: 10,
+  borderRadius: 5,
+  padding: 10,
+  ":hover": {
+    cursor: "pointer",
+    backgroundColor: "#ddd",
+  },
+}))
+
 const Tweet: React.FC<{
   children: React.ReactNode
   onClick: () => void
-}> = ({ onClick, children }) => {
-  const [btnClass, setBtnClass] = useState<string>()
-
-  return (
-    <div
-      style={{
-        border: "solid #999",
-        margin: 10,
-        borderRadius: 5,
-        padding: 10,
-      }}
-      onClick={onClick}
-      onMouseOver={() => setBtnClass("tweet-hover")}
-      onMouseOut={() => setBtnClass("")}
-      className={btnClass}
-    >
-      {children}
-    </div>
-  )
-}
+}> = ({ onClick, children }) => (
+  <StyledBox
+    style={{
+      border: "solid #999",
+      margin: 10,
+      borderRadius: 5,
+      padding: 10,
+    }}
+    onClick={onClick}
+  >
+    {children}
+  </StyledBox>
+)
 
 export const TwitterFeed: React.FC = () => {
   const [tweets, setTweets] = useState<Record<string, any>[]>([])

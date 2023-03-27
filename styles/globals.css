@@ -208,11 +208,6 @@ body {
   flex: 1;
 }
 
-.tweet-hover {
-  background-color: #ddd;
-  cursor: pointer;
-}
-
 #page-content {
   display: flex;
   flex: 1;

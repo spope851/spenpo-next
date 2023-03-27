@@ -2,7 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { Tabs } from "../types"
 import fav from "../public/favicon.ico"
-import { Button, Drawer, styled } from "@mui/material"
+import { Button, Drawer } from "@mui/material"
+import { styled } from "@mui/material/styles"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useState } from "react"
 import { useRouter } from "next/router"
@@ -12,17 +13,17 @@ interface NavbarProps {
   active: Tabs
 }
 
-const Burger = styled("li")`
-  ${({ theme }) => theme.breakpoints.up("sm")} {
-    display: none;
-  }
-`
+const Burger = styled("li")(({ theme }) => ({
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}))
 
-const Tab = styled("li")`
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    display: none;
-  }
-`
+const Tab = styled("li")(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}))
 
 const Route = styled(Button)`
   color: white;

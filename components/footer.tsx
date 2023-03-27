@@ -18,6 +18,11 @@ export default function Footer() {
           </Link>
         </Box>
         <Box component="li">
+          <Link href="mailto:spenpo@spenpo.com" target="_blank" rel="noreferrer">
+            <Image src={mail} width={30} height={30} alt="mail" />
+          </Link>
+        </Box>
+        <Box component="li">
           <Link href="https://twitter.com/s_pop3" target="_blank" rel="noreferrer">
             <Image src={twitter} width={30} height={30} alt="twitter" />
           </Link>
@@ -47,13 +52,8 @@ export default function Footer() {
               width={30}
               height={30}
               alt="twitch"
-              style={{ backgroundColor: "#fff", borderRadius: 2 }}
+              style={{ borderRadius: "25px" }}
             />
-          </Link>
-        </Box>
-        <Box component="li">
-          <Link href="mailto:spenpo@spenpo.com" target="_blank" rel="noreferrer">
-            <Image src={mail} width={30} height={30} alt="mail" />
           </Link>
         </Box>
       </Box>
