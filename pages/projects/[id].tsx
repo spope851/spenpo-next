@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import { ButtonHTMLAttributes, DetailedHTMLProps, useEffect, useState } from "react"
+import { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
 import { RobotError } from "@/components/robotError"
 import CubeDemo from "@/components/projects/demos/cubeSolverDemo"
 import LanguageFlashDemo from "@/components/projects/demos/languageFlashDemo"

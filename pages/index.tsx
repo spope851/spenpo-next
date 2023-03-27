@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { TwitterFeed } from "@/components/twitter-feed"
 import { Content, WhatsNew } from "@/components/whats-new"
 import Head from "next/head"
