@@ -146,7 +146,6 @@ nav .active {
 
   .projects-table-data {
     display: flex !important;
-    justify-content: stretch;
   }
 
   .app-description,

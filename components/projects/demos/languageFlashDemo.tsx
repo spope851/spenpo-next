@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { useRef, useEffect } from "react"
 
 export default function LanguageFlashDemo() {
@@ -18,5 +19,11 @@ export default function LanguageFlashDemo() {
       lf && lf.$destroy()
     }
   }, [])
-  return <div ref={demoRoot}></div>
+  return (
+    <Box component="td" className="projects-table-data">
+      <Box id="lang-flash" className="app-demo">
+        <Box ref={demoRoot}></Box>
+      </Box>
+    </Box>
+  )
 }
