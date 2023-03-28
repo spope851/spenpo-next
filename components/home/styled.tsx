@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
-const ProjectsLinkButton = styled(Box)(() => ({
+const ProjectsLinkButton = styled(Box)(({ theme }) => ({
   ":hover": {
     cursor: "pointer",
     backgroundColor: "#ddd",
@@ -10,6 +10,10 @@ const ProjectsLinkButton = styled(Box)(() => ({
   borderRadius: "15px",
   padding: "25px",
   margin: "20px 30px auto",
+  [theme.breakpoints.down("sm")]: {
+    marginRight: "0px",
+    marginLeft: "0px",
+  },
 }))
 
 const LeftContentWrapper = styled(Box)(({ theme }) => ({
@@ -26,11 +30,15 @@ const LeftContentWrapper = styled(Box)(({ theme }) => ({
   },
 }))
 
-const WhatsNewComponentWrapper = styled(Box)(() => ({
+const WhatsNewComponentWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "stretch",
   flex: "1 1",
   margin: "0px 30px",
+  [theme.breakpoints.down("sm")]: {
+    marginRight: "0px",
+    marginLeft: "0px",
+  },
 }))
 
 const WhatsNewWrapper = styled(Box)(({ theme }) => ({
