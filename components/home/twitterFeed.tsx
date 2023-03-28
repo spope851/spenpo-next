@@ -42,7 +42,7 @@ const Tweet: React.FC<{
   </StyledBox>
 )
 
-export const TwitterFeed: React.FC = () => {
+export const TwitterFeed: React.FC<{ height: string }> = ({ height }) => {
   const [tweets, setTweets] = useState<Record<string, any>[]>([])
   const [count, setCount] = useState(10)
   const tweetBtn = useRef<HTMLButtonElement | null>(null)
@@ -63,7 +63,7 @@ export const TwitterFeed: React.FC = () => {
         flexDirection: "column",
         flex: 1,
         overflow: "auto",
-        maxHeight: "calc(100vh - 136.5px)",
+        height,
       }}
     >
       {tweets.map((tweet) => {

@@ -26,6 +26,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             main: "#4f86f7",
           },
         },
+        breakpoints: {
+          values: {
+            xs: 0,
+            sm: 600,
+            md: 850,
+            lg: 1200,
+            xl: 1536,
+          },
+        },
         components: {
           MuiAccordion: {
             styleOverrides: {

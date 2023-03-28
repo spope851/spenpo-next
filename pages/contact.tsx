@@ -1,6 +1,6 @@
 import React from "react"
 import Head from "next/head"
-import ContactForm from "@/components/contactForm"
+import ContactForm from "@/components/home/contactForm"
 import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
