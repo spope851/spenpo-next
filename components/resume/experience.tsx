@@ -19,7 +19,7 @@ const Experience: React.FC = () => {
             <ListItem>
               <Typography>
                 I integrate backend services with web applications, often developing
-                in parallel with API team
+                in parallel with backend teams
               </Typography>
             </ListItem>
             <ListItem>

@@ -65,29 +65,16 @@ nav .active {
   #top-left-wrapper {
     flex-direction: column;
   }
-
-  #contact-form-wrapper {
-    margin: 0px 10px -10px 0px !important;
-  }
-
-  #whats-new-wrapper,
-  #projects-link-wrapper {
-    margin: 50px 50px 0px !important;
-  }
-
-  #twitter-feed-wrapper div:first-child {
-    max-height: 105vh !important;
-  }
 }
 
 @media only screen and (max-width: 850px) {
   #twitter-feed-wrapper {
     width: unset !important;
-    margin: 0px 40px 0px !important;
   }
 
   #page-content {
     flex-direction: column;
+    max-height: unset !important;
   }
 }
 
@@ -112,41 +99,19 @@ nav .active {
   }
 
   #contact-form {
-    margin: 50px 0px 0px !important;
     padding: 20px !important;
   }
 
-  #whats-new-wrapper,
-  #projects-link-wrapper,
-  #contact-form-wrapper {
-    margin: 50px 20px 0px !important;
-  }
-
-  #contact-form-wrapper {
-    margin: 0px 20px 0px !important;
-  }
-
   #twitter-feed-wrapper div:first-child {
-    /* overflow: unset !important; */
     max-height: unset !important;
-  }
-
-  #twitter-feed-wrapper {
-    margin: 40px 10px 0px !important;
   }
 
   .contact-child {
     margin: 0px !important;
   }
 
-  #whats-new,
-  #projects-link-btn {
-    margin: 0px !important;
-  }
-
   .projects-table-data {
     display: flex !important;
-    justify-content: stretch;
   }
 
   .app-description,
@@ -208,48 +173,13 @@ body {
   flex: 1;
 }
 
-#page-content {
-  display: flex;
-  flex: 1;
-}
-
-#twitter-feed-wrapper {
-  flex: 1 1;
-  min-width: 30%;
-  display: flex;
-  align-self: stretch;
-}
-
-#left-content-wrapper {
-  display: flex;
-  flex: 1 1 70%;
-  flex-direction: column;
-}
-
-#contact-form-wrapper {
-  display: flex;
-  flex: 1 1 100%;
-}
-
-#contact-form {
-  display: flex;
-  align-self: stretch;
-  flex-direction: column;
-  flex: 1;
-  padding: 20px 50px;
-  border: solid #ccc;
-  border-radius: 5px;
-  margin: 50px 40px 50px 50px;
-  justify-content: space-between;
-  text-align: center;
-}
-
 #contact-form label {
   text-align: left;
 }
 
 #contact-form textarea {
-  height: 150px;
+  display: flex;
+  flex: 1;
 }
 
 .contact-field {
@@ -259,6 +189,8 @@ body {
 
 .contact-fields {
   display: flex;
+  flex: 1;
+  max-height: 150px;
 }
 
 .contact-child {
@@ -274,50 +206,6 @@ body {
 
 .contact-child:first-child {
   margin-right: 25px;
-}
-
-#whats-new-wrapper {
-  display: flex;
-  flex-direction: column;
-  border: solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 50px 25px 0px 50px;
-  text-align: center;
-  justify-content: space-between;
-  flex: 1 1 0px;
-  width: 0px;
-}
-
-#whats-new {
-  display: flex;
-  align-items: stretch;
-  flex: 1 1;
-  margin: 0px 30px;
-}
-
-#projects-link-btn {
-  border: solid #aaa;
-  border-radius: 15px;
-  padding: 25px;
-  margin: 0px 30px;
-}
-
-#projects-link-wrapper {
-  display: flex;
-  flex-direction: column;
-  border: solid #ccc;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 50px 40px 0px 25px;
-  text-align: center;
-  justify-content: space-between;
-  flex: 1 1 0px;
-  width: 0px;
-}
-
-#top-left-wrapper {
-  display: flex;
 }
 
 div h4 {

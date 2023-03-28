@@ -1,80 +1,13 @@
 import { useRouter } from "next/router"
-import { ButtonHTMLAttributes, DetailedHTMLProps } from "react"
 import { RobotError } from "@/components/robotError"
-import CubeDemo from "@/components/projects/demos/cubeSolverDemo"
-import LanguageFlashDemo from "@/components/projects/demos/languageFlashDemo"
-import ReactTimeclockDemo from "@/components/projects/demos/reactTimeclockDemo"
-import TwoTruthsDemo from "@/components/projects/demos/twoTruthsDemo"
-import CubeDes from "@/components/projects/descriptions/cubeSolverDes"
-import LanguageFlashDes from "@/components/projects/descriptions/languageFlashDes"
-import ReactTimeclockDes from "@/components/projects/descriptions/reactTimeclockDes"
-import TwoTruthsDes from "@/components/projects/descriptions/twoTruthsDes"
 import { Tabs } from "@mui/material"
-import { styled } from "@mui/material/styles"
 import Head from "next/head"
-
-type Projects = "two-truths" | "language-flash" | "3x3-cube" | "react-timeclock"
-
-const projects: Record<Projects, JSX.Element> = {
-  "two-truths": (
-    <tr id="two-truths" className="projects-row">
-      <TwoTruthsDes />
-      <td className="projects-table-data">
-        <div id="two-truths-demo" className="app-demo">
-          <TwoTruthsDemo />
-        </div>
-      </td>
-    </tr>
-  ),
-  "language-flash": (
-    <tr id="language-flash" className="projects-row">
-      <LanguageFlashDes />
-      <td className="projects-table-data">
-        <div id="lang-flash" className="app-demo">
-          <LanguageFlashDemo />
-        </div>
-      </td>
-    </tr>
-  ),
-  "3x3-cube": (
-    <tr id="3x3-cube" className="projects-row">
-      <CubeDes />
-      <CubeDemo />
-    </tr>
-  ),
-  "react-timeclock": (
-    <tr id="react-timeclock" className="projects-row">
-      <ReactTimeclockDes />
-      <ReactTimeclockDemo />
-    </tr>
-  ),
-}
-
-const StyledButton = styled("button")(() => ({
-  ":hover": {
-    cursor: "pointer",
-    backgroundColor: "#ddd",
-  },
-}))
-
-const TabBtn: React.FC<
-  DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
-    active: Projects
-    id: Projects
-  }
-> = ({ id, onClick, active }) => (
-  <StyledButton
-    onClick={onClick}
-    id={`${id}-btn`}
-    className={`tab ${active === id && "active"}`}
-  >
-    {id}
-  </StyledButton>
-)
+import { Projects as ProjectsType } from "@/types"
+import projects, { TabBtn } from "@/components/projects"
 
 export default function Projects() {
   const router = useRouter()
-  const project = router.query.id as Projects
+  const project = router.query.id as ProjectsType
 
   return (
     <>

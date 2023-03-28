@@ -1,6 +1,6 @@
 import React from "react"
 import Head from "next/head"
-import ContactForm from "@/components/contactForm"
+import ContactForm from "@/components/home/contactForm"
 import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
@@ -20,7 +20,7 @@ export default function Home() {
         <Header variant="h6">did you read my blog?</Header>
         <Header variant="h6">like one of my projects?</Header>
         <Header variant="h6">interested in working together?</Header>
-        <Box mb={{ xs: 5 }}>
+        <Box my={{ xs: 5 }}>
           <ContactForm />
         </Box>
       </Box>

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { useState, ReactNode, useEffect } from "react"
 import { Timeclock } from "react-timeclock"
 
@@ -8,10 +9,10 @@ export default function ReactTimeclockDemo() {
     setTimeclock(<Timeclock />)
   }, [])
   return (
-    <td className="projects-table-data">
-      <div id="react-timeclock-demo" className="app-demo">
+    <Box component="td" pb={3} className="projects-table-data">
+      <Box id="react-timeclock-demo" className="app-demo">
         {timeclock}
-      </div>
-    </td>
+      </Box>
+    </Box>
   )
 }

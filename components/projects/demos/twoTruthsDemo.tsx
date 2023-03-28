@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { useRef, useEffect } from "react"
 
 export default function TwoTruthsDemo() {
@@ -19,5 +20,11 @@ export default function TwoTruthsDemo() {
       tt && tt.$destroy()
     }
   }, [])
-  return <div ref={demoRoot}></div>
+  return (
+    <Box component="td" className="projects-table-data">
+      <Box id="two-truths-demo" className="app-demo">
+        <Box ref={demoRoot}></Box>
+      </Box>
+    </Box>
+  )
 }

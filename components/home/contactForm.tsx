@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react"
-import { Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import validator from "validator"
 import emailjs from "@emailjs/browser"
+import { ContactFormWrapper } from "./styled"
 
 const ContactForm: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -51,12 +52,19 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <form ref={formRef} id="contact-form" onSubmit={sendEmail}>
-      <h4>send me an email ♡</h4>
+    <ContactFormWrapper
+      component="form"
+      ref={formRef}
+      id="contact-form"
+      onSubmit={sendEmail}
+    >
+      <Typography variant="h6" fontWeight="bold" mb="20px">
+        send me an email ♡
+      </Typography>
       <input type="hidden" name="contact_number" />
       <div className="contact-fields">
         <div className="contact-child">
-          <div className="contact-field">
+          <Box mb={{ sm: 3 }} className="contact-field">
             <label>Name</label>
             <input
               type="text"
@@ -64,8 +72,8 @@ const ContactForm: React.FC = () => {
               disabled={success || failure}
               onChange={(e) => setName(!!e.target.value)}
             />
-          </div>
-          <div className="contact-field">
+          </Box>
+          <Box className="contact-field">
             <label>Email</label>
             <input
               type="email"
@@ -81,16 +89,16 @@ const ContactForm: React.FC = () => {
                 must be a valid email
               </Typography>
             )}
-          </div>
+          </Box>
         </div>
-        <div className="contact-child">
+        <Box className="contact-child">
           <label>Message</label>
           <textarea
             name="message"
             disabled={success || failure}
             onChange={(e) => setText(!!e.target.value)}
           ></textarea>
-        </div>
+        </Box>
       </div>
       <input
         id="send-email"
@@ -99,7 +107,7 @@ const ContactForm: React.FC = () => {
         value={loading ? "sending..." : sendSuccessOrFailure()}
         disabled={success || failure || !email || !name || !text}
       />
-    </form>
+    </ContactFormWrapper>
   )
 }
 
