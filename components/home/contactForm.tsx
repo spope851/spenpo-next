@@ -64,7 +64,7 @@ const ContactForm: React.FC = () => {
       <input type="hidden" name="contact_number" />
       <div className="contact-fields">
         <div className="contact-child">
-          <Box mb={3} className="contact-field">
+          <Box mb={{ sm: 3 }} className="contact-field">
             <label>Name</label>
             <input
               type="text"
@@ -73,7 +73,7 @@ const ContactForm: React.FC = () => {
               onChange={(e) => setName(!!e.target.value)}
             />
           </Box>
-          <div className="contact-field">
+          <Box className="contact-field">
             <label>Email</label>
             <input
               type="email"
@@ -89,16 +89,16 @@ const ContactForm: React.FC = () => {
                 must be a valid email
               </Typography>
             )}
-          </div>
+          </Box>
         </div>
-        <div className="contact-child">
+        <Box className="contact-child">
           <label>Message</label>
           <textarea
             name="message"
             disabled={success || failure}
             onChange={(e) => setText(!!e.target.value)}
           ></textarea>
-        </div>
+        </Box>
       </div>
       <input
         id="send-email"
