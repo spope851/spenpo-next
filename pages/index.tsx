@@ -41,7 +41,6 @@ export default function Home({ content }: { content: Content }) {
       const scrollHeight = leftContent.current!.scrollHeight
       const clientHeight = leftContent.current!.clientHeight
       const clientWidth = pageContent.current!.offsetWidth
-      console.log(scrollHeight, clientHeight, clientWidth)
 
       if (scrollHeight > clientHeight) {
         setTwitterHeight(clientWidth > 850 ? `${scrollHeight}px` : "unset")

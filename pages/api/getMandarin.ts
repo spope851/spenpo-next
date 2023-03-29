@@ -1,4 +1,5 @@
 import { pool } from "@/utils/postgres"
+import redis from "@/utils/redis"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 const getMandarin = async (
@@ -14,8 +15,11 @@ const getMandarin = async (
   >
 ) => {
   console.log("GET mandarin  ", req.query)
+  const cachedWords = await redis.get("mandarin")
+  if (cachedWords) return res.send(JSON.parse(cachedWords))
   const data = await pool.query(`SELECT * FROM mandarin;`)
-  res.status(200).send(data.rows)
+  await redis.setex("mandarin", 60 * 60, JSON.stringify(data.rows))
+  return res.status(200).send(data.rows)
 }
 
 export default getMandarin
