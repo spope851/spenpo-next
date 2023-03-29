@@ -15,12 +15,18 @@ export default function Home() {
       <Head>
         <title>spencer pope</title>
       </Head>
-      <Box mx={{ lg: "20%", md: "10%", xs: 2 }} pt={5}>
+      <Box
+        mx={{ lg: "20%", md: "10%", xs: 2 }}
+        pt={5}
+        display="flex"
+        flexDirection="column"
+        flex={1}
+      >
         <Header variant="h6">I want to hear from you!</Header>
         <Header variant="h6">did you read my blog?</Header>
         <Header variant="h6">like one of my projects?</Header>
         <Header variant="h6">interested in working together?</Header>
-        <Box my={{ xs: 5 }}>
+        <Box my={{ xs: 5 }} display="flex" flex={1}>
           <ContactForm />
         </Box>
       </Box>
