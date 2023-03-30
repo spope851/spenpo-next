@@ -12,7 +12,7 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "start:server": "cd server && docker-compose -p spenpo up -d",
     "new:db": "cd server && rm -rf postgres-data && docker-compose build && docker-compose up",
-    "it:db": "docker exec -it pg sh",
+    "it:db": "docker exec -it db sh",
     "it:cache": "docker exec -it redis redis-cli"
   },
   "dependencies": {
