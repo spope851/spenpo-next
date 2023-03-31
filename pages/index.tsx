@@ -16,10 +16,15 @@ import { useRouter } from "next/router"
 import ContactForm from "@/components/home/contactForm"
 import { pool } from "@/utils/postgres"
 import { Box, Typography } from "@mui/material"
+import redis from "@/utils/redis"
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
+  console.log("GET content")
+  const cachedContent = await redis.get(`content`)
+  if (cachedContent) return { props: { content: JSON.parse(cachedContent) } }
   const data = await pool.query(`SELECT * FROM content ORDER BY id DESC LIMIT 1;`)
   const content = data.rows[0]
+  await redis.set("content", JSON.stringify(content))
 
   return {
     props: { content },
