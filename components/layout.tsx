@@ -10,6 +10,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const active = (pathname.split("/")[1] as Tabs) || "root"
 
+  const hideLayoutPaths = ["/demo", "/"]
+
   return (
     <Box
       id="wrapper"
@@ -21,9 +23,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       display="flex"
       flexDirection="column"
     >
-      <Navbar active={active} />
+      {!hideLayoutPaths.includes(pathname) && <Navbar active={active} />}
       {children}
-      <Footer />
+      {!hideLayoutPaths.includes(pathname) && <Footer />}
     </Box>
   )
 }

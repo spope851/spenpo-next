@@ -80,6 +80,11 @@ export default function Navbar({ active }: NavbarProps) {
               projects
             </Link>
           </Tab>
+          <Tab>
+            <Link href="/whatsnew" className={tabState(active === "whatsnew")}>
+              what's new
+            </Link>
+          </Tab>
           <Burger>
             <Button
               sx={{ height: 51, color: "white" }}
