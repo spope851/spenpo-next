@@ -1,0 +1,24 @@
+on:
+  workflow_dispatch:
+jobs:
+  use_api_via_script:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - name: Check out repo content
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.12.0'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install octokit
+
+      - name: Run script
+        run: |
+          node .github/actions-scripts/use-the-api.mjs
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
