@@ -152,6 +152,7 @@ export const Landing: React.FC<LandingProps> = ({
           >
             {socialUrls?.map((url) => (
               <Box
+                key={url}
                 sx={{
                   ":hover": {
                     transform: "scale(1.06)",

@@ -82,7 +82,7 @@ export default function Navbar({ active }: NavbarProps) {
           </Tab>
           <Tab>
             <Link href="/whatsnew" className={tabState(active === "whatsnew")}>
-              what's new
+              what&apos;s new
             </Link>
           </Tab>
           <Burger>
