@@ -12,7 +12,7 @@ import {
 } from "@mui/material"
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import UploadIcon from "@mui/icons-material/Upload"
 import Dropzone from "react-dropzone"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
@@ -20,9 +20,19 @@ import { ColorPicker } from "@/components/colorPicker"
 import VisibilityIcon from "@mui/icons-material/Visibility"
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff"
 import InfoIcon from "@mui/icons-material/Info"
+import { ShoppingCartContext } from "@/context/shoppingCart"
 
 export default function Demo() {
   const router = useRouter()
+  const {
+    setProjectName,
+    setClientName,
+    setTitle: setContextTitle,
+    setSubtitle: setContextSubtitle,
+    setSocialUrls: setContextSocialUrls,
+    setAction: setContextAction,
+    setActionStatement: setContextActionStatement,
+  } = useContext(ShoppingCartContext)
   const [modalOpen, setModalOpen] = useState(false)
   const [title, setTitle] = useState("your title")
   const [name, setName] = useState("Your Name")
@@ -40,13 +50,39 @@ export default function Demo() {
     "https://spotify.com",
   ])
   const [headshotSrc, setHeadshotSrc] = useState("/images/headshot.jpeg")
-  const [actionText, setActionText] = useState("your action statement")
+  const [actionStatement, setActionStatement] = useState("your action statement")
   const [action, setAction] = useState<string>()
   const [backgroundImage, setBackgroundImage] = useState<string>()
   const backgroundColor = useState("#E6E1DF")
   const accent = useState("#325D80")
   const secondaryAccent = useState("#5FA052")
   const [hideButtons, setHideButtons] = useState(false)
+
+  useEffect(() => {
+    setClientName(name)
+    setProjectName(`${name.replaceAll(" ", "").toLocaleLowerCase()}-landing`)
+  }, [name])
+
+  useEffect(() => {
+    setContextTitle(title)
+  }, [title])
+
+  useEffect(() => {
+    setContextSubtitle(subtitle)
+  }, [subtitle])
+
+  useEffect(() => {
+    setContextSocialUrls(JSON.stringify(socialUrls))
+  }, [socialUrls])
+
+  useEffect(() => {
+    setContextAction(action)
+  }, [action])
+
+  useEffect(() => {
+    setContextActionStatement(actionStatement)
+  }, [actionStatement])
+
   return (
     <>
       <Tooltip title={`${hideButtons ? "show" : "hide"} extra buttons`}>
@@ -148,8 +184,8 @@ export default function Demo() {
               />
               <TextField
                 label="Action Statement"
-                value={actionText}
-                onChange={(e) => setActionText(e.target.value)}
+                value={actionStatement}
+                onChange={(e) => setActionStatement(e.target.value)}
               />
               <TextField
                 label="Action Destination"
@@ -204,7 +240,7 @@ export default function Demo() {
         subtitle={subtitle}
         socialUrls={socialUrls}
         headshotSrc={headshotSrc}
-        actionText={actionText}
+        actionText={actionStatement}
         actionClick={() => (action ? router.push(action) : alert("your action"))}
         backgroundColor={backgroundColor[0]}
         backgroundImage={backgroundImage}
@@ -227,7 +263,7 @@ export default function Demo() {
               <Button
                 variant="contained"
                 sx={{ mr: 5 }}
-                onClick={() => alert("add to cart")}
+                onClick={() => router.push("/checkout")}
                 endIcon={<ChevronRightIcon />}
               >
                 add to cart
