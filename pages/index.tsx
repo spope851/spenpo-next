@@ -25,7 +25,7 @@ export default function Home() {
         <Button
           endIcon={<ChevronRightIcon />}
           variant="contained"
-          onClick={() => router.push("/whatsnew")}
+          onClick={() => router.push("/home")}
           sx={{ ml: "auto", mr: 5 }}
         >
           continue to spenpo.com

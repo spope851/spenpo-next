@@ -261,7 +261,7 @@ export default function Demo() {
               <Button
                 startIcon={<ChevronLeftIcon />}
                 variant="contained"
-                onClick={() => router.push("/whatsnew")}
+                onClick={() => router.push("/home")}
                 sx={{ ml: 5 }}
               >
                 return to spenpo.com

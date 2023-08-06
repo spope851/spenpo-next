@@ -48,7 +48,7 @@ export default function Navbar({ active }: NavbarProps) {
       <nav>
         <ul>
           <li>
-            <Link href="/" className={tabState(active === "root")}>
+            <Link href="/" className={tabState(active === "home")}>
               <h3 id="nav-header">spencer pope</h3>
               <Image
                 src={fav}
@@ -78,11 +78,6 @@ export default function Navbar({ active }: NavbarProps) {
           <Tab>
             <Link href="/projects" className={tabState(active === "projects")}>
               projects
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/whatsnew" className={tabState(active === "whatsnew")}>
-              what&apos;s new
             </Link>
           </Tab>
           <Burger>
