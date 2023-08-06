@@ -32,6 +32,8 @@ export default function Demo() {
     setSocialUrls: setContextSocialUrls,
     setAction: setContextAction,
     setActionStatement: setContextActionStatement,
+    setHeadshotContent,
+    setFileExtension,
   } = useContext(ShoppingCartContext)
   const [modalOpen, setModalOpen] = useState(false)
   const [title, setTitle] = useState("your title")
@@ -60,7 +62,12 @@ export default function Demo() {
 
   useEffect(() => {
     setClientName(name)
-    setProjectName(`${name.replaceAll(" ", "").toLocaleLowerCase()}-landing`)
+    setProjectName(
+      `${name
+        .replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+        .replaceAll(" ", "")
+        .toLocaleLowerCase()}-landing`
+    )
   }, [name])
 
   useEffect(() => {
@@ -125,10 +132,12 @@ export default function Demo() {
                     /* eslint-disable no-console */ console.log(
                       "file reading has failed"
                     )
+                  reader.readAsBinaryString(acceptedFiles[0])
                   reader.onload = () => {
                     setHeadshotSrc(URL.createObjectURL(acceptedFiles[0]))
+                    setHeadshotContent(String(reader.result))
+                    setFileExtension(acceptedFiles[0].name.split(".").at(-1))
                   }
-                  reader.readAsArrayBuffer(acceptedFiles[0])
                 }}
               >
                 {({ getRootProps, getInputProps }) => (
@@ -189,7 +198,7 @@ export default function Demo() {
               />
               <TextField
                 label="Action Destination"
-                value={action}
+                value={action || ""}
                 onChange={(e) => setAction(e.target.value)}
                 placeholder="ex. https://google.com"
                 InputProps={{
@@ -230,7 +239,7 @@ export default function Demo() {
             sx={{ mx: "auto" }}
             onClick={() => setModalOpen(false)}
           >
-            close
+            preview
           </Button>
         </Stack>
       </Modal>

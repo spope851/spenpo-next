@@ -24,7 +24,12 @@ type VercelProject = {
   }
 }
 
-type DeployLandingPageBody = {
+export type DeployLandingPageBody = {
+  clientName?: string
+  headshot: {
+    content?: string
+    fileExtension?: string
+  }
   project: VercelProject
 }
 
@@ -36,6 +41,8 @@ type ShoppingCartContextProps = {
   setSocialUrls: Dispatch<SetStateAction<string | undefined>>
   setAction: Dispatch<SetStateAction<string | undefined>>
   setActionStatement: Dispatch<SetStateAction<string | undefined>>
+  setHeadshotContent: Dispatch<SetStateAction<string | undefined>>
+  setFileExtension: Dispatch<SetStateAction<string | undefined>>
   deployLandingPageBody: DeployLandingPageBody
 }
 
@@ -51,6 +58,8 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const [socialUrls, setSocialUrls] = useState<string>()
   const [action, setAction] = useState<string>()
   const [actionStatement, setActionStatement] = useState<string>()
+  const [headshotContent, setHeadshotContent] = useState<string>()
+  const [fileExtension, setFileExtension] = useState<string>()
   const contextValue = useMemo(() => {
     return {
       setProjectName,
@@ -60,7 +69,14 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       setSocialUrls,
       setAction,
       setActionStatement,
+      setHeadshotContent,
+      setFileExtension,
       deployLandingPageBody: {
+        clientName,
+        headshot: {
+          content: headshotContent,
+          fileExtension,
+        },
         project: {
           name: projectName,
           environmentVariables: [
@@ -92,6 +108,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
               key: "NEXT_PUBLIC_ACTION",
               target: "production",
               type: "encrypted",
+              // TODO: validate this is provided
               value: action,
             },
             {
@@ -99,6 +116,12 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
               target: "production",
               type: "encrypted",
               value: actionStatement,
+            },
+            {
+              key: "NEXT_PUBLIC_HEADSHOT",
+              target: "production",
+              type: "encrypted",
+              value: `headshot.${fileExtension}`,
             },
           ],
           framework: "nextjs",
@@ -109,7 +132,17 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         },
       },
     }
-  }, [projectName, clientName, title, subtitle, socialUrls, action, actionStatement])
+  }, [
+    projectName,
+    clientName,
+    title,
+    subtitle,
+    socialUrls,
+    action,
+    actionStatement,
+    headshotContent,
+    fileExtension,
+  ])
 
   return (
     <ShoppingCartContext.Provider value={contextValue}>
