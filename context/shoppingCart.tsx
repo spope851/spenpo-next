@@ -43,6 +43,10 @@ type ShoppingCartContextProps = {
   setActionStatement: Dispatch<SetStateAction<string | undefined>>
   setHeadshotContent: Dispatch<SetStateAction<string | undefined>>
   setFileExtension: Dispatch<SetStateAction<string | undefined>>
+  setBackgroundColor: Dispatch<SetStateAction<string | undefined>>
+  setBackgroundImage: Dispatch<SetStateAction<string | undefined>>
+  setAccentColor: Dispatch<SetStateAction<string | undefined>>
+  setSecondaryAccentColor: Dispatch<SetStateAction<string | undefined>>
   deployLandingPageBody: DeployLandingPageBody
 }
 
@@ -60,6 +64,96 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const [actionStatement, setActionStatement] = useState<string>()
   const [headshotContent, setHeadshotContent] = useState<string>()
   const [fileExtension, setFileExtension] = useState<string>()
+  const [backgroundColor, setBackgroundColor] = useState<string>()
+  const [backgroundImage, setBackgroundImage] = useState<string>()
+  const [accentColor, setAccentColor] = useState<string>()
+  const [secondaryAccentColor, setSecondaryAccentColor] = useState<string>()
+
+  const environmentVariables = useMemo(() => {
+    const required = [
+      {
+        key: "NEXT_PUBLIC_TITLE",
+        target: "production",
+        type: "encrypted",
+        value: title,
+      },
+      {
+        key: "NEXT_PUBLIC_NAME",
+        target: "production",
+        type: "encrypted",
+        value: clientName,
+      },
+      {
+        key: "NEXT_PUBLIC_SUBTITLE",
+        target: "production",
+        type: "encrypted",
+        value: subtitle,
+      },
+      {
+        key: "NEXT_PUBLIC_SOCIALS",
+        target: "production",
+        type: "encrypted",
+        value: socialUrls,
+      },
+      {
+        key: "NEXT_PUBLIC_ACTION_STATEMENT",
+        target: "production",
+        type: "encrypted",
+        value: actionStatement,
+      },
+      {
+        key: "NEXT_PUBLIC_HEADSHOT",
+        target: "production",
+        type: "encrypted",
+        value: `headshot.${fileExtension}`,
+      },
+    ]
+
+    const variables = [...required]
+
+    if (action)
+      variables.push({
+        key: "NEXT_PUBLIC_ACTION",
+        target: "production",
+        type: "encrypted",
+        value: action,
+      })
+
+    if (backgroundColor)
+      variables.push({
+        key: "NEXT_PUBLIC_BG_COLOR",
+        target: "production",
+        type: "encrypted",
+        value: backgroundColor,
+      })
+
+    if (backgroundImage)
+      variables.push({
+        key: "NEXT_PUBLIC_BG_IMAGE",
+        target: "production",
+        type: "encrypted",
+        value: backgroundImage,
+      })
+
+    if (accentColor)
+      variables.push({
+        key: "NEXT_PUBLIC_ACCENT_COLOR",
+        target: "production",
+        type: "encrypted",
+        value: accentColor,
+      })
+
+    if (secondaryAccentColor)
+      variables.push({
+        key: "NEXT_PUBLIC_SECONDARY_ACCENT_COLOR",
+        target: "production",
+        type: "encrypted",
+        value: secondaryAccentColor,
+      })
+
+    return variables
+  }, [action, backgroundColor, backgroundImage, accentColor, secondaryAccentColor])
+
   const contextValue = useMemo(() => {
     return {
       setProjectName,
@@ -71,6 +165,10 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       setActionStatement,
       setHeadshotContent,
       setFileExtension,
+      setBackgroundColor,
+      setBackgroundImage,
+      setAccentColor,
+      setSecondaryAccentColor,
       deployLandingPageBody: {
         clientName,
         headshot: {
@@ -79,51 +177,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         },
         project: {
           name: projectName,
-          environmentVariables: [
-            {
-              key: "NEXT_PUBLIC_TITLE",
-              target: "production",
-              type: "encrypted",
-              value: title,
-            },
-            {
-              key: "NEXT_PUBLIC_NAME",
-              target: "production",
-              type: "encrypted",
-              value: clientName,
-            },
-            {
-              key: "NEXT_PUBLIC_SUBTITLE",
-              target: "production",
-              type: "encrypted",
-              value: subtitle,
-            },
-            {
-              key: "NEXT_PUBLIC_SOCIALS",
-              target: "production",
-              type: "encrypted",
-              value: socialUrls,
-            },
-            {
-              key: "NEXT_PUBLIC_ACTION",
-              target: "production",
-              type: "encrypted",
-              // TODO: validate this is provided
-              value: action,
-            },
-            {
-              key: "NEXT_PUBLIC_ACTION_STATEMENT",
-              target: "production",
-              type: "encrypted",
-              value: actionStatement,
-            },
-            {
-              key: "NEXT_PUBLIC_HEADSHOT",
-              target: "production",
-              type: "encrypted",
-              value: `headshot.${fileExtension}`,
-            },
-          ],
+          environmentVariables,
           framework: "nextjs",
           gitRepository: {
             repo: `spenpo-landing/${projectName}`,
@@ -138,10 +192,10 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     title,
     subtitle,
     socialUrls,
-    action,
     actionStatement,
     headshotContent,
     fileExtension,
+    environmentVariables,
   ])
 
   return (

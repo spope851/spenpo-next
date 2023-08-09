@@ -9,17 +9,23 @@ import Layout from "@/components/layout"
 import client from "../graphql/apolloClient"
 import { ThemeProvider } from "@/components/themeProvider"
 import { ShoppingCartContextProvider } from "@/context/shoppingCart"
+import { SessionProvider } from "next-auth/react"
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <ThemeProvider>
-      <ShoppingCartContextProvider>
-        <ApolloProvider client={client}>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </ApolloProvider>
-      </ShoppingCartContextProvider>
-    </ThemeProvider>
+    <SessionProvider session={session}>
+      <ThemeProvider>
+        <ShoppingCartContextProvider>
+          <ApolloProvider client={client}>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ApolloProvider>
+        </ShoppingCartContextProvider>
+      </ThemeProvider>
+    </SessionProvider>
   )
 }

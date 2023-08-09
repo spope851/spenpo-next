@@ -1,7 +1,7 @@
 import Image from "next/image"
 import React, { useState, useEffect, useRef } from "react"
 import { styled } from "@mui/material/styles"
-import { Box } from "@mui/material"
+import { Box, Button } from "@mui/material"
 
 interface TweetEntity {
   url: string
@@ -45,15 +45,17 @@ const Tweet: React.FC<{
 export const TwitterFeed: React.FC<{ height: string }> = ({ height }) => {
   const [tweets, setTweets] = useState<Record<string, any>[]>([])
   const [count, setCount] = useState(10)
+  const [loading, setLoading] = useState(false)
   const tweetBtn = useRef<HTMLButtonElement | null>(null)
 
   useEffect(() => {
+    setLoading(true)
     ;(async () => {
       const tweetsReq = await fetch(`/api/getTweets?count=${count}`).then((res) =>
         res.json()
       )
       setTweets(tweetsReq)
-    })()
+    })().then(() => setLoading(false))
   }, [count])
 
   return tweets.length ? (
@@ -197,22 +199,21 @@ export const TwitterFeed: React.FC<{ height: string }> = ({ height }) => {
           </Tweet>
         )
       })}
-      <button
+      <Button
         id="tweet-btn"
+        variant="outlined"
         ref={tweetBtn}
         onClick={async () => setCount(count + 10)}
         onMouseOver={() => tweetBtn.current?.classList.add("tweet-hover")}
         onMouseLeave={() => tweetBtn.current?.classList.remove("tweet-hover")}
-        style={{
-          borderColor: "#1DA1F2",
-          color: "#1DA1F2",
+        sx={{
           borderRadius: "15px",
           padding: "10px",
           margin: "10px 20px 20px",
         }}
       >
-        load more
-      </button>
+        {loading ? "...loading" : "load more"}
+      </Button>
     </div>
   ) : (
     <div

@@ -2,11 +2,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { Tabs } from "../types"
 import fav from "../public/favicon.ico"
-import { Button, Drawer } from "@mui/material"
+import { Box, Button, Drawer } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useState } from "react"
 import { useRouter } from "next/router"
+import AvatarMenu from "./avatarMenu"
 // import { ToggleTheme } from "./toggleTheme"
 
 interface NavbarProps {
@@ -48,7 +49,7 @@ export default function Navbar({ active }: NavbarProps) {
       <nav>
         <ul>
           <li>
-            <Link href="/" className={tabState(active === "home")}>
+            <Link href="/home" className={tabState(active === "home")}>
               <h3 id="nav-header">spencer pope</h3>
               <Image
                 src={fav}
@@ -60,6 +61,9 @@ export default function Navbar({ active }: NavbarProps) {
               />
             </Link>
           </li>
+          <Tab sx={{ pt: 0.5, px: 0.5 }}>
+            <AvatarMenu />
+          </Tab>
           <Tab>
             <Link href="/contact" className={tabState(active === "contact")}>
               contact

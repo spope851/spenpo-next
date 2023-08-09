@@ -10,7 +10,6 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material"
-import Image from "next/image"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import UploadIcon from "@mui/icons-material/Upload"
@@ -34,6 +33,10 @@ export default function Demo() {
     setActionStatement: setContextActionStatement,
     setHeadshotContent,
     setFileExtension,
+    setBackgroundColor,
+    setBackgroundImage: setContextBackgroundImage,
+    setAccentColor,
+    setSecondaryAccentColor,
   } = useContext(ShoppingCartContext)
   const [modalOpen, setModalOpen] = useState(false)
   const [title, setTitle] = useState("your title")
@@ -51,13 +54,14 @@ export default function Demo() {
     "https://whatsapp.com",
     "https://spotify.com",
   ])
-  const [headshotSrc, setHeadshotSrc] = useState("/images/headshot.jpeg")
+  const [headshotSrc, setHeadshotSrc] = useState<string>()
   const [actionStatement, setActionStatement] = useState("your action statement")
   const [action, setAction] = useState<string>()
   const [backgroundImage, setBackgroundImage] = useState<string>()
-  const backgroundColor = useState("#E6E1DF")
-  const accent = useState("#325D80")
-  const secondaryAccent = useState("#5FA052")
+  const backgroundColor = useState<string>()
+  const accentColor = useState<string>()
+  const secondaryAccentColor = useState<string>()
+
   const [hideButtons, setHideButtons] = useState(false)
 
   useEffect(() => {
@@ -90,6 +94,22 @@ export default function Demo() {
     setContextActionStatement(actionStatement)
   }, [actionStatement])
 
+  useEffect(() => {
+    setBackgroundColor(backgroundColor[0])
+  }, [backgroundColor[0]])
+
+  useEffect(() => {
+    setContextBackgroundImage(backgroundImage)
+  }, [backgroundImage])
+
+  useEffect(() => {
+    setAccentColor(accentColor[0])
+  }, [accentColor[0]])
+
+  useEffect(() => {
+    setSecondaryAccentColor(secondaryAccentColor[0])
+  }, [secondaryAccentColor[0]])
+
   return (
     <>
       <Tooltip title={`${hideButtons ? "show" : "hide"} extra buttons`}>
@@ -107,8 +127,8 @@ export default function Demo() {
             height: 600,
             m: "auto",
             bgcolor: "#fff",
-            p: 5,
-            borderRadius: 8,
+            p: 8,
+            borderRadius: 2,
             position: "absolute" as const,
             top: "50%",
             left: "50%",
@@ -146,32 +166,51 @@ export default function Demo() {
                     sx={{ ":hover": { cursor: "pointer" }, height: 400 }}
                   >
                     <input {...getInputProps()} />
-                    <Image
-                      style={{ borderRadius: 8, opacity: 0.6 }}
-                      src={headshotSrc}
+                    <Box
                       height={400}
                       width={400}
-                      alt="headshot"
+                      sx={{
+                        backgroundImage: `url(${
+                          headshotSrc || "/images/headshot.jpeg"
+                        })`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                        opacity: 0.6,
+                      }}
+                      borderRadius={1}
                     />
                     <UploadIcon
                       sx={{
                         fontSize: 50,
                         position: "absolute",
-                        transform: "translate(-425%, 350%)",
+                        transform: "translate(350%, -450%)",
                       }}
                     />
                   </Box>
                 )}
               </Dropzone>
               <Stack flexDirection="row" columnGap={2}>
-                <ColorPicker label="Background Color" color={backgroundColor} />
-                <ColorPicker label="Accent Color" color={accent} />
-                <ColorPicker label="Secondary Color" color={secondaryAccent} />
+                <ColorPicker
+                  label="Background Color"
+                  color={backgroundColor}
+                  defaultColor="#E6E1DF"
+                />
+                <ColorPicker
+                  label="Accent Color"
+                  color={accentColor}
+                  defaultColor="#325D80"
+                />
+                <ColorPicker
+                  label="Secondary Color"
+                  color={secondaryAccentColor}
+                  defaultColor="#5FA052"
+                />
               </Stack>
               <TextField
                 fullWidth
                 label="Background Image Url"
-                value={backgroundImage}
+                value={backgroundImage || ""}
                 onChange={(e) => setBackgroundImage(e.target.value)}
               />
             </Stack>
@@ -204,9 +243,7 @@ export default function Demo() {
                 InputProps={{
                   endAdornment: (
                     <Tooltip title="Add the URL you want to navigate to from your landing page, or leave this field blank if you'd like to integrate and alternative flow. We'll reach out about that separately.">
-                      <IconButton>
-                        <InfoIcon />
-                      </IconButton>
+                      <InfoIcon />
                     </Tooltip>
                   ),
                 }}
@@ -248,13 +285,17 @@ export default function Demo() {
         name={name}
         subtitle={subtitle}
         socialUrls={socialUrls}
-        headshotSrc={headshotSrc}
+        headshotSrc={headshotSrc || "/images/headshot.jpeg"}
         actionText={actionStatement}
-        actionClick={() => (action ? router.push(action) : alert("your action"))}
+        actionClick={() =>
+          action
+            ? window.open(action, "_blank", "noopener,noreferrer")
+            : alert("your action")
+        }
         backgroundColor={backgroundColor[0]}
-        backgroundImage={backgroundImage}
-        accent={accent[0]}
-        secondaryAccent={secondaryAccent[0]}
+        backgroundImage={backgroundImage || undefined}
+        accentColor={accentColor[0]}
+        secondaryAccentColor={secondaryAccentColor[0]}
         navigateAway={
           !hideButtons && (
             <Stack flexDirection="row" justifyContent="space-between" width="100%">
@@ -269,14 +310,25 @@ export default function Demo() {
               <Button variant="contained" onClick={() => setModalOpen(true)}>
                 edit content
               </Button>
-              <Button
-                variant="contained"
-                sx={{ mr: 5 }}
-                onClick={() => router.push("/checkout")}
-                endIcon={<ChevronRightIcon />}
+              <Tooltip
+                title={
+                  headshotSrc
+                    ? ""
+                    : "Please upload your headshot before checking out"
+                }
               >
-                add to cart
-              </Button>
+                <Box component="span">
+                  <Button
+                    variant="contained"
+                    sx={{ mr: 5 }}
+                    onClick={() => router.push("/checkout")}
+                    endIcon={<ChevronRightIcon />}
+                    disabled={!headshotSrc}
+                  >
+                    add to cart
+                  </Button>
+                </Box>
+              </Tooltip>
             </Stack>
           )
         }

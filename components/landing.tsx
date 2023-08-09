@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react"
-import Image from "next/image"
 import { Box, Typography, Divider, Button, Stack } from "@mui/material"
 import { SocialIcon } from "react-social-icons"
 import AdsClickIcon from "@mui/icons-material/AdsClick"
@@ -25,8 +24,8 @@ type LandingProps = {
   socialUrls?: string[]
   backgroundImage?: string
   backgroundColor?: string
-  accent?: string
-  secondaryAccent?: string
+  accentColor?: string
+  secondaryAccentColor?: string
   headshotSrc: string
   navigateAway?: ReactNode
   actionClick: () => void
@@ -40,8 +39,8 @@ export const Landing: React.FC<LandingProps> = ({
   socialUrls,
   headshotSrc,
   backgroundColor = "#E6E1DF",
-  accent = "#325D80",
-  secondaryAccent = "#5FA052",
+  accentColor = "#4f86f7",
+  secondaryAccentColor = "#5FA052",
   backgroundImage = "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20preserveAspectRatio%3D%22none%22%3E%20%3Cstyle%3E%20path%20%7B%20fill%3A%20none%3B%20stroke-width%3A%201.01px%3B%20stroke%3A%20rgba(0,0,0,0.09)%3B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D,20%3C%2Fstyle%3E%20%3Cpath%20d%3D%22M448%2C512c0-128-128-128-128-256S448%2C128%2C448%2C0%22%20%2F%3E%20%3Cpath%20d%3D%22M192%2C512c0-128-128-128-128-256S192%2C128%2C192%2C0%22%20%2F%3E%3C%2Fsvg%3E",
   navigateAway,
   actionClick,
@@ -71,13 +70,16 @@ export const Landing: React.FC<LandingProps> = ({
           padding: "4rem 0",
         }}
       >
-        <Image
-          style={{ borderRadius: 8 }}
-          src={headshotSrc}
-          alt="headshot"
-          width={480}
+        <Box
           height={480}
-          priority
+          width={480}
+          sx={{
+            backgroundImage: `url(${headshotSrc})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+          borderRadius={1}
         />
         <Box
           sx={{
@@ -91,7 +93,7 @@ export const Landing: React.FC<LandingProps> = ({
           <Typography
             sx={{
               textTransform: "uppercase",
-              color: accent,
+              color: accentColor,
               fontFamily: "'Inter', sans-serif",
               letterSpacing: "0.3rem",
               width: "calc(100% + 0.3rem)",
@@ -132,10 +134,10 @@ export const Landing: React.FC<LandingProps> = ({
             sx={{
               mx: "auto",
               py: 2,
-              backgroundColor: accent,
+              backgroundColor: accentColor,
               ":hover": {
                 transform: "scale(1.03)",
-                backgroundColor: secondaryAccent,
+                backgroundColor: secondaryAccentColor,
               },
             }}
             size="large"
@@ -146,8 +148,8 @@ export const Landing: React.FC<LandingProps> = ({
           </Button>
           <Stack
             flexDirection="row"
-            sx={SOCIAL_ICON_SX(accent)}
-            justifyContent="space-between"
+            sx={SOCIAL_ICON_SX(accentColor)}
+            justifyContent="center"
             columnGap={1}
           >
             {socialUrls?.map((url) => (
@@ -156,11 +158,17 @@ export const Landing: React.FC<LandingProps> = ({
                 sx={{
                   ":hover": {
                     transform: "scale(1.06)",
-                    ...SOCIAL_ICON_SX(secondaryAccent),
+                    ...SOCIAL_ICON_SX(secondaryAccentColor),
                   },
                 }}
               >
-                <SocialIcon url={url} />
+                <SocialIcon
+                  url={url}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    window.open(url, "_blank", "noopener,noreferrer")
+                  }}
+                />
               </Box>
             ))}
           </Stack>

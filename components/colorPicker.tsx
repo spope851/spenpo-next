@@ -18,15 +18,18 @@ const cover = {
 
 export const ColorPicker: React.FC<{
   label: string
-  color: [string, Dispatch<SetStateAction<string>>]
-}> = ({ label, color: [color, setColor] }) => {
+  color: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+  defaultColor: string
+}> = ({ label, color: [color, setColor], defaultColor }) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
   return (
     <Stack rowGap={2}>
       <Chip
         label={label}
         deleteIcon={
-          <CircleIcon sx={{ fill: color, stroke: "#fff", strokeWidth: 2 }} />
+          <CircleIcon
+            sx={{ fill: color || defaultColor, stroke: "#fff", strokeWidth: 2 }}
+          />
         }
         onDelete={() => 0}
         clickable
@@ -36,7 +39,7 @@ export const ColorPicker: React.FC<{
         <Box sx={popover}>
           <Box sx={cover} onClick={() => setShowColorPicker(false)} />
           <ChromePicker
-            color={color}
+            color={color || defaultColor}
             onChangeComplete={(e) => {
               setColor(e.hex)
             }}

@@ -19,7 +19,7 @@ export default function Home() {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionClick={() => router.push("/demo")}
+      actionClick={() => router.push("/landing-demo")}
       actionText="get a landing page like this one"
       navigateAway={
         <Button
