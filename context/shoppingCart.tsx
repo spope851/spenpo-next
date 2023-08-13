@@ -7,14 +7,18 @@ import React, {
   useState,
 } from "react"
 
-type ProjectEnvVariable = {
+interface ProjectEnvVariable {
   key: string
   target: string
   type: string
   value?: string
 }
 
-type VercelProject = {
+interface ProjectEnvVariableInput extends ProjectEnvVariable {
+  value: string
+}
+
+interface VercelProject {
   name?: string
   environmentVariables: ProjectEnvVariable[]
   framework: string
@@ -24,13 +28,27 @@ type VercelProject = {
   }
 }
 
-export type DeployLandingPageBody = {
+export interface VercelProjectInput extends VercelProject {
+  name: string
+  environmentVariables: ProjectEnvVariableInput[]
+}
+
+type DeployLandingPageBody = {
   clientName?: string
   headshot: {
     content?: string
     fileExtension?: string
   }
   project: VercelProject
+}
+
+export type DeployLandingPageBodyInput = {
+  clientName: string
+  headshot: {
+    content: string
+    fileExtension: string
+  }
+  project: VercelProjectInput
 }
 
 type ShoppingCartContextProps = {
