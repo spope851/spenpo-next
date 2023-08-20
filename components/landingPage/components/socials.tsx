@@ -91,5 +91,3 @@ export const Socials: React.FC = () => {
     </>
   )
 }
-
-SocialBtn.displayName = "SocialBtn"

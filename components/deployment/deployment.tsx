@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect, useMemo } from "react"
 import { CircularProgress, Stack, SxProps, Typography } from "@mui/material"
 import CircleIcon from "@mui/icons-material/Circle"
 import { VercelReadyState, useDeployment } from "./useDeployment"
@@ -47,9 +47,32 @@ const readyStateColors: Record<VercelReadyState, string> = {
   BUILDING: "#5555ff",
 }
 
-export const Deployment: React.FC<{ app: string }> = ({ app }) => {
-  const { deploymentEvents, metadata } = useDeployment(app)
-  const { minutes, seconds } = useStopwatch({ autoStart: true })
+export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
+  id,
+  createdAt,
+}) => {
+  const { deploymentEvents, metadata } = useDeployment(id)
+
+  const offsetTimestamp = useMemo(() => {
+    const now = Number(new Date())
+    let diff = now
+    if (metadata?.buildingAt) {
+      diff -= metadata.buildingAt
+    } else {
+      diff -= createdAt
+    }
+    return new Date(now + diff)
+  }, [createdAt, metadata?.buildingAt])
+
+  const { minutes, seconds, reset } = useStopwatch({
+    autoStart: true,
+    offsetTimestamp,
+  })
+
+  useEffect(() => {
+    reset(offsetTimestamp)
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [offsetTimestamp])
 
   return (
     <Stack m={5} rowGap={3}>
@@ -71,17 +94,18 @@ export const Deployment: React.FC<{ app: string }> = ({ app }) => {
           metadata?.ready &&
           metadata.createdAt ? (
             <Typography>{`${(
-              (metadata?.ready - metadata?.createdAt) /
+              (metadata?.ready - metadata?.buildingAt) /
               1000 /
               60
             ).toFixed()}m ${(
-              ((metadata?.ready - metadata?.createdAt) % 1) *
+              ((metadata?.ready - metadata?.buildingAt) % 1) *
               60
             ).toFixed()}s`}</Typography>
           ) : (
             <Typography>
               <CircularProgress style={{ height: 12, width: 12, color: "#000" }} />
               <Typography
+                suppressHydrationWarning
                 component="span"
                 ml={1}
               >{`${minutes}m ${seconds}s`}</Typography>
@@ -91,7 +115,7 @@ export const Deployment: React.FC<{ app: string }> = ({ app }) => {
         <Stack sx={METADATA_SX}>
           <SmallHeader>Domains</SmallHeader>
           {metadata?.alias.map((alias) => (
-            <Typography>
+            <Typography key={alias}>
               <NetTabLink url={alias} />
             </Typography>
           ))}
@@ -110,7 +134,7 @@ export const Deployment: React.FC<{ app: string }> = ({ app }) => {
           (event) =>
             event.payload?.text &&
             event.created && (
-              <Stack direction="row" columnGap={5}>
+              <Stack direction="row" columnGap={5} key={event.payload.id}>
                 <DeploymentDate date={event.created} />
                 <Typography component="span">{event.payload.text}</Typography>
               </Stack>

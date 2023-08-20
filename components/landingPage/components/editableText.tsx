@@ -24,13 +24,14 @@ export const EditableText: React.FC<{
   const { SECONDARY_ACCENT_COLOR, editable } = useContext(LandingPageContext)
   const [edit, setEdit] = useState(false)
   const [editableText, setEditableText] = useState<string | undefined>(
-    getSet?.useGetter()
+    getSet?.getter()
   )
 
   const confirm = useCallback(() => {
     if (editableText) getSet?.setter(editableText)
     else setEditableText(text)
     setEdit(false)
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [editableText])
 
   useEffect(() => {
@@ -38,10 +39,12 @@ export const EditableText: React.FC<{
       confirm()
       confirmEvent[1](false)
     }
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [confirmEvent])
 
   useEffect(() => {
     if (editActionStatement) editActionStatement[1](edit)
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [edit])
 
   return edit ? (

@@ -27,3 +27,5 @@ export const SocialBtn: React.FC<{ url: string; color: string }> = forwardRef(
     )
   }
 )
+
+SocialBtn.displayName = "SocialBtn"

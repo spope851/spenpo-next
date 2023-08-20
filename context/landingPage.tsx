@@ -70,21 +70,19 @@ export const LandingPageContextProvider: React.FC<{
   const editActionStatement = useState(false)
   const editDestination = useState(false)
 
-  const ACCENT_COLOR = cms?.accentColor.useGetter() || accentColor
+  const ACCENT_COLOR = cms?.accentColor.getter() || accentColor
   const SECONDARY_ACCENT_COLOR =
-    cms?.secondaryAccentColor.useGetter() || secondaryAccentColor
-  const ACTION_STATEMENT = cms ? cms.actionStatement.useGetter() : actionStatement
-  const ACTION_DESTINATION = cms
-    ? cms.actionDestination.useGetter()
-    : actionDestination
-  const BACKGROUND_IMAGE = cms?.backgroundImage.useGetter() || backgroundImage
-  const BACKGROUND_COLOR = cms?.backgroundColor.useGetter() || backgroundColor
-  const HEADSHOT_SRC = cms ? cms.headshotSrc.useGetter() : headshotSrc
-  const TITLE = cms ? cms.title.useGetter() : title
-  const NAME = cms ? cms.name.useGetter() : name
-  const SUBTITLE = cms ? cms.subtitle.useGetter() : subtitle
-  const SOCIAL_URLS = cms?.socialUrls.useGetter() || socialUrls
-  const LINK_NEW_TAB = cms ? cms.linkNewTab.useGetter() : linkNewTab
+    cms?.secondaryAccentColor.getter() || secondaryAccentColor
+  const ACTION_STATEMENT = cms ? cms.actionStatement.getter() : actionStatement
+  const ACTION_DESTINATION = cms ? cms.actionDestination.getter() : actionDestination
+  const BACKGROUND_IMAGE = cms?.backgroundImage.getter() || backgroundImage
+  const BACKGROUND_COLOR = cms?.backgroundColor.getter() || backgroundColor
+  const HEADSHOT_SRC = cms ? cms.headshotSrc.getter() : headshotSrc
+  const TITLE = cms ? cms.title.getter() : title
+  const NAME = cms ? cms.name.getter() : name
+  const SUBTITLE = cms ? cms.subtitle.getter() : subtitle
+  const SOCIAL_URLS = cms?.socialUrls.getter() || socialUrls
+  const LINK_NEW_TAB = cms ? cms.linkNewTab.getter() : linkNewTab
 
   const TopComponents = useMemo(() => {
     if (!hideButtons[0]) return topComponents

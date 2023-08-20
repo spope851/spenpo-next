@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react"
-import {
-  getDeployment,
-  getDeploymentEvents,
-  getProjectDeployments,
-} from "@/services/vercel"
+import { getDeployment, getDeploymentEvents } from "@/services/vercel"
 
 type DeploymentEvent = {
   type?: string
@@ -36,6 +32,7 @@ type Deployment = {
   ready: number
   readyState: VercelReadyState
   inspectorUrl: string
+  buildingAt: number
 }
 
 type UseDeploymentProps = {
@@ -43,22 +40,22 @@ type UseDeploymentProps = {
   metadata?: Deployment
 }
 
-export const useDeployment = (app: string): UseDeploymentProps => {
+export const useDeployment = (id: string): UseDeploymentProps => {
   const [deploymentEvents, setDeploymentEvents] = useState<DeploymentEvent[]>([])
   const [metadata, setMetadata] = useState<Deployment>()
-  const [deploymentId, setDeploymentId] = useState<string>()
+  const [error, setError] = useState()
 
   useEffect(() => {
     if (
-      deploymentId &&
-      metadata &&
-      !["READY", "CANCELED", "ERROR"].includes(metadata.readyState)
+      !["READY", "CANCELED", "ERROR"].includes(metadata?.readyState || "") &&
+      !error
     ) {
       const pollingId = window.setInterval(
         () =>
-          getDeployment(deploymentId).then(async (res) => {
+          getDeployment(id).then(async (res) => {
             const data = await res.json()
-            setMetadata(data)
+            if (data.error) setError(data.error)
+            else setMetadata(data)
           }),
         3000
       )
@@ -67,81 +64,63 @@ export const useDeployment = (app: string): UseDeploymentProps => {
         clearInterval(pollingId)
       }
     }
-  }, [metadata, deploymentId])
+  }, [metadata, id, error])
 
   useEffect(() => {
-    if (!deploymentId) {
-      const pollingId = window.setInterval(async () => {
-        // fetch deployment
-        const projectDeployments = await getProjectDeployments(app).catch((err) => {
-          console.log(err)
-          return err
-        })
-
-        const deployments = await projectDeployments.json()
-
-        if (deployments.deployments.length > 0) {
-          const latestDeployment = await getDeployment(
-            deployments.deployments[0].uid
-          ).catch((err) => {
-            console.log(err)
-            return err
-          })
-          const deployment = await latestDeployment.json()
-          if (!["READY", "CANCELED", "ERROR"].includes(deployment.readyState)) {
-            setDeploymentId(deployments.deployments[0].uid)
-            setMetadata(deployment)
-          }
+    // fetch deployment events
+    const fetchData = async () => {
+      try {
+        const response = await getDeploymentEvents(id)
+        if (!response.ok || !response.body) {
+          throw response.statusText
         }
-      }, 1000)
 
-      return () => {
-        clearInterval(pollingId)
-      }
-    } else {
-      // fetch deployment events
-      const fetchData = async () => {
-        try {
-          const response = await getDeploymentEvents(deploymentId)
-          if (!response.ok || !response.body) {
-            throw response.statusText
+        const reader = response.body.getReader()
+        const decoder = new TextDecoder()
+
+        while (true) {
+          const { value, done } = await reader.read()
+
+          if (
+            done ||
+            ["READY", "CANCELED", "ERROR"].includes(metadata?.readyState || "")
+          ) {
+            break
           }
 
-          const reader = response.body.getReader()
-          const decoder = new TextDecoder()
+          const decodedChunk = decoder.decode(value, { stream: true })
 
-          while (true) {
-            const { value, done } = await reader.read()
-
-            if (done || metadata?.readyState === "READY") {
-              break
-            }
-
-            const decodedChunk = decoder.decode(value, { stream: true })
-
-            setDeploymentEvents((prev) => {
-              return [
-                ...prev,
-                ...decodedChunk.split(`\n`).map((str) => {
-                  if (str.length > 2) {
-                    try {
-                      return JSON.parse(str)
-                    } catch (err) {
-                      console.log(err)
-                    }
+          setDeploymentEvents((prev) => {
+            const ids = deploymentEvents.map((event) => event.payload?.id)
+            return [
+              ...prev,
+              ...decodedChunk.split(`\n`).map((str) => {
+                if (str.length > 2) {
+                  try {
+                    return JSON.parse(str)
+                  } catch (err) {
+                    console.log(err)
                   }
-                }),
-              ].filter((event) => !!event)
-            })
-          }
-        } catch (error) {
-          console.log(error)
+                }
+              }),
+            ]
+              .filter((event) => !!event)
+              .reduce((p: DeploymentEvent[], c) => {
+                const ids = p.map((event) => event.payload?.id)
+                if (!ids.includes(c.payload.id)) p.push(c)
+                return p
+              }, [])
+              .filter((event) => !ids.includes(event.payload?.id))
+          })
         }
+      } catch (error) {
+        console.log(error)
       }
-
-      fetchData()
     }
-  }, [deploymentId])
+
+    fetchData()
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [])
 
   return { deploymentEvents, metadata }
 }

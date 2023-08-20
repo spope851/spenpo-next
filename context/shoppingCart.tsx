@@ -1,4 +1,4 @@
-import { LandingCms } from "@/components/landingPage"
+import { CmsGetSet, LandingCms } from "@/components/landingPage"
 import { useLandEnvVars } from "@/hooks/useLandEnvVars"
 import { randBase64 } from "@/utils/randStr"
 import { useSession } from "next-auth/react"
@@ -69,8 +69,8 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const session = useSession()
   const [projectName, setProjectName] = useState<string>()
   const [clientName, setClientName] = useState("your name")
-  const [title, setTitle] = useState("your title")
-  const [subtitle, setSubtitle] = useState<string>("something interesting about you")
+  const title = useState("your title")
+  const subtitle = useState<string>("something interesting about you")
   const [socialUrls, setSocialUrls] = useState<string | undefined>(
     JSON.stringify([
       "https://twitter.com",
@@ -85,23 +85,21 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       "https://spotify.com",
     ])
   )
-  const [actionDestination, setActionDestination] = useState<string>()
-  const [actionStatement, setActionStatement] = useState<string | undefined>(
-    "your action statement"
-  )
-  const [headshotContent, setHeadshotContent] = useState<string>()
-  const [headshotFileName, setHeadshotFileName] = useState("headshot.jpeg")
-  const [headshotSrc, setHeadshotSrc] = useState<string>()
-  const [backgroundColor, setBackgroundColor] = useState<string>()
-  const [backgroundImage, setBackgroundImage] = useState<string>()
-  const [accentColor, setAccentColor] = useState<string>()
-  const [secondaryAccentColor, setSecondaryAccentColor] = useState<string>()
+  const actionDestination = useState<string>()
+  const actionStatement = useState<string | undefined>("your action statement")
+  const headshotContent = useState<string>()
+  const headshotFileName = useState("headshot.jpeg")
+  const headshotSrc = useState<string>()
+  const backgroundColor = useState<string>()
+  const backgroundImage = useState<string>()
+  const accentColor = useState<string>()
+  const secondaryAccentColor = useState<string>()
   const [linkNewTab, setLinkNewTab] = useState("true")
   const [password, setPassword] = useState<string>()
-  const [secret] = useState(randBase64(32))
+  const secret = useState(randBase64(32))
 
   const nameGetSet: LandingCms["name"] = {
-    useGetter: () => useMemo(() => clientName, [clientName]),
+    getter: () => clientName,
     setter: (name: string) => {
       setClientName(name)
       setProjectName(
@@ -114,91 +112,46 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const linkNewTabGetSet: LandingCms["linkNewTab"] = {
-    useGetter: () => useMemo(() => JSON.parse(linkNewTab), [linkNewTab]),
+    getter: () => JSON.parse(linkNewTab),
     setter: (newTab: boolean) => {
       setLinkNewTab(JSON.stringify(newTab))
     },
   }
 
   const socialsGetSet: LandingCms["socialUrls"] = {
-    useGetter: () => useMemo(() => JSON.parse(socialUrls || "[]"), [socialUrls]),
+    getter: () => JSON.parse(socialUrls || "[]"),
     setter: (socials?: string[]) => {
       setSocialUrls(JSON.stringify(socials))
     },
   }
 
-  const titleGetSet: LandingCms["title"] = {
-    useGetter: () => useMemo(() => title, [title]),
-    setter: setTitle,
-  }
-
-  const subtitleGetSet: LandingCms["subtitle"] = {
-    useGetter: () => useMemo(() => subtitle, [subtitle]),
-    setter: setSubtitle,
-  }
-
-  const actionDestinationGetSet: LandingCms["actionDestination"] = {
-    useGetter: () => useMemo(() => actionDestination, [actionDestination]),
-    setter: setActionDestination,
-  }
-
-  const actionStatementGetSet: LandingCms["actionStatement"] = {
-    useGetter: () => useMemo(() => actionStatement, [actionStatement]),
-    setter: setActionStatement,
-  }
-
-  const headshotContentGetSet: LandingCms["headshotContent"] = {
-    useGetter: () => useMemo(() => headshotContent, [headshotContent]),
-    setter: setHeadshotContent,
-  }
-
-  const headshotFileNameGetSet: LandingCms["headshotFileName"] = {
-    useGetter: () => useMemo(() => headshotFileName, [headshotFileName]),
-    setter: setHeadshotFileName,
-  }
-
-  const headshotSrcGetSet: LandingCms["headshotSrc"] = {
-    useGetter: () => useMemo(() => headshotSrc, [headshotSrc]),
-    setter: setHeadshotSrc,
-  }
-
-  const backgroundColorGetSet: LandingCms["backgroundColor"] = {
-    useGetter: () => useMemo(() => backgroundColor, [backgroundColor]),
-    setter: setBackgroundColor,
-  }
-
-  const backgroundImageGetSet: LandingCms["backgroundImage"] = {
-    useGetter: () => useMemo(() => backgroundImage, [backgroundImage]),
-    setter: setBackgroundImage,
-  }
-
-  const accentColorGetSet: LandingCms["accentColor"] = {
-    useGetter: () => useMemo(() => accentColor, [accentColor]),
-    setter: setAccentColor,
-  }
-
-  const secondaryAccentColorGetSet: LandingCms["secondaryAccentColor"] = {
-    useGetter: () => useMemo(() => secondaryAccentColor, [secondaryAccentColor]),
-    setter: setSecondaryAccentColor,
+  function getSet<T>([state, setState]: [
+    T,
+    Dispatch<SetStateAction<T>>
+  ]): CmsGetSet<T> {
+    return {
+      getter: () => state,
+      setter: setState,
+    }
   }
 
   const environmentVariables = useLandEnvVars({
-    NEXT_PUBLIC_TITLE: title,
+    NEXT_PUBLIC_TITLE: title[0],
     NEXT_PUBLIC_NAME: clientName,
-    NEXT_PUBLIC_SUBTITLE: subtitle,
+    NEXT_PUBLIC_SUBTITLE: subtitle[0],
     NEXT_PUBLIC_SOCIALS: socialUrls,
-    NEXT_PUBLIC_ACTION_STATEMENT: actionStatement,
-    NEXT_PUBLIC_HEADSHOT: headshotFileName,
-    NEXT_PUBLIC_ACTION: actionDestination,
-    NEXT_PUBLIC_BG_COLOR: backgroundColor,
-    NEXT_PUBLIC_BG_IMAGE: backgroundImage,
-    NEXT_PUBLIC_ACCENT_COLOR: accentColor,
-    NEXT_PUBLIC_SECONDARY_ACCENT_COLOR: secondaryAccentColor,
+    NEXT_PUBLIC_ACTION_STATEMENT: actionStatement[0],
+    NEXT_PUBLIC_HEADSHOT: headshotFileName[0],
+    NEXT_PUBLIC_ACTION: actionDestination[0],
+    NEXT_PUBLIC_BG_COLOR: backgroundColor[0],
+    NEXT_PUBLIC_BG_IMAGE: backgroundImage[0],
+    NEXT_PUBLIC_ACCENT_COLOR: accentColor[0],
+    NEXT_PUBLIC_SECONDARY_ACCENT_COLOR: secondaryAccentColor[0],
     NEXT_PUBLIC_HIDE_ADMIN: "false",
     NEXT_PUBLIC_LINK_NEW_TAB: linkNewTab,
     NEXT_AUTH_USERNAME: session.data?.user.email,
     NEXT_AUTH_PASSWORD: password,
-    NEXTAUTH_SECRET: secret,
+    NEXTAUTH_SECRET: secret[0],
   })
 
   const contextValue: ShoppingCartContextProps = useMemo(() => {
@@ -207,8 +160,8 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       deployLandingPageBody: {
         clientName,
         headshot: {
-          content: headshotContent,
-          fileName: headshotFileName,
+          content: headshotContent[0],
+          fileName: headshotFileName[0],
         },
         project: {
           name: projectName,
@@ -223,21 +176,38 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       landingCms: {
         name: nameGetSet,
         socialUrls: socialsGetSet,
-        title: titleGetSet,
-        subtitle: subtitleGetSet,
-        actionDestination: actionDestinationGetSet,
-        actionStatement: actionStatementGetSet,
-        headshotContent: headshotContentGetSet,
-        headshotFileName: headshotFileNameGetSet,
-        headshotSrc: headshotSrcGetSet,
-        backgroundColor: backgroundColorGetSet,
-        backgroundImage: backgroundImageGetSet,
-        accentColor: accentColorGetSet,
-        secondaryAccentColor: secondaryAccentColorGetSet,
+        title: getSet(title),
+        subtitle: getSet(subtitle),
+        actionDestination: getSet(actionDestination),
+        actionStatement: getSet(actionStatement),
+        headshotContent: getSet(headshotContent),
+        headshotFileName: getSet(headshotFileName),
+        headshotSrc: getSet(headshotSrc),
+        backgroundColor: getSet(backgroundColor),
+        backgroundImage: getSet(backgroundImage),
+        accentColor: getSet(accentColor),
+        secondaryAccentColor: getSet(secondaryAccentColor),
         linkNewTab: linkNewTabGetSet,
       },
     }
-  }, [headshotContent, headshotFileName, environmentVariables])
+  }, [
+    projectName,
+    clientName,
+    title,
+    subtitle,
+    socialUrls,
+    actionStatement,
+    actionDestination,
+    accentColor,
+    secondaryAccentColor,
+    backgroundColor,
+    backgroundImage,
+    linkNewTab,
+    headshotSrc,
+    headshotContent,
+    headshotFileName,
+    environmentVariables,
+  ])
 
   return (
     <ShoppingCartContext.Provider value={contextValue}>
