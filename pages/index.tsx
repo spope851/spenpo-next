@@ -1,5 +1,5 @@
 import React from "react"
-import { Landing } from "@/components/landing"
+import Landing from "@/components/landingPage"
 import { useRouter } from "next/router"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import { Button } from "@mui/material"
@@ -8,7 +8,7 @@ export default function Home() {
   const router = useRouter()
   return (
     <Landing
-      title="investor & entrepreneur"
+      title="developer & entrepreneur"
       name="Spencer Pope"
       subtitle="Building an unconventional life"
       socialUrls={[
@@ -19,9 +19,10 @@ export default function Home() {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionClick={() => router.push("/landing-demo")}
-      actionText="get a landing page like this one"
-      navigateAway={
+      actionDestination={"/landing-demo"}
+      actionStatement="get a landing page like this one"
+      linkNewTab={true}
+      topComponents={
         <Button
           endIcon={<ChevronRightIcon />}
           variant="contained"

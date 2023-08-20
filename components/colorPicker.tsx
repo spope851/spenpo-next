@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { useState } from "react"
 import { Box, Chip, Stack } from "@mui/material"
 import { ChromePicker } from "react-color"
 import CircleIcon from "@mui/icons-material/Circle"
@@ -18,7 +18,7 @@ const cover = {
 
 export const ColorPicker: React.FC<{
   label: string
-  color: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+  color: [string | undefined, (color?: string) => void]
   defaultColor: string
 }> = ({ label, color: [color, setColor], defaultColor }) => {
   const [showColorPicker, setShowColorPicker] = useState(false)

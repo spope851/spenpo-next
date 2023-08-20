@@ -42,7 +42,7 @@ const getMainTree = async (projectName: string) =>
 const createTree = async (
   projectName: string,
   mainTreeSha: string,
-  headshotExtension: string,
+  fileName: string,
   blobSha: string
 ) =>
   octokit.request("POST /repos/{owner}/{repo}/git/trees", {
@@ -51,7 +51,7 @@ const createTree = async (
     base_tree: mainTreeSha,
     tree: [
       {
-        path: `public/headshot.${headshotExtension}`,
+        path: `public/${fileName}`,
         mode: "100644",
         type: "blob",
         sha: blobSha || null,

@@ -1,34 +1,51 @@
 import React, { useContext, useState } from "react"
-import { Button } from "@mui/material"
+import { Button, Stack, TextField } from "@mui/material"
 import { ShoppingCartContext } from "@/context/shoppingCart"
-import { Deployment } from "@/components/deployment"
+import { Deployment } from "@/components/deployment/deployment"
+import { useSession } from "next-auth/react"
 
 export default function Checkout() {
-  const { deployLandingPageBody } = useContext(ShoppingCartContext)
+  const { deployLandingPageBody, setPassword } = useContext(ShoppingCartContext)
   const [loading, setLoading] = useState(false)
-  const [hideDeployment, setHideDeployment] = useState(true)
-  console.log(deployLandingPageBody)
+  const [app, setApp] = useState<string>()
+  const session = useSession()
 
   return (
     <>
-      {hideDeployment && (
-        <Button
-          onClick={async () => {
-            setLoading(true)
-            await fetch("/api/deployLanding", {
-              body: JSON.stringify(deployLandingPageBody),
-              method: "post",
-            }).then((res) => res.status === 200 && setHideDeployment(false))
-          }}
-          variant="contained"
-          sx={{
-            m: "auto",
-          }}
-        >
-          {loading ? "...deploying" : "deploy"}
-        </Button>
+      {!app && (
+        <Stack m="auto" rowGap={1}>
+          <TextField
+            label="password"
+            type="password"
+            onChange={async (e) => {
+              const req = await fetch("api/hashString", {
+                method: "post",
+                body: JSON.stringify({ string: e.target.value }),
+              })
+              const password = await req.json()
+              setPassword(password.hash)
+            }}
+          />
+          <Button
+            onClick={async () => {
+              setLoading(true)
+              const deploy = await fetch("/api/deployLanding", {
+                body: JSON.stringify(deployLandingPageBody),
+                method: "post",
+              })
+              if (deploy.status === 200) {
+                const data = await deploy.json()
+                setApp(data.vercel.app)
+              }
+            }}
+            variant="contained"
+            disabled={session.status !== "authenticated"}
+          >
+            {loading ? "...processing" : "deploy"}
+          </Button>
+        </Stack>
       )}
-      {!hideDeployment && <Deployment app={deployLandingPageBody.project.name} />}
+      {app && <Deployment app={app} />}
     </>
   )
 }
