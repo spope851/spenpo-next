@@ -162,7 +162,7 @@ export default async function handler(
           $3
         ) returning *;
       `,
-        [session?.user.email, 1, newBody]
+        [session?.user.id, 1, newBody]
       )
       .catch((err: unknown) => {
         console.log(8, "catch", err)

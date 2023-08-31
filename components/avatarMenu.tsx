@@ -14,14 +14,15 @@ import { useRouter } from "next/router"
 import React, { useState } from "react"
 // import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
 import { signOut, useSession } from "next-auth/react"
-import Link from "next/link"
 import Image from "next/image"
+import { useCachedSignin } from "@/hooks/useCachedSignin"
 
 const AvatarMenu: React.FC = () => {
+  const { routeToSignin } = useCachedSignin()
   const { data: session, status } = useSession()
-  const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const router = useRouter()
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -87,7 +88,11 @@ const AvatarMenu: React.FC = () => {
           {status === "authenticated" ? (
             <Typography sx={{ ml: 1 }}>Signed in as {session.user.email}</Typography>
           ) : (
-            <Button sx={{ ml: 1 }} variant="outlined" href="/api/auth/signin">
+            <Button
+              sx={{ ml: 1 }}
+              variant="outlined"
+              onClick={() => routeToSignin()}
+            >
               Sign in
             </Button>
           )}

@@ -23,9 +23,7 @@ export const EditableText: React.FC<{
 }> = ({ label, getSet, sx, text, hideBtn, confirmEvent, editActionStatement }) => {
   const { SECONDARY_ACCENT_COLOR, editable } = useContext(LandingPageContext)
   const [edit, setEdit] = useState(false)
-  const [editableText, setEditableText] = useState<string | undefined>(
-    getSet?.getter()
-  )
+  const [editableText, setEditableText] = useState<string | undefined>(text)
 
   const confirm = useCallback(() => {
     if (editableText) getSet?.setter(editableText)

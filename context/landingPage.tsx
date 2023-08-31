@@ -1,15 +1,19 @@
 import { LandingCms, LandingProps } from "@/components/landingPage"
+import { DEFAULT_PROPS } from "@/components/landingPage/constants"
 import { SxProps } from "@mui/material"
 import React, {
   Dispatch,
   ReactNode,
   SetStateAction,
   createContext,
+  useContext,
   useMemo,
   useState,
 } from "react"
+import { UnAuthContext } from "./unAuth"
+import { useSession } from "next-auth/react"
 
-type LandingPageContextProps = {
+export type LandingPageContextProps = {
   hideButtons: [boolean, Dispatch<SetStateAction<boolean>>]
   newSocial: [string, Dispatch<SetStateAction<string>>]
   hideNewSocial: [boolean, Dispatch<SetStateAction<boolean>>]
@@ -44,12 +48,12 @@ export const LandingPageContextProvider: React.FC<{
 }> = ({
   children,
   landingProps: {
-    accentColor = "#4f86f7",
-    secondaryAccentColor = "#5FA052",
+    accentColor,
+    secondaryAccentColor,
     actionStatement,
     actionDestination,
-    backgroundImage = "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20preserveAspectRatio%3D%22none%22%3E%20%3Cstyle%3E%20path%20%7B%20fill%3A%20none%3B%20stroke-width%3A%201.01px%3B%20stroke%3A%20rgba(0,0,0,0.09)%3B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D,20%3C%2Fstyle%3E%20%3Cpath%20d%3D%22M448%2C512c0-128-128-128-128-256S448%2C128%2C448%2C0%22%20%2F%3E%20%3Cpath%20d%3D%22M192%2C512c0-128-128-128-128-256S192%2C128%2C192%2C0%22%20%2F%3E%3C%2Fsvg%3E",
-    backgroundColor = "#E6E1DF",
+    backgroundImage,
+    backgroundColor,
     headshotSrc,
     title,
     name,
@@ -59,8 +63,11 @@ export const LandingPageContextProvider: React.FC<{
     topComponents,
     editable,
     cms,
+    cache,
   },
 }) => {
+  const { redisId } = useContext(UnAuthContext)
+  const session = useSession()
   const hideButtons = useState(false)
   const newSocial = useState("")
   const hideNewSocial = useState(true)
@@ -70,19 +77,55 @@ export const LandingPageContextProvider: React.FC<{
   const editActionStatement = useState(false)
   const editDestination = useState(false)
 
-  const ACCENT_COLOR = cms?.accentColor.getter() || accentColor
+  const cacheOrDefault = (key: "LINK_NEW_TAB" | "SOCIAL_URLS") => {
+    if (!!cache?.[key]) {
+      try {
+        return JSON.parse(String(cache[key]))
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    return DEFAULT_PROPS[key]
+  }
+
+  const ACCENT_COLOR =
+    cms?.accentColor.getter() ||
+    accentColor ||
+    cache?.ACCENT_COLOR ||
+    DEFAULT_PROPS.ACCENT_COLOR
   const SECONDARY_ACCENT_COLOR =
-    cms?.secondaryAccentColor.getter() || secondaryAccentColor
-  const ACTION_STATEMENT = cms ? cms.actionStatement.getter() : actionStatement
-  const ACTION_DESTINATION = cms ? cms.actionDestination.getter() : actionDestination
-  const BACKGROUND_IMAGE = cms?.backgroundImage.getter() || backgroundImage
-  const BACKGROUND_COLOR = cms?.backgroundColor.getter() || backgroundColor
-  const HEADSHOT_SRC = cms ? cms.headshotSrc.getter() : headshotSrc
-  const TITLE = cms ? cms.title.getter() : title
-  const NAME = cms ? cms.name.getter() : name
-  const SUBTITLE = cms ? cms.subtitle.getter() : subtitle
-  const SOCIAL_URLS = cms?.socialUrls.getter() || socialUrls
-  const LINK_NEW_TAB = cms ? cms.linkNewTab.getter() : linkNewTab
+    cms?.secondaryAccentColor.getter() ||
+    secondaryAccentColor ||
+    cache?.SECONDARY_ACCENT_COLOR ||
+    DEFAULT_PROPS.SECONDARY_ACCENT_COLOR
+  const ACTION_STATEMENT =
+    cms?.actionStatement.getter() ||
+    actionStatement ||
+    cache?.ACTION_STATEMENT ||
+    DEFAULT_PROPS.ACTION_STATEMENT
+  const ACTION_DESTINATION =
+    cms?.actionDestination.getter() || actionDestination || cache?.ACTION_DESTINATION
+  const BACKGROUND_IMAGE =
+    cms?.backgroundImage.getter() ||
+    backgroundImage ||
+    cache?.BACKGROUND_IMAGE ||
+    DEFAULT_PROPS.BACKGROUND_IMAGE
+  const BACKGROUND_COLOR =
+    cms?.backgroundColor.getter() ||
+    backgroundColor ||
+    cache?.BACKGROUND_COLOR ||
+    DEFAULT_PROPS.BACKGROUND_COLOR
+  const HEADSHOT_SRC =
+    cms?.headshotSrc.getter() || headshotSrc || cache?.HEADSHOT_SRC
+  const TITLE = cms?.title.getter() || title || cache?.TITLE || DEFAULT_PROPS.TITLE
+  const NAME = cms?.name.getter() || name || cache?.NAME || DEFAULT_PROPS.NAME
+  const SUBTITLE =
+    cms?.subtitle.getter() || subtitle || cache?.SUBTITLE || DEFAULT_PROPS.SUBTITLE
+  const SOCIAL_URLS =
+    cms?.socialUrls.getter() || socialUrls || cacheOrDefault("SOCIAL_URLS")
+
+  const LINK_NEW_TAB =
+    cms?.linkNewTab.getter() || linkNewTab || cacheOrDefault("LINK_NEW_TAB")
 
   const TopComponents = useMemo(() => {
     if (!hideButtons[0]) return topComponents
@@ -99,15 +142,7 @@ export const LandingPageContextProvider: React.FC<{
   }
 
   const contextValue: LandingPageContextProps = useMemo(() => {
-    return {
-      hideButtons,
-      newSocial,
-      hideNewSocial,
-      newBackground,
-      hideNewBackground,
-      confirmActionStatement,
-      editActionStatement,
-      editDestination,
+    const cachable = {
       ACCENT_COLOR,
       SECONDARY_ACCENT_COLOR,
       ACTION_STATEMENT,
@@ -118,8 +153,47 @@ export const LandingPageContextProvider: React.FC<{
       TITLE,
       NAME,
       SUBTITLE,
-      SOCIAL_URLS,
       LINK_NEW_TAB,
+    }
+
+    const cache = {
+      ...cachable,
+      SOCIAL_URLS: JSON.stringify(SOCIAL_URLS),
+      hideButtons: hideButtons[0],
+      newSocial: newSocial[0],
+      hideNewSocial: hideNewSocial[0],
+      newBackground: newBackground[0],
+      hideNewBackground: hideNewBackground[0],
+      confirmActionStatement: confirmActionStatement[0],
+      editActionStatement: editActionStatement[0],
+      editDestination: editDestination[0],
+    }
+
+    if (session.status === "unauthenticated") {
+      ;(async () =>
+        fetch("/api/cache/unAuthLanding", {
+          body: JSON.stringify({ cache, id: redisId }),
+          method: "post",
+        }))()
+    } else if (session.status === "authenticated") {
+      ;(async () =>
+        fetch("/api/cache/authLanding", {
+          body: JSON.stringify(cache),
+          method: "post",
+        }))()
+    }
+
+    return {
+      ...cachable,
+      SOCIAL_URLS,
+      hideButtons,
+      newSocial,
+      hideNewSocial,
+      newBackground,
+      hideNewBackground,
+      confirmActionStatement,
+      editActionStatement,
+      editDestination,
       TopComponents,
       ADD_BTN_SX,
       cms,
@@ -146,6 +220,10 @@ export const LandingPageContextProvider: React.FC<{
     SUBTITLE,
     SOCIAL_URLS,
     LINK_NEW_TAB,
+    TopComponents,
+    ADD_BTN_SX,
+    cms,
+    editable,
   ])
 
   return (

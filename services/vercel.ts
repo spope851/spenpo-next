@@ -11,6 +11,12 @@ const createProject = async (project: VercelProjectInput) =>
     method: "post",
   })
 
+const getProject = async (name: string) =>
+  fetch(`https://api.vercel.com/v9/projects/${name}`, {
+    headers,
+    method: "get",
+  })
+
 const getProjectDeployments = async (app: string) =>
   fetch(`https://api.vercel.com/v2/deployments?app=${app}`, {
     headers,
@@ -66,6 +72,7 @@ const getDeploymentEvents = async (deploymentId: string) =>
 
 export {
   createProject,
+  getProject,
   getProjectDeployments,
   getDeploymentAliases,
   redeployProject,

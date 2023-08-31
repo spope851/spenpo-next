@@ -9,7 +9,13 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material"
-import React, { ChangeEvent, ElementType, forwardRef, useContext } from "react"
+import React, {
+  ChangeEvent,
+  ElementType,
+  forwardRef,
+  useContext,
+  useEffect,
+} from "react"
 import AdsClickIcon from "@mui/icons-material/AdsClick"
 import { useRouter } from "next/router"
 import { EditableText } from "./editableText"
@@ -156,18 +162,24 @@ export const ActionBtn: React.FC = () => {
                 }}
               >
                 <FormLabel>Link to:</FormLabel>
-                <RadioGroup
-                  row
-                  value={LINK_NEW_TAB}
-                  onChange={(e) => cms?.linkNewTab.setter(Boolean(e.target.value))}
-                >
-                  <Stack direction="row" alignItems="center">
-                    <FormLabel>New tab</FormLabel>
-                    <Radio checked={!!LINK_NEW_TAB} size="small" color="default" />
-                    <FormLabel>Same tab</FormLabel>
-                    <Radio checked={!LINK_NEW_TAB} size="small" color="default" />
-                  </Stack>
-                </RadioGroup>
+                <Stack direction="row" alignItems="center">
+                  <FormLabel>New tab</FormLabel>
+                  <Radio
+                    checked={!!LINK_NEW_TAB}
+                    onClick={() => cms?.linkNewTab.setter(true)}
+                    size="small"
+                    color="default"
+                  />
+                  <FormLabel>Same tab</FormLabel>
+                  <Radio
+                    checked={!LINK_NEW_TAB}
+                    onClick={() => {
+                      cms?.linkNewTab.setter(false)
+                    }}
+                    size="small"
+                    color="default"
+                  />
+                </Stack>
               </Stack>
               <IconButton
                 sx={{ my: "auto" }}

@@ -11,6 +11,17 @@ import React, {
   useState,
 } from "react"
 
+const breakDownString = (key: string, value: string) => {
+  return value
+    .match(/.{1,500}/g)
+    ?.reduce((p: { [key: string]: string }, c: string, idx: number) => {
+      return {
+        ...p,
+        [`${key}_${idx}`]: c,
+      }
+    }, {})
+}
+
 interface ProjectEnvVariable {
   key: string
   target: string
@@ -55,9 +66,18 @@ export type DeployLandingPageBodyInput = {
   project: VercelProjectInput
 }
 
+interface PaymentIntentMetadata {
+  clientName?: string
+  projectName?: string
+  headshotExtension?: string
+  environmentVariables: ProjectEnvVariableInput[]
+}
+
 type ShoppingCartContextProps = {
+  file: [File | undefined, Dispatch<SetStateAction<File | undefined>>]
   setPassword: Dispatch<SetStateAction<string | undefined>>
-  deployLandingPageBody: DeployLandingPageBody
+  passwordSet: boolean
+  paymentIntentMetadata: PaymentIntentMetadata
   landingCms: LandingCms
 }
 
@@ -68,39 +88,26 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const session = useSession()
   const [projectName, setProjectName] = useState<string>()
-  const [clientName, setClientName] = useState("your name")
-  const title = useState("your title")
-  const subtitle = useState<string>("something interesting about you")
-  const [socialUrls, setSocialUrls] = useState<string | undefined>(
-    JSON.stringify([
-      "https://twitter.com",
-      "https://www.instagram.com",
-      "https://www.facebook.com",
-      "https://www.youtube.com",
-      "https://www.twitch.tv",
-      "mailto:e@mail.com",
-      "https://github.com",
-      "https://reddit.com",
-      "https://whatsapp.com",
-      "https://spotify.com",
-    ])
-  )
+  const [clientName, setClientName] = useState<string>()
+  const title = useState<string>()
+  const subtitle = useState<string>()
+  const [socialUrls, setSocialUrls] = useState<string>()
   const actionDestination = useState<string>()
-  const actionStatement = useState<string | undefined>("your action statement")
-  const headshotContent = useState<string>()
-  const headshotFileName = useState("headshot.jpeg")
+  const actionStatement = useState<string>()
   const headshotSrc = useState<string>()
   const backgroundColor = useState<string>()
   const backgroundImage = useState<string>()
   const accentColor = useState<string>()
   const secondaryAccentColor = useState<string>()
-  const [linkNewTab, setLinkNewTab] = useState("true")
+  const [linkNewTab, setLinkNewTab] = useState<string>()
   const [password, setPassword] = useState<string>()
   const secret = useState(randBase64(32))
 
+  const file = useState<File>()
+
   const nameGetSet: LandingCms["name"] = {
     getter: () => clientName,
-    setter: (name: string) => {
+    setter: (name?: string) => {
       setClientName(name)
       setProjectName(
         `${name
@@ -112,14 +119,18 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   }
 
   const linkNewTabGetSet: LandingCms["linkNewTab"] = {
-    getter: () => JSON.parse(linkNewTab),
+    getter: () => {
+      if (!!linkNewTab) return JSON.parse(linkNewTab)
+    },
     setter: (newTab: boolean) => {
       setLinkNewTab(JSON.stringify(newTab))
     },
   }
 
   const socialsGetSet: LandingCms["socialUrls"] = {
-    getter: () => JSON.parse(socialUrls || "[]"),
+    getter: () => {
+      if (socialUrls) return JSON.parse(socialUrls)
+    },
     setter: (socials?: string[]) => {
       setSocialUrls(JSON.stringify(socials))
     },
@@ -141,7 +152,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXT_PUBLIC_SUBTITLE: subtitle[0],
     NEXT_PUBLIC_SOCIALS: socialUrls,
     NEXT_PUBLIC_ACTION_STATEMENT: actionStatement[0],
-    NEXT_PUBLIC_HEADSHOT: headshotFileName[0],
+    NEXT_PUBLIC_HEADSHOT: `headshot.${file[0]?.name.split(".").at(-1)}`,
     NEXT_PUBLIC_ACTION: actionDestination[0],
     NEXT_PUBLIC_BG_COLOR: backgroundColor[0],
     NEXT_PUBLIC_BG_IMAGE: backgroundImage[0],
@@ -158,22 +169,14 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const contextValue: ShoppingCartContextProps = useMemo(() => {
     return {
+      file,
       setPassword,
-      deployLandingPageBody: {
+      passwordSet: !!password,
+      paymentIntentMetadata: {
         clientName,
-        headshot: {
-          content: headshotContent[0],
-          fileName: headshotFileName[0],
-        },
-        project: {
-          name: projectName,
-          environmentVariables,
-          framework: "nextjs",
-          gitRepository: {
-            repo: `spenpo-landing/${projectName}`,
-            type: "github",
-          },
-        },
+        projectName,
+        headshotExtension: file[0]?.name.split(".").at(-1),
+        environmentVariables,
       },
       landingCms: {
         name: nameGetSet,
@@ -182,8 +185,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         subtitle: getSet(subtitle),
         actionDestination: getSet(actionDestination),
         actionStatement: getSet(actionStatement),
-        headshotContent: getSet(headshotContent),
-        headshotFileName: getSet(headshotFileName),
         headshotSrc: getSet(headshotSrc),
         backgroundColor: getSet(backgroundColor),
         backgroundImage: getSet(backgroundImage),
@@ -206,9 +207,9 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     backgroundImage,
     linkNewTab,
     headshotSrc,
-    headshotContent,
-    headshotFileName,
     environmentVariables,
+    password,
+    file,
   ])
 
   return (

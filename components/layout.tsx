@@ -10,7 +10,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const active = (pathname.split("/")[1] as Tabs) || "root"
 
-  const hideLayoutPaths = ["/landing-demo", "/"]
+  const hideLayoutPaths = ["/products/landing-page/demo", "/"]
 
   return (
     <Box

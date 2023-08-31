@@ -18,11 +18,11 @@ const cloneRepo = async (projectName: string, clientName: string) =>
     },
   })
 
-const createBlob = async (projectName: string, headshot: string) =>
+const createBlob = async (projectName: string, headshotBase64: string) =>
   octokit.request("POST /repos/{owner}/{repo}/git/blobs", {
     owner: "spenpo-landing",
     repo: projectName,
-    content: Buffer.from(headshot, "binary").toString("base64"),
+    content: headshotBase64,
     encoding: "base64",
     headers: {
       "X-GitHub-Api-Version": "2022-11-28",

@@ -4,9 +4,9 @@ import { useRouter } from "next/router"
 
 export default function Deployments() {
   const router = useRouter()
-  const id = router.query.id as string
+  const id = router.query.deploymentId as string
 
-  const createdAt = Number(router.query.createdAt)
+  const createdAt = router.query.createdAt as number | undefined
 
-  if (createdAt) return <Deployment id={id} createdAt={createdAt} />
+  return <Deployment id={id} createdAt={createdAt} />
 }

@@ -6,6 +6,7 @@ import { Button } from "@mui/material"
 
 export default function Home() {
   const router = useRouter()
+
   return (
     <Landing
       title="developer & entrepreneur"
@@ -19,7 +20,7 @@ export default function Home() {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionDestination={"/landing-demo"}
+      actionDestination={"products/landing-page/demo"}
       actionStatement="get a landing page like this one"
       linkNewTab={true}
       topComponents={

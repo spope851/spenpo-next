@@ -98,9 +98,9 @@ export default function Home({ content }: { content: Content }) {
             <ContactForm />
           </ContactWrapper>
         </LeftContentWrapper>
-        <TwitterFeedWrapper id="twitter-feed-wrapper">
+        {/* <TwitterFeedWrapper id="twitter-feed-wrapper">
           <TwitterFeed height={twitterHeight} />
-        </TwitterFeedWrapper>
+        </TwitterFeedWrapper> */}
       </Box>
     </>
   )

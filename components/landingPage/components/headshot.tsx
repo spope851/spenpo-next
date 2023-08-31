@@ -3,10 +3,14 @@ import React, { useContext } from "react"
 import { LandingPageContext } from "@/context/landingPage"
 import Dropzone from "react-dropzone"
 import UploadIcon from "@mui/icons-material/Upload"
+import { ShoppingCartContext } from "@/context/shoppingCart"
 
 export const Headshot: React.FC = () => {
   const { HEADSHOT_SRC, SECONDARY_ACCENT_COLOR, cms, editable } =
     useContext(LandingPageContext)
+  const {
+    file: [, setFile],
+  } = useContext(ShoppingCartContext)
   return editable && editable[0] ? (
     <Dropzone
       maxFiles={1}
@@ -16,13 +20,10 @@ export const Headshot: React.FC = () => {
           /* eslint-disable no-console */ console.log("file reading was aborted")
         reader.onerror = () =>
           /* eslint-disable no-console */ console.log("file reading has failed")
-        reader.readAsBinaryString(acceptedFiles[0])
-        reader.onload = () => {
+        reader.readAsArrayBuffer(acceptedFiles[0])
+        reader.onload = async () => {
+          setFile(acceptedFiles[0])
           cms?.headshotSrc.setter(URL.createObjectURL(acceptedFiles[0]))
-          cms?.headshotContent.setter(String(reader.result))
-          cms?.headshotFileName.setter(
-            `headshot.${acceptedFiles[0].name.split(".").at(-1)}`
-          )
         }
       }}
     >

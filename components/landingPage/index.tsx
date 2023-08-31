@@ -1,11 +1,14 @@
 import React, { Dispatch, ReactNode, SetStateAction } from "react"
-import { LandingPageContextProvider } from "@/context/landingPage"
+import {
+  LandingPageContextProps,
+  LandingPageContextProvider,
+} from "@/context/landingPage"
 import { Info } from "./components/info"
 import { EditControlPanel } from "./components/editControlPanel"
 import { Headshot } from "./components/headshot"
 import { LandingWrapper } from "./components/landingWrapper"
 
-export type CmsGetSet<T = string> = {
+export type CmsGetSet<T = string | undefined> = {
   getter: () => T
   setter: (prop: T) => void
 }
@@ -15,19 +18,17 @@ export type LandingCms = {
   name: CmsGetSet
   subtitle: CmsGetSet
   socialUrls: CmsGetSet<string[] | undefined>
-  backgroundImage: CmsGetSet<string | undefined>
-  backgroundColor: CmsGetSet<string | undefined>
-  accentColor: CmsGetSet<string | undefined>
-  secondaryAccentColor: CmsGetSet<string | undefined>
-  actionDestination: CmsGetSet<string | undefined>
-  actionStatement: CmsGetSet<string | undefined>
-  headshotSrc: CmsGetSet<string | undefined>
-  headshotContent: CmsGetSet<string | undefined>
-  headshotFileName: CmsGetSet
+  backgroundImage: CmsGetSet
+  backgroundColor: CmsGetSet
+  accentColor: CmsGetSet
+  secondaryAccentColor: CmsGetSet
+  actionDestination: CmsGetSet
+  actionStatement: CmsGetSet
+  headshotSrc: CmsGetSet
   linkNewTab: CmsGetSet<boolean>
 }
 
-export type LandingProps = {
+export interface LandingPage {
   title?: string
   name?: string
   subtitle?: string
@@ -37,12 +38,18 @@ export type LandingProps = {
   accentColor?: string
   secondaryAccentColor?: string
   headshotSrc?: string
-  topComponents?: ReactNode
   actionDestination?: string
   actionStatement?: string
   linkNewTab?: boolean
+}
+
+export type LandingCache = Partial<Record<keyof LandingPageContextProps, string>>
+
+export interface LandingProps extends LandingPage {
+  topComponents?: ReactNode
   editable?: [boolean, Dispatch<SetStateAction<boolean>>]
   cms?: LandingCms
+  cache?: LandingCache
 }
 
 const Landing: React.FC<LandingProps> = (props) => {

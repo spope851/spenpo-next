@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Tabs } from "../types"
 import fav from "../public/favicon.ico"
-import { Box, Button, Drawer } from "@mui/material"
+import { Button, Drawer } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useState } from "react"
@@ -80,6 +80,11 @@ export default function Navbar({ active }: NavbarProps) {
             </Link>
           </Tab>
           <Tab>
+            <Link href="/projects" className={tabState(active === "products")}>
+              products
+            </Link>
+          </Tab>
+          <Tab>
             <Link href="/projects" className={tabState(active === "projects")}>
               projects
             </Link>
@@ -99,6 +104,7 @@ export default function Navbar({ active }: NavbarProps) {
             onClose={() => setOpen(false)}
           >
             <Route onClick={() => route("/projects")}>projects</Route>
+            <Route onClick={() => route("/products")}>products</Route>
             <Route onClick={() => route("/blog")}>blog</Route>
             <Route onClick={() => route("/resume")}>resume</Route>
             <Route onClick={() => route("/contact")}>contact</Route>

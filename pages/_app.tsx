@@ -10,6 +10,8 @@ import client from "../graphql/apolloClient"
 import { ThemeProvider } from "@/components/themeProvider"
 import { ShoppingCartContextProvider } from "@/context/shoppingCart"
 import { SessionProvider } from "next-auth/react"
+import { UnAuthContextProvider } from "@/context/unAuth"
+import { SnackbarContextProvider } from "@/context/snackbar"
 
 export default function App({
   Component,
@@ -17,15 +19,19 @@ export default function App({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <ThemeProvider>
-        <ShoppingCartContextProvider>
-          <ApolloProvider client={client}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ApolloProvider>
-        </ShoppingCartContextProvider>
-      </ThemeProvider>
+      <UnAuthContextProvider>
+        <SnackbarContextProvider>
+          <ThemeProvider>
+            <ShoppingCartContextProvider>
+              <ApolloProvider client={client}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </ApolloProvider>
+            </ShoppingCartContextProvider>
+          </ThemeProvider>
+        </SnackbarContextProvider>
+      </UnAuthContextProvider>
     </SessionProvider>
   )
 }

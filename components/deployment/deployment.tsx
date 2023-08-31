@@ -1,9 +1,11 @@
 import React, { ReactNode, useEffect, useMemo } from "react"
-import { CircularProgress, Stack, SxProps, Typography } from "@mui/material"
-import CircleIcon from "@mui/icons-material/Circle"
-import { VercelReadyState, useDeployment } from "./useDeployment"
+import { CircularProgress, Stack, Typography } from "@mui/material"
+import { useDeployment } from "./useDeployment"
 import { DeploymentDate } from "./deploymentDate"
 import { useStopwatch } from "react-timer-hook"
+import { READY_STATE_COLORS } from "@/constants/vercel"
+import { ReadyState } from "../readyState"
+import { NewTabLink } from "../newTabLink"
 
 const METADATA_SX = {
   border: "solid #555 2px",
@@ -12,42 +14,13 @@ const METADATA_SX = {
   p: 3,
 }
 
-const NetTabLink: React.FC<{ url: string; sx?: SxProps }> = ({ url, sx }) => {
-  let destination = url
-  if (url.slice(0, 4) !== "http") destination = `https://${url}`
-  return (
-    <Typography
-      component="span"
-      sx={{
-        ...sx,
-        textDecoration: "underline",
-        ":hover": {
-          cursor: "pointer",
-        },
-      }}
-      onClick={() => window.open(destination, "_blank", "noopener,noreferrer")}
-    >
-      {url}
-    </Typography>
-  )
-}
-
 const SmallHeader: React.FC<{ children: ReactNode }> = ({ children }) => (
   <Typography component="span" sx={{ fontSize: 12, color: "#555" }}>
     {children}
   </Typography>
 )
 
-const readyStateColors: Record<VercelReadyState, string> = {
-  READY: "#00ff00",
-  QUEUED: "#555555",
-  ERROR: "#ff0000",
-  CANCELED: "#ff5500",
-  INITIALIZING: "#0099ff",
-  BUILDING: "#5555ff",
-}
-
-export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
+export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
   id,
   createdAt,
 }) => {
@@ -58,7 +31,7 @@ export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
     let diff = now
     if (metadata?.buildingAt) {
       diff -= metadata.buildingAt
-    } else {
+    } else if (createdAt) {
       diff -= createdAt
     }
     return new Date(now + diff)
@@ -80,11 +53,7 @@ export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
         <Stack sx={METADATA_SX}>
           <SmallHeader>Status</SmallHeader>
           <Typography component="span">
-            {metadata?.readyState && (
-              <CircleIcon
-                sx={{ fill: readyStateColors[metadata.readyState], height: 12 }}
-              />
-            )}
+            {metadata?.readyState && <ReadyState readyState={metadata.readyState} />}
             {metadata?.readyState}
           </Typography>
         </Stack>
@@ -113,7 +82,7 @@ export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
           <SmallHeader>Domains</SmallHeader>
           {metadata?.alias.map((alias) => (
             <Typography key={alias}>
-              <NetTabLink url={alias} />
+              <NewTabLink url={alias} />
             </Typography>
           ))}
         </Stack>
@@ -122,7 +91,7 @@ export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
         {metadata?.ready && (
           <Typography
             mb={1}
-            sx={{ color: readyStateColors[metadata.readyState] }}
+            sx={{ color: READY_STATE_COLORS[metadata.readyState] }}
           >{`${metadata.readyState === "READY" ? "" : "..."} ${
             metadata.readyState
           }`}</Typography>
@@ -141,10 +110,10 @@ export const Deployment: React.FC<{ id: string; createdAt: number }> = ({
           <Typography
             mt={1}
             sx={{
-              color: readyStateColors[metadata.readyState],
+              color: READY_STATE_COLORS[metadata.readyState],
             }}
           >
-            Deployed successfully to: <NetTabLink url={metadata.alias[0]} />
+            Deployed successfully to: <NewTabLink url={metadata.alias[0]} />
           </Typography>
         )}
       </Stack>
