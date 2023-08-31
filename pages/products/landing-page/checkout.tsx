@@ -8,6 +8,7 @@ import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { CheckoutForm } from "@/components/checkout/checkoutForm"
 import { useSession } from "next-auth/react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 // useEffect(() => {
 //   if (app) {
@@ -107,14 +108,7 @@ const Checkout: React.FC = () => {
 
   return (
     <Stack rowGap={1} m={5}>
-      <Button
-        startIcon={<ChevronLeftIcon />}
-        variant="contained"
-        onClick={() => router.back()}
-        sx={{ mr: "auto" }}
-      >
-        back
-      </Button>
+      <Breadcrumbs />
       <Stack direction="row" justifyContent="space-around" m={5}>
         <LandingSummary />
         <Divider orientation="vertical" flexItem />

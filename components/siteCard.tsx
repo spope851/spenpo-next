@@ -35,12 +35,12 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
 
   return (
     <Stack
-      onClick={() => router.push(`${router.pathname}/${data.name}/deployments`)}
+      onClick={() => router.push(`${router.pathname}/${data.name}`)}
       border="solid 2px"
       direction="row"
       justifyContent="space-between"
       p={2}
-      borderRadius={2}
+      borderRadius={1}
       sx={{
         ":hover": {
           bgcolor: "#aaa",

@@ -1,5 +1,5 @@
-import { getDeployment, getProject } from "@/services/vercel"
-import { Stack, Typography } from "@mui/material"
+import { getDeployment } from "@/services/vercel"
+import { Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { VercelReadyState } from "./deployment/useDeployment"
 import { ReadyState } from "./readyState"
@@ -12,6 +12,7 @@ type Deployment = {
   ready: number
   createdAt: number
   alias?: string[]
+  url: string
   readyState: VercelReadyState
   meta: {
     githubCommitMessage: string
@@ -34,20 +35,23 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
 
   return (
     <Stack
-      onClick={() =>
+      onClick={() => {
+        const pathname = `${router.asPath}${
+          router.pathname.split("/").at(-1) === "deployments" ? "" : "/deployments"
+        }/${data.id}`
         router.push(
           {
-            pathname: `${router.asPath}/${data.id}`,
+            pathname,
             query: { createdAt: data.createdAt },
           },
-          `${router.asPath}/${data.id}`
+          pathname
         )
-      }
+      }}
       border="solid 2px"
       direction="row"
       justifyContent="space-between"
       p={2}
-      borderRadius={2}
+      borderRadius={1}
       sx={{
         ":hover": {
           bgcolor: "#aaa",
@@ -59,7 +63,7 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
         <TimeAgo date={data.ready} />
       </Stack>
       <Stack direction="row" alignItems="center" mb="auto">
-        {data.alias && <NewTabLink url={data.alias[0]} />}
+        {data.alias && <NewTabLink url={data.url} />}
         <ReadyState readyState={data.readyState} />
       </Stack>
     </Stack>

@@ -8,6 +8,7 @@ import CachedIcon from "@mui/icons-material/Cached"
 import { getProjectDeployments } from "@/services/vercel"
 import { DeploymentCard } from "@/components/deploymentCard"
 import ChevronLeft from "@mui/icons-material/ChevronLeft"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 const Deployments: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -31,13 +32,7 @@ const Deployments: React.FC<
   return (
     <Stack rowGap={1} m={5}>
       <Stack direction="row" justifyContent="space-between">
-        <Button
-          startIcon={<ChevronLeft />}
-          variant="contained"
-          onClick={() => router.back()}
-        >
-          back
-        </Button>
+        <Breadcrumbs />
         <Button
           variant="contained"
           onClick={refreshDeployments}
@@ -51,7 +46,7 @@ const Deployments: React.FC<
           {data.map((el) => (
             <DeploymentCard key={el.uid} uid={el.uid} />
           ))}
-          {loading && <CircularProgress />}
+          {loading && <CircularProgress sx={{ alignSelf: "center" }} />}
         </Stack>
       </Stack>
     </Stack>

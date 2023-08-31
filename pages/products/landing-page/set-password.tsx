@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 const Checkout: React.FC = () => {
   const router = useRouter()
@@ -15,13 +16,7 @@ const Checkout: React.FC = () => {
     <>
       <Stack rowGap={1} m={5}>
         <Stack direction="row" justifyContent="space-between">
-          <Button
-            startIcon={<ChevronLeftIcon />}
-            variant="contained"
-            onClick={() => router.back()}
-          >
-            back
-          </Button>
+          <Breadcrumbs />
           <Button
             endIcon={<ChevronRightIcon />}
             variant="contained"

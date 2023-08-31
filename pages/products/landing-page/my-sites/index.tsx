@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Box, Button, CircularProgress, Stack, Typography } from "@mui/material"
+import { Button, CircularProgress, Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth"
 import prisma from "@/utils/prisma"
 import CachedIcon from "@mui/icons-material/Cached"
 import { SiteCard } from "@/components/siteCard"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 const getOrders = async () => fetch("/api/getOrders")
 
@@ -67,13 +68,16 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
   return (
     <>
       <Stack rowGap={1} m={5}>
-        <Button
-          variant="contained"
-          onClick={refreshOrders}
-          sx={{ ml: "auto", minWidth: 36, p: 1 }}
-        >
-          <CachedIcon />
-        </Button>
+        <Stack direction="row">
+          <Breadcrumbs />
+          <Button
+            variant="contained"
+            onClick={refreshOrders}
+            sx={{ ml: "auto", minWidth: 36, p: 1 }}
+          >
+            <CachedIcon />
+          </Button>
+        </Stack>
         <Stack direction="row" justifyContent="space-around" m={5}>
           <Stack rowGap={1} width="100%">
             {orders.length > 0 ? (
@@ -86,7 +90,7 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
             ) : (
               <Typography>you do not have any sites with us yet</Typography>
             )}
-            {loading && <CircularProgress />}
+            {loading && <CircularProgress sx={{ alignSelf: "center" }} />}
           </Stack>
         </Stack>
       </Stack>
