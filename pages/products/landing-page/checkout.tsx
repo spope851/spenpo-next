@@ -118,7 +118,7 @@ const Checkout: React.FC = () => {
               <CheckoutForm />
             </Elements>
           )}
-          <Button variant="contained" href="demo">
+          <Button variant="contained" href="design">
             cancel
           </Button>
         </Stack>

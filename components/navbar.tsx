@@ -80,7 +80,7 @@ export default function Navbar({ active }: NavbarProps) {
             </Link>
           </Tab>
           <Tab>
-            <Link href="/projects" className={tabState(active === "products")}>
+            <Link href="/products" className={tabState(active === "products")}>
               products
             </Link>
           </Tab>

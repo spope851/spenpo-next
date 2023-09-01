@@ -7,8 +7,8 @@ const StyledLink = styled(Link)(() => ({
   color: "#555",
   padding: "0px !important",
   "&:hover": {
-    "text-decoration": "underline",
-    "background-color": "transparent !important",
+    textDecoration: "underline",
+    backgroundColor: "transparent !important",
   },
 }))
 
@@ -27,7 +27,7 @@ export const Breadcrumbs: React.FC = () => {
       }}
     >
       {linkPath.slice(0, linkPath.length - 1).map((crumb, i) => (
-        <StyledLink href={"/" + linkPath.slice(0, i + 1).join("/")}>
+        <StyledLink key={crumb} href={"/" + linkPath.slice(0, i + 1).join("/")}>
           {crumb}
         </StyledLink>
       ))}

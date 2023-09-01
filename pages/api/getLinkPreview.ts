@@ -16,14 +16,7 @@ const getLinkPreview = async (
   console.log("GET link preview  ", req.query)
   const url = String(req.query.url)
 
-  await parser(url, {
-    method: "get",
-    headers: {
-      "Accept-Encoding": "gzip,deflate,br",
-    },
-  }).then(async ({ meta, og, images }) => {
-    console.log(meta, og, images)
-
+  await parser(url).then(async ({ meta, og, images }) => {
     const { hostname } = new URL(url)
     let image = og.image
       ? og.image

@@ -6,6 +6,7 @@ import { ReadyState } from "./readyState"
 import { NewTabLink } from "./newTabLink"
 import TimeAgo from "react-timeago"
 import { useRouter } from "next/router"
+import { HoverAwareness } from "./hoverAwareness"
 
 type Deployment = {
   id: string
@@ -22,6 +23,7 @@ type Deployment = {
 export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
   const [data, setData] = useState<Deployment>()
   const router = useRouter()
+  const [linkHover, setLinkHover] = useState(false)
 
   useEffect(() => {
     ;(async () =>
@@ -36,6 +38,7 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
   return (
     <Stack
       onClick={() => {
+        if (linkHover) return
         const pathname = `${router.asPath}${
           router.pathname.split("/").at(-1) === "deployments" ? "" : "/deployments"
         }/${data.id}`
@@ -63,7 +66,11 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
         <TimeAgo date={data.ready} />
       </Stack>
       <Stack direction="row" alignItems="center" mb="auto">
-        {data.alias && <NewTabLink url={data.url} />}
+        {data.alias && (
+          <HoverAwareness setHovering={setLinkHover}>
+            <NewTabLink url={data.url} />
+          </HoverAwareness>
+        )}
         <ReadyState readyState={data.readyState} />
       </Stack>
     </Stack>

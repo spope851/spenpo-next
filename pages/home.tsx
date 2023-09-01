@@ -43,11 +43,16 @@ export default function Home({ content }: { content: Content }) {
   useEffect(() => {
     if (!leftContent.current) return // wait for the elementRef to be available
     const resizeObserver = new ResizeObserver(() => {
-      const scrollHeight = leftContent.current!.scrollHeight
-      const clientHeight = leftContent.current!.clientHeight
-      const clientWidth = pageContent.current!.offsetWidth
+      const scrollHeight = leftContent.current?.scrollHeight
+      const clientHeight = leftContent.current?.clientHeight
+      const clientWidth = pageContent.current?.offsetWidth
 
-      if (scrollHeight > clientHeight) {
+      if (
+        scrollHeight &&
+        clientHeight &&
+        clientWidth &&
+        scrollHeight > clientHeight
+      ) {
         setTwitterHeight(clientWidth > 850 ? `${scrollHeight}px` : "unset")
         setPageOverflow(true)
       } else {

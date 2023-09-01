@@ -19,6 +19,7 @@ import ChevronLeft from "@mui/icons-material/ChevronLeft"
 import { LinkPreview } from "@dhaiwat10/react-link-preview"
 import Link from "next/link"
 import { Breadcrumbs } from "@/components/breadcrumbs"
+import { HoverAwareness } from "@/components/hoverAwareness"
 
 const SitePage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -89,13 +90,9 @@ const SitePage: React.FC<
               }}
             >
               <Typography>Deployments</Typography>
-              <Link
-                onMouseOver={() => setLinkHover(true)}
-                onMouseOut={() => setLinkHover(false)}
-                href={`${router.asPath}/deployments`}
-              >
-                view all
-              </Link>
+              <HoverAwareness setHovering={setLinkHover}>
+                <Link href={`${router.asPath}/deployments`}>view all</Link>
+              </HoverAwareness>
             </AccordionSummary>
             <AccordionDetails>
               <Stack rowGap={1}>

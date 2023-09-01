@@ -2,6 +2,7 @@ import React, { useContext } from "react"
 import { Box, Chip, Stack, Typography } from "@mui/material"
 import { ShoppingCartContext } from "@/context/shoppingCart"
 import { DEFAULT_PROPS } from "@/components/landingPage/constants"
+import { BgImage } from "../bgImage"
 
 const ColorExample: React.FC<{ color: string; opacity?: number }> = ({
   color,
@@ -15,28 +16,6 @@ const ColorExample: React.FC<{ color: string; opacity?: number }> = ({
       sx={{ opacity }}
       border="solid 1px #555"
       borderRadius={1}
-    />
-  )
-}
-
-const BgImage: React.FC<{ src: string; opacity?: number }> = ({
-  src,
-  opacity = 1,
-}) => {
-  return (
-    <Box
-      height={200}
-      width={200}
-      m="2px"
-      sx={{
-        backgroundImage: `url(${src})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        opacity,
-      }}
-      borderRadius={2}
-      border="solid 1px #555"
     />
   )
 }

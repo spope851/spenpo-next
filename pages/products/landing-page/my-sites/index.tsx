@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Button, CircularProgress, Stack, Typography } from "@mui/material"
+import React, { useContext, useEffect, useState } from "react"
+import { Badge, Button, CircularProgress, Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
@@ -8,6 +8,7 @@ import prisma from "@/utils/prisma"
 import CachedIcon from "@mui/icons-material/Cached"
 import { SiteCard } from "@/components/siteCard"
 import { Breadcrumbs } from "@/components/breadcrumbs"
+import { SnackbarContext } from "@/context/snackbar"
 
 const getOrders = async () => fetch("/api/getOrders")
 
@@ -27,6 +28,9 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
     !!router.query.payment_intent
   )
   const [loading, setLoading] = useState(false)
+  const [newOrder, setNewOrder] = useState(false)
+
+  const { setSnackbarOpen, setSnackbarMessage } = useContext(SnackbarContext)
 
   const refreshOrders = async () => {
     setLoading(true)
@@ -38,6 +42,10 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
 
   useEffect(() => {
     if (awaitingNewSite) {
+      setSnackbarOpen(true)
+      setSnackbarMessage(
+        "we are preparing your new site. it will appear here once the deployment has started."
+      )
       setLoading(true)
       const pollingId = window.setInterval(async () => {
         const ordersReq = await getOrders()
@@ -46,6 +54,7 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
           setOrders(newOrders.orders)
           setLoading(false)
           setAwaitingNewSite(false)
+          setNewOrder(true)
         }
       }, 1000)
 
@@ -81,12 +90,31 @@ const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
         <Stack direction="row" justifyContent="space-around" m={5}>
           <Stack rowGap={1} width="100%">
             {orders.length > 0 ? (
-              orders.map((order) => (
-                <SiteCard
-                  key={order.id}
-                  name={order.metadata.projectName.vercelApp}
-                />
-              ))
+              orders.map((order, idx, arr) =>
+                newOrder && idx === arr.length - 1 ? (
+                  <Badge
+                    key={order.id}
+                    sx={{
+                      display: "block",
+                      "& .MuiBadge-badge": { left: "150px !important" },
+                    }}
+                    component="div"
+                    color="primary"
+                    badgeContent="new site being deployed! click here to track its progress"
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                  >
+                    <SiteCard name={order.metadata.projectName.vercelApp} />
+                  </Badge>
+                ) : (
+                  <SiteCard
+                    key={order.id}
+                    name={order.metadata.projectName.vercelApp}
+                  />
+                )
+              )
             ) : (
               <Typography>you do not have any sites with us yet</Typography>
             )}

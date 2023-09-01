@@ -41,10 +41,10 @@ export const TopComponents: React.FC = () => {
       <Button
         startIcon={<ChevronLeftIcon />}
         variant="contained"
-        onClick={() => router.push("/home")}
+        onClick={() => router.push("/products/landing-page")}
         sx={{ ml: 5 }}
       >
-        return to spenpo.com
+        return to products
       </Button>
       <LandingPageContext.Consumer>
         {({ HEADSHOT_SRC }) => (

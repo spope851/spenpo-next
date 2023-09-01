@@ -78,6 +78,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let vercelApp: string = PROJECT_NAME
         let githubProject: string = PROJECT_NAME
 
+        const HEADSHOT_URL = `https://spenpo-landing.s3.amazonaws.com/${order?.id}.${EXTENSION}`
+
         let attempts = 0
 
         const clone = async (): Promise<any> =>
@@ -95,17 +97,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // 1. clone landing repo
         const cloneRes = await clone()
 
+        let project: VercelProjectInput = {} as VercelProjectInput
+
         // 2. create new vercel project
         let createProjectRes
         if (cloneRes.status === 201) {
           githubProject = cloneRes.data.name
 
-          const project: VercelProjectInput = {
-            name: cloneRes.data.name,
+          project = {
+            name: githubProject,
             framework,
             gitRepository: gitRepository(cloneRes.data.full_name),
             environmentVariables: [
               ...ENVIRONMENT_VARIABLES,
+              {
+                key: "OG_IMAGE",
+                target: "production",
+                type: "encrypted",
+                value: HEADSHOT_URL,
+              },
               {
                 key: "NEXT_PUBLIC_PROJECT_NAME",
                 target: "production",
@@ -122,10 +132,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         } else console.log("else", 1, cloneRes)
 
         // fetch headshot from s3
-        const headshotReq = await fetch(
-          `https://spenpo-landing.s3.amazonaws.com/${order?.id}.${EXTENSION}`,
-          { method: "get" }
-        )
+        const headshotReq = await fetch(HEADSHOT_URL, { method: "get" })
         const blob = await headshotReq.blob()
         const buffer = Buffer.from(await blob.arrayBuffer())
         const headshotBase64 = buffer.toString("base64")
@@ -147,7 +154,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await prisma.order.update({
           where: { id: orderId },
           data: {
-            metadata: { ...METADATA, projectName: { vercelApp, githubProject } },
+            metadata: {
+              ...(project as unknown as Prisma.JsonObject),
+              projectName: { vercelApp, githubProject },
+              clientName: CLIENT_NAME,
+            },
             complete: true,
           },
         })

@@ -20,7 +20,7 @@ export default function Home() {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionDestination={"products/landing-page/demo"}
+      actionDestination={"products/landing-page"}
       actionStatement="get a landing page like this one"
       linkNewTab={true}
       topComponents={
