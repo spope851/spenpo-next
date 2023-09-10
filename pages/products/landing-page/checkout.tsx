@@ -1,14 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Button, Divider, Stack } from "@mui/material"
 import { ShoppingCartContext } from "@/context/shoppingCart"
-import { useRouter } from "next/router"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import { LandingSummary } from "@/components/checkout/landingSummary"
+import { LandingSummary } from "@/components/products/landing-page/checkout/landingSummary"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
-import { CheckoutForm } from "@/components/checkout/checkoutForm"
+import { CheckoutForm } from "@/components/products/landing-page/checkout/checkoutForm"
 import { useSession } from "next-auth/react"
 import { Breadcrumbs } from "@/components/breadcrumbs"
+import { LandingStepper } from "@/components/products/landing-page/stepper"
 
 // useEffect(() => {
 //   if (app) {
@@ -54,7 +53,6 @@ const stripe = loadStripe(
 
 const Checkout: React.FC = () => {
   const session = useSession()
-  const router = useRouter()
   const {
     paymentIntentMetadata,
     file: [file],
@@ -108,11 +106,11 @@ const Checkout: React.FC = () => {
 
   return (
     <Stack rowGap={1} m={5}>
-      <Breadcrumbs />
-      <Stack direction="row" justifyContent="space-around" m={5}>
+      <LandingStepper activeStep={3} />
+      <Stack direction="row" justifyContent="space-around" mt={5}>
         <LandingSummary />
         <Divider orientation="vertical" flexItem />
-        <Stack rowGap={1}>
+        <Stack rowGap={1} my={5}>
           {clientSecret && (
             <Elements stripe={stripe} options={options}>
               <CheckoutForm />

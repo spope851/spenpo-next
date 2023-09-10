@@ -33,10 +33,16 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
       }))()
   }, [])
 
-  if (!data) return <>...loading</>
+  if (!data)
+    return (
+      <Stack border="solid 2px #aaa" p={2} borderRadius={1}>
+        ...loading
+      </Stack>
+    )
 
   return (
     <Stack
+      id="spenpo-deployment-card"
       onClick={() => {
         if (linkHover) return
         const pathname = `${router.asPath}${
@@ -50,11 +56,11 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
           pathname
         )
       }}
-      border="solid 2px"
-      direction="row"
-      justifyContent="space-between"
+      border="solid 2px #aaa"
       p={2}
       borderRadius={1}
+      direction="row"
+      justifyContent="space-between"
       sx={{
         ":hover": {
           bgcolor: "#aaa",

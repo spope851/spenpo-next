@@ -1,37 +1,70 @@
-import { BgImage } from "@/components/bgImage"
-import { Breadcrumbs } from "@/components/breadcrumbs"
-import { Button, Stack, Typography } from "@mui/material"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
+import { MySites } from "@/components/products/landing-page/mySites"
+import { LandingPageOverview } from "@/components/products/landing-page/overview"
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
+import { Stack, Tab, Tabs, useTheme } from "@mui/material"
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
+import { getServerSession } from "next-auth"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { ReactNode } from "react"
 
-const LandingPageProduct: React.FC = () => {
+const LandingPageProductPage: React.FC<
+  InferGetServerSidePropsType<typeof getServerSideProps>
+> = ({ ssrOrders }) => {
+  const theme = useTheme()
   const router = useRouter()
-  const session = useSession()
+  const tabs: Record<number, ReactNode> = {
+    0: <LandingPageOverview />,
+    1: ssrOrders && <MySites ssrOrders={ssrOrders} />,
+  }
+  const mysites = Number(router.query.mysites) || 0
+
   return (
-    <Stack m={5} rowGap={3}>
-      <Stack direction="row" justifyContent="space-between">
-        <Breadcrumbs />
-        {session.status === "authenticated" && (
-          <Typography>
-            <Link href="/products/landing-page/my-sites">click here</Link> to view
-            your sites
-          </Typography>
-        )}
-      </Stack>
-      <Stack m="auto" direction="row" columnGap={5}>
-        <BgImage src="/images/landing-page.png" height={400} width={800} />
-        <Button
-          href={`${router.pathname}/design`}
-          variant="contained"
-          sx={{ m: "auto" }}
-        >
-          design now
-        </Button>
-      </Stack>
+    <Stack m={5} rowGap={5}>
+      {ssrOrders ? (
+        <>
+          <Tabs
+            value={mysites}
+            onChange={(_, value) =>
+              router.replace(
+                { pathname: router.pathname, query: { mysites: value } },
+                router.pathname
+              )
+            }
+            sx={{
+              borderBottom: 1,
+              borderColor: "divider",
+              width: "100%",
+              "& .Mui-selected": {
+                bgcolor: theme.palette.primary.main,
+                color: "#fff !important",
+              },
+            }}
+          >
+            <Tab label="product overview" />
+            <Tab label="my sites" />
+          </Tabs>
+          {tabs[mysites]}
+        </>
+      ) : (
+        tabs[0]
+      )}
     </Stack>
   )
 }
 
-export default LandingPageProduct
+export default LandingPageProductPage
+
+export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+  const session = await getServerSession(req, res, authOptions)
+  if (session) {
+    const ssrOrders = await prisma.order.findMany({
+      where: { userId: session.user.id, complete: true },
+    })
+
+    return { props: { ssrOrders } }
+  } else {
+    return {
+      props: {},
+    }
+  }
+}

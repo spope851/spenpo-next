@@ -23,11 +23,14 @@ export const Socials: React.FC = () => {
   return (
     <>
       <Stack
+        useFlexGap
+        flexWrap="wrap"
         flexDirection="row"
         sx={SOCIAL_ICON_SX(ACCENT_COLOR)}
         justifyContent="center"
         alignItems="center"
         columnGap={1}
+        rowGap={1}
       >
         {SOCIAL_URLS?.map((url) => {
           const icon = <SocialBtn url={url} color={SECONDARY_ACCENT_COLOR} />

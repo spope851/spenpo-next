@@ -105,7 +105,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           githubProject = cloneRes.data.name
 
           project = {
-            name: githubProject,
+            name: cloneRes.data.name,
             framework,
             gitRepository: gitRepository(cloneRes.data.full_name),
             environmentVariables: [
@@ -120,7 +120,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 key: "NEXT_PUBLIC_PROJECT_NAME",
                 target: "production",
                 type: "encrypted",
-                value: githubProject,
+                value: cloneRes.data.name,
               },
             ],
           }
@@ -150,18 +150,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
           )
         } else console.log("else", 2, await createProjectRes.json())
-
-        await prisma.order.update({
-          where: { id: orderId },
-          data: {
-            metadata: {
-              ...(project as unknown as Prisma.JsonObject),
-              projectName: { vercelApp, githubProject },
-              clientName: CLIENT_NAME,
-            },
-            complete: true,
-          },
-        })
 
         const main = async (): Promise<any> =>
           getMainTree(githubProject).catch(async (err) => {
@@ -214,6 +202,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return err
           })
         else console.log("else", 6, newCommitShaRes)
+
+        await prisma.order.update({
+          where: { id: orderId },
+          data: {
+            metadata: {
+              ...(project as unknown as Prisma.JsonObject),
+              projectName: { vercelApp, githubProject },
+              clientName: CLIENT_NAME,
+            },
+            complete: true,
+          },
+        })
 
         break
       case "payment_intent.created":

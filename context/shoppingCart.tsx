@@ -1,6 +1,7 @@
 import { CmsGetSet, LandingCms } from "@/components/landingPage"
 import { useLandEnvVars } from "@/hooks/useLandEnvVars"
 import { randBase64 } from "@/utils/randStr"
+import { formatDomain } from "@/utils/string"
 import { useSession } from "next-auth/react"
 import React, {
   Dispatch,
@@ -10,17 +11,6 @@ import React, {
   useMemo,
   useState,
 } from "react"
-
-const breakDownString = (key: string, value: string) => {
-  return value
-    .match(/.{1,500}/g)
-    ?.reduce((p: { [key: string]: string }, c: string, idx: number) => {
-      return {
-        ...p,
-        [`${key}_${idx}`]: c,
-      }
-    }, {})
-}
 
 interface ProjectEnvVariable {
   key: string
@@ -76,6 +66,7 @@ interface PaymentIntentMetadata {
 type ShoppingCartContextProps = {
   file: [File | undefined, Dispatch<SetStateAction<File | undefined>>]
   setPassword: Dispatch<SetStateAction<string | undefined>>
+  projectName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
   passwordSet: boolean
   paymentIntentMetadata: PaymentIntentMetadata
   landingCms: LandingCms
@@ -109,12 +100,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     getter: () => clientName,
     setter: (name?: string) => {
       setClientName(name)
-      setProjectName(
-        `${name
-          ?.replace(/['".,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-          .replaceAll(" ", "")
-          .toLocaleLowerCase()}-landing`
-      )
+      setProjectName(`${formatDomain(name || "")}-landing`)
     },
   }
 
@@ -172,6 +158,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       file,
       setPassword,
       passwordSet: !!password,
+      projectName: [projectName, setProjectName],
       paymentIntentMetadata: {
         clientName,
         projectName,
@@ -179,7 +166,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         environmentVariables,
       },
       landingCms: {
-        name: nameGetSet,
+        name: getSet([clientName, setClientName]),
         socialUrls: socialsGetSet,
         title: getSet(title),
         subtitle: getSet(subtitle),

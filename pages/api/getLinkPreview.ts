@@ -1,3 +1,4 @@
+import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
 import parser from "html-metadata-parser"
 import type { NextApiRequest, NextApiResponse } from "next"
 
@@ -16,7 +17,8 @@ const getLinkPreview = async (
   console.log("GET link preview  ", req.query)
   const url = String(req.query.url)
 
-  await parser(url).then(async ({ meta, og, images }) => {
+  try {
+    const { meta, og, images } = await parser(url)
     const { hostname } = new URL(url)
     let image = og.image
       ? og.image
@@ -38,11 +40,15 @@ const getLinkPreview = async (
       siteName,
       hostname,
     })
-  })
-  // .then(async (tweets) => {
-  //   await redis.setex(`tweets/${count}`, 60, JSON.stringify(tweets))
-  //   return res.send(tweets)
-  // })
+  } catch {
+    res.send({
+      title: "Unavailable",
+      description: "deployment in progress...",
+      image: LINK_PREVIEW_FALLBACK,
+      siteName: "",
+      hostname: url,
+    })
+  }
 }
 
 export default getLinkPreview

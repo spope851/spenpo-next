@@ -8,7 +8,7 @@ const Products: React.FC = () => {
   return (
     <Stack m={5} rowGap={3}>
       <Stack border="solid 2px" borderRadius={1} direction="row">
-        <BgImage src="/images/landing-page.png" width={600} height={300} />
+        <BgImage src="/images/landing-page.png" sx={{ height: 300, width: 600 }} />
         <Stack rowGap={1}>
           <Button href={`${router.pathname}/landing-page`} variant="contained">
             view details

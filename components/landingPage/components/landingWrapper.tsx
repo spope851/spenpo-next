@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import React, { ReactNode, useContext } from "react"
 import { LandingPageContext } from "@/context/landingPage"
 
@@ -22,16 +22,17 @@ export const LandingWrapper: React.FC<{ children: ReactNode }> = ({ children }) 
       }}
     >
       {TopComponents}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          columnGap: 10,
-          padding: "4rem 0",
-        }}
+      <Stack
+        justifyContent="center"
+        alignItems="center"
+        columnGap={10}
+        rowGap={3}
+        p={4}
+        direction={{ md: "row" }}
+        flex={{ md: 0, sm: 1, xs: 1 }}
       >
         {children}
-      </Box>
+      </Stack>
     </Box>
   )
 }

@@ -1,12 +1,9 @@
 import React from "react"
-import Landing from "@/components/landingPage"
-import { useRouter } from "next/router"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import { Button } from "@mui/material"
+import Landing from "@/components/landingPage"
 
-export default function Home() {
-  const router = useRouter()
-
+const Home: React.FC = () => {
   return (
     <Landing
       title="developer & entrepreneur"
@@ -20,15 +17,15 @@ export default function Home() {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionDestination={"products/landing-page"}
+      actionDestination="products/landing-page"
       actionStatement="get a landing page like this one"
       linkNewTab={true}
       topComponents={
         <Button
           endIcon={<ChevronRightIcon />}
           variant="contained"
-          onClick={() => router.push("/home")}
-          sx={{ ml: "auto", mr: 5 }}
+          href="/home"
+          sx={{ ml: "auto", mr: 5, mt: 5 }}
         >
           continue to spenpo.com
         </Button>
@@ -36,3 +33,5 @@ export default function Home() {
     />
   )
 }
+
+export default Home

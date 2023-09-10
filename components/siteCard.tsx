@@ -8,44 +8,71 @@ import TimeAgo from "react-timeago"
 import { useRouter } from "next/router"
 import CachedIcon from "@mui/icons-material/Cached"
 import { HoverAwareness } from "./hoverAwareness"
+import { BgImage } from "./bgImage"
+import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
 
-type Project = {
+export type Project = {
   id: string
   name: string
   updatedAt: number
+  createdAt: number
   targets: {
     production?: {
       alias?: string[]
       readyState: VercelReadyState
     }
   }
+  latestDeployments: { id: string }[]
 }
 
 export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
-  const [data, setData] = useState<Project>()
+  const [project, setProject] = useState<Project>()
   const router = useRouter()
   const [actionHover, setActionHover] = useState(false)
 
   const fetchProject = async () =>
     getProject(name).then(async (res) => {
       const data = await res.json()
-      setData(data)
+      setProject(data)
+      console.log(data)
     })
 
   useEffect(() => {
     ;(async () => fetchProject())()
   }, [])
 
-  if (!data) return <>...loading</>
+  const [linkPreview, setLinkPreview] = useState("")
+
+  useEffect(() => {
+    ;(async () => {
+      const previewReq = await fetch(
+        `/api/getLinkPreview?url=https://${project?.targets.production?.alias?.[0]}`,
+        { method: "get" }
+      )
+      const preview = await previewReq.json()
+      setLinkPreview(preview.image)
+    })()
+    if (!linkPreview) setLinkPreview(LINK_PREVIEW_FALLBACK)
+  }, [project])
+
+  if (!project)
+    return (
+      <Stack border="solid 2px #aaa" p={2} borderRadius={1}>
+        ...loading
+      </Stack>
+    )
 
   return (
     <Stack
-      onClick={() => !actionHover && router.push(`${router.pathname}/${data.name}`)}
-      border="solid 2px"
-      direction="row"
-      justifyContent="space-between"
+      id="spenpo-site-card"
+      onClick={() =>
+        !actionHover && router.push(`${router.pathname}/${project.name}`)
+      }
+      border="solid 2px #aaa"
       p={2}
       borderRadius={1}
+      direction="row"
+      justifyContent="space-between"
       sx={{
         ":hover": {
           bgcolor: "#aaa",
@@ -53,18 +80,24 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
         },
       }}
     >
-      <Stack>
-        <Typography fontWeight="bold">{data.name}</Typography>
-        <TimeAgo date={data.updatedAt} />
+      <Stack direction="row" columnGap={1}>
+        <BgImage
+          src={linkPreview}
+          sx={{ borderRadius: 25, height: 50, width: 50 }}
+        />
+        <Stack>
+          <Typography fontWeight="bold">{project.name}</Typography>
+          <TimeAgo date={project.updatedAt} />
+        </Stack>
       </Stack>
-      {data.targets.production ? (
+      {project.targets.production ? (
         <Stack direction="row" alignItems="center" mb="auto">
-          {data.targets.production?.alias && (
+          {project.targets.production?.alias && (
             <HoverAwareness setHovering={setActionHover}>
-              <NewTabLink url={data.targets.production.alias[0]} />
+              <NewTabLink url={project.targets.production.alias[0]} />
             </HoverAwareness>
           )}
-          <ReadyState readyState={data.targets.production.readyState} />
+          <ReadyState readyState={project.targets.production.readyState} />
         </Stack>
       ) : (
         <HoverAwareness setHovering={setActionHover}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Chip, Stack } from "@mui/material"
+import { Box, Chip, Stack, SxProps } from "@mui/material"
 import { ChromePicker } from "react-color"
 import CircleIcon from "@mui/icons-material/Circle"
 
@@ -20,11 +20,13 @@ export const ColorPicker: React.FC<{
   label: string
   color: [string | undefined, (color?: string) => void]
   defaultColor: string
-}> = ({ label, color: [color, setColor], defaultColor }) => {
+  sx?: SxProps
+}> = ({ label, color: [color, setColor], defaultColor, sx }) => {
   const [showColorPicker, setShowColorPicker] = useState(false)
   return (
     <Stack rowGap={2}>
       <Chip
+        sx={sx}
         label={label}
         deleteIcon={
           <CircleIcon

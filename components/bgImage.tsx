@@ -1,18 +1,16 @@
-import { Box } from "@mui/material"
+import { Box, SxProps } from "@mui/material"
 import React from "react"
 
 export const BgImage: React.FC<{
   src: string
   opacity?: number
-  height?: number
-  width?: number
-}> = ({ src, opacity = 1, height = 200, width = 200 }) => {
+  sx?: SxProps
+}> = ({ src, opacity = 1, sx }) => {
   return (
     <Box
-      height={height}
-      width={width}
       m="2px"
       sx={{
+        ...sx,
         backgroundImage: `url(${src})`,
         backgroundPosition: "center",
         backgroundSize: "cover",

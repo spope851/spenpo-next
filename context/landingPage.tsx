@@ -34,7 +34,7 @@ export type LandingPageContextProps = {
   SUBTITLE?: string
   SOCIAL_URLS?: string[]
   LINK_NEW_TAB?: boolean
-  TopComponents: ReactNode
+  TopComponents?: ReactNode
   ADD_BTN_SX: SxProps
   cms?: LandingCms
   editable: LandingProps["editable"]

@@ -1,7 +1,8 @@
-import { IconButton, Snackbar } from "@mui/material"
-import React, { Dispatch, ReactNode, SetStateAction, useState } from "react"
+import { IconButton } from "@mui/material"
+import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from "react"
 import CloseIcon from "@mui/icons-material/Close"
 import { createContext } from "react"
+import { Snackbar } from "@/components/snackbar"
 
 interface SnackbarContextProps {
   setSnackbarOpen: Dispatch<SetStateAction<boolean>>
@@ -37,19 +38,25 @@ export const SnackbarContextProvider: React.FC<{ children: React.ReactNode }> = 
     </IconButton>
   )
 
-  return (
-    <SnackbarContext.Provider
-      value={{ setSnackbarMessage, setSnackbarOpen, setSnackbarAction }}
-    >
-      {children}
+  const snackbar = useMemo(
+    () => (
       <Snackbar
         open={open}
-        ContentProps={{ sx: { color: "#000", bgcolor: "#ddd" } }}
         autoHideDuration={6000}
         onClose={handleClose}
         message={message}
         action={action}
       />
+    ),
+    [open, message, action]
+  )
+
+  return (
+    <SnackbarContext.Provider
+      value={{ setSnackbarMessage, setSnackbarOpen, setSnackbarAction }}
+    >
+      {children}
+      {snackbar}
     </SnackbarContext.Provider>
   )
 }

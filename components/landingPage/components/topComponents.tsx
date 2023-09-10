@@ -1,6 +1,6 @@
 import { Stack, Button, Tooltip, Box, Typography } from "@mui/material"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import { LandingPageContext } from "@/context/landingPage"
@@ -11,6 +11,7 @@ export const TopComponents: React.FC = () => {
   const router = useRouter()
   const session = useSession()
   const { routeToSignin } = useCachedSignin()
+  const { editable } = useContext(LandingPageContext)
 
   const tooltipTitle = (HEADSHOT_SRC?: string) => {
     if (session.status === "unauthenticated")
@@ -37,23 +38,38 @@ export const TopComponents: React.FC = () => {
   }
 
   return (
-    <Stack flexDirection="row" justifyContent="space-between" width="100%">
+    <Stack
+      flexDirection={{ sm: "row" }}
+      justifyContent="space-between"
+      width="100%"
+      rowGap={3}
+    >
       <Button
         startIcon={<ChevronLeftIcon />}
         variant="contained"
         onClick={() => router.push("/products/landing-page")}
-        sx={{ ml: 5 }}
+        sx={{
+          ml: { md: 5, sm: 5, xs: "auto" },
+          mt: editable?.[0] ? { md: 0, sm: 15, xs: 3 } : { md: 0, sm: 5, xs: 3 },
+          mr: { xs: "auto" },
+        }}
       >
-        return to products
+        back to products
       </Button>
       <LandingPageContext.Consumer>
         {({ HEADSHOT_SRC }) => (
           <Tooltip title={tooltipTitle(HEADSHOT_SRC)}>
-            <Box component="span">
+            <Box
+              component="span"
+              sx={{
+                mr: { md: 5, sm: 5, xs: "auto" },
+                mt: editable?.[0] ? { md: 0, sm: 15 } : { md: 0, sm: 5 },
+                ml: { xs: "auto" },
+              }}
+            >
               <Button
                 variant="contained"
-                sx={{ mr: 5 }}
-                onClick={() => router.push("set-password")}
+                onClick={() => router.push("domain")}
                 endIcon={<ChevronRightIcon />}
                 disabled={!HEADSHOT_SRC}
               >

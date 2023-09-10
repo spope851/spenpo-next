@@ -1,11 +1,13 @@
-import React, { ReactNode, useEffect, useMemo } from "react"
+import React, { useEffect, useMemo } from "react"
 import { CircularProgress, Stack, Typography } from "@mui/material"
 import { useDeployment } from "./useDeployment"
 import { DeploymentDate } from "./deploymentDate"
 import { useStopwatch } from "react-timer-hook"
 import { READY_STATE_COLORS } from "@/constants/vercel"
-import { ReadyState } from "../readyState"
 import { NewTabLink } from "../newTabLink"
+import { Status } from "./status"
+import { SmallHeader } from "./smallHeader"
+import { Domains } from "./domains"
 
 const METADATA_SX = {
   border: "solid #555 2px",
@@ -13,12 +15,6 @@ const METADATA_SX = {
   flex: 1,
   p: 3,
 }
-
-const SmallHeader: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <Typography component="span" sx={{ fontSize: 12, color: "#555" }}>
-    {children}
-  </Typography>
-)
 
 export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
   id,
@@ -50,13 +46,7 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
   return (
     <Stack m={5} rowGap={3}>
       <Stack columnGap={3} direction="row">
-        <Stack sx={METADATA_SX}>
-          <SmallHeader>Status</SmallHeader>
-          <Typography component="span">
-            {metadata?.readyState && <ReadyState readyState={metadata.readyState} />}
-            {metadata?.readyState}
-          </Typography>
-        </Stack>
+        <Status readyState={metadata?.readyState} sx={METADATA_SX} />
         <Stack sx={METADATA_SX}>
           <SmallHeader>Duration</SmallHeader>
           {metadata &&
@@ -78,14 +68,7 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
             </Typography>
           )}
         </Stack>
-        <Stack sx={METADATA_SX}>
-          <SmallHeader>Domains</SmallHeader>
-          {metadata?.alias.map((alias) => (
-            <Typography key={alias}>
-              <NewTabLink url={alias} />
-            </Typography>
-          ))}
-        </Stack>
+        <Domains alias={metadata?.alias} sx={METADATA_SX} />
       </Stack>
       <Stack bgcolor="#000" color="#fff" borderRadius={1} px={2} pt={4} pb={1}>
         {metadata?.ready && (
