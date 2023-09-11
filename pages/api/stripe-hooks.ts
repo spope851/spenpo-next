@@ -55,8 +55,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         break
       case "charge.succeeded":
-        console.log("hi!")
-
         const CHARGE_SUCCEEDED = event.data.object
 
         const orderId = CHARGE_SUCCEEDED.metadata.orderId
@@ -64,8 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const order = await prisma.order.findFirst({
           where: { id: orderId },
         })
-
-        console.log(order)
 
         const METADATA = order?.metadata as Prisma.JsonObject
 

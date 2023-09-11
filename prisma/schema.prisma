@@ -56,10 +56,20 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+model Product {
+  id            String    @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  orders        Order[]
+}
+
 model Order {
   id            String    @id @default(cuid())
   userId        String
   user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   metadata      Json?
   complete      Boolean   @default(false)
 }

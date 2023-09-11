@@ -6,42 +6,8 @@ import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 import { CheckoutForm } from "@/components/products/landing-page/checkout/checkoutForm"
 import { useSession } from "next-auth/react"
-import { Breadcrumbs } from "@/components/breadcrumbs"
 import { LandingStepper } from "@/components/products/landing-page/stepper"
-
-// useEffect(() => {
-//   if (app) {
-//     const pollingId = window.setInterval(async () => {
-//       // fetch deployment
-//       const projectDeployments = await getProjectDeployments(app).catch((err) => {
-//         console.log(err)
-//         return err
-//       })
-
-//       const deployments = await projectDeployments.json()
-
-//       if (deployments.deployments.length > 0) {
-//         const latestDeployment = await getDeployment(
-//           deployments.deployments[0].uid
-//         ).catch((err) => {
-//           console.log(err)
-//           return err
-//         })
-//         const deployment = await latestDeployment.json()
-//         if (!["READY", "CANCELED", "ERROR"].includes(deployment.readyState)) {
-//           router.push(
-//             `deployments/${deployment.id}?createdAt=${deployment.createdAt}`
-//           )
-//         }
-//       }
-//     }, 1000)
-
-//     return () => {
-//       clearInterval(pollingId)
-//     }
-//   }
-//   /* eslint-disable-next-line react-hooks/exhaustive-deps */
-// }, [app])
+import { useRouter } from "next/router"
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -60,6 +26,8 @@ const Checkout: React.FC = () => {
 
   const [clientSecret, setClientSecret] = useState("")
 
+  const router = useRouter()
+
   useEffect(() => {
     if (!clientSecret) {
       // Create PaymentIntent as soon as the page loads
@@ -68,7 +36,7 @@ const Checkout: React.FC = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: 99,
+            productId: router.pathname.split("/")[2],
             metadata: paymentIntentMetadata,
             userId: session.data?.user.id,
           }),
@@ -107,9 +75,17 @@ const Checkout: React.FC = () => {
   return (
     <Stack rowGap={1} m={5}>
       <LandingStepper activeStep={3} />
-      <Stack direction="row" justifyContent="space-around" mt={5}>
+      <Stack
+        direction={{ xl: "row", lg: "row", md: "row" }}
+        justifyContent="space-around"
+        mt={5}
+      >
         <LandingSummary />
-        <Divider orientation="vertical" flexItem />
+        <Divider
+          sx={{ display: { md: "block", sm: "none" } }}
+          orientation="vertical"
+          flexItem
+        />
         <Stack rowGap={1} my={5}>
           {clientSecret && (
             <Elements stripe={stripe} options={options}>

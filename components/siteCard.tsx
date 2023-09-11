@@ -34,7 +34,6 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
     getProject(name).then(async (res) => {
       const data = await res.json()
       setProject(data)
-      console.log(data)
     })
 
   useEffect(() => {
