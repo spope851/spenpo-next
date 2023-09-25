@@ -1,22 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
-import {
-  TwitterFeed,
-  Content,
-  WhatsNew,
-  ContactWrapper,
-  LeftContentWrapper,
-  ProjectsLinkButton,
-  ProjectsLinkWrapper,
-  TwitterFeedWrapper,
-  WhatsNewWrapper,
-  WhatsNewComponentWrapper,
-} from "@/components/home"
+import React from "react"
+import { Content, HomeComponentWrapper } from "@/components/home"
 import Head from "next/head"
-import { useRouter } from "next/router"
 import ContactForm from "@/components/home/contactForm"
 import { pool } from "@/utils/postgres"
-import { Box, Typography } from "@mui/material"
+import { Box, Button, Grid, Stack, Typography } from "@mui/material"
 import redis from "@/utils/redis"
+import { LinkPreview } from "@/components/linkPreview"
 
 export async function getServerSideProps() {
   console.log("GET content")
@@ -31,82 +20,77 @@ export async function getServerSideProps() {
   }
 }
 
-const PAGE_HEIGHT = "calc(100vh - 136.5px)"
+const GRID_PROPS = {
+  item: true,
+  xs: 12,
+  display: "flex",
+  flexDirection: "column" as "column",
+}
+
+const BUTTON_SX = {
+  my: "auto",
+  py: 2,
+  borderRadius: 2,
+}
 
 export default function Home({ content }: { content: Content }) {
-  const router = useRouter()
-  const [pageOverflow, setPageOverflow] = useState(false)
-  const [twitterHeight, setTwitterHeight] = useState("unset")
-  const leftContent = useRef<HTMLDivElement | null>(null)
-  const pageContent = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    if (!leftContent.current) return // wait for the elementRef to be available
-    const resizeObserver = new ResizeObserver(() => {
-      const scrollHeight = leftContent.current?.scrollHeight
-      const clientHeight = leftContent.current?.clientHeight
-      const clientWidth = pageContent.current?.offsetWidth
-
-      if (
-        scrollHeight &&
-        clientHeight &&
-        clientWidth &&
-        scrollHeight > clientHeight
-      ) {
-        setTwitterHeight(clientWidth > 850 ? `${scrollHeight}px` : "unset")
-        setPageOverflow(true)
-      } else {
-        setTwitterHeight(`unset`)
-        setPageOverflow(false)
-      }
-    })
-    resizeObserver.observe(leftContent.current)
-    return () => resizeObserver.disconnect() // clean up
-  }, [])
-
   return (
     <>
       <Head>
         <title>spencer pope</title>
       </Head>
-      <Box
-        id="page-content"
-        display="flex"
-        flex={1}
-        maxHeight={PAGE_HEIGHT}
-        overflow={pageOverflow ? "auto" : ""}
-        ref={pageContent}
-      >
-        <LeftContentWrapper id="left-content-wrapper" ref={leftContent}>
-          <Box display="flex" id="top-left-wrapper">
-            <WhatsNewWrapper id="whats-new-wrapper">
-              <Typography variant="h6" mb="20px" fontWeight="bold">
-                check out my latest post
-              </Typography>
-              <WhatsNewComponentWrapper id="whats-new">
-                <WhatsNew content={content} />
-              </WhatsNewComponentWrapper>
-            </WhatsNewWrapper>
-            <ProjectsLinkWrapper id="projects-link-wrapper">
-              <Typography variant="h6" mb="auto" fontWeight="bold">
-                see what else I&apos;m working on
-              </Typography>
-              <ProjectsLinkButton
-                id="projects-link-btn"
-                onClick={() => router.push("/projects")}
+      <Stack flex={1} id="page-content">
+        <Stack m={{ sm: 5, xs: 2 }} flex={1} justifyContent="space-between" gap={5}>
+          <Grid container justifyContent="space-between" spacing={5} flex={1}>
+            <Grid lg={5} md={6} sm={12} {...GRID_PROPS}>
+              <HomeComponentWrapper>
+                <Typography variant="h6" fontWeight="bold">
+                  check out my latest post
+                </Typography>
+                <Stack my="auto">
+                  <LinkPreview url={content.href} descriptionLength={50} />
+                </Stack>
+              </HomeComponentWrapper>
+            </Grid>
+            <Grid container item lg={7} md={6} sm={12} spacing={5} flex={1}>
+              <Grid lg={6} md={12} {...GRID_PROPS}>
+                <HomeComponentWrapper>
+                  <Typography variant="h6" fontWeight="bold">
+                    explore my new products
+                  </Typography>
+                  <Button variant="outlined" href="/products" sx={BUTTON_SX}>
+                    click here!
+                  </Button>
+                </HomeComponentWrapper>
+              </Grid>
+              <Grid lg={6} md={12} {...GRID_PROPS}>
+                <HomeComponentWrapper>
+                  <Typography variant="h6" fontWeight="bold">
+                    see what else I&apos;m working on
+                  </Typography>
+                  <Button variant="outlined" href="/projects" sx={BUTTON_SX}>
+                    click here!
+                  </Button>
+                </HomeComponentWrapper>
+              </Grid>
+              <Grid
+                {...GRID_PROPS}
+                display={{ lg: "flex", xs: "none" }}
+                justifyContent="flex-end"
               >
-                click here!
-              </ProjectsLinkButton>
-            </ProjectsLinkWrapper>
-          </Box>
-          <ContactWrapper id="contact-form-wrapper">
-            <ContactForm />
-          </ContactWrapper>
-        </LeftContentWrapper>
-        {/* <TwitterFeedWrapper id="twitter-feed-wrapper">
-          <TwitterFeed height={twitterHeight} />
-        </TwitterFeedWrapper> */}
-      </Box>
+                <ContactForm />
+              </Grid>
+            </Grid>
+            <Grid
+              {...GRID_PROPS}
+              display={{ lg: "none", xs: "flex" }}
+              justifyContent="flex-end"
+            >
+              <ContactForm />
+            </Grid>
+          </Grid>
+        </Stack>
+      </Stack>
     </>
   )
 }

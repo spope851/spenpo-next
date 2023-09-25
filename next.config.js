@@ -21,7 +21,7 @@ module.exports = {
     return [
       {
         source: "/projects",
-        destination: "/projects/two-truths",
+        destination: "/projects/spenpo-landing",
         permanent: true,
       },
     ]

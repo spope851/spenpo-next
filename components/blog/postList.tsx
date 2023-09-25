@@ -83,7 +83,7 @@ export const PostList: React.FC<{
         </Post>
       ))}
       <NumberPosts textAlign="right" mb="50px">
-        {`showing ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
+        {`displaying ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
       </NumberPosts>
     </Wrapper>
   ) : (

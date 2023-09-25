@@ -10,8 +10,8 @@ export const Headshot: React.FC = () => {
     useContext(LandingPageContext)
 
   const BOX_PROPS = {
-    height: { md: 480, sm: "unset", xs: "unset" },
-    width: { md: 480, sm: "100%", xs: "100%" },
+    height: { md: 480, xs: "unset" },
+    width: { md: 480, xs: "100%" },
     borderRadius: 1,
     sx: {
       backgroundImage: `url(${HEADSHOT_SRC || "/images/headshot.jpeg"})`,
@@ -19,7 +19,8 @@ export const Headshot: React.FC = () => {
       backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
     },
-    flex: { sm: 1, xs: 1 },
+    flex: { xs: 1 },
+    minHeight: 200,
   }
 
   const {

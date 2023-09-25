@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react"
-import { Box, Typography } from "@mui/material"
+import React, { MutableRefObject, useRef, useState } from "react"
+import { Button, Grid, Stack, TextField, Typography } from "@mui/material"
 import validator from "validator"
 import emailjs from "@emailjs/browser"
-import { ContactFormWrapper } from "./styled"
+import { HomeComponentWrapper } from "./styled"
 
 const ContactForm: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -52,62 +52,83 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <ContactFormWrapper
+    <HomeComponentWrapper
       component="form"
-      ref={formRef}
-      id="contact-form"
-      onSubmit={sendEmail}
+      ref={formRef as unknown as MutableRefObject<HTMLDivElement>}
     >
-      <Typography variant="h6" fontWeight="bold" mb="20px">
+      <Typography variant="h6" fontWeight="bold">
         send me an email ♡
       </Typography>
-      <input type="hidden" name="contact_number" />
-      <div className="contact-fields">
-        <div className="contact-child">
-          <Box mb={{ sm: 3 }} className="contact-field">
-            <label>Name</label>
-            <input
-              type="text"
-              name="user_name"
-              disabled={success || failure}
-              onChange={(e) => setName(!!e.target.value)}
-            />
-          </Box>
-          <Box className="contact-field">
-            <label>Email</label>
-            <input
-              type="email"
-              name="user_email"
-              disabled={success || failure}
-              onChange={(e) => {
-                setEmail(!!e.target.value)
-                setEmailString(e.target.value)
-              }}
-            />
-            {emailError && (
-              <Typography variant="caption" color="error">
-                must be a valid email
-              </Typography>
-            )}
-          </Box>
-        </div>
-        <Box className="contact-child">
-          <label>Message</label>
-          <textarea
+      <Grid container spacing={{ md: 5, xs: 2 }}>
+        <Grid item display="flex" md={6} flex={1}>
+          <TextField
+            fullWidth
+            multiline
+            rows={6}
             name="message"
+            label="good, you?"
             disabled={success || failure}
             onChange={(e) => setText(!!e.target.value)}
-          ></textarea>
-        </Box>
-      </div>
-      <input
-        id="send-email"
-        style={{ marginTop: 20, width: 100 }}
-        type="submit"
-        value={loading ? "sending..." : sendSuccessOrFailure()}
-        disabled={success || failure || !email || !name || !text}
-      />
-    </ContactFormWrapper>
+          />
+        </Grid>
+        <Grid item container md={6}>
+          <input type="hidden" name="contact_number" />
+          <Stack flex={1} justifyContent="space-between" gap={{ md: 0, xs: 2 }}>
+            <Grid
+              component={() => (
+                <TextField
+                  fullWidth
+                  type="text"
+                  name="user_name"
+                  label="name"
+                  disabled={success || failure}
+                  onChange={(e) => setName(!!e.target.value)}
+                />
+              )}
+              item
+              md={12}
+            />
+            <Grid
+              component={() => (
+                <TextField
+                  fullWidth
+                  type="email"
+                  label="email"
+                  name="user_email"
+                  disabled={success || failure}
+                  onChange={(e) => {
+                    setEmail(!!e.target.value)
+                    setEmailString(e.target.value)
+                  }}
+                />
+              )}
+              item
+              md={12}
+            />
+            <Grid
+              component={() => (
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  type="submit"
+                  disabled={success || failure || !email || !name || !text}
+                  onClick={sendEmail}
+                >
+                  {loading ? "sending..." : sendSuccessOrFailure()}
+                </Button>
+              )}
+              item
+              md={12}
+            />
+          </Stack>
+        </Grid>
+      </Grid>
+      {emailError && (
+        <Typography variant="caption" color="error">
+          must be a valid email
+        </Typography>
+      )}
+    </HomeComponentWrapper>
   )
 }
 

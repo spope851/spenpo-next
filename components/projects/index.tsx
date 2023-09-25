@@ -10,6 +10,8 @@ import LanguageFlashDes from "./descriptions/languageFlashDes"
 import ReactTimeclockDes from "./descriptions/reactTimeclockDes"
 import TwoTruthsDes from "./descriptions/twoTruthsDes"
 import { Description, Header, MobileDescription } from "./styled"
+import SpenpoLandingDes from "./descriptions/spenpoLandingDes"
+import SpenpoLandingDemo from "./demos/spenpoLandingDemo"
 
 export * from "./styled"
 
@@ -34,6 +36,13 @@ const Project: React.FC<{
 )
 
 const projects: Record<Projects, JSX.Element> = {
+  "spenpo-landing": (
+    <Project
+      id="spenpo-landing"
+      description={<SpenpoLandingDes />}
+      demo={<SpenpoLandingDemo />}
+    />
+  ),
   "two-truths": (
     <Project
       id="two-truths"

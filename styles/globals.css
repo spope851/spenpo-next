@@ -71,14 +71,9 @@ nav .active {
   #twitter-feed-wrapper {
     width: unset !important;
   }
-
-  #page-content {
-    flex-direction: column;
-    max-height: unset !important;
-  }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
   #nav-fav {
     display: block;
   }

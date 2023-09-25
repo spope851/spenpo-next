@@ -14,6 +14,8 @@ interface NavbarProps {
   active: Tabs
 }
 
+const TABS: Tabs[] = ["contact", "resume", "blog", "projects", "products"]
+
 const Burger = styled("li")(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     display: "none",
@@ -64,31 +66,13 @@ export default function Navbar({ active }: NavbarProps) {
           <Tab sx={{ pt: 0.5, px: 0.5 }}>
             <AvatarMenu />
           </Tab>
-          <Tab>
-            <Link href="/contact" className={tabState(active === "contact")}>
-              contact
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/resume" className={tabState(active === "resume")}>
-              resume
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/blog" className={tabState(active === "blog")}>
-              blog
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/products" className={tabState(active === "products")}>
-              products
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/projects" className={tabState(active === "projects")}>
-              projects
-            </Link>
-          </Tab>
+          {TABS.map((tab) => (
+            <Tab key={tab}>
+              <Link href={`/${tab}`} className={tabState(active === tab)}>
+                {tab}
+              </Link>
+            </Tab>
+          ))}
           <Burger>
             <Button
               sx={{ height: 51, color: "white" }}
@@ -103,11 +87,11 @@ export default function Navbar({ active }: NavbarProps) {
             open={open}
             onClose={() => setOpen(false)}
           >
-            <Route onClick={() => route("/projects")}>projects</Route>
-            <Route onClick={() => route("/products")}>products</Route>
-            <Route onClick={() => route("/blog")}>blog</Route>
-            <Route onClick={() => route("/resume")}>resume</Route>
-            <Route onClick={() => route("/contact")}>contact</Route>
+            {TABS.map((tab) => (
+              <Route key={tab} onClick={() => route(`/${tab}`)}>
+                {tab}
+              </Route>
+            )).reverse()}
           </Drawer>
           {/* <li><ToggleTheme /></li> */}
         </ul>

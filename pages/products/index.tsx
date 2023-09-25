@@ -1,5 +1,5 @@
 import { BgImage } from "@/components/bgImage"
-import { Button, Stack, Typography } from "@mui/material"
+import { Button, Grid, Stack, Typography } from "@mui/material"
 import { InferGetServerSidePropsType } from "next"
 import { useRouter } from "next/router"
 import React from "react"
@@ -9,27 +9,56 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
   products,
 }) => {
   const router = useRouter()
+
   return (
-    <Stack m={5} rowGap={3}>
-      {products.map((product) => (
-        <Stack key={product.id} border="solid 2px" borderRadius={1} direction="row">
-          <BgImage src="/images/landing-page.png" sx={{ height: 300, width: 600 }} />
-          <Stack rowGap={1}>
-            <Typography variant="h3">{product.name}</Typography>
-            <Typography variant="h5">{product.description}</Typography>
-            <Typography>{product.price / 100}</Typography>
-            <Button href={`${router.pathname}/${product.id}`} variant="contained">
-              view details
-            </Button>
-            <Button
-              href={`${router.pathname}/${product.id}/design`}
-              variant="contained"
-            >
-              design now
-            </Button>
-          </Stack>
-        </Stack>
-      ))}
+    <Stack p={5} gap={5} flex={1}>
+      <Grid item xs={12}>
+        <Typography variant="h4" textAlign="center" fontStyle="italic">
+          spenpo.shop
+        </Typography>
+      </Grid>
+      <Grid container>
+        {products.map(({ price, id, name, description }) => (
+          <Grid
+            item
+            md={4}
+            key={id}
+            borderRadius={1}
+            gap={2}
+            display="flex"
+            direction="column"
+            bgcolor="#eee"
+            border="solid 1px #ddd"
+            p={3}
+          >
+            <BgImage src={`/images/${id}.png`} sx={{ minHeight: 200, flex: 1 }} />
+            <Stack gap={1}>
+              <Stack
+                direction="row"
+                justifyContent="space-between"
+                alignItems="flex-end"
+              >
+                <Typography variant="h6">{name}</Typography>
+                <Typography>${price / 100}</Typography>
+              </Stack>
+              <Typography>{description}</Typography>
+              <Stack gap={1} ml="auto" direction="row">
+                <Button href={`${router.pathname}/${id}`} variant="text">
+                  learn more
+                </Button>
+                <Button href={`${router.pathname}/${id}/design`} variant="contained">
+                  buy now
+                </Button>
+              </Stack>
+            </Stack>
+          </Grid>
+        ))}
+      </Grid>
+      <Stack flex={1} justifyContent="flex-end">
+        <Typography sx={{ ml: "auto" }}>{`displaying ${products.length} product${
+          products.length > 1 ? "s" : ""
+        } of ${products.length}`}</Typography>
+      </Stack>
     </Stack>
   )
 }

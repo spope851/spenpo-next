@@ -5,6 +5,14 @@ import Head from "next/head"
 import { Projects as ProjectsType } from "@/types"
 import projects, { TabBtn } from "@/components/projects"
 
+const PROJECTS: ProjectsType[] = [
+  "spenpo-landing",
+  "two-truths",
+  "language-flash",
+  "3x3-cube",
+  "react-timeclock",
+]
+
 export default function Projects() {
   const router = useRouter()
   const project = router.query.id as ProjectsType
@@ -20,28 +28,16 @@ export default function Projects() {
           allowScrollButtonsMobile
           variant="scrollable"
           className="tabs"
-          value={Object.keys(projects).indexOf(project || "two-truths")}
+          value={Object.keys(projects).indexOf(project || "spenpo-landing")}
         >
-          <TabBtn
-            onClick={() => router.push("/projects/two-truths")}
-            id="two-truths"
-            active={project}
-          />
-          <TabBtn
-            onClick={() => router.push("/projects/language-flash")}
-            id="language-flash"
-            active={project}
-          />
-          <TabBtn
-            onClick={() => router.push("/projects/3x3-cube")}
-            id="3x3-cube"
-            active={project}
-          />
-          <TabBtn
-            onClick={() => router.push("/projects/react-timeclock")}
-            id="react-timeclock"
-            active={project}
-          />
+          {PROJECTS.map((projectName) => (
+            <TabBtn
+              key={projectName}
+              onClick={() => router.push(projectName)}
+              id={projectName}
+              active={project}
+            />
+          ))}
         </Tabs>
         <table border={2}>
           <thead>

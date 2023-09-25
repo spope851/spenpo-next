@@ -16,7 +16,7 @@ export const OverviewStepper: React.FC<{
   refs: { designRef, nameRef, secureRef, claimRef },
 }) => {
   const scrollTo = (current: HTMLSpanElement | null) =>
-    current && current.scrollIntoView({ behavior: "smooth", block: "center" })
+    current && current.scrollIntoView({ behavior: "smooth", block: "start" })
 
   return (
     <Stepper
@@ -30,6 +30,7 @@ export const OverviewStepper: React.FC<{
         bgcolor: "#fff",
         py: 5,
         zIndex: 999,
+        borderBottom: "solid 1px #ccc",
       }}
     >
       <Step sx={{ ml: 5 }}>
