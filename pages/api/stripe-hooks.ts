@@ -67,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let vercelApp: string = PROJECT_NAME
         let githubProject: string = PROJECT_NAME
 
-        const HEADSHOT_URL = `https://spenpo-landing.s3.amazonaws.com/${order?.id}.${EXTENSION}`
+        const HEADSHOT_URL = `${process.env.AWS_LANDING_S3}/${order?.id}.${EXTENSION}`
 
         let attempts = 0
 
