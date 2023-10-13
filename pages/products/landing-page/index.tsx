@@ -6,6 +6,7 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getServerSession } from "next-auth"
 import { useRouter } from "next/router"
 import React, { ReactNode } from "react"
+import prisma from "@/utils/prisma"
 
 const LandingPageProductPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
