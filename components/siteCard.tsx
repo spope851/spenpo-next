@@ -38,7 +38,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
 
   useEffect(() => {
     ;(async () => fetchProject())()
-  }, [])
+  })
 
   const [linkPreview, setLinkPreview] = useState("")
 
@@ -52,7 +52,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
       setLinkPreview(preview.image)
     })()
     if (!linkPreview) setLinkPreview(LINK_PREVIEW_FALLBACK)
-  }, [project])
+  }, [project, linkPreview])
 
   if (!project)
     return (

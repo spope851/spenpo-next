@@ -3,7 +3,7 @@ import { Content, HomeComponentWrapper } from "@/components/home"
 import Head from "next/head"
 import ContactForm from "@/components/home/contactForm"
 import { pool } from "@/utils/postgres"
-import { Box, Button, Grid, Stack, Typography } from "@mui/material"
+import { Button, Grid, Stack, Typography } from "@mui/material"
 import redis from "@/utils/redis"
 import { LinkPreview } from "@/components/linkPreview"
 

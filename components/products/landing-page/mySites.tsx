@@ -73,7 +73,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
         clearInterval(pollingId)
       }
     }
-  }, [awaitingNewSite])
+  }, [awaitingNewSite, orders.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     router.replace(
@@ -83,7 +83,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
         shallow: true,
       }
     )
-  }, [])
+  })
 
   return (
     <>

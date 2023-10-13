@@ -11,11 +11,7 @@ import { useRouter } from "next/router"
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
-const stripe = loadStripe(
-  process.env.NODE_ENV === "production"
-    ? process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-    : "pk_test_51Njln3I7AtbqQ3Lr6n0d27jT87hAlb7nUSrBOMo0cY3t3rFzLr65z2k23ijJg8d0wskm9J0so7lLQPW05mbEHIUO00FDfE5RIc"
-)
+const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 const Checkout: React.FC = () => {
   const session = useSession()
@@ -62,7 +58,7 @@ const Checkout: React.FC = () => {
           })
       init()
     }
-  }, [clientSecret])
+  }, [clientSecret, file, paymentIntentMetadata, router.pathname, session.data])
 
   const appearance: { theme: "stripe" | "night" | "flat" | undefined } = {
     theme: "stripe",

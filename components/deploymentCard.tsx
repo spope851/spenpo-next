@@ -31,7 +31,7 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
         const data = await res.json()
         setData(data)
       }))()
-  }, [])
+  })
 
   if (!data)
     return (

@@ -57,27 +57,30 @@ export const TopComponents: React.FC = () => {
         back to products
       </Button>
       <LandingPageContext.Consumer>
-        {({ HEADSHOT_SRC }) => (
-          <Tooltip title={tooltipTitle(HEADSHOT_SRC)}>
-            <Box
-              component="span"
-              sx={{
-                mr: { md: 5, sm: 5, xs: "auto" },
-                mt: editable?.[0] ? { md: 0, sm: 15 } : { md: 0, sm: 5 },
-                ml: { xs: "auto" },
-              }}
-            >
-              <Button
-                variant="contained"
-                onClick={() => router.push("domain")}
-                endIcon={<ChevronRightIcon />}
-                disabled={!HEADSHOT_SRC}
+        {({ HEADSHOT_SRC }) => {
+          console.log(HEADSHOT_SRC)
+          return (
+            <Tooltip title={tooltipTitle(HEADSHOT_SRC)}>
+              <Box
+                component="span"
+                sx={{
+                  mr: { md: 5, sm: 5, xs: "auto" },
+                  mt: editable?.[0] ? { md: 0, sm: 15 } : { md: 0, sm: 5 },
+                  ml: { xs: "auto" },
+                }}
               >
-                add to cart
-              </Button>
-            </Box>
-          </Tooltip>
-        )}
+                <Button
+                  variant="contained"
+                  onClick={() => router.push("domain")}
+                  endIcon={<ChevronRightIcon />}
+                  disabled={!HEADSHOT_SRC || session.status !== "authenticated"}
+                >
+                  add to cart
+                </Button>
+              </Box>
+            </Tooltip>
+          )
+        }}
       </LandingPageContext.Consumer>
     </Stack>
   )

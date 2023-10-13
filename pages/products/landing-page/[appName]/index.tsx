@@ -43,7 +43,7 @@ const SitePage: React.FC = () => {
 
   useEffect(() => {
     ;(async () => refreshProject())()
-  }, [])
+  })
 
   const linkPreview = useMemo(() => {
     return <LinkPreview url={`https://${data?.targets.production?.alias?.[0]}`} />

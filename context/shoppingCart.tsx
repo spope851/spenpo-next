@@ -96,14 +96,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const file = useState<File>()
 
-  const nameGetSet: LandingCms["name"] = {
-    getter: () => clientName,
-    setter: (name?: string) => {
-      setClientName(name)
-      setProjectName(`${formatDomain(name || "")}-landing`)
-    },
-  }
-
   const linkNewTabGetSet: LandingCms["linkNewTab"] = {
     getter: () => {
       if (!!linkNewTab) return JSON.parse(linkNewTab)

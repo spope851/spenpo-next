@@ -15,7 +15,7 @@ const Domain: React.FC = () => {
 
   useEffect(() => {
     projectName[1](domainName)
-  }, [domainName])
+  }, [domainName, projectName])
 
   return (
     <Stack rowGap={1} m={5}>

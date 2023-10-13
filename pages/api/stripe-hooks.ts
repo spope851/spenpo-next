@@ -13,16 +13,9 @@ import {
 import { createProject } from "@/services/vercel"
 import prisma from "@/utils/prisma"
 
-const endpointSecret =
-  process.env.NODE_ENV === "production"
-    ? process.env.STRIPE_WEBHOOK_SECRET
-    : "whsec_16beda66d6f35d6d190a9f3be86161f1c49a878a87cf20cfa3681bb40c14f373"
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
 
-const stripe = require("stripe")(
-  process.env.NODE_ENV === "production"
-    ? process.env.STRIPE_SECRET_KEY
-    : "sk_test_51Njln3I7AtbqQ3LrfbzfcWBsW2TQgtmAT0niTPS8j3N07TnkIYmdseeWFx0zVz8KWPyO7TlSTIrhH8mGyIsNJyQk00qY3wI2mk"
-)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 const gitRepository = (projectName: string) => {
   return {

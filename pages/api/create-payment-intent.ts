@@ -2,11 +2,7 @@ import prisma from "@/utils/prisma"
 import { NextApiRequest, NextApiResponse } from "next"
 
 // This is your test secret API key.
-const stripe = require("stripe")(
-  process.env.NODE_ENV === "production"
-    ? process.env.STRIPE_SECRET_KEY
-    : "sk_test_51Njln3I7AtbqQ3LrfbzfcWBsW2TQgtmAT0niTPS8j3N07TnkIYmdseeWFx0zVz8KWPyO7TlSTIrhH8mGyIsNJyQk00qY3wI2mk"
-)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { metadata, userId, productId } = req.body
