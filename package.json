@@ -14,7 +14,8 @@
     "new:db": "cd server && rm -rf postgres-data && docker-compose build && docker-compose up",
     "it:db": "docker exec -it db sh",
     "it:cache": "docker exec -it redis redis-cli",
-    "stripe": "stripe listen --forward-to localhost:3000/api/stripe-hooks"
+    "stripe": "stripe listen --forward-to localhost:3000/api/stripe-hooks",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "3x3-cube": "^2.0.0",
