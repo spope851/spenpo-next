@@ -26,7 +26,7 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
             borderRadius={1}
             gap={2}
             display="flex"
-            direction="column"
+            flexDirection="column"
             bgcolor="#eee"
             border="solid 1px #ddd"
             p={3}

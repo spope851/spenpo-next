@@ -36,7 +36,7 @@ const Demo: React.FC<{ cache: LandingCache }> = ({ cache }) => {
         )
       }, 15000)
     }
-  }, [session.status, routeToSignin, router]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [session.status]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Landing
