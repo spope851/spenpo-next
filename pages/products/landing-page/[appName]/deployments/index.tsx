@@ -27,7 +27,7 @@ const Deployments: React.FC<
 
   useEffect(() => {
     ;(async () => refreshDeployments())()
-  })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Stack rowGap={1} m={5}>

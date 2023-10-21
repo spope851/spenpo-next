@@ -38,7 +38,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
 
   useEffect(() => {
     ;(async () => fetchProject())()
-  })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const [linkPreview, setLinkPreview] = useState("")
 

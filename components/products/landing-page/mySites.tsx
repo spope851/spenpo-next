@@ -83,7 +83,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
         shallow: true,
       }
     )
-  })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -100,11 +100,8 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
         <Stack rowGap={1} width="100%">
           {orders.length > 0 ? (
             orders.map((order, idx) => (
-              <>
-                <SiteCard
-                  key={order.id}
-                  name={order.metadata.projectName.vercelApp}
-                />
+              <React.Fragment key={order.id}>
+                <SiteCard name={order.metadata.projectName.vercelApp} />
                 {newOrder && idx === orders.length - 1 && (
                   <Snackbar
                     open={newOrder}
@@ -128,7 +125,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
                     }
                   />
                 )}
-              </>
+              </React.Fragment>
             ))
           ) : (
             <Stack mx="auto" rowGap={5}>
