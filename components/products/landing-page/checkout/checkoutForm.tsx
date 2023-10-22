@@ -1,9 +1,8 @@
-import React, { FormEvent, useContext } from "react"
+import React, { FormEvent } from "react"
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js"
 import { Layout, LayoutObject } from "@stripe/stripe-js"
 import { Box, Button, Stack } from "@mui/material"
 import { useSession } from "next-auth/react"
-import { ShoppingCartContext } from "@/context/shoppingCart"
 
 export const CheckoutForm: React.FC = () => {
   const stripe = useStripe()
@@ -59,11 +58,7 @@ export const CheckoutForm: React.FC = () => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${
-          process.env.NODE_ENV === "production"
-            ? "https://spenpo.com"
-            : "http://localhost:3000"
-        }/products/landing-page?mysites=1`,
+        return_url: `${window?.location.origin}/products/landing-page?mysites=1`,
       },
     })
 
