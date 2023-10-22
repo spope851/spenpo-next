@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 export default function SpenpoLandingDes() {
   return (
     <ul className="app-description">
@@ -46,7 +44,8 @@ export default function SpenpoLandingDes() {
       </ul>
       <li>
         <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspenpo-landing%2Flanding-template&env=NEXT_PUBLIC_NAME,NEXT_AUTH_USERNAME,NEXT_AUTH_PASSWORD,NEXTAUTH_SECRET,NEXT_PUBLIC_TITLE,NEXT_PUBLIC_HEADSHOT,NEXT_PUBLIC_GH_TOKEN,NEXT_PUBLIC_VERCEL_TOKEN,NEXT_PUBLIC_PROJECT_NAME,NEXT_PUBLIC_ACTION&envDescription=API%20keys%20for%20automation%20purposes.%20Next-auth%20variables%20for%20access%20to%20admin%20features.%20Public%20variables%20for%20UI%20configuration&envLink=https%3A%2F%2Fspenpo.com%2Fprojects%2Fspenpo-landing&project-name=spenpo-landing&repository-name=spenpo-landing-clone&redirect-url=https%3A%2F%2Fspenpo.com%2Fprojects%2Fspenpo-landing&developer-id=oac_Azb9vDNgtYCb7HFWpi3lGkyd&demo-title=spenpo-landing&demo-description=a%20customizable%20landing%20page&demo-url=https%3A%2F%2Flanding-template-five.vercel.app%2F&demo-image=https%3A%2F%2Fwww.pngitem.com%2Fpimgs%2Fm%2F618-6183618_transparent-unknown-person-png-transparent-background-female-user.png">
-          <Image src="https://vercel.com/button" alt="Deploy with Vercel" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="https://vercel.com/button" alt="Deploy with Vercel" />
         </a>
       </li>
     </ul>

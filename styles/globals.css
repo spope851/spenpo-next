@@ -209,7 +209,7 @@ div h4 {
 
 .app-description,
 .app-demo {
-  height: calc(100vh - 270px);
+  height: calc(100vh - 283px);
   overflow: auto;
 }
 

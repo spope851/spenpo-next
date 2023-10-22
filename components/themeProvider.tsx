@@ -25,6 +25,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
           primary: {
             main: "#4f86f7",
           },
+          secondary: {
+            main: "#fff",
+          },
         },
         breakpoints: {
           values: {

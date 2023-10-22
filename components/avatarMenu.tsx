@@ -10,7 +10,6 @@ import {
   Typography,
   Button,
 } from "@mui/material"
-import { useRouter } from "next/router"
 import React, { useState } from "react"
 // import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
 import { signOut, useSession } from "next-auth/react"
@@ -22,7 +21,6 @@ const AvatarMenu: React.FC = () => {
   const { data: session, status } = useSession()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
-  const router = useRouter()
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
@@ -51,7 +49,7 @@ const AvatarMenu: React.FC = () => {
         aria-controls={open ? "account-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        sx={{ p: 0 }}
+        sx={{ p: 0, display: { xs: "none", sm: "block" } }}
       >
         {avatar}
       </IconButton>
@@ -60,23 +58,25 @@ const AvatarMenu: React.FC = () => {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 7,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "&:before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 7,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
             },
           },
         }}
@@ -97,12 +97,6 @@ const AvatarMenu: React.FC = () => {
             </Button>
           )}
         </Box>
-        {/* <MenuItem onClick={() => router.push("/admin")}>
-          <ListItemIcon>
-            <AdminPanelSettingsIcon fontSize="small" />
-          </ListItemIcon>
-          Admin
-        </MenuItem> */}
         {status === "authenticated" && <Divider />}
         {status === "authenticated" && (
           <MenuItem onClick={() => signOut()}>

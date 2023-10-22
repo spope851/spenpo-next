@@ -1,28 +1,35 @@
 import Image from "next/image"
-import Link from "next/link"
 import { Tabs } from "../types"
-import fav from "../public/favicon.ico"
-import { Button, Drawer } from "@mui/material"
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Drawer,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material"
 import { styled } from "@mui/material/styles"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useState } from "react"
 import { useRouter } from "next/router"
 import AvatarMenu from "./avatarMenu"
-// import { ToggleTheme } from "./toggleTheme"
 
 interface NavbarProps {
   active: Tabs
 }
 
-const TABS: Tabs[] = ["contact", "resume", "blog", "projects", "products"]
+const TABS: Tabs[] = ["products", "projects", "blog", "resume", "contact"]
 
-const Burger = styled("li")(({ theme }) => ({
+const Burger = styled(Button)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     display: "none",
   },
 }))
 
-const Tab = styled("li")(({ theme }) => ({
+const Tab = styled(Button)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
@@ -45,42 +52,65 @@ export default function Navbar({ active }: NavbarProps) {
     setOpen(false)
     router.push(r)
   }
+  console.log(active)
 
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/home" className={tabState(active === "home")}>
-              <h3 id="nav-header">spencer pope</h3>
-              <Image
-                src={fav}
-                height={32}
-                width={32}
-                id="nav-fav"
-                alt="favicon"
-                style={{ margin: 5 }}
-              />
-            </Link>
-          </li>
-          <Tab sx={{ pt: 0.5, px: 0.5 }}>
-            <AvatarMenu />
-          </Tab>
-          {TABS.map((tab) => (
-            <Tab key={tab}>
-              <Link href={`/${tab}`} className={tabState(active === tab)}>
+    <AppBar position="static" sx={{ bgcolor: "#555" }}>
+      <Container maxWidth="xl" sx={{ pl: "0px !important" }}>
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <Box
+            bgcolor={(theme) =>
+              active === "home" ? theme.palette.primary.main : ""
+            }
+            p={2}
+          >
+            <Typography
+              variant="h6"
+              component="a"
+              href="/home"
+              sx={{ textDecoration: "none" }}
+              color="secondary"
+              display={{ xs: "none", sm: "block" }}
+              noWrap
+            >
+              spencer pope
+            </Typography>
+            <IconButton
+              href="/home"
+              sx={{
+                display: { xs: "block", sm: "none" },
+                borderRadius: 1,
+                p: 0,
+                height: 32,
+                width: 32,
+              }}
+            >
+              <Image src="/favicon.ico" height={32} width={32} alt="favicon" />
+            </IconButton>
+          </Box>
+          <Stack direction="row" gap={1}>
+            {TABS.map((tab) => (
+              <Tab
+                variant={active === tab ? "contained" : "text"}
+                color="secondary"
+                key={tab}
+                href={`/${tab}`}
+                className={tabState(active === tab)}
+              >
                 {tab}
-              </Link>
-            </Tab>
-          ))}
-          <Burger>
-            <Button
+              </Tab>
+            ))}
+            <AvatarMenu />
+            <Burger
               sx={{ height: 51, color: "white" }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
-            </Button>
-          </Burger>
+            </Burger>
+          </Stack>
           <Drawer
             PaperProps={{ sx: { backgroundColor: "transparent", pt: 7 } }}
             anchor="right"
@@ -91,11 +121,10 @@ export default function Navbar({ active }: NavbarProps) {
               <Route key={tab} onClick={() => route(`/${tab}`)}>
                 {tab}
               </Route>
-            )).reverse()}
+            ))}
           </Drawer>
-          {/* <li><ToggleTheme /></li> */}
-        </ul>
-      </nav>
-    </header>
+        </Toolbar>
+      </Container>
+    </AppBar>
   )
 }
