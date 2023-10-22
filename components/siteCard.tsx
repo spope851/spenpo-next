@@ -47,7 +47,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
     ;(async () => fetchProject())()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [linkPreview, setLinkPreview] = useState("")
+  const [linkPreview, setLinkPreview] = useState(LINK_PREVIEW_FALLBACK)
 
   useEffect(() => {
     ;(async () => {
@@ -55,11 +55,12 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
         `/api/getLinkPreview?url=https://${project?.targets.production?.alias?.[0]}`,
         { method: "get" }
       )
-      const preview = await previewReq.json()
-      setLinkPreview(preview.image)
+      if (previewReq.ok) {
+        const preview = await previewReq.json()
+        setLinkPreview(preview.image)
+      } else setLinkPreview(LINK_PREVIEW_FALLBACK)
     })()
-    if (!linkPreview) setLinkPreview(LINK_PREVIEW_FALLBACK)
-  }, [project, linkPreview])
+  }, [project])
 
   if (!project)
     return (
