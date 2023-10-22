@@ -1,5 +1,6 @@
 import { Step, StepButton, Stepper } from "@mui/material"
 import React from "react"
+import { STEP_SX } from "./stepper"
 
 export const OverviewStepper: React.FC<{
   activeStep: number
@@ -31,6 +32,7 @@ export const OverviewStepper: React.FC<{
         py: 5,
         zIndex: 999,
         borderBottom: "solid 1px #ccc",
+        ...STEP_SX,
       }}
     >
       <Step sx={{ ml: { xs: 2, sm: 5 } }}>

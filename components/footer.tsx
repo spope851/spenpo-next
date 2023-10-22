@@ -57,7 +57,7 @@ export default function Footer() {
           </Link>
         </Box>
       </Box>
-      <Box id="copyright">
+      <Box id="copyright" display={{ xs: "none", sm: "block" }}>
         <Box component="span">© 2023 Spencer Pope</Box>
       </Box>
     </Box>

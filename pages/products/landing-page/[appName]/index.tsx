@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Button,
   CircularProgress,
   Stack,
@@ -10,12 +11,11 @@ import {
 } from "@mui/material"
 import { useRouter } from "next/router"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
+import { GetServerSidePropsContext } from "next"
 import { getServerSession } from "next-auth"
 import CachedIcon from "@mui/icons-material/Cached"
-import { getProject, getProjectDeployments } from "@/services/vercel"
+import { getProject } from "@/services/vercel"
 import { DeploymentCard } from "@/components/deploymentCard"
-import ChevronLeft from "@mui/icons-material/ChevronLeft"
 import { LinkPreview } from "@/components/linkPreview"
 import Link from "next/link"
 import { Breadcrumbs } from "@/components/breadcrumbs"
@@ -46,7 +46,21 @@ const SitePage: React.FC = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const linkPreview = useMemo(() => {
-    return <LinkPreview url={`https://${data?.targets.production?.alias?.[0]}`} />
+    return (
+      <Box
+        display="flex"
+        sx={{
+          "& .Container": {
+            height: "unset",
+          },
+          "& .Image": {
+            height: "-webkit-fill-available",
+          },
+        }}
+      >
+        <LinkPreview url={`https://${data?.targets.production?.alias?.[0]}`} />
+      </Box>
+    )
   }, [data])
 
   return (

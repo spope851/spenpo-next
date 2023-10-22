@@ -14,7 +14,7 @@ table {
 th {
   padding: 10px;
 }
-td:first-child {
+td:first-of-type {
   display: contents;
 }
 button.active {
@@ -26,6 +26,6 @@ button.active {
 #react-timeclock-demo table {
   width: unset;
 }
-#react-timeclock-demo td:first-child {
+#react-timeclock-demo td:first-of-type {
   display: table-cell;
 }

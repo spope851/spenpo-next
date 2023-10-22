@@ -52,7 +52,6 @@ export default function Navbar({ active }: NavbarProps) {
     setOpen(false)
     router.push(r)
   }
-  console.log(active)
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#555" }}>

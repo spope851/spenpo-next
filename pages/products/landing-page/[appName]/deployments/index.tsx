@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth"
 import CachedIcon from "@mui/icons-material/Cached"
 import { getProjectDeployments } from "@/services/vercel"
 import { DeploymentCard } from "@/components/deploymentCard"
-import ChevronLeft from "@mui/icons-material/ChevronLeft"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 
 const Deployments: React.FC<

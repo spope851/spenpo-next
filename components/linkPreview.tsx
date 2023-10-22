@@ -8,6 +8,7 @@ import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
 export const LinkPreview: React.FC<LinkPreviewProps> = ({ url, ...rest }) => {
   return (
     <ReactLinkPreview
+      className="spenpo-link-preview"
       {...rest}
       url={url}
       fetcher={async (url: string) => {

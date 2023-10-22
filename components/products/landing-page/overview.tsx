@@ -23,11 +23,11 @@ export const LandingPageOverview: React.FC = () => {
   const [stepperTop, setStepperTop] = useState(35)
   const [contentMt, setContentMt] = useState<string | number>("104px")
 
-  const baseTop = session.status === "authenticated" ? 150 : 51
+  const baseTop = session.status === "authenticated" ? 153 : 64
 
   useEffect(() => {
     const handleScroll = () => {
-      setStepperTop(window.scrollY > 35 ? 0 : baseTop)
+      setStepperTop(window.scrollY > 47 ? 0 : baseTop)
       setContentMt("104px")
       if (
         claimRef.current?.offsetTop &&
@@ -67,12 +67,12 @@ export const LandingPageOverview: React.FC = () => {
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
       <Stack mt={contentMt} rowGap={5}>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row" justifyContent="space-between" gap={3}>
           <Typography variant="h4">A custom webpage that you design</Typography>
           <Button
             href={`${router.pathname}/design`}
             variant="contained"
-            sx={{ ml: "auto" }}
+            sx={{ ml: "auto", mb: "auto" }}
             endIcon={<ChevronRight />}
           >
             design

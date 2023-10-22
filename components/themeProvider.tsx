@@ -43,10 +43,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             styleOverrides: {
               root: {
                 border: `solid 2px ${DARK_GREY}`,
-                "&:not(:first-child)": {
+                "&:not(:first-of-type)": {
                   borderTop: `solid 1px ${DARK_GREY}`,
                 },
-                "&:not(:last-child)": {
+                "&:not(:last-of-type)": {
                   borderBottom: `solid 1px ${DARK_GREY}`,
                 },
                 "&.Mui-expanded": {

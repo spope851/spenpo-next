@@ -1,6 +1,6 @@
 import { getProject } from "@/services/vercel"
 import { Stack, Typography, Button } from "@mui/material"
-import { useEffect, useState } from "react"
+import { CSSProperties, useEffect, useState } from "react"
 import { VercelReadyState } from "./deployment/useDeployment"
 import { ReadyState } from "./readyState"
 import { NewTabLink } from "./newTabLink"
@@ -10,6 +10,13 @@ import CachedIcon from "@mui/icons-material/Cached"
 import { HoverAwareness } from "./hoverAwareness"
 import { BgImage } from "./bgImage"
 import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
+
+const MIN_WIDTH: CSSProperties = {
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  maxWidth: "25vw",
+}
 
 export type Project = {
   id: string
@@ -85,14 +92,16 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
           sx={{ borderRadius: 25, height: 50, width: 50 }}
         />
         <Stack>
-          <Typography fontWeight="bold">{project.name}</Typography>
-          <TimeAgo date={project.updatedAt} />
+          <Typography fontWeight="bold" sx={MIN_WIDTH}>
+            {project.name}
+          </Typography>
+          <TimeAgo date={project.updatedAt} style={MIN_WIDTH} />
         </Stack>
       </Stack>
       {project.targets.production ? (
         <Stack direction="row" alignItems="center" mb="auto">
           {project.targets.production?.alias && (
-            <HoverAwareness setHovering={setActionHover}>
+            <HoverAwareness setHovering={setActionHover} sx={MIN_WIDTH}>
               <NewTabLink url={project.targets.production.alias[0]} />
             </HoverAwareness>
           )}
