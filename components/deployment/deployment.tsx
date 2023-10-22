@@ -44,8 +44,8 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
   }, [offsetTimestamp])
 
   return (
-    <Stack m={5} rowGap={3}>
-      <Stack columnGap={3} direction="row">
+    <Stack m={{ xs: 2, sm: 5 }} rowGap={3}>
+      <Stack gap={3} direction={{ xs: "column", sm: "row" }}>
         <Status readyState={metadata?.readyState} sx={METADATA_SX} />
         <Stack sx={METADATA_SX}>
           <SmallHeader>Duration</SmallHeader>

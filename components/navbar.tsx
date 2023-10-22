@@ -56,10 +56,10 @@ export default function Navbar({ active }: NavbarProps) {
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#555" }}>
-      <Container maxWidth="xl" sx={{ pl: "0px !important" }}>
+      <Container maxWidth="xl" sx={{ p: "0px !important" }}>
         <Toolbar
           disableGutters
-          sx={{ display: "flex", justifyContent: "space-between" }}
+          sx={{ display: "flex", justifyContent: "space-between", pr: 1 }}
         >
           <Box
             bgcolor={(theme) =>
@@ -95,7 +95,7 @@ export default function Navbar({ active }: NavbarProps) {
             {TABS.map((tab) => (
               <Tab
                 variant={active === tab ? "contained" : "text"}
-                color="secondary"
+                color={active === tab ? "primary" : "secondary"}
                 key={tab}
                 href={`/${tab}`}
                 className={tabState(active === tab)}
@@ -112,13 +112,17 @@ export default function Navbar({ active }: NavbarProps) {
             </Burger>
           </Stack>
           <Drawer
-            PaperProps={{ sx: { backgroundColor: "transparent", pt: 7 } }}
+            PaperProps={{ sx: { backgroundColor: "transparent", pt: 7, px: 1 } }}
             anchor="right"
             open={open}
             onClose={() => setOpen(false)}
           >
             {TABS.map((tab) => (
-              <Route key={tab} onClick={() => route(`/${tab}`)}>
+              <Route
+                variant={active === tab ? "contained" : "text"}
+                key={tab}
+                onClick={() => route(`/${tab}`)}
+              >
                 {tab}
               </Route>
             ))}

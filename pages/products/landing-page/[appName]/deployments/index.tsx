@@ -30,7 +30,7 @@ const Deployments: React.FC<
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Stack rowGap={1} m={5}>
+    <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
       <Stack direction="row" justifyContent="space-between">
         <Breadcrumbs />
         <Button
@@ -41,7 +41,7 @@ const Deployments: React.FC<
           <CachedIcon />
         </Button>
       </Stack>
-      <Stack direction="row" justifyContent="space-around" m={5}>
+      <Stack direction="row" justifyContent="space-around" m={{ xs: 2, sm: 5 }}>
         <Stack rowGap={1} width="100%">
           {data.map((el) => (
             <DeploymentCard key={el.uid} uid={el.uid} />

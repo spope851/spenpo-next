@@ -87,7 +87,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
 
   return (
     <>
-      <Stack direction="row" position="absolute" right={0} mr={5}>
+      <Stack direction="row" position="absolute" right={0} mr={{ xs: 2, sm: 5 }}>
         <Button
           variant="contained"
           onClick={refreshOrders}
@@ -96,7 +96,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
           <CachedIcon />
         </Button>
       </Stack>
-      <Stack direction="row" justifyContent="space-around" mx={5}>
+      <Stack direction="row" justifyContent="space-around" mx={{ xs: 2, sm: 5 }}>
         <Stack rowGap={1} width="100%">
           {orders.length > 0 ? (
             orders.map((order, idx) => (

@@ -20,7 +20,7 @@ const LandingPageProductPage: React.FC<
   const mysites = Number(router.query.mysites) || 0
 
   return (
-    <Stack m={5} rowGap={5}>
+    <Stack m={{ xs: 2, sm: 5 }} rowGap={5}>
       {ssrOrders ? (
         <>
           <Tabs

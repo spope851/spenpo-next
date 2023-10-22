@@ -50,7 +50,7 @@ const SitePage: React.FC = () => {
   }, [data])
 
   return (
-    <Stack rowGap={1} m={5}>
+    <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
       <Stack direction="row" justifyContent="space-between">
         <Breadcrumbs />
         <Button
@@ -61,8 +61,16 @@ const SitePage: React.FC = () => {
           <CachedIcon />
         </Button>
       </Stack>
-      <Stack m={5} rowGap={5} sx={{ "& .Mui-expanded": { m: "0px !important" } }}>
-        <Stack direction="row" justifyContent="space-around" columnGap={5}>
+      <Stack
+        m={{ xs: 2, sm: 5 }}
+        rowGap={5}
+        sx={{ "& .Mui-expanded": { m: "0px !important" } }}
+      >
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-around"
+          gap={5}
+        >
           {linkPreview}
           <Stack flex={1} border="solid 2px #aaa" p={2} rowGap={3}>
             <Domains alias={data?.targets.production?.alias} />

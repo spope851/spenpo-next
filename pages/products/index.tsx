@@ -11,7 +11,7 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
   const router = useRouter()
 
   return (
-    <Stack p={5} gap={5} flex={1}>
+    <Stack p={{ xs: 2, sm: 5 }} gap={5} flex={1}>
       <Grid item xs={12}>
         <Typography variant="h4" textAlign="center" fontStyle="italic">
           spenpo.shop

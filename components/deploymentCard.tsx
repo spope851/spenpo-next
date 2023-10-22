@@ -1,5 +1,5 @@
 import { getDeployment } from "@/services/vercel"
-import { Stack } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { VercelReadyState } from "./deployment/useDeployment"
 import { ReadyState } from "./readyState"
@@ -67,13 +67,20 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
           cursor: "pointer",
         },
       }}
+      alignItems="center"
     >
-      <Stack>
-        <TimeAgo date={data.ready} />
-      </Stack>
+      <TimeAgo date={data.ready} />
       <Stack direction="row" alignItems="center" mb="auto">
         {data.alias && (
-          <HoverAwareness setHovering={setLinkHover}>
+          <HoverAwareness
+            setHovering={setLinkHover}
+            sx={{
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "40vw",
+            }}
+          >
             <NewTabLink url={data.url} />
           </HoverAwareness>
         )}

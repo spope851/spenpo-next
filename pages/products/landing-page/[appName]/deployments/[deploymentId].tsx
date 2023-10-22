@@ -12,7 +12,7 @@ export default function Deployments() {
 
   return (
     <>
-      <Box sx={{ mt: 5, ml: 5 }}>
+      <Box sx={{ mt: { xs: 2, sm: 5 }, ml: { xs: 2, sm: 5 } }}>
         <Breadcrumbs />
       </Box>
       <Deployment id={id} createdAt={createdAt} />

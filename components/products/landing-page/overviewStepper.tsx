@@ -33,7 +33,7 @@ export const OverviewStepper: React.FC<{
         borderBottom: "solid 1px #ccc",
       }}
     >
-      <Step sx={{ ml: 5 }}>
+      <Step sx={{ ml: { xs: 2, sm: 5 } }}>
         <StepButton
           onClick={() => {
             scrollTo(designRef.current)
@@ -60,7 +60,7 @@ export const OverviewStepper: React.FC<{
           Secure it
         </StepButton>
       </Step>
-      <Step sx={{ mr: 5 }}>
+      <Step sx={{ mr: { xs: 2, sm: 5 } }}>
         <StepButton
           onClick={() => {
             scrollTo(claimRef.current)

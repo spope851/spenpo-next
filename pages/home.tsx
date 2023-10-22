@@ -39,7 +39,7 @@ export default function Home({ content }: { content: Content }) {
       <Head>
         <title>spencer pope</title>
       </Head>
-      <Stack flex={1} id="page-content">
+      <Stack flex={1}>
         <Stack m={{ sm: 5, xs: 2 }} flex={1} justifyContent="space-between" gap={5}>
           <Grid container justifyContent="space-between" spacing={5} flex={1}>
             <Grid lg={5} md={6} sm={12} {...GRID_PROPS}>
