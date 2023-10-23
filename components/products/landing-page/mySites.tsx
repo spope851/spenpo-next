@@ -104,7 +104,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
                 <SiteCard name={order.metadata.projectName.vercelApp} />
                 {newOrder && idx === orders.length - 1 && (
                   <Snackbar
-                    open={newOrder}
+                    open
                     autoHideDuration={6000}
                     message="new site being deployed! click here to track its progress"
                     action={

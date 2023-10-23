@@ -48,13 +48,13 @@ const SitePage: React.FC = () => {
   const linkPreview = useMemo(() => {
     return (
       <Box
-        display="flex"
+        display={{ xs: "block", sm: "flex" }}
         sx={{
           "& .Container": {
             height: "unset",
           },
           "& .Image": {
-            height: "-webkit-fill-available",
+            height: { sm: "-webkit-fill-available" },
           },
         }}
       >
