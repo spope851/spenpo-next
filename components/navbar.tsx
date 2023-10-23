@@ -55,7 +55,10 @@ export default function Navbar({ active }: NavbarProps) {
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#555" }}>
-      <Container maxWidth="xl" sx={{ p: "0px !important" }}>
+      <Container
+        maxWidth="xl"
+        sx={{ p: "0px !important", maxWidth: "unset !important" }}
+      >
         <Toolbar
           disableGutters
           sx={{ display: "flex", justifyContent: "space-between", pr: 1 }}

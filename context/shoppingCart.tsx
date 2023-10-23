@@ -143,6 +143,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXTAUTH_SECRET: secret[0],
     NEXT_PUBLIC_GH_TOKEN: process.env.NEXT_PUBLIC_GH_TOKEN,
     NEXT_PUBLIC_VERCEL_TOKEN: process.env.NEXT_PUBLIC_VERCEL_TOKEN,
+    NEXT_PUBLIC_VERCEL_TEAM: process.env.NEXT_PUBLIC_VERCEL_TEAM,
   })
 
   const contextValue: ShoppingCartContextProps = useMemo(() => {
