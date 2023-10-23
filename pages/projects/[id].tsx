@@ -1,9 +1,9 @@
 import { useRouter } from "next/router"
 import { RobotError } from "@/components/robotError"
-import { Tabs } from "@mui/material"
-import Head from "next/head"
+import { Box, Stack, Tabs, Tab, Typography } from "@mui/material"
 import { Projects as ProjectsType } from "@/types"
-import projects, { TabBtn } from "@/components/projects"
+import projects from "@/components/projects"
+import { ReactNode } from "react"
 
 const PROJECTS: ProjectsType[] = [
   "spenpo-landing",
@@ -13,59 +13,62 @@ const PROJECTS: ProjectsType[] = [
   "react-timeclock",
 ]
 
+const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <Typography variant="h5" textAlign="center" border="solid .5px">
+    {children}
+  </Typography>
+)
+
+const Body: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <Box
+    flex={1}
+    border="solid .5px"
+    maxWidth={{ xs: "unset", md: "75vw" }}
+    overflow="auto"
+    sx={{ boxSizing: "unset", lineHeight: 1 }}
+  >
+    {children}
+  </Box>
+)
+
 export default function Projects() {
   const router = useRouter()
   const project = router.query.id as ProjectsType
 
   return (
-    <>
-      <Head>
-        <title>spencer pope</title>
-      </Head>
-      <div className="content">
-        <Tabs
-          scrollButtons
-          allowScrollButtonsMobile
-          variant="scrollable"
-          className="tabs"
-          value={Object.keys(projects).indexOf(project || "spenpo-landing")}
-        >
-          {PROJECTS.map((projectName) => (
-            <TabBtn
-              key={projectName}
-              onClick={() => router.push(projectName)}
-              id={projectName}
-              active={project}
-            />
-          ))}
-        </Tabs>
-        <table border={2}>
-          <thead>
-            <tr id="thead">
-              <th className="projects-table-head" style={{ width: "25%" }}>
-                info
-              </th>
-              <th className="projects-table-head" style={{ width: "75%" }}>
-                demo
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {projects[project] || (
-              <tr className="projects-row">
-                <td className="projects-table-data">
-                  <ul className="app-description"></ul>
-                </td>
-                <td className="projects-table-data">
-                  <div className="app-demo">
-                    <RobotError>this project doesn&apos;t exist yet</RobotError>
-                  </div>
-                </td>
-              </tr>
+    <Stack m={2} flex={1}>
+      <Tabs
+        scrollButtons
+        allowScrollButtonsMobile
+        variant="scrollable"
+        value={Object.keys(projects).indexOf(project || "spenpo-landing")}
+      >
+        {PROJECTS.map((projectName) => (
+          <Tab
+            key={projectName}
+            label={projectName}
+            onClick={() => router.push(projectName)}
+          />
+        ))}
+      </Tabs>
+      <Stack
+        direction={{ xs: "column-reverse", md: "row" }}
+        flex={1}
+        border="solid .5px"
+      >
+        <Stack maxWidth={{ xs: "100%", md: "25%" }}>
+          <Header>description</Header>
+          <Body>{projects[project]?.description}</Body>
+        </Stack>
+        <Stack flex={1}>
+          <Header>demo</Header>
+          <Body>
+            {projects[project]?.demo || (
+              <RobotError>this project doesn&apos;t exist yet</RobotError>
             )}
-          </tbody>
-        </table>
-      </div>
-    </>
+          </Body>
+        </Stack>
+      </Stack>
+    </Stack>
   )
 }

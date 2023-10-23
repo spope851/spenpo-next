@@ -1,6 +1,6 @@
 export default function ReactTimeclockDes() {
   return (
-    <ul className="app-description">
+    <ul>
       <li>description: timeclock component for tracking work done on a website</li>
       <ul>
         <li>

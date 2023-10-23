@@ -11,9 +11,7 @@ import {
   Button,
 } from "@mui/material"
 import React, { useState } from "react"
-// import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings"
 import { signOut, useSession } from "next-auth/react"
-import Image from "next/image"
 import { useCachedSignin } from "@/hooks/useCachedSignin"
 
 const AvatarMenu: React.FC = () => {
@@ -28,18 +26,7 @@ const AvatarMenu: React.FC = () => {
     setAnchorEl(null)
   }
 
-  const avatar =
-    status === "authenticated" ? (
-      <Image
-        style={{ borderRadius: 25 }}
-        height={40}
-        width={40}
-        src={session.user.image}
-        alt="user image"
-      />
-    ) : (
-      <Avatar />
-    )
+  const avatar = <Avatar src={session?.user.image} />
 
   return (
     <>

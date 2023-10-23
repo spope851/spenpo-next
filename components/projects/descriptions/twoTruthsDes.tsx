@@ -1,6 +1,6 @@
 export default function TwoTruthsDes() {
   return (
-    <ul className="app-description">
+    <ul>
       <li>description: two truths and a lie app</li>
       <ul>
         <li>choose the two you think are true</li>

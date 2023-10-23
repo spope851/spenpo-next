@@ -17,13 +17,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     []
   )
 
+  const PRIMARY = "#4f86f7"
+
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
           mode,
           primary: {
-            main: "#4f86f7",
+            main: PRIMARY,
           },
           secondary: {
             main: "#fff",
@@ -39,6 +41,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         },
         components: {
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                "& .MuiButtonBase-root": {
+                  textTransform: "lowercase",
+                },
+              },
+            },
+          },
           MuiAccordion: {
             styleOverrides: {
               root: {
@@ -55,15 +66,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
               },
             },
           },
+          MuiTab: {
+            styleOverrides: {
+              root: {
+                textTransform: "lowercase",
+                borderRadius: "8px 8px 0px 0px",
+                border: "solid 2px",
+              },
+            },
+          },
           MuiTabs: {
             styleOverrides: {
               scrollButtons: {
                 "&.Mui-disabled": {
                   display: "none",
                 },
-              },
-              root: {
-                minHeight: "unset",
               },
             },
           },

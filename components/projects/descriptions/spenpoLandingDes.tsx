@@ -1,6 +1,6 @@
 export default function SpenpoLandingDes() {
   return (
-    <ul className="app-description">
+    <ul>
       <li>description: customizable landing page product</li>
       <ul>
         <li>

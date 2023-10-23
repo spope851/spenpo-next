@@ -14,7 +14,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <Box
-      id="wrapper"
       sx={{
         bgcolor: "background.default",
         color: "text.primary",

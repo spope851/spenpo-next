@@ -1,7 +1,7 @@
 import { MySites } from "@/components/products/landing-page/mySites"
 import { LandingPageOverview } from "@/components/products/landing-page/overview"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import { Stack, Tab, Tabs, useTheme } from "@mui/material"
+import { Stack, Tab, Tabs } from "@mui/material"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getServerSession } from "next-auth"
 import { useRouter } from "next/router"
@@ -11,7 +11,6 @@ import prisma from "@/utils/prisma"
 const LandingPageProductPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ ssrOrders }) => {
-  const theme = useTheme()
   const router = useRouter()
   const tabs: Record<number, ReactNode> = {
     0: <LandingPageOverview />,
@@ -33,15 +32,9 @@ const LandingPageProductPage: React.FC<
             }
             sx={{
               borderBottom: 1,
-              borderColor: "divider",
-              width: "100%",
-              "& .Mui-selected": {
-                bgcolor: theme.palette.primary.main,
-                color: "#fff !important",
-              },
             }}
           >
-            <Tab label="product overview" />
+            <Tab label="overview" />
             <Tab label="my sites" />
           </Tabs>
           {tabs[mysites]}
