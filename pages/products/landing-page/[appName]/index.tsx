@@ -91,6 +91,7 @@ const SitePage: React.FC = () => {
             <Status readyState={data?.targets.production?.readyState} />
             <Stack>
               <SmallHeader>Created</SmallHeader>
+              {/* @ts-expect-error Server Component */}
               {data?.createdAt && <ReactTimeago date={data.createdAt} />}
             </Stack>
           </Stack>

@@ -7,5 +7,5 @@ export default function ReactTimeclockDemo() {
   useEffect(() => {
     setTimeclock(<Timeclock />)
   }, [])
-  return timeclock
+  return <>{timeclock}</>
 }

@@ -8,5 +8,5 @@ export default function SpenpoLandingDemo() {
     setSpenpoLanding(<Landing />)
   }, [])
 
-  return spenpoLanding
+  return <>{spenpoLanding}</>
 }

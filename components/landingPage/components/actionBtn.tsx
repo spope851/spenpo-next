@@ -8,7 +8,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material"
-import React, { ChangeEvent, ElementType, forwardRef, useContext } from "react"
+import React, { forwardRef, useContext } from "react"
 import AdsClickIcon from "@mui/icons-material/AdsClick"
 import { useRouter } from "next/router"
 import { EditableText } from "./editableText"
@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit"
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined"
 import DeleteIcon from "@mui/icons-material/DeleteOutlined"
 
-const Btn: React.FC = forwardRef<HTMLAnchorElement | null>(({ ...props }, ref) => {
+const Btn: React.FC = forwardRef<HTMLButtonElement | null>(({ ...props }, ref) => {
   const {
     LINK_NEW_TAB,
     ACTION_DESTINATION,
@@ -40,7 +40,6 @@ const Btn: React.FC = forwardRef<HTMLAnchorElement | null>(({ ...props }, ref) =
 
   return (
     <Button
-      component={"button" as ElementType}
       {...props}
       ref={ref}
       startIcon={<AdsClickIcon />}
@@ -55,7 +54,7 @@ const Btn: React.FC = forwardRef<HTMLAnchorElement | null>(({ ...props }, ref) =
       }}
       size="large"
       variant="contained"
-      onClick={(e: ChangeEvent<HTMLButtonElement>) => {
+      onClick={(e) => {
         if (!editable?.[0]) ACTION_DESTINATION ? onClick() : alert("your action")
         else e.preventDefault()
       }}

@@ -1,5 +1,5 @@
 import React from "react"
-import { Content, HomeComponentWrapper } from "@/components/home"
+import { HomeComponentWrapper } from "@/components/home"
 import Head from "next/head"
 import ContactForm from "@/components/home/contactForm"
 import { pool } from "@/utils/postgres"
@@ -31,6 +31,15 @@ const BUTTON_SX = {
   my: "auto",
   py: 2,
   borderRadius: 2,
+}
+
+interface Content {
+  id: string
+  title: string
+  img?: string
+  href: string
+  description: string
+  target_blank: boolean
 }
 
 export default function Home({ content }: { content: Content }) {

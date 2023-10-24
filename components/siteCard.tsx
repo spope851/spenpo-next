@@ -96,6 +96,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
           <Typography fontWeight="bold" sx={MIN_WIDTH}>
             {project.name}
           </Typography>
+          {/* @ts-expect-error Server Component */}
           <TimeAgo date={project.updatedAt} style={MIN_WIDTH} />
         </Stack>
       </Stack>

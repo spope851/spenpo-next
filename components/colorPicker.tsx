@@ -40,6 +40,7 @@ export const ColorPicker: React.FC<{
       {showColorPicker && (
         <Box sx={popover}>
           <Box sx={cover} onClick={() => setShowColorPicker(false)} />
+          {/* @ts-expect-error Server Component */}
           <ChromePicker
             color={color || defaultColor}
             onChangeComplete={(e) => {
