@@ -1,6 +1,6 @@
 import { useRouter } from "next/router"
 import { RobotError } from "@/components/robotError"
-import { Box, Stack, Tabs, Tab, Typography } from "@mui/material"
+import { Stack, Tabs, Tab, Typography } from "@mui/material"
 import { Projects as ProjectsType } from "@/types"
 import projects from "@/components/projects"
 import { ReactNode } from "react"
@@ -19,16 +19,20 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
   </Typography>
 )
 
-const Body: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <Box
+const Body: React.FC<{
+  children: ReactNode
+  justifyContent?: "center" | "flex-start"
+}> = ({ children, justifyContent = "flex-start" }) => (
+  <Stack
     flex={1}
     border="solid .5px"
     maxWidth={{ xs: "unset", md: "75vw" }}
     overflow="auto"
     sx={{ boxSizing: "unset", lineHeight: 1 }}
+    justifyContent={justifyContent}
   >
     {children}
-  </Box>
+  </Stack>
 )
 
 export default function Projects() {
@@ -62,7 +66,7 @@ export default function Projects() {
         </Stack>
         <Stack flex={1}>
           <Header>demo</Header>
-          <Body>
+          <Body justifyContent="center">
             {projects[project]?.demo || (
               <RobotError>this project doesn&apos;t exist yet</RobotError>
             )}
