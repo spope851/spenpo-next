@@ -1,18 +1,11 @@
 import React, { useContext, useEffect, useState } from "react"
-import {
-  Button,
-  CircularProgress,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Button, CircularProgress, Stack, Typography } from "@mui/material"
 import { useRouter } from "next/router"
 import CachedIcon from "@mui/icons-material/Cached"
 import { SiteCard } from "@/components/siteCard"
 import { SnackbarContext } from "@/context/snackbar"
 import { Prisma } from "@prisma/client"
 import ChevronRight from "@mui/icons-material/ChevronRight"
-import { Snackbar } from "@/components/snackbar"
 
 const getOrders = async (): Promise<{ orders: Order[] }> => {
   const orders = await fetch("/api/getOrders")
@@ -40,7 +33,6 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
     !!router.query.payment_intent
   )
   const [loading, setLoading] = useState(false)
-  const [newOrder, setNewOrder] = useState(false)
 
   const { setSnackbarOpen, setSnackbarMessage } = useContext(SnackbarContext)
 
@@ -65,7 +57,6 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
           setLoading(false)
           setAwaitingNewSite(false)
           setSnackbarOpen(false)
-          setNewOrder(true)
         }
       }, 1000)
 
@@ -96,36 +87,11 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
           <CachedIcon />
         </Button>
       </Stack>
-      <Stack direction="row" justifyContent="space-around" mx={{ xs: 2, sm: 5 }}>
+      <Stack direction="row" justifyContent="space-around">
         <Stack rowGap={1} width="100%">
           {orders.length > 0 ? (
-            orders.map((order, idx) => (
-              <React.Fragment key={order.id}>
-                <SiteCard name={order.metadata.projectName.vercelApp} />
-                {newOrder && idx === orders.length - 1 && (
-                  <Snackbar
-                    open
-                    autoHideDuration={6000}
-                    message="new site being deployed! click here to track its progress"
-                    action={
-                      <IconButton
-                        size="small"
-                        aria-label="close"
-                        color="inherit"
-                        onClick={() =>
-                          router.push(
-                            `${router.pathname}/${
-                              orders.at(-1)?.metadata.projectName.vercelApp
-                            }`
-                          )
-                        }
-                      >
-                        <ChevronRight fontSize="small" />
-                      </IconButton>
-                    }
-                  />
-                )}
-              </React.Fragment>
+            orders.map((order) => (
+              <SiteCard key={order.id} name={order.metadata.projectName.vercelApp} />
             ))
           ) : (
             <Stack mx="auto" rowGap={5}>
