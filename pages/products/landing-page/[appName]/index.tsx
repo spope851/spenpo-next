@@ -68,8 +68,8 @@ const SitePage: React.FC = () => {
   }, [data])
 
   return (
-    <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
-      <Stack direction="row" justifyContent="space-between">
+    <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="baseline">
         <Breadcrumbs />
         <Button
           variant="contained"
@@ -79,11 +79,7 @@ const SitePage: React.FC = () => {
           <CachedIcon />
         </Button>
       </Stack>
-      <Stack
-        m={{ xs: 2, sm: 5 }}
-        rowGap={5}
-        sx={{ "& .Mui-expanded": { m: "0px !important" } }}
-      >
+      <Stack rowGap={5} sx={{ "& .Mui-expanded": { m: "0px !important" } }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="space-around"

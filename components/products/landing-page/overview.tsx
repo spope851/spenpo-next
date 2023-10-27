@@ -21,14 +21,14 @@ export const LandingPageOverview: React.FC = () => {
   const claimRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(-1)
   const [stepperTop, setStepperTop] = useState(35)
-  const [contentMt, setContentMt] = useState<string | number>("104px")
+  const [contentMt, setContentMt] = useState<string | number>("124px")
 
   const baseTop = session.status === "authenticated" ? 153 : 64
 
   useEffect(() => {
     const handleScroll = () => {
       setStepperTop(window.scrollY > 47 ? 0 : baseTop)
-      setContentMt("104px")
+      setContentMt("124px")
       if (
         claimRef.current?.offsetTop &&
         window.scrollY >= claimRef.current.offsetTop - SCROLL_PADDING
@@ -82,6 +82,8 @@ export const LandingPageOverview: React.FC = () => {
           src="/images/landing-page-product.png"
           sx={{
             height: { xl: 600, lg: 500, md: 400, sm: 300, xs: 200 },
+            width: "100vw",
+            ml: { xs: -2, sm: -5 },
           }}
         />
         <Stack gap={10}>

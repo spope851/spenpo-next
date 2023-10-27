@@ -31,7 +31,16 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
             border="solid 1px #ddd"
             p={3}
           >
-            <BgImage src={`/images/${id}.png`} sx={{ minHeight: 200, flex: 1 }} />
+            <BgImage
+              src={`/images/${id}.png`}
+              sx={{
+                minHeight: 200,
+                flex: 1,
+                borderRadius: 2,
+                border: "solid 1px #555",
+                m: "2px",
+              }}
+            />
             <Stack gap={1}>
               <Stack
                 direction="row"

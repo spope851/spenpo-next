@@ -25,7 +25,7 @@ export const OverviewStepper: React.FC<{
       activeStep={activeStep}
       sx={{
         position: "fixed",
-        top: stepperTop,
+        top: { xs: `calc(${stepperTop}-24px)`, sm: stepperTop },
         left: 0,
         width: "100%",
         bgcolor: "#fff",

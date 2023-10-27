@@ -92,7 +92,13 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
       <Stack direction="row" columnGap={1}>
         <BgImage
           src={linkPreview}
-          sx={{ borderRadius: 25, height: 50, width: 50 }}
+          sx={{
+            borderRadius: 25,
+            height: 50,
+            width: 50,
+            border: "solid 1px #555",
+            m: "2px",
+          }}
         />
         <Stack>
           <Typography fontWeight="bold" sx={MIN_WIDTH}>

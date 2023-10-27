@@ -20,7 +20,6 @@ export const BgImage: React.FC<{
 
   return (
     <Box
-      m="2px"
       sx={{
         ...sx,
         backgroundImage: `url(${bgImage})`,
@@ -29,8 +28,6 @@ export const BgImage: React.FC<{
         backgroundRepeat: "no-repeat",
         opacity,
       }}
-      borderRadius={2}
-      border="solid 1px #555"
     />
   )
 }

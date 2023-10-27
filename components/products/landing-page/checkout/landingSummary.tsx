@@ -4,6 +4,14 @@ import { ShoppingCartContext } from "@/context/shoppingCart"
 import { DEFAULT_PROPS } from "@/components/landingPage/constants"
 import { BgImage } from "../../../bgImage"
 
+const BG_SX = {
+  height: 200,
+  width: 200,
+  borderRadius: 2,
+  border: "solid 1px #555",
+  m: "2px",
+}
+
 const ColorExample: React.FC<{ color: string; opacity?: number }> = ({
   color,
   opacity = 1,
@@ -36,10 +44,7 @@ export const LandingSummary: React.FC = () => {
     <Stack rowGap={1} my={5}>
       <SummaryRow>
         <Typography>Headshot:</Typography>
-        <BgImage
-          src={landingCms.headshotSrc.getter()!}
-          sx={{ height: 200, width: 200 }}
-        />
+        <BgImage src={landingCms.headshotSrc.getter()!} sx={BG_SX} />
       </SummaryRow>
       <SummaryRow>
         <Typography>Name:</Typography>
@@ -78,7 +83,7 @@ export const LandingSummary: React.FC = () => {
       <SummaryRow>
         <Typography>Background Image:</Typography>
         <BgImage
-          sx={{ height: 200, width: 200 }}
+          sx={BG_SX}
           src={landingCms.backgroundImage.getter() || DEFAULT_PROPS.BACKGROUND_IMAGE}
         />
       </SummaryRow>
