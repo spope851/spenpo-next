@@ -14,7 +14,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext } from "next"
 import { getServerSession } from "next-auth"
 import CachedIcon from "@mui/icons-material/Cached"
-import { getProject } from "@/services/vercel"
 import { DeploymentCard } from "@/components/deploymentCard"
 import { LinkPreview } from "@/components/linkPreview"
 import Link from "next/link"
@@ -25,6 +24,11 @@ import { Domains } from "@/components/deployment/domains"
 import { Status } from "@/components/deployment/status"
 import { SmallHeader } from "@/components/deployment/smallHeader"
 import ReactTimeago from "react-timeago"
+import prisma from "@/utils/prisma"
+import { Prisma } from "@prisma/client"
+
+const getProject = async (name: string) =>
+  fetch(`/api/landing-page/getVercelProject?name=${name}`)
 
 const SitePage: React.FC = () => {
   const router = useRouter()
@@ -131,15 +135,30 @@ const SitePage: React.FC = () => {
 
 export default SitePage
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+  params,
+}: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions)
-  if (session) {
+  const projects = await prisma.order
+    .findMany({
+      where: { userId: session.user.id, complete: true },
+    })
+    .then((res) =>
+      res.map(
+        (order) =>
+          ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
+            .vercelApp
+      )
+    )
+  if (!!session && projects.includes(params?.appName)) {
     return { props: {} }
   } else {
     return {
       redirect: {
         permanent: false,
-        destination: `/home`,
+        destination: `/products/landing-page`,
       },
     }
   }

@@ -1,4 +1,3 @@
-import { getProject } from "@/services/vercel"
 import { Stack, Typography, Button } from "@mui/material"
 import { CSSProperties, useEffect, useState } from "react"
 import { VercelReadyState } from "./deployment/useDeployment"
@@ -31,6 +30,9 @@ export type Project = {
   }
   latestDeployments: { id: string }[]
 }
+
+const getProject = async (name: string) =>
+  fetch(`/api/landing-page/getVercelProject?name=${name}`)
 
 export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
   const [project, setProject] = useState<Project>()

@@ -1,7 +1,7 @@
 import { Octokit } from "octokit"
 
 const octokit = new Octokit({
-  auth: process.env.NEXT_PUBLIC_GH_TOKEN,
+  auth: process.env.GH_TOKEN,
 })
 
 const cloneRepo = async (projectName: string, clientName: string) =>

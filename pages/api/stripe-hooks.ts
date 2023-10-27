@@ -99,6 +99,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             gitRepository: gitRepository(cloneRes.data.full_name),
             environmentVariables: [
               ...ENVIRONMENT_VARIABLES,
+              ...[
+                "GH_TOKEN",
+                "VERCEL_TOKEN",
+                "VERCEL_TEAM",
+                "AWS_ACCESS_KEY_ID",
+                "AWS_SECRET_ACCESS_KEY",
+                "AWS_LANDING_S3",
+              ].map((v) => {
+                return {
+                  key: v,
+                  target: "production",
+                  type: "encrypted",
+                  value: process.env[v],
+                }
+              }),
               {
                 key: "OG_IMAGE",
                 target: "production",
@@ -206,7 +221,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         break
       case "payment_intent.created":
-        const paymentIntentCreated = event.data.object
         console.log("payment intent created")
 
         break

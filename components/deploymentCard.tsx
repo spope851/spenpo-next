@@ -1,4 +1,3 @@
-import { getDeployment } from "@/services/vercel"
 import { Stack } from "@mui/material"
 import { useEffect, useState } from "react"
 import { VercelReadyState } from "./deployment/useDeployment"
@@ -7,6 +6,9 @@ import { NewTabLink } from "./newTabLink"
 import TimeAgo from "react-timeago"
 import { useRouter } from "next/router"
 import { HoverAwareness } from "./hoverAwareness"
+
+const getDeployment = async (uid: string) =>
+  fetch(`/api/landing-page/getVercelDeployment?uid=${uid}`)
 
 type Deployment = {
   id: string

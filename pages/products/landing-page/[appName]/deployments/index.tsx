@@ -5,9 +5,13 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getServerSession } from "next-auth"
 import CachedIcon from "@mui/icons-material/Cached"
-import { getProjectDeployments } from "@/services/vercel"
 import { DeploymentCard } from "@/components/deploymentCard"
 import { Breadcrumbs } from "@/components/breadcrumbs"
+import prisma from "@/utils/prisma"
+import { Prisma } from "@prisma/client"
+
+const getProjectDeployments = async (appName: string) =>
+  fetch(`/api/landing-page/getVercelProjectDeployments?appName=${appName}`)
 
 const Deployments: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
@@ -54,15 +58,30 @@ const Deployments: React.FC<
 
 export default Deployments
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+  params,
+}: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions)
-  if (session) {
+  const projects = await prisma.order
+    .findMany({
+      where: { userId: session.user.id, complete: true },
+    })
+    .then((res) =>
+      res.map(
+        (order) =>
+          ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
+            .vercelApp
+      )
+    )
+  if (!!session && projects.includes(params?.appName)) {
     return { props: {} }
   } else {
     return {
       redirect: {
         permanent: false,
-        destination: `/home`,
+        destination: `/products/landing-page`,
       },
     }
   }
