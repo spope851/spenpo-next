@@ -62,7 +62,7 @@ const SitePage: React.FC = () => {
           },
         }}
       >
-        <LinkPreview url={`https://${data?.targets.production?.alias?.[0]}`} />
+        <LinkPreview url={`https://${data?.targets?.production?.alias?.[0]}`} />
       </Box>
     )
   }, [data])
@@ -91,8 +91,8 @@ const SitePage: React.FC = () => {
         >
           {linkPreview}
           <Stack flex={1} border="solid 2px #aaa" p={2} rowGap={3}>
-            <Domains alias={data?.targets.production?.alias} />
-            <Status readyState={data?.targets.production?.readyState} />
+            <Domains alias={data?.targets?.production?.alias} />
+            <Status readyState={data?.targets?.production?.readyState} />
             <Stack>
               <SmallHeader>Created</SmallHeader>
               {/* @ts-expect-error Server Component */}

@@ -54,7 +54,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
   useEffect(() => {
     ;(async () => {
       const previewReq = await fetch(
-        `/api/getLinkPreview?url=https://${project?.targets.production?.alias?.[0]}`,
+        `/api/getLinkPreview?url=https://${project?.targets?.production?.alias?.[0]}`,
         { method: "get" }
       )
       if (previewReq.ok) {
@@ -102,9 +102,9 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
           <TimeAgo date={project.updatedAt} style={MIN_WIDTH} />
         </Stack>
       </Stack>
-      {project.targets.production ? (
+      {project.targets?.production ? (
         <Stack direction="row" alignItems="center" mb="auto">
-          {project.targets.production?.alias && (
+          {project.targets.production.alias && (
             <HoverAwareness setHovering={setActionHover} sx={MIN_WIDTH}>
               <NewTabLink url={project.targets.production.alias[0]} />
             </HoverAwareness>
