@@ -25,31 +25,35 @@ export default function Deployments() {
   )
 }
 
+const redirect = {
+  redirect: {
+    permanent: false,
+    destination: `/products/landing-page`,
+  },
+}
+
 export async function getServerSideProps({
   req,
   res,
   params,
 }: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions)
-  const projects = await prisma.order
-    .findMany({
-      where: { userId: session.user.id, complete: true },
-    })
-    .then((res) =>
-      res.map(
-        (order) =>
-          ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
-            .vercelApp
+  if (!!session) {
+    const projects = await prisma.order
+      .findMany({
+        where: { userId: session.user.id, complete: true },
+      })
+      .then((res) =>
+        res.map(
+          (order) =>
+            ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
+              .vercelApp
+        )
       )
-    )
-  if (!!session && projects.includes(params?.appName)) {
-    return { props: {} }
+    if (projects.includes(params?.appName)) {
+      return { props: {} }
+    } else return redirect
   } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/products/landing-page`,
-      },
-    }
+    return redirect
   }
 }

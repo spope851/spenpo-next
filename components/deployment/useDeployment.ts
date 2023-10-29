@@ -1,22 +1,5 @@
 import { useEffect, useState } from "react"
 
-type DeploymentEvent = {
-  type?: string
-  created?: number
-  payload?: {
-    deploymentId: string
-    info: {
-      type: string
-      name: string
-      entrypoint: string
-    }
-    text: string
-    id: string
-    date: number
-    serial: string
-  }
-}
-
 export type VercelReadyState =
   | "QUEUED"
   | "BUILDING"
@@ -35,7 +18,7 @@ type Deployment = {
 }
 
 type UseDeploymentProps = {
-  deploymentEvents: DeploymentEvent[]
+  deploymentEvents: string
   metadata?: Deployment
 }
 
@@ -46,7 +29,7 @@ const getDeploymentEvents = async (uid: string) =>
   fetch(`/api/landing-page/getVercelDeploymentEvents?uid=${uid}`)
 
 export const useDeployment = (id: string): UseDeploymentProps => {
-  const [deploymentEvents, setDeploymentEvents] = useState<DeploymentEvent[]>([])
+  const [deploymentEvents, setDeploymentEvents] = useState("")
   const [metadata, setMetadata] = useState<Deployment>()
   const [error, setError] = useState()
 
@@ -93,29 +76,9 @@ export const useDeployment = (id: string): UseDeploymentProps => {
           }
 
           const decodedChunk = decoder.decode(value, { stream: true })
+          console.log(decodedChunk)
 
-          setDeploymentEvents((prev) => {
-            const ids = deploymentEvents.map((event) => event.payload?.id)
-            return [
-              ...prev,
-              ...decodedChunk.split(`\n`).map((str) => {
-                if (str.length > 2) {
-                  try {
-                    return JSON.parse(str)
-                  } catch (err) {
-                    console.log(err)
-                  }
-                }
-              }),
-            ]
-              .filter((event) => !!event)
-              .reduce((p: DeploymentEvent[], c) => {
-                const ids = p.map((event) => event.payload?.id)
-                if (!ids.includes(c.payload.id)) p.push(c)
-                return p
-              }, [])
-              .filter((event) => !ids.includes(event.payload?.id))
-          })
+          setDeploymentEvents((prev) => prev + decodedChunk)
         }
       } catch (error) {
         console.log(error)

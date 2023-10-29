@@ -1,10 +1,15 @@
 import { SxProps, Typography } from "@mui/material"
 
-export const NewTabLink: React.FC<{ url: string; sx?: SxProps }> = ({ url, sx }) => {
+export const NewTabLink: React.FC<{
+  url: string
+  sx?: SxProps
+  typographyId?: string
+}> = ({ url, sx, typographyId }) => {
   let destination = url
   if (url.slice(0, 4) !== "http") destination = `https://${url}`
   return (
     <Typography
+      id={typographyId}
       component="span"
       sx={{
         ...sx,

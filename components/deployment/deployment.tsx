@@ -9,6 +9,23 @@ import { Status } from "./status"
 import { SmallHeader } from "./smallHeader"
 import { Domains } from "./domains"
 
+type DeploymentEvent = {
+  type: string
+  created: number
+  payload: {
+    deploymentId: string
+    info: {
+      type: string
+      name: string
+      entrypoint: string
+    }
+    text: string
+    id: string
+    date: number
+    serial: string
+  }
+}
+
 const METADATA_SX = {
   border: "solid #555 2px",
   borderRadius: 2,
@@ -20,7 +37,27 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
   id,
   createdAt,
 }) => {
-  const { deploymentEvents, metadata } = useDeployment(id)
+  const { deploymentEvents: deploymentEventsStr, metadata } = useDeployment(id)
+
+  const deploymentEvents = useMemo(
+    () =>
+      deploymentEventsStr.split(`}}\n`).reduce((p: DeploymentEvent[], c) => {
+        // console.log(`\n${c}\n`);
+
+        let str
+
+        try {
+          str = JSON.parse(`${c}}}`)
+        } catch {
+          return p
+        }
+
+        const ids = p.map((event) => event.payload.id)
+        if (!ids.includes(str.payload?.id)) p.push(str)
+        return p
+      }, []),
+    [deploymentEventsStr]
+  )
 
   const offsetTimestamp = useMemo(() => {
     const now = Number(new Date())
@@ -73,6 +110,7 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
       <Stack bgcolor="#000" color="#fff" borderRadius={1} px={2} pt={4} pb={1}>
         {metadata?.ready && (
           <Typography
+            id="deployment"
             mb={1}
             sx={{ color: READY_STATE_COLORS[metadata.readyState] }}
           >{`${metadata.readyState === "READY" ? "" : "..."} ${
@@ -81,22 +119,25 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
         )}
         {deploymentEvents?.map(
           (event) =>
-            event.payload?.text &&
             event.created && (
               <Stack direction="row" columnGap={5} key={event.payload.id}>
                 <DeploymentDate date={event.created} />
-                <Typography component="span">{event.payload.text}</Typography>
+                <Typography id="deployment" whiteSpace="pre-wrap">
+                  {event.payload.text}
+                </Typography>
               </Stack>
             )
         )}
         {metadata?.readyState === "READY" && metadata?.alias[0] && (
           <Typography
+            id="deployment"
             mt={1}
             sx={{
               color: READY_STATE_COLORS[metadata.readyState],
             }}
           >
-            Deployed successfully to: <NewTabLink url={metadata.alias[0]} />
+            Deployed successfully to:{" "}
+            <NewTabLink typographyId="deployment" url={metadata.alias[0]} />
           </Typography>
         )}
       </Stack>
