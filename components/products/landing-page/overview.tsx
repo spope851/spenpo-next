@@ -1,5 +1,5 @@
 import { BgImage } from "@/components/bgImage"
-import { Button, Grid, Stack, Typography } from "@mui/material"
+import { Button, Grid, Stack, SxProps, Typography } from "@mui/material"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
 import React, { useEffect, useRef, useState } from "react"
@@ -12,6 +12,15 @@ const SEGMENT_TEXT_PROPS = { sx: { mb: "auto", mt: "104px" } }
 
 const SCROLL_PADDING = 100
 
+const stepperStyle = (sm: number, xs: number): SxProps => {
+  return {
+    top: {
+      sm,
+      xs,
+    },
+  }
+}
+
 export const LandingPageOverview: React.FC = () => {
   const router = useRouter()
   const session = useSession()
@@ -20,15 +29,22 @@ export const LandingPageOverview: React.FC = () => {
   const secureRef = useRef<HTMLDivElement>(null)
   const claimRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(-1)
-  const [stepperTop, setStepperTop] = useState(35)
+  const [stepperSx, setStepperSx] = useState<SxProps>(stepperStyle(0, 0))
   const [contentMt, setContentMt] = useState<string | number>("124px")
 
   const baseTop = session.status === "authenticated" ? 153 : 64
 
   useEffect(() => {
     const handleScroll = () => {
-      setStepperTop(window.scrollY > 47 ? 0 : baseTop)
-      setContentMt("124px")
+      setStepperSx(
+        stepperStyle(
+          window.scrollY > 47 ? 0 : baseTop,
+          window.scrollY > 47
+            ? 0
+            : baseTop - (session.status === "authenticated" ? 24 : 0)
+        )
+      )
+      setContentMt(window.scrollY > 47 ? 0 : "124px")
       if (
         claimRef.current?.offsetTop &&
         window.scrollY >= claimRef.current.offsetTop - SCROLL_PADDING
@@ -57,16 +73,16 @@ export const LandingPageOverview: React.FC = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
-  })
+  }, [baseTop, session.status])
 
   return (
     <Stack>
       <OverviewStepper
         activeStep={activeStep}
-        stepperTop={stepperTop}
+        sx={stepperSx}
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
-      <Stack mt={contentMt} rowGap={5}>
+      <Stack mt={{ xs: `calc(${contentMt} - 24px)`, sm: contentMt }} rowGap={5}>
         <Stack direction="row" justifyContent="space-between" gap={3}>
           <Typography variant="h4">A custom webpage that you design</Typography>
           <Button

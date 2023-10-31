@@ -1,21 +1,17 @@
-import { Step, StepButton, Stepper } from "@mui/material"
+import { Step, StepButton, Stepper, SxProps } from "@mui/material"
 import React from "react"
 import { STEP_SX } from "./stepper"
 
 export const OverviewStepper: React.FC<{
   activeStep: number
-  stepperTop: number
+  sx: SxProps
   refs: {
     designRef: React.RefObject<HTMLDivElement>
     nameRef: React.RefObject<HTMLDivElement>
     secureRef: React.RefObject<HTMLDivElement>
     claimRef: React.RefObject<HTMLDivElement>
   }
-}> = ({
-  activeStep,
-  stepperTop,
-  refs: { designRef, nameRef, secureRef, claimRef },
-}) => {
+}> = ({ activeStep, sx, refs: { designRef, nameRef, secureRef, claimRef } }) => {
   const scrollTo = (current: HTMLSpanElement | null) =>
     current && current.scrollIntoView({ behavior: "smooth", block: "start" })
 
@@ -24,8 +20,8 @@ export const OverviewStepper: React.FC<{
       nonLinear
       activeStep={activeStep}
       sx={{
+        ...sx,
         position: "fixed",
-        top: { xs: `calc(${stepperTop}-24px)`, sm: stepperTop },
         left: 0,
         width: "100%",
         bgcolor: "#fff",
