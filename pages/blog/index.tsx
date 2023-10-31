@@ -42,7 +42,7 @@ export default function Blog({ data }: { data: GetBlogPostsQuery }) {
 
 export async function getStaticProps() {
   const data = await fetch(
-    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts`
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts?fields=ID,title,excerpt,tags,date`
   )
     .then((res) => res.json())
     .then(extractTagsFromPosts)
