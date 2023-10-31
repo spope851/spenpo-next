@@ -4,8 +4,9 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
-import { GetBlogPostsQuery, GetBlogPostsWithTagQuery } from "@/generated/graphql"
 import { TagList } from "./tagList"
+import { GetBlogPostsQuery } from "@/pages/blog"
+import { GetBlogPostsWithTagQuery } from "@/pages/blog/tag/[tag]"
 
 const Wrapper = styled(Box)(({ theme }) => ({
   width: "60%",

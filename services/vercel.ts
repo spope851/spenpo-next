@@ -1,6 +1,7 @@
 import { ProjectEnvVariableInput, VercelProjectInput } from "@/context/shoppingCart"
 
 const headers = {
+  "Content-Type": "application/json",
   Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
 }
 

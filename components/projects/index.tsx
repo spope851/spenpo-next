@@ -50,7 +50,6 @@ const projects: Record<Projects, Record<"description" | "demo", JSX.Element>> = 
     description: <LanguageFlashDes />,
     demo: <LanguageFlashDemo />,
   },
-
   "3x3-cube": {
     description: <CubeDes />,
     demo: <CubeDemo />,

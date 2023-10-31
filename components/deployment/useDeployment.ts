@@ -55,37 +55,23 @@ export const useDeployment = (id: string): UseDeploymentProps => {
 
   useEffect(() => {
     // fetch deployment events
-    const fetchData = async () => {
-      try {
-        const response = await getDeploymentEvents(id)
-        if (!response.ok || !response.body) {
-          throw response.statusText
-        }
-
-        const reader = response.body.getReader()
-        const decoder = new TextDecoder()
-
-        while (true) {
-          const { value, done } = await reader.read()
-
-          if (
-            done ||
-            ["READY", "CANCELED", "ERROR"].includes(metadata?.readyState || "")
-          ) {
-            break
-          }
-
-          const decodedChunk = decoder.decode(value, { stream: true })
-          console.log(decodedChunk)
-
-          setDeploymentEvents((prev) => prev + decodedChunk)
-        }
-      } catch (error) {
-        console.log(error)
+    getDeploymentEvents(id).then(async (response) => {
+      const data = response.body
+      if (!data) {
+        return
       }
-    }
+      const reader = data.getReader()
+      const decoder = new TextDecoder()
+      let done = false
 
-    if (id) fetchData()
+      while (!done) {
+        const { value } = await reader.read()
+
+        const chunkValue = decoder.decode(value)
+        done = chunkValue === "{}\n"
+        setDeploymentEvents((prev) => prev + chunkValue)
+      }
+    })
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [])
 

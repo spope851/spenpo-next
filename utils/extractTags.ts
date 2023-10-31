@@ -1,4 +1,4 @@
-import { Tag } from "../schemas/tag"
+import { Tag } from "@/components/blog/tagList"
 
 interface Post {
   tags: Record<string, Tag>
@@ -6,6 +6,7 @@ interface Post {
 
 interface NewPost {
   tags: Tag[]
+  ID: string
 }
 
 const extractTagsFromPosts = (data: { posts: Post[] }): { posts: NewPost[] } => {

@@ -1,11 +1,32 @@
 import { PostList } from "@/components/blog/postList"
-import { graphql } from "@/generated"
 import { BackButton } from "@/components/backButton"
 import { Box, Chip } from "@mui/material"
 import { RobotError } from "@/components/robotError"
 import Head from "next/head"
-import { GetBlogPostsWithTagQuery } from "@/generated/graphql"
-import { initializeApollo } from "@/graphql/ssgClient"
+import { extractTagsFromPosts } from "@/utils/extractTags"
+
+export type GetBlogPostsWithTagQuery = {
+  __typename?: "Query"
+  allPosts: {
+    __typename?: "Posts"
+    found: number
+    posts: Array<{
+      __typename?: "BlogPost"
+      ID: string
+      content: string
+      title: string
+      date: string
+      excerpt: string
+      tags: Array<{
+        __typename?: "Tag"
+        name: string
+        ID: string
+        slug: string
+        post_count?: number | null
+      }>
+    }>
+  }
+}
 
 export default function Blog({
   data,
@@ -49,19 +70,10 @@ export default function Blog({
 }
 
 export async function getStaticPaths() {
-  const client = initializeApollo()
-  const { data } = await client.query({
-    query: graphql(`
-      query getAllTags {
-        allTags {
-          tags {
-            slug
-          }
-        }
-      }
-    `),
-  })
-  const paths = data.allTags.tags.map((tag) => ({
+  const data = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/tags`
+  ).then((res) => res.json())
+  const paths = data.tags.map((tag: { slug: string }) => ({
     params: { tag: tag.slug },
   }))
   return { paths, fallback: true }
@@ -72,40 +84,23 @@ export async function getStaticProps({
 }: {
   params: { tag: string }
 }) {
-  const client = initializeApollo()
-  const { data } = await client.query({
-    query: graphql(`
-      query getBlogPostsWithTag($tag: String) {
-        allPosts(tag: $tag) {
-          found
-          posts {
-            ID
-            content
-            title
-            date
-            excerpt
-            tags {
-              name
-              ID
-              slug
-              post_count
-            }
-          }
-        }
-      }
-    `),
-    variables: { tag },
-  })
+  const data = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts${
+      tag ? `?tag=${tag}` : "/"
+    }`
+  )
+    .then((res) => res.json())
+    .then(extractTagsFromPosts)
 
   // removes spaces, dashes, forward slashes, and makes lower case
   const lettersOnly = (slugOrName: string) =>
     slugOrName.replace(/[- /]/g, "").toLowerCase()
-  const actualName = data.allPosts.posts[0]?.tags.find(
+  const actualName = data.posts[0]?.tags.find(
     (postTag) => lettersOnly(postTag.name) === lettersOnly(tag)
   )
   const name = actualName?.name || null
 
   return {
-    props: { data, name },
+    props: { data: { allPosts: data }, name },
   }
 }

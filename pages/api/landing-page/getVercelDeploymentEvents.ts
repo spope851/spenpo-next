@@ -1,17 +1,30 @@
 import { getDeploymentEvents } from "@/services/vercel"
-import type { NextApiRequest, NextApiResponse } from "next"
-import { Readable } from "stream"
+import { NextApiRequest } from "next"
 
-const getVercelDeploymentEvents = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  console.log("GET deployment events ", req.query)
+export const config = {
+  runtime: "edge",
+}
 
-  const deploymentEvents = await getDeploymentEvents(String(req.query.uid))
+const getVercelDeploymentEvents = async (req: NextApiRequest) => {
+  const uid = new URL(req.url!).searchParams.get("uid")
+  console.log("GET deployment events ", uid)
 
-  const stream = Readable.from(deploymentEvents.body as unknown as Iterable<any>)
-  stream.pipe(res)
+  const response = await getDeploymentEvents(String(uid))
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const chunk of response.body as any) {
+        try {
+          controller.enqueue(chunk)
+        } catch (e) {
+          controller.error(e)
+        }
+      }
+      controller.close()
+    },
+  })
+
+  return new Response(stream)
 }
 
 export default getVercelDeploymentEvents

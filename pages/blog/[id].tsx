@@ -2,13 +2,29 @@ import { Box, Typography } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import { BackButton } from "@/components/backButton"
 import { RobotError } from "@/components/robotError"
-import { graphql } from "@/generated"
 import { TagList } from "@/components/blog/tagList"
 import Head from "next/head"
 import Link from "next/link"
 import { previewImages } from "@/constants"
-import { GetPostQuery } from "@/generated/graphql"
-import { initializeApollo } from "@/graphql/ssgClient"
+import { extractTagsFromPosts, extractTagsFromPost } from "@/utils/extractTags"
+
+export type GetPostQuery = {
+  __typename?: "Query"
+  post: {
+    __typename?: "BlogPost"
+    title: string
+    content: string
+    date: string
+    excerpt: string
+    tags: Array<{
+      __typename?: "Tag"
+      ID: string
+      slug: string
+      name: string
+      post_count?: number | null
+    }>
+  }
+}
 
 const StyledBox = styled(Box)(({ theme }) => ({
   marginRight: "15%",
@@ -75,19 +91,13 @@ export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
 }
 
 export async function getStaticPaths() {
-  const apolloClient = initializeApollo()
-  const { data } = await apolloClient.query({
-    query: graphql(`
-      query getBlogIds {
-        allPosts {
-          posts {
-            ID
-          }
-        }
-      }
-    `),
-  })
-  const paths = data.allPosts.posts.map((post) => ({ params: { id: post.ID } }))
+  const data = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts`
+  )
+    .then((res) => res.json())
+    .then(extractTagsFromPosts)
+
+  const paths = data.posts.map((post) => ({ params: { id: post.ID.toString() } }))
   return { paths, fallback: true }
 }
 
@@ -96,29 +106,13 @@ export async function getStaticProps({
 }: {
   params: { id: string }
 }) {
-  const client = initializeApollo()
-
   try {
-    const { data } = await client.query({
-      query: graphql(`
-        query getPost($id: String!) {
-          post(id: $id) {
-            title
-            content
-            date
-            excerpt
-            tags {
-              ID
-              slug
-              name
-              post_count
-            }
-          }
-        }
-      `),
-      variables: { id },
-    })
-    return { props: { data } }
+    const data = await fetch(
+      `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts/${id}`
+    )
+      .then((res) => res.json())
+      .then(extractTagsFromPost)
+    return { props: { data: { post: data } } }
   } catch {
     return { notFound: true }
   }
