@@ -86,7 +86,13 @@ const AvatarMenu: React.FC = () => {
         </Box>
         {status === "authenticated" && <Divider />}
         {status === "authenticated" && (
-          <MenuItem onClick={() => signOut()}>
+          <MenuItem
+            onClick={() =>
+              signOut({
+                redirect: false,
+              })
+            }
+          >
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>

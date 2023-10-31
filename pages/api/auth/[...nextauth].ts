@@ -20,8 +20,11 @@ export const authOptions = {
       // { user, account, profile, email, credentials }: any
       return true
     },
-    async redirect({ baseUrl }: any) {
-      //  url,
+    async redirect({ url, baseUrl }: any) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
       return baseUrl
     },
     async session({ session, user }: any) {

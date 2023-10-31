@@ -3,39 +3,34 @@ import { getProviders, signIn } from "next-auth/react"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../api/auth/[...nextauth]"
 import { Box, Button } from "@mui/material"
-import { useRouter } from "next/router"
 
-export default function SignIn({
+const SignIn: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const router = useRouter()
+  redirect,
+}) => (
+  <>
+    {Object.values(providers).map((provider) => (
+      <Box key={provider.name} m="auto">
+        <Button
+          variant="outlined"
+          onClick={() =>
+            signIn(provider.id, {
+              callbackUrl: redirect,
+            })
+          }
+        >
+          Sign in with {provider.name}
+        </Button>
+      </Box>
+    ))}
+  </>
+)
 
-  return (
-    <>
-      {Object.values(providers).map((provider) => (
-        <Box key={provider.name} m="auto">
-          <Button
-            variant="outlined"
-            onClick={() =>
-              signIn(provider.id, {
-                callbackUrl: `${router.query.redirect}?cache=${router.query.redisId}`,
-              })
-            }
-          >
-            Sign in with {provider.name}
-          </Button>
-        </Box>
-      ))}
-    </>
-  )
-}
+export default SignIn
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions)
 
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
   if (session) {
     return { redirect: { destination: "/" } }
   }
@@ -43,6 +38,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const providers = await getProviders()
 
   return {
-    props: { providers: providers ?? [] },
+    props: {
+      providers: providers ?? [],
+      redirect: `${context.query.redirect}?cache=${context.query.redisId}`,
+    },
   }
 }
