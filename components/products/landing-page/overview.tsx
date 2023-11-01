@@ -83,7 +83,7 @@ export const LandingPageOverview: React.FC = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
-  }, [baseTop, session.status])
+  }, [baseTop, session.status, scrollCorrection])
 
   return (
     <Stack>
