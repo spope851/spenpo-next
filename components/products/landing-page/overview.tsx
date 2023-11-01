@@ -12,6 +12,15 @@ const SEGMENT_TEXT_PROPS = { sx: { mb: "auto", mt: "104px" } }
 
 const SCROLL_PADDING = 100
 
+const contentStyle = (sm: number, xs: number): SxProps => {
+  return {
+    mt: {
+      sm: `${sm}px`,
+      xs: `${xs}px`,
+    },
+  }
+}
+
 const stepperStyle = (sm: number, xs: number): SxProps => {
   return {
     top: {
@@ -30,21 +39,22 @@ export const LandingPageOverview: React.FC = () => {
   const claimRef = useRef<HTMLDivElement>(null)
   const [activeStep, setActiveStep] = useState(-1)
   const [stepperSx, setStepperSx] = useState<SxProps>(stepperStyle(0, 0))
-  const [contentMt, setContentMt] = useState<string | number>("124px")
+  const [contentSx, setContentSx] = useState<SxProps>(contentStyle(0, 0))
 
   const baseTop = session.status === "authenticated" ? 153 : 64
+  const scrollCorrection = session.status === "authenticated" ? 24 : 0
 
   useEffect(() => {
     const handleScroll = () => {
-      setStepperSx(
-        stepperStyle(
-          window.scrollY > 47 ? 0 : baseTop,
-          window.scrollY > 47
-            ? 0
-            : baseTop - (session.status === "authenticated" ? 24 : 0)
+      if (window.scrollY > baseTop) setStepperSx(stepperStyle(0, 0))
+      else
+        setStepperSx(
+          stepperStyle(
+            baseTop - window.scrollY,
+            baseTop - window.scrollY - scrollCorrection
+          )
         )
-      )
-      setContentMt(window.scrollY > 47 ? 0 : "124px")
+      setContentSx(contentStyle(baseTop - 30, baseTop - 30 - scrollCorrection))
       if (
         claimRef.current?.offsetTop &&
         window.scrollY >= claimRef.current.offsetTop - SCROLL_PADDING
@@ -82,7 +92,7 @@ export const LandingPageOverview: React.FC = () => {
         sx={stepperSx}
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
-      <Stack mt={{ xs: `calc(${contentMt} - 24px)`, sm: contentMt }} rowGap={5}>
+      <Stack sx={contentSx} rowGap={5}>
         <Stack direction="row" justifyContent="space-between" gap={3}>
           <Typography variant="h4">A custom webpage that you design</Typography>
           <Button
