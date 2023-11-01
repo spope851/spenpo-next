@@ -110,6 +110,7 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
       <Stack bgcolor="#000" color="#fff" borderRadius={1} px={2} pt={4} pb={1}>
         {metadata?.ready && (
           <Typography
+            display={{ xs: "none", sm: "block" }}
             id="deployment"
             mb={1}
             sx={{ color: READY_STATE_COLORS[metadata.readyState] }}
