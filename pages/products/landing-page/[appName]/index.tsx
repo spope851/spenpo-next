@@ -4,7 +4,6 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   CircularProgress,
   Stack,
   Typography,
@@ -13,7 +12,6 @@ import { useRouter } from "next/router"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext } from "next"
 import { getServerSession } from "next-auth"
-import CachedIcon from "@mui/icons-material/Cached"
 import { DeploymentCard } from "@/components/deploymentCard"
 import { LinkPreview } from "@/components/linkPreview"
 import Link from "next/link"
@@ -69,16 +67,7 @@ const SitePage: React.FC = () => {
 
   return (
     <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="baseline">
-        <Breadcrumbs />
-        <Button
-          variant="contained"
-          onClick={refreshProject}
-          sx={{ minWidth: 36, p: 1 }}
-        >
-          <CachedIcon />
-        </Button>
-      </Stack>
+      <Breadcrumbs />
       <Stack rowGap={5} sx={{ "& .Mui-expanded": { m: "0px !important" } }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

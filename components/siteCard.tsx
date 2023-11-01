@@ -52,16 +52,18 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
   const [linkPreview, setLinkPreview] = useState(LINK_PREVIEW_FALLBACK)
 
   useEffect(() => {
-    ;(async () => {
-      const previewReq = await fetch(
-        `/api/getLinkPreview?url=https://${project?.targets?.production?.alias?.[0]}`,
-        { method: "get" }
-      )
-      if (previewReq.ok) {
-        const preview = await previewReq.json()
-        setLinkPreview(preview.image)
-      } else setLinkPreview(LINK_PREVIEW_FALLBACK)
-    })()
+    if (!!project?.targets?.production?.alias?.[0]) {
+      ;(async () => {
+        const previewReq = await fetch(
+          `/api/getLinkPreview?url=https://${project?.targets?.production?.alias?.[0]}`,
+          { method: "get" }
+        )
+        if (previewReq.ok) {
+          const preview = await previewReq.json()
+          setLinkPreview(preview.image)
+        } else setLinkPreview(LINK_PREVIEW_FALLBACK)
+      })()
+    }
   }, [project])
 
   if (!project)
@@ -80,7 +82,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
       border="solid 2px #aaa"
       p={2}
       borderRadius={1}
-      direction="row"
+      direction={{ lg: "column", xs: "row" }}
       justifyContent="space-between"
       sx={{
         ":hover": {
@@ -112,7 +114,10 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
         <Stack direction="row" alignItems="center" mb="auto">
           {project.targets.production.alias && (
             <HoverAwareness setHovering={setActionHover} sx={MIN_WIDTH}>
-              <NewTabLink url={project.targets.production.alias[0]} />
+              <NewTabLink
+                url={project.targets.production.alias[0]}
+                sx={{ ml: { lg: 8, xs: 0 } }}
+              />
             </HoverAwareness>
           )}
           <ReadyState readyState={project.targets.production.readyState} />
@@ -122,7 +127,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
           <Button
             variant="contained"
             onClick={async () => fetchProject()}
-            sx={{ ml: "auto", minWidth: 36, p: 1 }}
+            sx={{ ml: "auto", minWidth: 40, p: 1 }}
           >
             <CachedIcon />
           </Button>

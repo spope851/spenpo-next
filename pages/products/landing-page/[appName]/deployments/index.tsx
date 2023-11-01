@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { Button, CircularProgress, Stack } from "@mui/material"
+import { CircularProgress, Stack } from "@mui/material"
 import { useRouter } from "next/router"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getServerSession } from "next-auth"
-import CachedIcon from "@mui/icons-material/Cached"
 import { DeploymentCard } from "@/components/deploymentCard"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 import prisma from "@/utils/prisma"
@@ -34,16 +33,7 @@ const Deployments: React.FC<
 
   return (
     <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
-      <Stack direction="row" justifyContent="space-between">
-        <Breadcrumbs />
-        <Button
-          variant="contained"
-          onClick={refreshDeployments}
-          sx={{ minWidth: 36, p: 1 }}
-        >
-          <CachedIcon />
-        </Button>
-      </Stack>
+      <Breadcrumbs />
       <Stack direction="row" justifyContent="space-around">
         <Stack rowGap={1} width="100%">
           {data.map((el) => (

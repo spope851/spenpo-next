@@ -20,15 +20,17 @@ export const Breadcrumbs: React.FC = () => {
   let linkPath = router.asPath.split("/")
   linkPath = linkPath.slice(1)
 
-  const calculateCrumbWidth = useCallback((node: HTMLDivElement) => {
-    if (!node) return
-    const resizeObserver = new ResizeObserver(() => {
-      setCrumbWidth((node.offsetWidth - linkPath.length * 20) / linkPath.length)
-    })
-    resizeObserver.observe(node)
-    return resizeObserver.disconnect()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const calculateCrumbWidth = useCallback(
+    (node: HTMLDivElement) => {
+      if (!node) return
+      const resizeObserver = new ResizeObserver(() => {
+        setCrumbWidth((node.offsetWidth - linkPath.length * 20) / linkPath.length)
+      })
+      resizeObserver.observe(node)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [linkPath]
+  )
 
   return (
     <MuiBreadcrumbs

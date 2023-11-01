@@ -36,7 +36,7 @@ const AvatarMenu: React.FC = () => {
         aria-controls={open ? "account-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        sx={{ p: 0, display: { xs: "none", sm: "block" } }}
+        sx={{ p: 0 }}
       >
         {avatar}
       </IconButton>
@@ -73,7 +73,17 @@ const AvatarMenu: React.FC = () => {
         <Box display="flex" p={1} justifyContent="center" alignItems="center">
           {avatar}
           {status === "authenticated" ? (
-            <Typography sx={{ ml: 1 }}>Signed in as {session.user.email}</Typography>
+            <Typography
+              sx={{
+                ml: 1,
+                minWidth: 150,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Signed in as {session.user.email}
+            </Typography>
           ) : (
             <Button
               sx={{ ml: 1 }}

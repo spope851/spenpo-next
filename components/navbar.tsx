@@ -23,7 +23,7 @@ interface NavbarProps {
 
 const TABS: Tabs[] = ["products", "projects", "blog", "resume", "contact"]
 
-const Burger = styled(Button)(({ theme }) => ({
+const Burger = styled(IconButton)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     display: "none",
   },
@@ -105,13 +105,13 @@ export default function Navbar({ active }: NavbarProps) {
                 {tab}
               </Tab>
             ))}
-            <AvatarMenu />
             <Burger
               sx={{ height: 51, color: "white" }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
             </Burger>
+            <AvatarMenu />
           </Stack>
           <Drawer
             PaperProps={{ sx: { backgroundColor: "transparent", pt: 7, px: 1 } }}
