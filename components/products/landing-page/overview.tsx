@@ -54,7 +54,12 @@ export const LandingPageOverview: React.FC = () => {
             baseTop - window.scrollY - scrollCorrection
           )
         )
-      setContentSx(contentStyle(baseTop - 30, baseTop - 30 - scrollCorrection))
+      setContentSx(
+        contentStyle(
+          baseTop + 24 - scrollCorrection * 2,
+          baseTop + 48 - scrollCorrection * 3
+        )
+      )
       if (
         claimRef.current?.offsetTop &&
         window.scrollY >= claimRef.current.offsetTop - SCROLL_PADDING

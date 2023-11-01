@@ -7,11 +7,13 @@ import { getServerSession } from "next-auth"
 import { useRouter } from "next/router"
 import React, { ReactNode } from "react"
 import prisma from "@/utils/prisma"
+import { useSession } from "next-auth/react"
 
 const LandingPageProductPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
 > = ({ ssrOrders }) => {
   const router = useRouter()
+  const auth = useSession().status === "authenticated"
   const tabs: Record<number, ReactNode> = {
     0: <LandingPageOverview />,
     1: ssrOrders && <MySites ssrOrders={ssrOrders} />,
@@ -20,7 +22,7 @@ const LandingPageProductPage: React.FC<
 
   return (
     <Stack m={{ xs: 2, sm: 5 }} rowGap={3}>
-      {ssrOrders ? (
+      {auth ? (
         <>
           <Tabs
             value={mysites}
