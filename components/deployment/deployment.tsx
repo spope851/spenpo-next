@@ -122,7 +122,11 @@ export const Deployment: React.FC<{ id: string; createdAt?: number }> = ({
             event.created && (
               <Stack direction="row" columnGap={5} key={event.payload.id}>
                 <DeploymentDate date={event.created} />
-                <Typography id="deployment" whiteSpace="pre-wrap">
+                <Typography
+                  id="deployment"
+                  whiteSpace="pre-wrap"
+                  sx={{ overflowWrap: "anywhere" }}
+                >
                   {event.payload.text}
                 </Typography>
               </Stack>

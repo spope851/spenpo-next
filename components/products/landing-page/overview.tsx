@@ -46,7 +46,8 @@ export const LandingPageOverview: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > baseTop) setStepperSx(stepperStyle(0, 0))
+      const top = window.innerWidth < 650 ? baseTop - scrollCorrection : baseTop
+      if (window.scrollY > top) setStepperSx(stepperStyle(0, 0))
       else
         setStepperSx(
           stepperStyle(
