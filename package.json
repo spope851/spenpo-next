@@ -15,6 +15,7 @@
     "it:db": "docker exec -it db sh",
     "it:cache": "docker exec -it redis redis-cli",
     "stripe": "stripe listen --forward-to localhost:3000/api/stripe-hooks",
+    "stripe:rc": "stripe listen --forward-to https://spenpo-next-git-feature-landing-spope851.vercel.app/api/stripe-hooks",
     "postinstall": "prisma generate"
   },
   "dependencies": {

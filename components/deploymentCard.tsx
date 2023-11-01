@@ -72,7 +72,7 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
       alignItems="center"
     >
       {/* @ts-expect-error Server Component */}
-      <TimeAgo date={data.ready} />
+      <TimeAgo date={data.ready || data.createdAt} />
       <Stack direction="row" alignItems="center" mb="auto">
         {data.alias && (
           <HoverAwareness
