@@ -17,8 +17,8 @@ const Home: React.FC = () => {
         "https://www.twitch.tv/spenpo",
       ]}
       headshotSrc="/images/headshot.jpeg"
-      actionDestination="products/landing-page"
-      actionStatement="get a landing page like this one"
+      actionDestination="contact"
+      actionStatement="email me"
       linkNewTab={true}
       topComponents={
         <Button

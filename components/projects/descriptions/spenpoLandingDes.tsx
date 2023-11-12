@@ -38,6 +38,20 @@ export default function SpenpoLandingDes() {
       </ul>
       <li>next steps:</li>
       <ul>
+        <li>
+          productize it. this component by itself can be a modular website that
+          non-technical people can configure and deploy for themselves without coding
+        </li>
+        <ul>
+          <li>
+            <a href="https://github.com/spenpo-landing/landing-template">
+              prototype
+            </a>
+          </li>
+          <li>
+            <a href="https://landing-template-five.vercel.app">demo</a>
+          </li>
+        </ul>
         <li>publish module to NPM for ease of third party integration</li>
         <li>add further UI config features</li>
         <li>font, element placement, navigation</li>
