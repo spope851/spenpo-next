@@ -1,25 +1,35 @@
 import Image from "next/image"
-import Link from "next/link"
 import { Tabs } from "../types"
-import fav from "../public/favicon.ico"
-import { Button, Drawer } from "@mui/material"
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Drawer,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material"
 import { styled } from "@mui/material/styles"
 import MenuIcon from "@mui/icons-material/Menu"
 import { useState } from "react"
 import { useRouter } from "next/router"
-// import { ToggleTheme } from "./toggleTheme"
+import AvatarMenu from "./avatarMenu"
 
 interface NavbarProps {
   active: Tabs
 }
 
-const Burger = styled("li")(({ theme }) => ({
+const TABS: Tabs[] = ["products", "projects", "blog", "resume", "contact"]
+
+const Burger = styled(IconButton)(({ theme }) => ({
   [theme.breakpoints.up("sm")]: {
     display: "none",
   },
 }))
 
-const Tab = styled("li")(({ theme }) => ({
+const Tab = styled(Button)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
@@ -44,64 +54,83 @@ export default function Navbar({ active }: NavbarProps) {
   }
 
   return (
-    <header>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/" className={tabState(active === "root")}>
-              <h3 id="nav-header">spencer pope</h3>
-              <Image
-                src={fav}
-                height={32}
-                width={32}
-                id="nav-fav"
-                alt="favicon"
-                style={{ margin: 5 }}
-              />
-            </Link>
-          </li>
-          <Tab>
-            <Link href="/contact" className={tabState(active === "contact")}>
-              contact
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/resume" className={tabState(active === "resume")}>
-              resume
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/blog" className={tabState(active === "blog")}>
-              blog
-            </Link>
-          </Tab>
-          <Tab>
-            <Link href="/projects" className={tabState(active === "projects")}>
-              projects
-            </Link>
-          </Tab>
-          <Burger>
-            <Button
+    <AppBar position="static" sx={{ bgcolor: "#555" }}>
+      <Container
+        maxWidth="xl"
+        sx={{ p: "0px !important", maxWidth: "unset !important" }}
+      >
+        <Toolbar
+          disableGutters
+          sx={{ display: "flex", justifyContent: "space-between", pr: 1 }}
+        >
+          <Box
+            bgcolor={(theme) =>
+              active === "home" ? theme.palette.primary.main : ""
+            }
+            p={2}
+          >
+            <Typography
+              variant="h6"
+              component="a"
+              href="/home"
+              sx={{ textDecoration: "none" }}
+              color="secondary"
+              display={{ xs: "none", sm: "block" }}
+              noWrap
+            >
+              spencer pope
+            </Typography>
+            <IconButton
+              href="/home"
+              sx={{
+                display: { xs: "block", sm: "none" },
+                borderRadius: 1,
+                p: 0,
+                height: 32,
+                width: 32,
+              }}
+            >
+              <Image src="/favicon.ico" height={32} width={32} alt="favicon" />
+            </IconButton>
+          </Box>
+          <Stack direction="row" gap={1}>
+            {TABS.map((tab) => (
+              <Tab
+                variant={active === tab ? "contained" : "text"}
+                color={active === tab ? "primary" : "secondary"}
+                key={tab}
+                href={`/${tab}`}
+                className={tabState(active === tab)}
+              >
+                {tab}
+              </Tab>
+            ))}
+            <Burger
               sx={{ height: 51, color: "white" }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
-            </Button>
-          </Burger>
+            </Burger>
+            <AvatarMenu />
+          </Stack>
           <Drawer
-            PaperProps={{ sx: { backgroundColor: "transparent", pt: 7 } }}
+            PaperProps={{ sx: { backgroundColor: "transparent", pt: 7, px: 1 } }}
             anchor="right"
             open={open}
             onClose={() => setOpen(false)}
           >
-            <Route onClick={() => route("/projects")}>projects</Route>
-            <Route onClick={() => route("/blog")}>blog</Route>
-            <Route onClick={() => route("/resume")}>resume</Route>
-            <Route onClick={() => route("/contact")}>contact</Route>
+            {TABS.map((tab) => (
+              <Route
+                variant={active === tab ? "contained" : "text"}
+                key={tab}
+                onClick={() => route(`/${tab}`)}
+              >
+                {tab}
+              </Route>
+            ))}
           </Drawer>
-          {/* <li><ToggleTheme /></li> */}
-        </ul>
-      </nav>
-    </header>
+        </Toolbar>
+      </Container>
+    </AppBar>
   )
 }

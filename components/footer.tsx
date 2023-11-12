@@ -1,65 +1,48 @@
-import Image from "next/image"
 import Link from "next/link"
-import github from "../public/images/github.svg"
-import twitter from "../public/images/twitter.svg"
-import youtube from "../public/images/youtube.svg"
-import wordpress from "../public/images/wordpress.svg"
-import twitch from "../public/images/twitch.svg"
-import mail from "../public/images/mail.svg"
-import { Box } from "@mui/material"
+import Github from "@/images/svg/github.svg"
+import Twitter from "@/images/svg/twitter.svg"
+import Youtube from "@/images/svg/youtube.svg"
+import Wordpress from "@/images/svg/wordpress.svg"
+import Twitch from "@/images/svg/twitch.svg"
+import Mail from "@/images/svg/mail.svg"
+import { Stack, SvgIcon, Typography } from "@mui/material"
+
+const socials = [
+  { href: "https://github.com/spope851", icon: Github },
+  { href: "mailto:spenpo@spenpo.com", icon: Mail },
+  { href: "https://twitter.com/s_pop3", icon: Twitter },
+  { href: "https://www.youtube.com/@spope", icon: Youtube },
+  { href: "https://www.introspective20s.com", icon: Wordpress },
+  { href: "https://www.twitch.tv/spenpo", icon: Twitch },
+]
 
 export default function Footer() {
   return (
-    <Box component="footer">
-      <Box component="ul">
-        <Box component="li">
-          <Link href="https://github.com/spope851" target="_blank" rel="noreferrer">
-            <Image src={github} width={30} height={30} alt="github" />
+    <Stack
+      component="footer"
+      direction="row"
+      bgcolor="#555"
+      justifyContent="space-evenly"
+      alignItems="center"
+      mt="auto"
+      py={3}
+    >
+      <Stack direction="row" gap={1}>
+        {socials.map(({ href, icon: Icon }) => (
+          <Link key={href} href={href} target="_blank" rel="noreferrer">
+            <SvgIcon sx={{ height: 30, width: 30, borderRadius: "25px" }}>
+              <Icon />
+            </SvgIcon>
           </Link>
-        </Box>
-        <Box component="li">
-          <Link href="mailto:spenpo@spenpo.com" target="_blank" rel="noreferrer">
-            <Image src={mail} width={30} height={30} alt="mail" />
-          </Link>
-        </Box>
-        <Box component="li">
-          <Link href="https://twitter.com/s_pop3" target="_blank" rel="noreferrer">
-            <Image src={twitter} width={30} height={30} alt="twitter" />
-          </Link>
-        </Box>
-        <Box component="li">
-          <Link
-            href="https://www.youtube.com/@spope"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image src={youtube} width={30} height={30} alt="youtube" />
-          </Link>
-        </Box>
-        <Box component="li">
-          <Link
-            href="https://www.introspective20s.com"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Image src={wordpress} width={30} height={30} alt="blog" />
-          </Link>
-        </Box>
-        <Box component="li">
-          <Link href="https://www.twitch.tv/spenpo" target="_blank" rel="noreferrer">
-            <Image
-              src={twitch}
-              width={30}
-              height={30}
-              alt="twitch"
-              style={{ borderRadius: "25px" }}
-            />
-          </Link>
-        </Box>
-      </Box>
-      <Box id="copyright">
-        <Box component="span">© 2023 Spencer Pope</Box>
-      </Box>
-    </Box>
+        ))}
+      </Stack>
+      <Typography
+        color="white"
+        display={{ xs: "none", sm: "block" }}
+        component="span"
+      >
+        © 2023 Spencer Pope
+      </Typography>
+    </Stack>
   )
 }

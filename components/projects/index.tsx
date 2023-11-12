@@ -10,6 +10,8 @@ import LanguageFlashDes from "./descriptions/languageFlashDes"
 import ReactTimeclockDes from "./descriptions/reactTimeclockDes"
 import TwoTruthsDes from "./descriptions/twoTruthsDes"
 import { Description, Header, MobileDescription } from "./styled"
+import SpenpoLandingDes from "./descriptions/spenpoLandingDes"
+import SpenpoLandingDemo from "./demos/spenpoLandingDemo"
 
 export * from "./styled"
 
@@ -33,31 +35,29 @@ const Project: React.FC<{
   </Box>
 )
 
-const projects: Record<Projects, JSX.Element> = {
-  "two-truths": (
-    <Project
-      id="two-truths"
-      description={<TwoTruthsDes />}
-      demo={<TwoTruthsDemo />}
-    />
-  ),
-  "language-flash": (
-    <Project
-      id="language-flash"
-      description={<LanguageFlashDes />}
-      demo={<LanguageFlashDemo />}
-    />
-  ),
-  "3x3-cube": (
-    <Project id="3x3-cube" description={<CubeDes />} demo={<CubeDemo />} />
-  ),
-  "react-timeclock": (
-    <Project
-      id="react-timeclock"
-      description={<ReactTimeclockDes />}
-      demo={<ReactTimeclockDemo />}
-    />
-  ),
+const projects: Record<Projects, Record<"description" | "demo", JSX.Element>> = {
+  "spenpo-landing": {
+    description: <SpenpoLandingDes />,
+    demo: <SpenpoLandingDemo />,
+  },
+
+  "two-truths": {
+    description: <TwoTruthsDes />,
+    demo: <TwoTruthsDemo />,
+  },
+
+  "language-flash": {
+    description: <LanguageFlashDes />,
+    demo: <LanguageFlashDemo />,
+  },
+  "3x3-cube": {
+    description: <CubeDes />,
+    demo: <CubeDemo />,
+  },
+  "react-timeclock": {
+    description: <ReactTimeclockDes />,
+    demo: <ReactTimeclockDemo />,
+  },
 }
 
 export default projects

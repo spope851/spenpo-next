@@ -10,9 +10,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const active = (pathname.split("/")[1] as Tabs) || "root"
 
+  const hideLayoutPaths = ["/products/landing-page/design", "/"]
+
   return (
     <Box
-      id="wrapper"
       sx={{
         bgcolor: "background.default",
         color: "text.primary",
@@ -21,9 +22,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       display="flex"
       flexDirection="column"
     >
-      <Navbar active={active} />
+      {!hideLayoutPaths.includes(pathname) && <Navbar active={active} />}
       {children}
-      <Footer />
+      {!hideLayoutPaths.includes(pathname) && <Footer />}
     </Box>
   )
 }

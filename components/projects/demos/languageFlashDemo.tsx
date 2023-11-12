@@ -19,11 +19,5 @@ export default function LanguageFlashDemo() {
       lf && lf.$destroy()
     }
   }, [])
-  return (
-    <Box component="td" className="projects-table-data">
-      <Box id="lang-flash" className="app-demo">
-        <Box ref={demoRoot}></Box>
-      </Box>
-    </Box>
-  )
+  return <Box ref={demoRoot}></Box>
 }

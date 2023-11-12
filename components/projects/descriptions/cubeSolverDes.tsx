@@ -1,6 +1,6 @@
 export default function CubeDes() {
   return (
-    <ul className="app-description">
+    <ul>
       <li>description: solve a 3x3 puzzle cube</li>
       <ul>
         <li>

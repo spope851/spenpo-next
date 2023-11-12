@@ -25,7 +25,6 @@ export default function Resume() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          bgcolor: "background.default",
           color: "text.primary",
           borderRadius: 1,
           p: 3,

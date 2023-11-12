@@ -1,6 +1,6 @@
 export default function LanguageFlashDes() {
   return (
-    <ul className="app-description">
+    <ul>
       <li>description: flashcards for studying a new language</li>
       <ul>
         <li>choose how many words to study at a time</li>

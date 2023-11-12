@@ -4,8 +4,9 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { OneThingLayout } from "@/components/oneThingLayout"
 import { RobotError } from "@/components/robotError"
-import { GetBlogPostsQuery, GetBlogPostsWithTagQuery } from "@/generated/graphql"
 import { TagList } from "./tagList"
+import { GetBlogPostsQuery } from "@/pages/blog"
+import { GetBlogPostsWithTagQuery } from "@/pages/blog/tag/[tag]"
 
 const Wrapper = styled(Box)(({ theme }) => ({
   width: "60%",
@@ -83,7 +84,7 @@ export const PostList: React.FC<{
         </Post>
       ))}
       <NumberPosts textAlign="right" mb="50px">
-        {`showing ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
+        {`displaying ${found} post${found && found > 1 ? "s" : ""} of ${found}`}
       </NumberPosts>
     </Wrapper>
   ) : (

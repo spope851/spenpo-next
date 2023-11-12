@@ -1,4 +1,4 @@
-import { Accordion, ListItem, Typography } from "@mui/material"
+import { Accordion, Box, ListItem, Typography } from "@mui/material"
 import React from "react"
 import AccordionDetails from "./accordionDetails"
 import List from "./list"
@@ -9,17 +9,65 @@ const Experience: React.FC = () => {
     <>
       <Accordion>
         <LinkSummary
-          title="Web Engineer"
+          title="Technical Lead - Web Team"
           href="https://blockchains.com"
           linkTitle="Blockchains Inc"
-          subTitle="2021 - Present"
+          subTitle="2022 - Present"
         />
         <AccordionDetails>
           <List>
             <ListItem>
               <Typography>
-                I integrate backend services with web applications, often developing
-                in parallel with backend teams
+                Articulate technical requirements to developers based on the
+                intentions of product managers
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Engage in long term planning with time horizons varying from two
+                weeks to several quarters
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Own the agile process and facilitate all scrum ceremonies
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Own the frontend technology stack and make architectural decisions
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Communicate the goals and progress of the team at all levels of the
+                organization
+              </Typography>
+            </ListItem>
+            <Typography
+              component={Box}
+              sx={{
+                justifyContent: "space-between",
+                display: "flex",
+                my: 3,
+              }}
+            >
+              <Box component="span" sx={{ fontWeight: "bold" }}>
+                Web Engineer
+              </Box>
+              <Box
+                component="span"
+                sx={(theme) => ({
+                  [theme.breakpoints.down("md")]: { display: "none" },
+                })}
+              >
+                2021 - 2022
+              </Box>
+            </Typography>
+            <ListItem>
+              <Typography>
+                Integrate backend services with web applications, often developing in
+                parallel with backend teams
               </Typography>
             </ListItem>
             <ListItem>

@@ -1,9 +1,30 @@
 import { PostList } from "../../components/blog/postList"
-import { graphql } from "@/generated"
+import { extractTagsFromPosts } from "@/utils/extractTags"
 import { Typography } from "@mui/material"
 import Head from "next/head"
-import { GetBlogPostsQuery } from "@/generated/graphql"
-import { initializeApollo } from "@/graphql/ssgClient"
+
+export type GetBlogPostsQuery = {
+  __typename?: "Query"
+  allPosts: {
+    __typename?: "Posts"
+    found: number
+    posts: Array<{
+      __typename?: "BlogPost"
+      ID: string
+      content: string
+      title: string
+      date: string
+      excerpt: string
+      tags: Array<{
+        __typename?: "Tag"
+        name: string
+        ID: string
+        slug: string
+        post_count?: number | null
+      }>
+    }>
+  }
+}
 
 export default function Blog({ data }: { data: GetBlogPostsQuery }) {
   return (
@@ -20,30 +41,12 @@ export default function Blog({ data }: { data: GetBlogPostsQuery }) {
 }
 
 export async function getStaticProps() {
-  const client = initializeApollo()
-  const { data } = await client.query({
-    query: graphql(`
-      query getBlogPosts {
-        allPosts {
-          found
-          posts {
-            ID
-            content
-            title
-            date
-            excerpt
-            tags {
-              name
-              ID
-              slug
-              post_count
-            }
-          }
-        }
-      }
-    `),
-  })
+  const data = await fetch(
+    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts?fields=ID,title,excerpt,tags,date`
+  )
+    .then((res) => res.json())
+    .then(extractTagsFromPosts)
   return {
-    props: { data },
+    props: { data: { allPosts: data } },
   }
 }
