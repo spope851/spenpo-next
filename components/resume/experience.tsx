@@ -12,7 +12,7 @@ const Experience: React.FC = () => {
           title="Technical Lead - Web Team"
           href="https://blockchains.com"
           linkTitle="Blockchains Inc"
-          subTitle="2022 - Present"
+          subTitle="2022 - 2023"
         />
         <AccordionDetails>
           <List>
