@@ -52,15 +52,15 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
               </Stack>
               <Typography>{description}</Typography>
               <Stack gap={1} ml="auto" direction="row">
-                <Button variant="outlined" disabled>
+                {/* <Button variant="outlined" disabled>
                   coming soon
-                </Button>
-                {/* <Button href={`${router.pathname}/${id}`} variant="text">
+                </Button> */}
+                <Button href={`${router.pathname}/${id}`} variant="text">
                   learn more
                 </Button>
                 <Button href={`${router.pathname}/${id}/design`} variant="contained">
                   buy now
-                </Button> */}
+                </Button>
               </Stack>
             </Stack>
           </Grid>
