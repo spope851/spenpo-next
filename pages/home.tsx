@@ -24,7 +24,7 @@ const GRID_PROPS = {
   item: true,
   xs: 12,
   display: "flex",
-  flexDirection: "column" as "column",
+  flexDirection: "column" as const,
 }
 
 const BUTTON_SX = {

@@ -1,7 +1,8 @@
-import { NextApiRequest, NextApiResponse } from "next"
-import { buffer } from "micro"
-import { Prisma } from "@prisma/client"
-import { ProjectEnvVariableInput, VercelProjectInput } from "@/context/shoppingCart"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextApiRequest, NextApiResponse } from 'next'
+import { buffer } from 'micro'
+import { Prisma } from '@prisma/client'
+import { ProjectEnvVariableInput, VercelProjectInput } from '@/context/shoppingCart'
 import {
   cloneRepo,
   createBlob,
@@ -9,45 +10,49 @@ import {
   createTree,
   getMainTree,
   pushCommit,
-} from "@/services/github"
-import { createProject } from "@/services/vercel"
-import prisma from "@/utils/prisma"
+} from '@/services/github'
+import { createProject } from '@/services/vercel'
+import prisma from '@/utils/prisma'
+import Stripe from 'stripe'
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
+// This is your test secret API key.
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+  apiVersion: '2023-08-16',
+})
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
 
 const gitRepository = (projectName: string) => {
   return {
     repo: projectName,
-    type: "github",
+    type: 'github',
   }
 }
 
-const framework = "nextjs"
+const framework = 'nextjs'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    const sig = req.headers["stripe-signature"]
+  if (req.method === 'POST') {
+    const sig = req.headers['stripe-signature']
     const reqBuffer = await buffer(req)
 
     let event
 
     try {
-      event = stripe.webhooks.constructEvent(reqBuffer, sig, endpointSecret)
+      if (sig) event = stripe.webhooks.constructEvent(reqBuffer, sig, endpointSecret)
     } catch (err: any) {
       res.status(400).send(`Webhook Error: ${err.message}`)
       return
     }
 
-    switch (event.type) {
-      case "payment_intent.succeeded":
+    switch (event?.type) {
+      case 'payment_intent.succeeded':
         const paymentIntentSucceeded = event.data.object
-        console.log("payment intent succeeded")
+        console.log('payment intent succeeded')
         console.log(paymentIntentSucceeded)
 
         break
-      case "charge.succeeded":
+      case 'charge.succeeded':
         const CHARGE_SUCCEEDED = event.data.object
 
         const orderId = CHARGE_SUCCEEDED.metadata.orderId
@@ -73,14 +78,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const clone = async (): Promise<any> =>
           cloneRepo(
-            `${PROJECT_NAME}${attempts > 0 ? `-${attempts}` : ""}`,
+            `${PROJECT_NAME}${attempts > 0 ? `-${attempts}` : ''}`,
             CLIENT_NAME
           ).catch(async (err) => {
-            console.log(1, "catch", err)
+            console.log(1, 'catch', err.json())
             if (err.status === 422) {
               attempts += 1
               return clone()
-            } else return err
+            } else return err.json()
           })
 
         // 1. clone landing repo
@@ -100,46 +105,57 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             environmentVariables: [
               ...ENVIRONMENT_VARIABLES,
               ...[
-                "GH_TOKEN",
-                "VERCEL_TOKEN",
-                "VERCEL_TEAM",
-                "AWS_ACCESS_KEY_ID",
-                "AWS_SECRET_ACCESS_KEY",
-                "AWS_LANDING_S3",
+                'GH_TOKEN',
+                'VERCEL_TOKEN',
+                'VERCEL_TEAM',
+                'AWS_ACCESS_KEY_ID',
+                'AWS_SECRET_ACCESS_KEY',
+                'AWS_LANDING_S3',
               ].map((v) => {
                 return {
                   key: v,
-                  target: "production",
-                  type: "encrypted",
+                  target: 'production',
+                  type: 'encrypted',
                   value: process.env[v],
                 }
               }),
               {
-                key: "OG_IMAGE",
-                target: "production",
-                type: "encrypted",
+                key: 'OG_IMAGE',
+                target: 'production',
+                type: 'encrypted',
                 value: HEADSHOT_URL,
               },
               {
-                key: "NEXT_PUBLIC_PROJECT_NAME",
-                target: "production",
-                type: "encrypted",
+                key: 'NEXT_PUBLIC_PROJECT_NAME',
+                target: 'production',
+                type: 'encrypted',
                 value: cloneRes.data.name,
               },
             ],
           }
 
           createProjectRes = await createProject(project).catch((err) => {
-            console.log(2, "catch", err)
+            console.log(2, 'catch', err)
             return err
           })
-        } else console.log("else", 1, cloneRes)
+        } else {
+          await prisma.order.update({
+            where: { id: orderId },
+            data: {
+              metadata: {
+                clientName: CLIENT_NAME,
+              },
+              error: { step: 1, ...cloneRes },
+            },
+          })
+          break
+        }
 
         // fetch headshot from s3
-        const headshotReq = await fetch(HEADSHOT_URL, { method: "get" })
+        const headshotReq = await fetch(HEADSHOT_URL, { method: 'get' })
         const blob = await headshotReq.blob()
         const buffer = Buffer.from(await blob.arrayBuffer())
-        const headshotBase64 = buffer.toString("base64")
+        const headshotBase64 = buffer.toString('base64')
 
         // 3. create blob of headshot
         let blobShaRes
@@ -149,15 +165,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
           blobShaRes = await createBlob(githubProject, headshotBase64).catch(
             (err) => {
-              console.log(3, "catch", err)
+              console.log(3, 'catch', err)
               return err
             }
           )
-        } else console.log("else", 2, await createProjectRes.json())
+        } else console.log('else', 2, await createProjectRes.json())
 
         const main = async (): Promise<any> =>
           getMainTree(githubProject).catch(async (err) => {
-            console.log(4, "catch", err)
+            console.log(4, 'catch', err)
             if (err.status === 404) {
               return main()
             } else return err
@@ -167,10 +183,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         let mainTreeShaRes
         if (blobShaRes.status === 201)
           mainTreeShaRes = await main().catch((err) => {
-            console.log(4, "catch", err)
+            console.log(4, 'catch', err)
             return err
           })
-        else console.log("else", 3, blobShaRes)
+        else console.log('else', 3, blobShaRes)
 
         // 5. create tree with headshot file
         let newTreeShaRes
@@ -181,10 +197,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             `headshot.${EXTENSION}`,
             blobShaRes.data.sha
           ).catch((err) => {
-            console.log(5, "catch", err)
+            console.log(5, 'catch', err)
             return err
           })
-        else console.log("else", 4, mainTreeShaRes)
+        else console.log('else', 4, mainTreeShaRes)
 
         // 6. create commit to new repo
         let newCommitShaRes
@@ -194,18 +210,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             mainTreeShaRes.data.commit.sha,
             newTreeShaRes.data.sha
           ).catch((err) => {
-            console.log(6, "catch", err)
+            console.log(6, 'catch', err)
             return err
           })
-        else console.log("else", 5, newTreeShaRes)
+        else console.log('else', 5, newTreeShaRes)
 
         // 7. push commit to deploy vercel project
         if (newCommitShaRes.status === 201)
           await pushCommit(githubProject, newCommitShaRes.data.sha).catch((err) => {
-            console.log(7, "catch", err)
+            console.log(7, 'catch', err)
             return err
           })
-        else console.log("else", 6, newCommitShaRes)
+        else console.log('else', 6, newCommitShaRes)
 
         await prisma.order.update({
           where: { id: orderId },
@@ -220,19 +236,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
 
         break
-      case "payment_intent.created":
-        console.log("payment intent created")
+      case 'payment_intent.created':
+        console.log('payment intent created')
 
         break
       // ... handle other event types
       default:
-        console.log(`Unhandled event type ${event.type}`)
+        console.log(`Unhandled event type ${event?.type}`)
     }
 
-    res.status(200).send("event received")
+    res.status(200).send('event received')
   } else {
-    res.setHeader("Allow", "POST")
-    res.status(405).end("Method Not Allowed")
+    res.setHeader('Allow', 'POST')
+    res.status(405).end('Method Not Allowed')
   }
 }
 

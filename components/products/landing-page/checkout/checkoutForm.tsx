@@ -58,7 +58,7 @@ export const CheckoutForm: React.FC = () => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window?.location.origin}/products/landing-page?mysites=1`,
+        return_url: `${window?.location.origin}${window?.location.pathname.split("/checkout")[0]}/confirm`,
       },
     })
 

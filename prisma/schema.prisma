@@ -72,4 +72,5 @@ model Order {
   product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   metadata      Json?
   complete      Boolean   @default(false)
+  error         Json?
 }
