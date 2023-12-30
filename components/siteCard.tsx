@@ -69,7 +69,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
         } else setLinkPreview(fallback ? fallback : LINK_PREVIEW_FALLBACK)
       })()
     }
-  }, [project])
+  }, [project, fallback])
 
   if (!project)
     return (

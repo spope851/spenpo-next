@@ -39,7 +39,7 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
         setOrder(refetchOrder.order)
       })()
     }
-  }, [order])
+  }, [order]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     router.replace(
