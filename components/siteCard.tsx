@@ -1,20 +1,20 @@
-import { Stack, Typography, Button } from "@mui/material"
-import { CSSProperties, useEffect, useState } from "react"
-import { VercelReadyState } from "./deployment/useDeployment"
-import { ReadyState } from "./readyState"
-import { NewTabLink } from "./newTabLink"
-import TimeAgo from "react-timeago"
-import { useRouter } from "next/router"
-import CachedIcon from "@mui/icons-material/Cached"
-import { HoverAwareness } from "./hoverAwareness"
-import { BgImage } from "./bgImage"
-import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
+import { Stack, Typography, Button } from '@mui/material'
+import { CSSProperties, useEffect, useState } from 'react'
+import { VercelReadyState } from './deployment/useDeployment'
+import { ReadyState } from './readyState'
+import { NewTabLink } from './newTabLink'
+import TimeAgo from 'react-timeago'
+import { useRouter } from 'next/router'
+import CachedIcon from '@mui/icons-material/Cached'
+import { HoverAwareness } from './hoverAwareness'
+import { BgImage } from './bgImage'
+import { LINK_PREVIEW_FALLBACK } from '@/constants/image'
 
 const MIN_WIDTH: CSSProperties = {
-  whiteSpace: "nowrap",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  maxWidth: "25vw",
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  maxWidth: '25vw',
 }
 
 export type Project = {
@@ -34,7 +34,10 @@ export type Project = {
 const getProject = async (name: string) =>
   fetch(`/api/landing-page/getVercelProject?name=${name}`)
 
-export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
+export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
+  name,
+  fallback,
+}) => {
   const [project, setProject] = useState<Project>()
   const router = useRouter()
   const [actionHover, setActionHover] = useState(false)
@@ -49,19 +52,21 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
     ;(async () => fetchProject())()
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [linkPreview, setLinkPreview] = useState(LINK_PREVIEW_FALLBACK)
+  const [linkPreview, setLinkPreview] = useState(
+    fallback ? fallback : LINK_PREVIEW_FALLBACK
+  )
 
   useEffect(() => {
     if (!!project?.targets?.production?.alias?.[0]) {
       ;(async () => {
         const previewReq = await fetch(
           `/api/getLinkPreview?url=https://${project?.targets?.production?.alias?.[0]}`,
-          { method: "get" }
+          { method: 'get' }
         )
         if (previewReq.ok) {
           const preview = await previewReq.json()
           setLinkPreview(preview.image)
-        } else setLinkPreview(LINK_PREVIEW_FALLBACK)
+        } else setLinkPreview(fallback ? fallback : LINK_PREVIEW_FALLBACK)
       })()
     }
   }, [project])
@@ -77,17 +82,17 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
     <Stack
       id="spenpo-site-card"
       onClick={() =>
-        !actionHover && router.push(`${router.pathname}/${project.name}`)
+        !actionHover && router.push(`/products/landing-page/${project.name}`)
       }
       border="solid 2px #aaa"
       p={2}
       borderRadius={1}
-      direction={{ lg: "column", xs: "row" }}
+      direction={{ lg: 'column', xs: 'row' }}
       justifyContent="space-between"
       sx={{
-        ":hover": {
-          bgcolor: "#aaa",
-          cursor: "pointer",
+        ':hover': {
+          bgcolor: '#aaa',
+          cursor: 'pointer',
         },
       }}
     >
@@ -98,8 +103,8 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
             borderRadius: 25,
             height: 50,
             width: 50,
-            border: "solid 1px #555",
-            m: "2px",
+            border: 'solid 1px #555',
+            m: '2px',
           }}
         />
         <Stack>
@@ -127,7 +132,7 @@ export const SiteCard: React.FC<{ name: string }> = ({ name }) => {
           <Button
             variant="contained"
             onClick={async () => fetchProject()}
-            sx={{ ml: "auto", minWidth: 40, p: 1 }}
+            sx={{ ml: 'auto', minWidth: 40, p: 1 }}
           >
             <CachedIcon />
           </Button>

@@ -1,8 +1,7 @@
-import { CmsGetSet, LandingCms } from "@/components/landingPage"
-import { useLandEnvVars } from "@/hooks/useLandEnvVars"
-import { randBase64 } from "@/utils/randStr"
-import { formatDomain } from "@/utils/string"
-import { useSession } from "next-auth/react"
+import { CmsGetSet, LandingCms } from '@/components/landingPage'
+import { useLandEnvVars } from '@/hooks/useLandEnvVars'
+import { randBase64 } from '@/utils/randStr'
+import { useSession } from 'next-auth/react'
 import React, {
   Dispatch,
   ReactNode,
@@ -10,7 +9,7 @@ import React, {
   createContext,
   useMemo,
   useState,
-} from "react"
+} from 'react'
 
 interface ProjectEnvVariable {
   key: string
@@ -36,15 +35,6 @@ interface VercelProject {
 export interface VercelProjectInput extends VercelProject {
   name: string
   environmentVariables: ProjectEnvVariableInput[]
-}
-
-type DeployLandingPageBody = {
-  clientName?: string
-  headshot: {
-    content?: string
-    fileName?: string
-  }
-  project: VercelProject
 }
 
 export type DeployLandingPageBodyInput = {
@@ -96,7 +86,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
 
   const file = useState<File>()
 
-  const linkNewTabGetSet: LandingCms["linkNewTab"] = {
+  const linkNewTabGetSet: LandingCms['linkNewTab'] = {
     getter: () => {
       if (!!linkNewTab) return JSON.parse(linkNewTab)
     },
@@ -105,7 +95,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     },
   }
 
-  const socialsGetSet: LandingCms["socialUrls"] = {
+  const socialsGetSet: LandingCms['socialUrls'] = {
     getter: () => {
       if (socialUrls) return JSON.parse(socialUrls)
     },
@@ -130,13 +120,13 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXT_PUBLIC_SUBTITLE: subtitle[0],
     NEXT_PUBLIC_SOCIALS: socialUrls,
     NEXT_PUBLIC_ACTION_STATEMENT: actionStatement[0],
-    NEXT_PUBLIC_HEADSHOT: `headshot.${file[0]?.name.split(".").at(-1)}`,
+    NEXT_PUBLIC_HEADSHOT: `headshot.${file[0]?.name.split('.').at(-1)}`,
     NEXT_PUBLIC_ACTION: actionDestination[0],
     NEXT_PUBLIC_BG_COLOR: backgroundColor[0],
     NEXT_PUBLIC_BG_IMAGE: backgroundImage[0],
     NEXT_PUBLIC_ACCENT_COLOR: accentColor[0],
     NEXT_PUBLIC_SECONDARY_ACCENT_COLOR: secondaryAccentColor[0],
-    NEXT_PUBLIC_HIDE_ADMIN: "false",
+    NEXT_PUBLIC_HIDE_ADMIN: 'false',
     NEXT_PUBLIC_LINK_NEW_TAB: linkNewTab,
     NEXT_AUTH_USERNAME: session.data?.user.email,
     NEXT_AUTH_PASSWORD: password,
@@ -152,7 +142,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
       paymentIntentMetadata: {
         clientName,
         projectName,
-        headshotExtension: file[0]?.name.split(".").at(-1),
+        headshotExtension: file[0]?.name.split('.').at(-1),
         environmentVariables,
       },
       landingCms: {

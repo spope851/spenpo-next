@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, Divider, Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { ShoppingCartContext } from '@/context/shoppingCart'
 import { LandingSummary } from '@/components/products/landing-page/checkout/landingSummary'
 import { loadStripe } from '@stripe/stripe-js'
@@ -27,7 +27,7 @@ const Checkout: React.FC = () => {
   useEffect(() => {
     if (!clientSecret) {
       // Create PaymentIntent as soon as the page loads
-      const init = async () =>
+      ;(async () =>
         fetch('/api/create-payment-intent', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -55,8 +55,7 @@ const Checkout: React.FC = () => {
                 body: file,
               })
             })
-          })
-      init()
+          }))()
     }
   }, [clientSecret, file, paymentIntentMetadata, router.pathname, session.data])
 
@@ -88,9 +87,6 @@ const Checkout: React.FC = () => {
               <CheckoutForm />
             </Elements>
           )}
-          <Button variant="contained" href="design">
-            cancel
-          </Button>
         </Stack>
       </Stack>
     </Stack>
