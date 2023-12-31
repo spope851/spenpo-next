@@ -1,23 +1,23 @@
-import { Box } from "@mui/material"
-import React, { useContext } from "react"
-import { LandingPageContext } from "@/context/landingPage"
-import { useDropzone } from "react-dropzone"
-import UploadIcon from "@mui/icons-material/Upload"
-import { ShoppingCartContext } from "@/context/shoppingCart"
+import { Box } from '@mui/material'
+import React, { useContext } from 'react'
+import { LandingPageContext } from '@/context/landingPage'
+import { useDropzone } from 'react-dropzone'
+import UploadIcon from '@mui/icons-material/Upload'
+import { ShoppingCartContext } from '@/context/shoppingCart'
 
 export const Headshot: React.FC = () => {
   const { HEADSHOT_SRC, SECONDARY_ACCENT_COLOR, cms, editable } =
     useContext(LandingPageContext)
 
   const BOX_PROPS = {
-    height: { md: 480, xs: "unset" },
-    width: { md: 480, xs: "100%" },
+    height: { md: 480, xs: 'unset' },
+    width: { md: 480, xs: '100%' },
     borderRadius: 1,
     sx: {
-      backgroundImage: `url(${HEADSHOT_SRC || "/images/headshot.jpeg"})`,
-      backgroundPosition: "center",
-      backgroundSize: "cover",
-      backgroundRepeat: "no-repeat",
+      backgroundImage: `url(${HEADSHOT_SRC || '/images/headshot.jpeg'})`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
     },
     flex: { xs: 1 },
     minHeight: 200,
@@ -32,9 +32,9 @@ export const Headshot: React.FC = () => {
     onDropAccepted: (acceptedFiles: Array<File>) => {
       const reader = new FileReader()
       reader.onabort = () =>
-        /* eslint-disable no-console */ console.log("file reading was aborted")
+        /* eslint-disable no-console */ console.log('file reading was aborted')
       reader.onerror = () =>
-        /* eslint-disable no-console */ console.log("file reading has failed")
+        /* eslint-disable no-console */ console.log('file reading has failed')
       reader.readAsArrayBuffer(acceptedFiles[0])
       reader.onload = async () => {
         setFile(acceptedFiles[0])
@@ -49,24 +49,24 @@ export const Headshot: React.FC = () => {
       <Box
         {...getRootProps()}
         {...BOX_PROPS}
-        m="2px"
+        // m="2px"
         sx={{
-          ":hover": {
-            cursor: "pointer",
-            border: `dashed ${SECONDARY_ACCENT_COLOR} 2px`,
+          ':hover': {
+            cursor: 'pointer',
+            outline: `dashed ${SECONDARY_ACCENT_COLOR} 2px`,
             m: 0,
           },
           opacity: 0.6,
           ...BOX_PROPS.sx,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <UploadIcon
           sx={{
             fontSize: 50,
-            position: "absolute",
+            position: 'absolute',
           }}
         />
       </Box>

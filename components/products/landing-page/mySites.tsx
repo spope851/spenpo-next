@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react"
-import { Button, CircularProgress, Grid, Stack, Typography } from "@mui/material"
-import { useRouter } from "next/router"
-import CachedIcon from "@mui/icons-material/Cached"
-import { SiteCard } from "@/components/siteCard"
-import { SnackbarContext } from "@/context/snackbar"
-import { Prisma } from "@prisma/client"
-import ChevronRight from "@mui/icons-material/ChevronRight"
+import React, { useContext, useEffect, useState } from 'react'
+import { Button, CircularProgress, Grid, Stack, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
+import CachedIcon from '@mui/icons-material/Cached'
+import { SiteCard } from '@/components/siteCard'
+import { SnackbarContext } from '@/context/snackbar'
+import { Prisma } from '@prisma/client'
+import ChevronRight from '@mui/icons-material/ChevronRight'
 
 const getOrders = async (): Promise<{ orders: Order[] }> => {
-  const orders = await fetch("/api/getOrders")
+  const orders = await fetch('/api/getOrders')
   return orders.json()
 }
 
@@ -47,7 +47,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
     if (awaitingNewSite) {
       setSnackbarOpen(true)
       setSnackbarMessage(
-        "we are preparing your new site. it will appear here once the deployment has started."
+        'we are preparing your new site. it will appear here once the deployment has started.'
       )
       setLoading(true)
       const pollingId = window.setInterval(async () => {
@@ -82,7 +82,7 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
         <Button
           variant="contained"
           onClick={refreshOrders}
-          sx={{ ml: "auto", minWidth: 40, p: 1 }}
+          sx={{ ml: 'auto', minWidth: 40, p: 1 }}
         >
           <CachedIcon />
         </Button>
@@ -102,14 +102,16 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
             <Button
               href={`${router.pathname}/design`}
               variant="contained"
-              sx={{ mx: "auto" }}
+              sx={{ mx: 'auto' }}
               endIcon={<ChevronRight />}
             >
               design
             </Button>
           </Stack>
         )}
-        {loading && <CircularProgress sx={{ alignSelf: "center" }} />}
+        {loading && (
+          <CircularProgress sx={{ alignSelf: 'center', my: 1, mx: 'auto' }} />
+        )}
       </Grid>
     </>
   )

@@ -1,5 +1,5 @@
-import { Stack, Typography, Button } from '@mui/material'
-import { CSSProperties, useEffect, useState } from 'react'
+import { Stack, Typography, Button, SxProps } from '@mui/material'
+import { useEffect, useState } from 'react'
 import { VercelReadyState } from './deployment/useDeployment'
 import { ReadyState } from './readyState'
 import { NewTabLink } from './newTabLink'
@@ -10,11 +10,20 @@ import { HoverAwareness } from './hoverAwareness'
 import { BgImage } from './bgImage'
 import { LINK_PREVIEW_FALLBACK } from '@/constants/image'
 
-const MIN_WIDTH: CSSProperties = {
-  whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  maxWidth: '25vw',
+const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 40): SxProps => {
+  const maxWidth = Object.entries({ lg, md, xs }).reduce(
+    (p: { [key: string]: string }, c) => {
+      p[c[0]] = `${c[1]}vw`
+      return p
+    },
+    {}
+  )
+  return {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    maxWidth,
+  }
 }
 
 export type Project = {
@@ -87,7 +96,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
       border="solid 2px #aaa"
       p={2}
       borderRadius={1}
-      direction={{ lg: 'column', xs: 'row' }}
+      direction="row"
       justifyContent="space-between"
       sx={{
         ':hover': {
@@ -108,21 +117,18 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
           }}
         />
         <Stack>
-          <Typography fontWeight="bold" sx={MIN_WIDTH}>
+          <Typography fontWeight="bold" sx={MIN_WIDTH()}>
             {project.name}
           </Typography>
           {/* @ts-expect-error Server Component */}
-          <TimeAgo date={project.updatedAt} style={MIN_WIDTH} />
+          <TimeAgo date={project.updatedAt} style={MIN_WIDTH()} />
         </Stack>
       </Stack>
       {project.targets?.production ? (
         <Stack direction="row" alignItems="center" mb="auto">
           {project.targets.production.alias && (
-            <HoverAwareness setHovering={setActionHover} sx={MIN_WIDTH}>
-              <NewTabLink
-                url={project.targets.production.alias[0]}
-                sx={{ ml: { lg: 8, xs: 0 } }}
-              />
+            <HoverAwareness setHovering={setActionHover} sx={MIN_WIDTH()}>
+              <NewTabLink url={project.targets.production.alias[0]} sx={{ ml: 0 }} />
             </HoverAwareness>
           )}
           <ReadyState readyState={project.targets.production.readyState} />

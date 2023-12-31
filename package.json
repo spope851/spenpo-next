@@ -50,6 +50,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",
+    "react-player": "^2.14.1",
     "react-social-icons": "^5.15.0",
     "react-timeago": "^7.1.0",
     "react-timeclock": "^0.2.0",
