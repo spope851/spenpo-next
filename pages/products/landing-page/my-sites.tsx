@@ -1,10 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Button, CircularProgress, Grid, Stack, Typography } from '@mui/material'
+import {
+  Button,
+  CircularProgress,
+  Grid,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material'
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
+import { getServerSession } from 'next-auth'
 import { useRouter } from 'next/router'
-import CachedIcon from '@mui/icons-material/Cached'
+import React, { useEffect, useState } from 'react'
+import prisma from '@/utils/prisma'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { SiteCard } from '@/components/siteCard'
-import { SnackbarContext } from '@/context/snackbar'
-import { Prisma } from '@prisma/client'
+import CachedIcon from '@mui/icons-material/Cached'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 
 const getOrders = async (): Promise<{ orders: Order[] }> => {
@@ -19,22 +29,12 @@ type Order = {
   }
 }
 
-type SsrOrder = {
-  id: string
-  userId: string
-  metadata: Prisma.JsonValue
-  complete: boolean
-}
-
-export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
+const MySites: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
+  ssrOrders,
+}) => {
   const router = useRouter()
   const [orders, setOrders] = useState<Order[]>(ssrOrders as unknown as Order[])
-  const [awaitingNewSite, setAwaitingNewSite] = useState(
-    !!router.query.payment_intent
-  )
   const [loading, setLoading] = useState(false)
-
-  const { setSnackbarOpen, setSnackbarMessage } = useContext(SnackbarContext)
 
   const refreshOrders = async () => {
     setLoading(true)
@@ -42,29 +42,6 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
     setOrders(newOrders.orders)
     setLoading(false)
   }
-
-  useEffect(() => {
-    if (awaitingNewSite) {
-      setSnackbarOpen(true)
-      setSnackbarMessage(
-        'we are preparing your new site. it will appear here once the deployment has started.'
-      )
-      setLoading(true)
-      const pollingId = window.setInterval(async () => {
-        const newOrders = await getOrders()
-        if (newOrders.orders.length > orders.length) {
-          setOrders(newOrders.orders)
-          setLoading(false)
-          setAwaitingNewSite(false)
-          setSnackbarOpen(false)
-        }
-      }, 1000)
-
-      return () => {
-        clearInterval(pollingId)
-      }
-    }
-  }, [awaitingNewSite, orders.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     router.replace(
@@ -77,7 +54,19 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <>
+    <Stack m={{ xs: 2, sm: 5 }} rowGap={3}>
+      <Tabs
+        value={1}
+        onChange={(_, value) =>
+          router.push(`/products/landing-page${['', '/my-sites'][value]}`)
+        }
+        sx={{
+          borderBottom: 1,
+        }}
+      >
+        <Tab label="overview" />
+        <Tab label="my sites" />
+      </Tabs>
       <Stack direction="row" position="absolute" right={0} mr={{ xs: 2, sm: 5 }}>
         <Button
           variant="contained"
@@ -113,6 +102,26 @@ export const MySites: React.FC<{ ssrOrders: SsrOrder[] }> = ({ ssrOrders }) => {
           <CircularProgress sx={{ alignSelf: 'center', my: 1, mx: 'auto' }} />
         )}
       </Grid>
-    </>
+    </Stack>
   )
+}
+
+export default MySites
+
+export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+  const session = await getServerSession(req, res, authOptions)
+  if (session) {
+    const ssrOrders = await prisma.order.findMany({
+      where: { userId: session.user.id, complete: true },
+    })
+
+    return { props: { ssrOrders } }
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: `/products/landing-page`,
+      },
+    }
+  }
 }

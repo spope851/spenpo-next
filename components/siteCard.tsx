@@ -97,6 +97,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
       p={2}
       borderRadius={1}
       direction="row"
+      gap={1}
       justifyContent="space-between"
       sx={{
         ':hover': {
@@ -107,7 +108,11 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
     >
       <Stack direction="row" columnGap={1}>
         <BgImage
-          src={linkPreview}
+          src={
+            fallback && linkPreview === LINK_PREVIEW_FALLBACK
+              ? fallback
+              : linkPreview
+          }
           sx={{
             borderRadius: 25,
             height: 50,

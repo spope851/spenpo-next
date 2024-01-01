@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { Tabs } from "../types"
+import Image from 'next/image'
+import { Tabs } from '../types'
 import {
   AppBar,
   Box,
@@ -10,29 +10,31 @@ import {
   Stack,
   Toolbar,
   Typography,
-} from "@mui/material"
-import { styled } from "@mui/material/styles"
-import MenuIcon from "@mui/icons-material/Menu"
-import { useState } from "react"
-import { useRouter } from "next/router"
-import AvatarMenu from "./avatarMenu"
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
+import MenuIcon from '@mui/icons-material/Menu'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import AvatarMenu from './avatarMenu'
 
 interface NavbarProps {
   active: Tabs
 }
 
-const TABS: Tabs[] = ["products", "projects", "blog", "resume", "contact"]
+const TABS: Tabs[] = ['products', 'projects', 'blog', 'resume', 'contact']
 
 const Burger = styled(IconButton)(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
   },
 }))
 
 const Tab = styled(Button)(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
   },
+  paddingLeft: 16,
+  paddingRight: 16,
 }))
 
 const Route = styled(Button)`
@@ -44,7 +46,7 @@ const Route = styled(Button)`
 `
 
 export default function Navbar({ active }: NavbarProps) {
-  const tabState = (a: boolean) => (a ? "active" : "")
+  const tabState = (a: boolean) => (a ? 'active' : '')
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
@@ -54,36 +56,39 @@ export default function Navbar({ active }: NavbarProps) {
   }
 
   return (
-    <AppBar position="static" sx={{ bgcolor: "#555" }}>
+    <AppBar position="static" sx={{ bgcolor: '#555' }}>
       <Container
         maxWidth="xl"
-        sx={{ p: "0px !important", maxWidth: "unset !important" }}
+        sx={{ p: '0px !important', maxWidth: 'unset !important' }}
       >
         <Toolbar
           disableGutters
-          sx={{ display: "flex", justifyContent: "space-between", pr: 1 }}
+          sx={{ display: 'flex', justifyContent: 'space-between', pr: 1 }}
         >
           <Box
             bgcolor={(theme) =>
-              active === "home" ? theme.palette.primary.main : ""
+              active === 'home' ? theme.palette.primary.main : ''
             }
             p={2}
+            onClick={() => router.push('/home')}
+            sx={{
+              ':hover': {
+                cursor: 'pointer',
+              },
+            }}
           >
             <Typography
               variant="h6"
-              component="a"
-              href="/home"
-              sx={{ textDecoration: "none" }}
+              sx={{ textDecoration: 'none' }}
               color="secondary"
-              display={{ xs: "none", sm: "block" }}
+              display={{ xs: 'none', sm: 'block' }}
               noWrap
             >
               spencer pope
             </Typography>
             <IconButton
-              href="/home"
               sx={{
-                display: { xs: "block", sm: "none" },
+                display: { xs: 'block', sm: 'none' },
                 borderRadius: 1,
                 p: 0,
                 height: 32,
@@ -96,17 +101,21 @@ export default function Navbar({ active }: NavbarProps) {
           <Stack direction="row" gap={1}>
             {TABS.map((tab) => (
               <Tab
-                variant={active === tab ? "contained" : "text"}
-                color={active === tab ? "primary" : "secondary"}
+                variant={active === tab ? 'contained' : 'text'}
+                color={active === tab ? 'primary' : 'secondary'}
                 key={tab}
-                href={`/${tab}`}
+                onClick={() =>
+                  router.push(
+                    `/${tab}${tab === 'projects' ? '/spenpo-landing' : ''}`
+                  )
+                }
                 className={tabState(active === tab)}
               >
                 {tab}
               </Tab>
             ))}
             <Burger
-              sx={{ height: 51, color: "white" }}
+              sx={{ height: 51, color: 'white' }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
@@ -114,16 +123,18 @@ export default function Navbar({ active }: NavbarProps) {
             <AvatarMenu />
           </Stack>
           <Drawer
-            PaperProps={{ sx: { backgroundColor: "transparent", pt: 7, px: 1 } }}
+            PaperProps={{ sx: { backgroundColor: 'transparent', pt: 7, px: 1 } }}
             anchor="right"
             open={open}
             onClose={() => setOpen(false)}
           >
             {TABS.map((tab) => (
               <Route
-                variant={active === tab ? "contained" : "text"}
+                variant={active === tab ? 'contained' : 'text'}
                 key={tab}
-                onClick={() => route(`/${tab}`)}
+                onClick={() =>
+                  route(`/${tab}${tab === 'projects' ? '/spenpo-landing' : ''}`)
+                }
               >
                 {tab}
               </Route>

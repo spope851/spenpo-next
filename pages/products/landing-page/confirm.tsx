@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, CircularProgress, Stack, Typography } from '@mui/material'
+import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
@@ -8,6 +8,7 @@ import { SiteCard } from '@/components/siteCard'
 import prisma from '@/utils/prisma'
 import Stripe from 'stripe'
 import { ProjectEnvVariableInput } from '@/context/shoppingCart'
+import Link from 'next/link'
 
 type ConfirmPageOrder = {
   metadata: {
@@ -59,27 +60,38 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
     )
 
   return (
-    <Stack rowGap={1} m="auto">
+    <Stack rowGap={3} m="auto">
       {order.error ? (
         <Typography color="red" maxWidth={300}>
-          Something went wrong. Please contact support with your order number: #
-          {order.id}
+          Something went wrong. Please <Link href="/contact">contact support</Link>{' '}
+          with your order number: #{order.id}
         </Typography>
       ) : (
-        <SiteCard
-          name={order.metadata.projectName.vercelApp}
-          fallback={`${s3}/${order.id}.${
-            order.metadata.environmentVariables
-              .find((envVar) => envVar.key === 'NEXT_PUBLIC_HEADSHOT')
-              ?.value.split('.')[1]
-          }`}
-        />
+        <>
+          <Typography variant="h2" textAlign="center">
+            Congratulations
+          </Typography>
+          <Typography variant="h5" textAlign="center">
+            Your website is being deployed and will be available shortly
+          </Typography>
+          <Box mx="auto">
+            <SiteCard
+              name={order.metadata.projectName.vercelApp}
+              fallback={`${s3}/${order.id}.${
+                order.metadata.environmentVariables
+                  .find((envVar) => envVar.key === 'NEXT_PUBLIC_HEADSHOT')
+                  ?.value.split('.')[1]
+              }`}
+            />
+          </Box>
+        </>
       )}
       <Button
         onClick={() =>
-          router.push(`${router.pathname.split('/confirm')[0]}?mysites=1`)
+          router.push(`${router.pathname.split('/confirm')[0]}/my-sites`)
         }
         variant="contained"
+        sx={{ mx: 'auto' }}
       >
         View your sites
       </Button>

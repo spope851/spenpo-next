@@ -1,9 +1,9 @@
-import { BgImage } from "@/components/bgImage"
-import { Button, Grid, Stack, Typography } from "@mui/material"
-import { InferGetServerSidePropsType } from "next"
-import { useRouter } from "next/router"
-import React from "react"
-import prisma from "@/utils/prisma"
+import { BgImage } from '@/components/bgImage'
+import { Button, Grid, Stack, Typography } from '@mui/material'
+import { InferGetServerSidePropsType } from 'next'
+import { useRouter } from 'next/router'
+import React from 'react'
+import prisma from '@/utils/prisma'
 
 const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   products,
@@ -37,8 +37,8 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
                 minHeight: 200,
                 flex: 1,
                 borderRadius: 2,
-                border: "solid 1px #555",
-                m: "2px",
+                border: 'solid 1px #555',
+                m: '2px',
               }}
             />
             <Stack gap={1}>
@@ -55,10 +55,16 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
                 {/* <Button variant="outlined" disabled>
                   coming soon
                 </Button> */}
-                <Button href={`${router.pathname}/${id}`} variant="text">
+                <Button
+                  onClick={() => router.push('/products/' + id)}
+                  variant="text"
+                >
                   learn more
                 </Button>
-                <Button href={`${router.pathname}/${id}/design`} variant="contained">
+                <Button
+                  onClick={() => router.push('/products/' + id + '/design')}
+                  variant="contained"
+                >
                   buy now
                 </Button>
               </Stack>
@@ -67,8 +73,8 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
         ))}
       </Grid>
       <Stack flex={1} justifyContent="flex-end">
-        <Typography sx={{ ml: "auto" }}>{`displaying ${products.length} product${
-          products.length > 1 ? "s" : ""
+        <Typography sx={{ ml: 'auto' }}>{`displaying ${products.length} product${
+          products.length > 1 ? 's' : ''
         } of ${products.length}`}</Typography>
       </Stack>
     </Stack>

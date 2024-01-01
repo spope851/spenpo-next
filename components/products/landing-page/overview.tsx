@@ -1,5 +1,13 @@
 import { BgImage } from '@/components/bgImage'
-import { Button, Grid, Stack, SxProps, Typography } from '@mui/material'
+import {
+  Button,
+  Grid,
+  Stack,
+  SxProps,
+  Typography,
+  Box,
+  Divider,
+} from '@mui/material'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
@@ -11,49 +19,53 @@ import ReactPlayer from 'react-player/lazy'
 const STEP_COPY = [
   {
     copy: (
-      <>
+      <Typography>
         use our interactive design tools to customize your page before you buy it.
         our content management system allows you to upload a photo, customize text
         and colors, add links to your social media profiles, and create a call to
         action.
-      </>
+      </Typography>
     ),
     video: 'https://www.youtube.com/watch?v=ykYL2FPg4bc',
   },
   {
     copy: (
       <>
-        the product comes with a .vercel.app domain name such as{' '}
-        <Link href="https://spenpo-next.vercel.app">spenpo-next.vercel.app</Link>.
-        these are given out first come first served. if the one you want isn&apos;t
-        available, we will still get you something close. And if you already have a
-        domain please contact us and we&apos;d happy to deploy the site there as
-        well. Support for buying and assigning new domains during checkout is coming
-        in a later version.
+        <Typography component="span">
+          the product comes with a .vercel.app domain name such as{' '}
+        </Typography>
+        <Link href="https://spenpo-next.vercel.app">spenpo-next.vercel.app</Link>
+        <Typography component="span">
+          . these are given out first come first served. if the one you want
+          isn&apos;t available, we will still get you something close. And if you
+          already have a domain please contact us and we&apos;d happy to deploy the
+          site there as well. Support for buying and assigning new domains during
+          checkout is coming in a later version of this product.
+        </Typography>
       </>
     ),
     video: 'https://www.youtube.com/watch?v=wEasHdfyUMs',
   },
   {
     copy: (
-      <>
-        choose a secure username and password that will allow you to control the
-        content on your page. logging in with these credentials allows you to go back
-        to the drawing board and redesign your site anytime you want at no additional
-        cost. editing the content from your site will look identical to the design
-        process here, and deploying your changes only takes a few minutes.
-      </>
+      <Typography>
+        choose a secure password that will allow you to control the content on your
+        page. logging in with these credentials allows you to go back to the drawing
+        board and redesign your site anytime you want at no additional cost. editing
+        the content from your site will look identical to the design process here,
+        and deploying your changes only takes a few minutes.
+      </Typography>
     ),
     video: 'https://www.youtube.com/watch?v=2QWaI75NXYc',
   },
   {
     copy: (
-      <>
+      <Typography>
         pay the one-time 99 cent fee via credit/debit card to begin the deployment
-        process for your new site. you will then be redirected to your website
-        dashboard where you can view and manage all the sites you&apos;ve purchased
-        from us and check the progress of any ongoing deployments.
-      </>
+        process for your new site. you can then return to this page and choose the
+        &quot;my sites&quot; tab where you can view and manage all the websites
+        you&apos;ve purchased from us and check the progress of ongoing deployments.
+      </Typography>
     ),
     video: 'https://www.youtube.com/watch?v=lZ2FDm19_XU',
   },
@@ -148,10 +160,14 @@ export const LandingPageOverview: React.FC = () => {
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
       <Stack sx={contentSx} rowGap={5}>
-        <Stack direction="row" justifyContent="space-between" gap={3}>
+        <Stack
+          direction={{ sm: 'row', xs: 'column' }}
+          justifyContent="space-between"
+          gap={3}
+        >
           <Typography variant="h4">A custom webpage that you design</Typography>
           <Button
-            href={`${router.pathname}/design`}
+            onClick={() => router.push(`${router.pathname}/design`)}
             variant="contained"
             sx={{ ml: 'auto', mb: 'auto' }}
             endIcon={<ChevronRight />}
@@ -184,10 +200,10 @@ export const LandingPageOverview: React.FC = () => {
                 alignItems="flex-start"
                 justifyContent="center"
                 gap={3}
-                direction="column"
+                flexDirection="column"
               >
                 <Typography variant="h4">Step {idx + 1}</Typography>
-                <Typography>{STEP_COPY[idx].copy}</Typography>
+                <Box>{STEP_COPY[idx].copy}</Box>
               </Grid>
               <Grid item lg={9} xs={12}>
                 <ReactPlayer
@@ -199,6 +215,24 @@ export const LandingPageOverview: React.FC = () => {
               </Grid>
             </Grid>
           ))}
+        </Stack>
+        <Divider />
+        <Stack
+          direction={{ sm: 'row', xs: 'column' }}
+          justifyContent="space-between"
+          gap={3}
+        >
+          <Typography variant="h4">
+            Our goal is to make web presence achievable for all
+          </Typography>
+          <Button
+            onClick={() => router.push(`${router.pathname}/design`)}
+            variant="contained"
+            sx={{ ml: 'auto', mb: 'auto' }}
+            endIcon={<ChevronRight />}
+          >
+            design
+          </Button>
         </Stack>
       </Stack>
     </Stack>

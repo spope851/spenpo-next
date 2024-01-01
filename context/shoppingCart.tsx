@@ -118,7 +118,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXT_PUBLIC_TITLE: title[0],
     NEXT_PUBLIC_NAME: clientName,
     NEXT_PUBLIC_SUBTITLE: subtitle[0],
-    NEXT_PUBLIC_SOCIALS: socialUrls,
+    NEXT_PUBLIC_SOCIALS: socialUrls || '[]',
     NEXT_PUBLIC_ACTION_STATEMENT: actionStatement[0],
     NEXT_PUBLIC_HEADSHOT: `headshot.${file[0]?.name.split('.').at(-1)}`,
     NEXT_PUBLIC_ACTION: actionDestination[0],
