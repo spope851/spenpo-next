@@ -1,15 +1,15 @@
-import React, { ReactNode, useContext } from "react"
-import { Box, Chip, Divider, Stack, Typography } from "@mui/material"
-import { ShoppingCartContext } from "@/context/shoppingCart"
-import { DEFAULT_PROPS } from "@/components/landingPage/constants"
-import { BgImage } from "../../../bgImage"
+import React, { ReactNode, useContext } from 'react'
+import { Box, Chip, Divider, Stack, Typography } from '@mui/material'
+import { ShoppingCartContext } from '@/context/shoppingCart'
+import { DEFAULT_PROPS } from '@/components/landingPage/constants'
+import { BgImage } from '../../../bgImage'
 
 const BG_SX = {
   height: 200,
   width: 200,
   borderRadius: 2,
-  border: "solid 1px #555",
-  m: "2px",
+  border: 'solid 1px #555',
+  m: '2px',
 }
 
 const ColorExample: React.FC<{ color: string; opacity?: number }> = ({
@@ -38,10 +38,14 @@ const SummaryRow: React.FC<{ children: ReactNode }> = ({ children }) => (
 )
 
 export const LandingSummary: React.FC = () => {
-  const { landingCms } = useContext(ShoppingCartContext)
+  const { landingCms, projectName } = useContext(ShoppingCartContext)
 
   return (
-    <Stack rowGap={1} my={5}>
+    <Stack rowGap={1}>
+      <SummaryRow>
+        <Typography>Domain:</Typography>
+        <Typography>{projectName[0]}.vercel.app</Typography>
+      </SummaryRow>
       <SummaryRow>
         <Typography>Headshot:</Typography>
         <BgImage src={landingCms.headshotSrc.getter()!} sx={BG_SX} />
@@ -69,7 +73,7 @@ export const LandingSummary: React.FC = () => {
       <SummaryRow>
         <Typography>Link to:</Typography>
         <Typography>
-          {landingCms.linkNewTab.getter() ? "New Tab" : "Same Tab"}
+          {landingCms.linkNewTab.getter() ? 'New Tab' : 'Same Tab'}
         </Typography>
       </SummaryRow>
       <SummaryRow>

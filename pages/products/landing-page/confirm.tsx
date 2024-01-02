@@ -95,6 +95,9 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
       >
         View your sites
       </Button>
+      <Typography>
+        Need help? Please <Link href="/contact">contact us</Link> for support
+      </Typography>
     </Stack>
   )
 }

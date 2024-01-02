@@ -1,6 +1,8 @@
 import prisma from '@/utils/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'
+import { authOptions } from './auth/[...nextauth]'
 
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
@@ -8,14 +10,15 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
 })
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { metadata, userId, productId } = req.body
+  const { metadata, productId } = req.body
+  const session = await getServerSession(req, res, authOptions)
 
   const product = await prisma.product.findUnique({ where: { id: productId } })
 
   const order = await prisma.order.create({
     data: {
       user: {
-        connect: { id: userId },
+        connect: { id: session.user.id },
       },
       metadata,
       product: {

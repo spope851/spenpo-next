@@ -15,6 +15,7 @@ import ChevronRight from '@mui/icons-material/ChevronRight'
 import { OverviewStepper } from './overviewStepper'
 import Link from 'next/link'
 import ReactPlayer from 'react-player/lazy'
+import { PRODUCTS } from '@/constants/products'
 
 const STEP_COPY = [
   {
@@ -234,6 +235,9 @@ export const LandingPageOverview: React.FC = () => {
             design
           </Button>
         </Stack>
+        <Typography variant="subtitle2" textAlign="center">
+          verion: {PRODUCTS.landingPage.version}
+        </Typography>
       </Stack>
     </Stack>
   )
