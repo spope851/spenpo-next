@@ -73,4 +73,5 @@ model Order {
   metadata      Json?
   complete      Boolean   @default(false)
   error         Json?
+  environment   String
 }

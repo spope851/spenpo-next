@@ -19,7 +19,7 @@ export const LandingStepper: React.FC<{
   useEffect(() => {
     if (activeStep > 1 && !projectName[0]) router.replace('design')
     else if (activeStep > 2 && !passwordSet) router.replace('password')
-  }, [activeStep])
+  }, [activeStep]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Stepper nonLinear activeStep={activeStep} sx={{ flex: 1, ...STEP_SX }}>

@@ -65,7 +65,7 @@ const Checkout: React.FC = () => {
             }
           }))()
     }
-  }, [clientSecret, file, paymentIntentMetadata, router.pathname])
+  }, [clientSecret, file, paymentIntentMetadata, router.pathname]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const appearance: { theme: 'stripe' | 'night' | 'flat' | undefined } = {
     theme: 'stripe',
