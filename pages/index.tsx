@@ -9,8 +9,8 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   s3,
 }) => {
   const name = 'Spencer Pope'
-  const title = 'developer & entrepreneur'
-  const previewImage = `${s3}/headshot.jpg`
+  const title = 'Developer & Entrepreneur'
+  const previewImage = `${s3}/headshot.jpeg`
 
   return (
     <>
