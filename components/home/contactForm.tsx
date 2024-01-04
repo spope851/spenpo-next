@@ -1,8 +1,8 @@
-import React, { MutableRefObject, useRef, useState } from "react"
-import { Button, Grid, Stack, TextField, Typography } from "@mui/material"
-import validator from "validator"
-import emailjs from "@emailjs/browser"
-import { HomeComponentWrapper } from "./styled"
+import React, { MutableRefObject, useRef, useState } from 'react'
+import { Button, Grid, Stack, TextField, Typography } from '@mui/material'
+import validator from 'validator'
+import emailjs from '@emailjs/browser'
+import { HomeComponentWrapper } from './styled'
 
 const ContactForm: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -10,7 +10,7 @@ const ContactForm: React.FC = () => {
   const [failure, setFailure] = useState(false)
   const [name, setName] = useState(false)
   const [email, setEmail] = useState(false)
-  const [emailString, setEmailString] = useState("")
+  const [emailString, setEmailString] = useState('')
   const [emailError, setEmailError] = useState(false)
   const [text, setText] = useState(false)
   const formRef = useRef<HTMLFormElement | null>(null)
@@ -25,14 +25,13 @@ const ContactForm: React.FC = () => {
     } else {
       emailjs
         .sendForm(
-          "service_q5mctvg",
-          "template_ebpu5h9",
-          formRef.current || "",
-          "owxwQWa3Ry2FxkhKz"
+          'service_q5mctvg',
+          'template_ebpu5h9',
+          formRef.current || '',
+          'owxwQWa3Ry2FxkhKz'
         )
         .then(
-          (result) => {
-            console.log(result.text)
+          () => {
             setLoading(false)
             setSuccess(true)
           },
@@ -46,9 +45,9 @@ const ContactForm: React.FC = () => {
   }
 
   const sendSuccessOrFailure = (): string => {
-    if (success) return "seccess"
-    if (failure) return "failure"
-    return "send"
+    if (success) return 'seccess'
+    if (failure) return 'failure'
+    return 'send'
   }
 
   return (
@@ -114,7 +113,7 @@ const ContactForm: React.FC = () => {
                   disabled={success || failure || !email || !name || !text}
                   onClick={sendEmail}
                 >
-                  {loading ? "sending..." : sendSuccessOrFailure()}
+                  {loading ? 'sending...' : sendSuccessOrFailure()}
                 </Button>
               )}
               item

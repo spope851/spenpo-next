@@ -89,9 +89,8 @@ const AvatarMenu: React.FC = () => {
               sx={{ ml: 1 }}
               variant="outlined"
               onClick={() => routeToSignin()}
-              disabled
             >
-              coming soon
+              Sign in
             </Button>
           )}
         </Box>

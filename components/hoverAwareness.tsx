@@ -1,10 +1,10 @@
-import { CSSProperties, Dispatch, ReactNode, SetStateAction } from "react"
-import { Box } from "@mui/material"
+import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Box, SxProps } from '@mui/material'
 
 export const HoverAwareness: React.FC<{
   setHovering: Dispatch<SetStateAction<boolean>>
   children: ReactNode
-  sx?: CSSProperties
+  sx?: SxProps
 }> = ({ setHovering, children, sx }) => (
   <Box
     sx={sx}

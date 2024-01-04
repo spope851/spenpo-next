@@ -1,11 +1,11 @@
-import redis from "@/utils/redis"
-import type { NextApiRequest, NextApiResponse } from "next"
+import redis from '@/utils/redis'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const getTweets = async (
   req: NextApiRequest,
-  res: NextApiResponse<Record<string, any>>
+  res: NextApiResponse<Record<string, unknown>>
 ) => {
-  console.log("GET tweets  ", req.query)
+  console.log('GET tweets  ', req.query)
   const count = req.query.count
   const cachedTweets = await redis.get(`tweets/${count}`)
   if (cachedTweets) return res.send(JSON.parse(cachedTweets))

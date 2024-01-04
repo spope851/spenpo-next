@@ -1,14 +1,75 @@
-import { BgImage } from "@/components/bgImage"
-import { Button, Grid, Stack, SxProps, Typography } from "@mui/material"
-import { useSession } from "next-auth/react"
-import { useRouter } from "next/router"
-import React, { useEffect, useRef, useState } from "react"
-import ChevronRight from "@mui/icons-material/ChevronRight"
-import { OverviewStepper } from "./overviewStepper"
-import Link from "next/link"
+import { BgImage } from '@/components/bgImage'
+import {
+  Button,
+  Grid,
+  Stack,
+  SxProps,
+  Typography,
+  Box,
+  Divider,
+} from '@mui/material'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from 'react'
+import ChevronRight from '@mui/icons-material/ChevronRight'
+import { OverviewStepper } from './overviewStepper'
+import Link from 'next/link'
+import ReactPlayer from 'react-player/lazy'
+import { PRODUCTS } from '@/constants/products'
 
-const SEGMENT_STACK_PROPS = { justifyContent: "flex-start" }
-const SEGMENT_TEXT_PROPS = { sx: { mb: "auto", mt: "104px" } }
+const STEP_COPY = [
+  {
+    copy: (
+      <Typography>
+        Use our interactive design tools to customize your page before publishing.
+        Our content management system allows you to upload a photo, customize text
+        and colors, add links to your social media profiles, and create a call to
+        action.
+      </Typography>
+    ),
+    video: 'https://youtu.be/OtmFrBkQVcY',
+  },
+  {
+    copy: (
+      <>
+        <Typography component="span">
+          The product includes a <strong>.vercel.app</strong> domain name such as{' '}
+        </Typography>
+        <Link href="https://spenpo-next.vercel.app">spenpo-next.vercel.app</Link>
+        <Typography component="span">
+          . These are assigned based on availability, but if the one you want
+          isn&apos;t available we will still get you a close match. If you already
+          have a domain, please contact us and we&apos;d happy to publish the site
+          there as well. Support for purchasing and assigning domains during checkout
+          is coming in a later version.
+        </Typography>
+      </>
+    ),
+  },
+  {
+    copy: (
+      <Typography>
+        Choose a secure password that will allow you to control the content on your
+        site. Logging in to the admin dashboard allows you to go back to the drawing
+        board and redesign your site anytime you want at no additional cost. Editing
+        your site will look identical to the design process you see in step 1, and
+        publishing your changes only takes a few minutes.
+      </Typography>
+    ),
+    video: 'https://youtu.be/PalmKQI5hSg',
+  },
+  {
+    copy: (
+      <Typography>
+        Pay the one-time $0.99 fee via credit or debit card to begin publishing your
+        site. Then return to this page and choose the &quot;my sites&quot; tab where
+        you can view and manage all the websites you&apos;ve published with us and
+        check the progress changes you&apos;ve made.
+      </Typography>
+    ),
+    video: 'https://youtu.be/beD4DUu32mY',
+  },
+]
 
 const SCROLL_PADDING = 100
 
@@ -30,6 +91,54 @@ const stepperStyle = (sm: number, xs: number): SxProps => {
   }
 }
 
+const VideoStep: React.FC<{ step: number }> = ({ step }) => (
+  <>
+    <Grid
+      item
+      lg={3}
+      xs={12}
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="center"
+      gap={3}
+      flexDirection="column"
+    >
+      <Typography variant="h4">Step {step + 1}</Typography>
+      <Box>{STEP_COPY[step].copy}</Box>
+    </Grid>
+    <Grid item lg={9} xs={12}>
+      <ReactPlayer
+        url={STEP_COPY[step].video}
+        style={{ margin: 'auto' }}
+        height="50vh"
+        width="90%"
+      />
+    </Grid>
+  </>
+)
+
+const NonVideoStep: React.FC<{ step: number }> = ({ step }) => (
+  <>
+    <Grid
+      item
+      lg={3}
+      xs={12}
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="center"
+      gap={3}
+      flexDirection="column"
+    >
+      <Typography variant="h4">Step {step + 1}</Typography>
+    </Grid>
+    <Grid item display="flex" lg={9} xs={12} height="50vh">
+      <Box width="90%" m="auto">
+        {STEP_COPY[step].copy}
+      </Box>
+    </Grid>
+  </>
+)
+
 export const LandingPageOverview: React.FC = () => {
   const router = useRouter()
   const session = useSession()
@@ -41,8 +150,8 @@ export const LandingPageOverview: React.FC = () => {
   const [stepperSx, setStepperSx] = useState<SxProps>(stepperStyle(0, 0))
   const [contentSx, setContentSx] = useState<SxProps>(contentStyle(0, 0))
 
-  const baseTop = session.status === "authenticated" ? 153 : 64
-  const scrollCorrection = session.status === "authenticated" ? 24 : 0
+  const baseTop = session.status === 'authenticated' ? 153 : 64
+  const scrollCorrection = session.status === 'authenticated' ? 24 : 0
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,10 +193,10 @@ export const LandingPageOverview: React.FC = () => {
       else setActiveStep(-1)
     }
     handleScroll()
-    window.addEventListener("scroll", handleScroll)
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
-      window.removeEventListener("scroll", handleScroll)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [baseTop, session.status, scrollCorrection])
 
@@ -99,75 +208,84 @@ export const LandingPageOverview: React.FC = () => {
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
       <Stack sx={contentSx} rowGap={5}>
-        <Stack direction="row" justifyContent="space-between" gap={3}>
-          <Typography variant="h4">A custom webpage that you design</Typography>
-          <Button
-            href={`${router.pathname}/design`}
-            variant="contained"
-            sx={{ ml: "auto", mb: "auto" }}
-            endIcon={<ChevronRight />}
+        <Stack gap={3}>
+          <Stack
+            direction={{ sm: 'row', xs: 'column' }}
+            justifyContent="space-between"
+            gap={3}
           >
-            design
-          </Button>
+            <Typography variant="h4">A custom website that you design</Typography>
+            <Button
+              onClick={() => router.push(`${router.pathname}/design`)}
+              variant="contained"
+              sx={{ ml: 'auto', mb: 'auto' }}
+              endIcon={<ChevronRight />}
+            >
+              design
+            </Button>
+          </Stack>
+          <Typography>
+            Design and publish a personalized website for showcasing yourself on the
+            web in just minutes. This custom website is responsive and easy to use on
+            any device. Share it in person or on social media so everyone else can
+            discover and connect with you. You remain in control of the site&apos;s
+            content and can login to the admin dashboard anytime to update it for
+            free. Best of all, it only costs you one payment of $0.99 to publish your
+            site with a free domain name.
+          </Typography>
         </Stack>
         <BgImage
           src="/images/landing-page-product.png"
           sx={{
             height: { xl: 600, lg: 500, md: 400, sm: 300, xs: 200 },
-            width: "100vw",
+            width: '100vw',
             ml: { xs: -2, sm: -5 },
           }}
         />
-        <Stack gap={10}>
-          <Grid container ref={designRef} {...SEGMENT_STACK_PROPS}>
-            <Grid item md={3}>
-              <Typography {...SEGMENT_TEXT_PROPS}>
-                use our interactive design tools to customize your page before you
-                buy it. our content management system allows you to upload a photo,
-                customize text and colors, add links to your social media profiles,
-                and create a call to action.
-              </Typography>
+        <Stack>
+          {[designRef, nameRef, secureRef, claimRef].map((ref, idx) => (
+            <Grid
+              key={STEP_COPY[idx].video}
+              container
+              ref={ref}
+              pt="104px"
+              spacing={3}
+            >
+              {STEP_COPY[idx].video ? (
+                <VideoStep step={idx} />
+              ) : (
+                <NonVideoStep step={idx} />
+              )}
             </Grid>
-          </Grid>
-          <Grid container ref={nameRef} {...SEGMENT_STACK_PROPS}>
-            <Grid item md={3}>
-              <Typography {...SEGMENT_TEXT_PROPS}>
-                the product comes with a .vercel.app domain name such as{" "}
-                <Link href="https://spenpo-next.vercel.app">
-                  spenpo-next.vercel.app
-                </Link>
-                . these are given out first come first served. if the one you want
-                isn&apos;t available, we will still get you something close. And if
-                you already have a domain please contact us and we&apos;d happy to
-                deploy the site there as well. Support for buying and assigning new
-                domains during checkout is coming in a later version.
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container ref={secureRef} {...SEGMENT_STACK_PROPS}>
-            <Grid item md={3}>
-              <Typography {...SEGMENT_TEXT_PROPS}>
-                choose a secure username and password that will allow you to control
-                the content on your page. logging in with these credentials allows
-                you to go back to the drawing board and redesign your site anytime
-                you want at no additional cost. editing the content from your site
-                will look identical to the design process here, and deploying your
-                changes only takes a few minutes.
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container ref={claimRef} {...SEGMENT_STACK_PROPS}>
-            <Grid item md={3}>
-              <Typography {...SEGMENT_TEXT_PROPS}>
-                pay the one-time 99 cent fee via credit/debit card to begin the
-                deployment process for your new site. you will then be redirected to
-                your website dashboard where you can view and manage all the sites
-                you&apos;ve purchased from us and check the progress of any ongoing
-                deployments.
-              </Typography>
-            </Grid>
-          </Grid>
+          ))}
         </Stack>
+        <Divider />
+        <Stack gap={3}>
+          <Stack
+            direction={{ sm: 'row', xs: 'column' }}
+            justifyContent="space-between"
+            gap={3}
+          >
+            <Typography variant="h4">
+              Our goal is to make strong web presence universally achievable
+            </Typography>
+            <Button
+              onClick={() => router.push(`${router.pathname}/design`)}
+              variant="contained"
+              sx={{ ml: 'auto', mb: 'auto' }}
+              endIcon={<ChevronRight />}
+            >
+              design
+            </Button>
+          </Stack>
+          <Typography>
+            You are minutes away from taking a meaningful step for your online
+            identity.
+          </Typography>
+        </Stack>
+        <Typography variant="subtitle2" textAlign="center">
+          verion: {PRODUCTS.landingPage.version}
+        </Typography>
       </Stack>
     </Stack>
   )

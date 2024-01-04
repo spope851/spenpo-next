@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Accordion,
   AccordionDetails,
@@ -7,23 +7,23 @@ import {
   CircularProgress,
   Stack,
   Typography,
-} from "@mui/material"
-import { useRouter } from "next/router"
-import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import { GetServerSidePropsContext } from "next"
-import { getServerSession } from "next-auth"
-import { DeploymentCard } from "@/components/deploymentCard"
-import { LinkPreview } from "@/components/linkPreview"
-import Link from "next/link"
-import { Breadcrumbs } from "@/components/breadcrumbs"
-import { HoverAwareness } from "@/components/hoverAwareness"
-import { Project } from "@/components/siteCard"
-import { Domains } from "@/components/deployment/domains"
-import { Status } from "@/components/deployment/status"
-import { SmallHeader } from "@/components/deployment/smallHeader"
-import ReactTimeago from "react-timeago"
-import prisma from "@/utils/prisma"
-import { Prisma } from "@prisma/client"
+} from '@mui/material'
+import { useRouter } from 'next/router'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { GetServerSidePropsContext } from 'next'
+import { getServerSession } from 'next-auth'
+import { DeploymentCard } from '@/components/deploymentCard'
+import { LinkPreview } from '@/components/linkPreview'
+import Link from 'next/link'
+import { Breadcrumbs } from '@/components/breadcrumbs'
+import { HoverAwareness } from '@/components/hoverAwareness'
+import { Project } from '@/components/siteCard'
+import { Domains } from '@/components/deployment/domains'
+import { Status } from '@/components/deployment/status'
+import { SmallHeader } from '@/components/deployment/smallHeader'
+import ReactTimeago from 'react-timeago'
+import prisma from '@/utils/prisma'
+import { Prisma } from '@prisma/client'
 
 const getProject = async (name: string) =>
   fetch(`/api/landing-page/getVercelProject?name=${name}`)
@@ -50,13 +50,13 @@ const SitePage: React.FC = () => {
   const linkPreview = useMemo(() => {
     return (
       <Box
-        display={{ xs: "block", sm: "flex" }}
+        display={{ xs: 'block', sm: 'flex' }}
         sx={{
-          "& .Container": {
-            height: "unset",
+          '& .Container': {
+            height: 'unset',
           },
-          "& .Image": {
-            height: { sm: "-webkit-fill-available" },
+          '& .Image': {
+            height: { sm: '-webkit-fill-available' },
           },
         }}
       >
@@ -68,9 +68,9 @@ const SitePage: React.FC = () => {
   return (
     <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
       <Breadcrumbs />
-      <Stack rowGap={5} sx={{ "& .Mui-expanded": { m: "0px !important" } }}>
+      <Stack rowGap={5} sx={{ '& .Mui-expanded': { m: '0px !important' } }}>
         <Stack
-          direction={{ xs: "column", sm: "row" }}
+          direction={{ xs: 'column', sm: 'row' }}
           justifyContent="space-around"
           gap={5}
         >
@@ -94,8 +94,8 @@ const SitePage: React.FC = () => {
         >
           <AccordionSummary
             sx={{
-              "& .MuiAccordionSummary-content": {
-                justifyContent: "space-between",
+              '& .MuiAccordionSummary-content': {
+                justifyContent: 'space-between',
               },
             }}
           >
@@ -109,7 +109,7 @@ const SitePage: React.FC = () => {
               {data?.latestDeployments.map((deployment) => (
                 <DeploymentCard key={deployment.id} uid={deployment.id} />
               ))}
-              {loading && <CircularProgress sx={{ alignSelf: "center" }} />}
+              {loading && <CircularProgress sx={{ alignSelf: 'center' }} />}
             </Stack>
           </AccordionDetails>
         </Accordion>
@@ -134,19 +134,19 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
   const session = await getServerSession(req, res, authOptions)
   if (!!session) {
-    const projects = await prisma.order
+    const project = await prisma.order
       .findMany({
         where: { userId: session.user.id, complete: true },
       })
       .then((res) =>
-        res.map(
+        res.find(
           (order) =>
             ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
-              .vercelApp
+              .vercelApp === params?.appName
         )
       )
-    if (projects.includes(params?.appName)) {
-      return { props: {} }
+    if (project) {
+      return { props: { project } }
     } else return redirect
   } else {
     return redirect

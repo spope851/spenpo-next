@@ -12,9 +12,12 @@ export const BgImage: React.FC<{
 
   useEffect(() => {
     ;(async () => {
-      const checkImg = await fetch(src, { method: "get" })
-      if (checkImg.ok) setBgImage(URL.createObjectURL(await checkImg.blob()))
-      else setBgImage(fallback || LINK_PREVIEW_FALLBACK)
+      try {
+        const checkImg = await fetch(src, { method: "get" })
+        if (checkImg.ok) setBgImage(URL.createObjectURL(await checkImg.blob()))
+      } catch {
+        setBgImage(fallback || LINK_PREVIEW_FALLBACK)
+      }
     })()
   }, [src, fallback])
 

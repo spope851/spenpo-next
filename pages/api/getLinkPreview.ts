@@ -20,7 +20,7 @@ const getLinkPreview = async (
   try {
     const { meta, og, images } = await parser(url)
     const { hostname } = new URL(url)
-    let image = og.image
+    const image = og.image
       ? og.image
       : images?.length && images.length > 0
       ? (images[0] as unknown as { src: string }).src

@@ -1,7 +1,7 @@
-import { ProjectEnvVariableInput, VercelProjectInput } from "@/context/shoppingCart"
+import { ProjectEnvVariableInput, VercelProjectInput } from '@/context/shoppingCart'
 
 const headers = {
-  "Content-Type": "application/json",
+  'Content-Type': 'application/json',
   Authorization: `Bearer ${process.env.VERCEL_TOKEN}`,
 }
 
@@ -9,7 +9,7 @@ const createProject = async (project: VercelProjectInput) =>
   fetch(`https://api.vercel.com/v9/projects?teamId=${process.env.VERCEL_TEAM}`, {
     body: JSON.stringify(project),
     headers,
-    method: "post",
+    method: 'post',
   })
 
 const getProject = async (name: string) =>
@@ -17,7 +17,7 @@ const getProject = async (name: string) =>
     `https://api.vercel.com/v9/projects/${name}?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "get",
+      method: 'get',
     }
   )
 
@@ -26,7 +26,7 @@ const getProjectDeployments = async (app: string) =>
     `https://api.vercel.com/v2/deployments?app=${app}&teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "get",
+      method: 'get',
     }
   )
 
@@ -35,7 +35,7 @@ const getDeploymentAliases = async (deploymentId: string) =>
     `https://api.vercel.com/v2/deployments/${deploymentId}/aliases?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "get",
+      method: 'get',
     }
   )
 
@@ -46,7 +46,7 @@ const redeployProject = async (deploymentId: string, name: string) =>
       deploymentId,
     }),
     headers,
-    method: "post",
+    method: 'post',
   })
 
 const cancelDeployment = async (deploymentId: string) =>
@@ -54,7 +54,7 @@ const cancelDeployment = async (deploymentId: string) =>
     `https://api.vercel.com/v12/deployments/${deploymentId}/cancel?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "patch",
+      method: 'patch',
     }
   )
 
@@ -67,7 +67,7 @@ const addEnvironmentVariables = async (
     {
       body: JSON.stringify(variables),
       headers,
-      method: "post",
+      method: 'post',
     }
   )
 
@@ -76,7 +76,7 @@ const getDeployment = async (deploymentId: string) =>
     `https://api.vercel.com/v13/deployments/${deploymentId}?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "get",
+      method: 'get',
     }
   )
 
@@ -85,7 +85,7 @@ const getDeploymentEvents = async (deploymentId: string) =>
     `https://api.vercel.com/v2/deployments/${deploymentId}/events?builds=1&direction=forward&follow=1&teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: "get",
+      method: 'get',
     }
   )
 
