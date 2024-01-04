@@ -38,8 +38,8 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           'https://www.twitch.tv/spenpo',
         ]}
         headshotSrc="/images/headshot.jpeg"
-        actionDestination="contact"
-        actionStatement="email me"
+        actionDestination="products/landing-page"
+        actionStatement="publish your own landing page"
         linkNewTab={true}
         topComponents={
           <Button
