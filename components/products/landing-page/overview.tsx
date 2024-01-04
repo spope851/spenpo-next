@@ -21,54 +21,53 @@ const STEP_COPY = [
   {
     copy: (
       <Typography>
-        use our interactive design tools to customize your page before you buy it.
-        our content management system allows you to upload a photo, customize text
+        Use our interactive design tools to customize your page before publishing.
+        Our content management system allows you to upload a photo, customize text
         and colors, add links to your social media profiles, and create a call to
         action.
       </Typography>
     ),
-    video: 'https://www.youtube.com/watch?v=ykYL2FPg4bc',
+    video: 'https://youtu.be/OtmFrBkQVcY',
   },
   {
     copy: (
       <>
         <Typography component="span">
-          the product comes with a .vercel.app domain name such as{' '}
+          The product includes a <strong>.vercel.app</strong> domain name such as{' '}
         </Typography>
         <Link href="https://spenpo-next.vercel.app">spenpo-next.vercel.app</Link>
         <Typography component="span">
-          . these are given out first come first served. if the one you want
-          isn&apos;t available, we will still get you something close. And if you
-          already have a domain please contact us and we&apos;d happy to deploy the
-          site there as well. Support for buying and assigning new domains during
-          checkout is coming in a later version of this product.
+          . These are assigned based on availability, but if the one you want
+          isn&apos;t available we will still get you a close match. If you already
+          have a domain, please contact us and we&apos;d happy to publish the site
+          there as well. Support for purchasing and assigning domains during checkout
+          is coming in a later version.
         </Typography>
       </>
     ),
-    video: 'https://www.youtube.com/watch?v=wEasHdfyUMs',
   },
   {
     copy: (
       <Typography>
-        choose a secure password that will allow you to control the content on your
-        page. logging in with these credentials allows you to go back to the drawing
-        board and redesign your site anytime you want at no additional cost. editing
-        the content from your site will look identical to the design process here,
-        and deploying your changes only takes a few minutes.
+        Choose a secure password that will allow you to control the content on your
+        site. Logging in to the admin dashboard allows you to go back to the drawing
+        board and redesign your site anytime you want at no additional cost. Editing
+        your site will look identical to the design process you see in step 1, and
+        publishing your changes only takes a few minutes.
       </Typography>
     ),
-    video: 'https://www.youtube.com/watch?v=2QWaI75NXYc',
+    video: 'https://youtu.be/PalmKQI5hSg',
   },
   {
     copy: (
       <Typography>
-        pay the one-time 99 cent fee via credit/debit card to begin the deployment
-        process for your new site. you can then return to this page and choose the
-        &quot;my sites&quot; tab where you can view and manage all the websites
-        you&apos;ve purchased from us and check the progress of ongoing deployments.
+        Pay the one-time $0.99 fee via credit or debit card to begin publishing your
+        site. Then return to this page and choose the &quot;my sites&quot; tab where
+        you can view and manage all the websites you&apos;ve published with us and
+        check the progress changes you&apos;ve made.
       </Typography>
     ),
-    video: 'https://www.youtube.com/watch?v=lZ2FDm19_XU',
+    video: 'https://youtu.be/beD4DUu32mY',
   },
 ]
 
@@ -91,6 +90,54 @@ const stepperStyle = (sm: number, xs: number): SxProps => {
     },
   }
 }
+
+const VideoStep: React.FC<{ step: number }> = ({ step }) => (
+  <>
+    <Grid
+      item
+      lg={3}
+      xs={12}
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="center"
+      gap={3}
+      flexDirection="column"
+    >
+      <Typography variant="h4">Step {step + 1}</Typography>
+      <Box>{STEP_COPY[step].copy}</Box>
+    </Grid>
+    <Grid item lg={9} xs={12}>
+      <ReactPlayer
+        url={STEP_COPY[step].video}
+        style={{ margin: 'auto' }}
+        height="50vh"
+        width="90%"
+      />
+    </Grid>
+  </>
+)
+
+const NonVideoStep: React.FC<{ step: number }> = ({ step }) => (
+  <>
+    <Grid
+      item
+      lg={3}
+      xs={12}
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="center"
+      gap={3}
+      flexDirection="column"
+    >
+      <Typography variant="h4">Step {step + 1}</Typography>
+    </Grid>
+    <Grid item display="flex" lg={9} xs={12} height="50vh">
+      <Box width="90%" m="auto">
+        {STEP_COPY[step].copy}
+      </Box>
+    </Grid>
+  </>
+)
 
 export const LandingPageOverview: React.FC = () => {
   const router = useRouter()
@@ -161,20 +208,31 @@ export const LandingPageOverview: React.FC = () => {
         refs={{ designRef, nameRef, secureRef, claimRef }}
       />
       <Stack sx={contentSx} rowGap={5}>
-        <Stack
-          direction={{ sm: 'row', xs: 'column' }}
-          justifyContent="space-between"
-          gap={3}
-        >
-          <Typography variant="h4">A custom webpage that you design</Typography>
-          <Button
-            onClick={() => router.push(`${router.pathname}/design`)}
-            variant="contained"
-            sx={{ ml: 'auto', mb: 'auto' }}
-            endIcon={<ChevronRight />}
+        <Stack gap={3}>
+          <Stack
+            direction={{ sm: 'row', xs: 'column' }}
+            justifyContent="space-between"
+            gap={3}
           >
-            design
-          </Button>
+            <Typography variant="h4">A custom website that you design</Typography>
+            <Button
+              onClick={() => router.push(`${router.pathname}/design`)}
+              variant="contained"
+              sx={{ ml: 'auto', mb: 'auto' }}
+              endIcon={<ChevronRight />}
+            >
+              design
+            </Button>
+          </Stack>
+          <Typography>
+            Design and publish a personalized website for showcasing yourself on the
+            web in just minutes. This custom website is responsive and easy to use on
+            any device. Share it in person or on social media so everyone else can
+            discover and connect with you. You remain in control of the site&apos;s
+            content and can login to the admin dashboard anytime to update it for
+            free. Best of all, it only costs you one payment of $0.99 to publish your
+            site with a free domain name.
+          </Typography>
         </Stack>
         <BgImage
           src="/images/landing-page-product.png"
@@ -193,47 +251,37 @@ export const LandingPageOverview: React.FC = () => {
               pt="104px"
               spacing={3}
             >
-              <Grid
-                item
-                lg={3}
-                xs={12}
-                display="flex"
-                alignItems="flex-start"
-                justifyContent="center"
-                gap={3}
-                flexDirection="column"
-              >
-                <Typography variant="h4">Step {idx + 1}</Typography>
-                <Box>{STEP_COPY[idx].copy}</Box>
-              </Grid>
-              <Grid item lg={9} xs={12}>
-                <ReactPlayer
-                  url={STEP_COPY[idx].video}
-                  style={{ margin: 'auto' }}
-                  height="50vh"
-                  width="90%"
-                />
-              </Grid>
+              {STEP_COPY[idx].video ? (
+                <VideoStep step={idx} />
+              ) : (
+                <NonVideoStep step={idx} />
+              )}
             </Grid>
           ))}
         </Stack>
         <Divider />
-        <Stack
-          direction={{ sm: 'row', xs: 'column' }}
-          justifyContent="space-between"
-          gap={3}
-        >
-          <Typography variant="h4">
-            Our goal is to make web presence achievable for all
-          </Typography>
-          <Button
-            onClick={() => router.push(`${router.pathname}/design`)}
-            variant="contained"
-            sx={{ ml: 'auto', mb: 'auto' }}
-            endIcon={<ChevronRight />}
+        <Stack gap={3}>
+          <Stack
+            direction={{ sm: 'row', xs: 'column' }}
+            justifyContent="space-between"
+            gap={3}
           >
-            design
-          </Button>
+            <Typography variant="h4">
+              Our goal is to make strong web presence universally achievable
+            </Typography>
+            <Button
+              onClick={() => router.push(`${router.pathname}/design`)}
+              variant="contained"
+              sx={{ ml: 'auto', mb: 'auto' }}
+              endIcon={<ChevronRight />}
+            >
+              design
+            </Button>
+          </Stack>
+          <Typography>
+            You are minutes away from taking a meaningful step for your online
+            identity.
+          </Typography>
         </Stack>
         <Typography variant="subtitle2" textAlign="center">
           verion: {PRODUCTS.landingPage.version}

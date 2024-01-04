@@ -76,69 +76,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         let attempts = 0
 
-        const clone = async (): Promise<any> =>
-          cloneRepo(
-            `${PROJECT_NAME}${attempts > 0 ? `-${attempts}` : ''}`,
-            CLIENT_NAME
-          ).catch(async (err) => {
+        const clone = async (): Promise<any> => {
+          try {
+            return await cloneRepo(
+              `${PROJECT_NAME}${attempts > 0 ? `-${attempts}` : ''}`,
+              CLIENT_NAME
+            )
+          } catch (err: any) {
             console.log(1, 'catch', err.response.data)
             if (err.status === 422) {
               attempts += 1
-              return clone()
+              return await clone()
             } else return err
-          })
+          }
+        }
 
         // 1. clone landing repo
-        const cloneRes = await clone()
+        let cloneRes
 
-        let project: VercelProjectInput = {} as VercelProjectInput
-
-        // 2. create new vercel project
-        let createProjectRes
-        if (cloneRes.status === 201) {
-          githubProject = cloneRes.data.name
-
-          project = {
-            name: cloneRes.data.name,
-            framework,
-            gitRepository: gitRepository(cloneRes.data.full_name),
-            environmentVariables: [
-              ...ENVIRONMENT_VARIABLES,
-              ...[
-                'GH_TOKEN',
-                'VERCEL_TOKEN',
-                'VERCEL_TEAM',
-                'AWS_ACCESS_KEY_ID',
-                'AWS_SECRET_ACCESS_KEY',
-                'AWS_LANDING_S3',
-              ].map((v) => {
-                return {
-                  key: v,
-                  target: 'production',
-                  type: 'encrypted',
-                  value: process.env[v],
-                }
-              }),
-              {
-                key: 'OG_IMAGE',
-                target: 'production',
-                type: 'encrypted',
-                value: HEADSHOT_URL,
-              },
-              {
-                key: 'NEXT_PUBLIC_PROJECT_NAME',
-                target: 'production',
-                type: 'encrypted',
-                value: cloneRes.data.name,
-              },
-            ],
-          }
-
-          createProjectRes = await createProject(project).catch((err) => {
-            console.log(2, 'catch', err.error)
-            return err
-          })
-        } else {
+        try {
+          cloneRes = await clone()
+        } catch (err: any) {
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -147,8 +105,71 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 1,
-                ...cloneRes.response.data,
-                body: cloneRes.request.body,
+                ...err.response.data,
+                body: err.request.body,
+              },
+            },
+          })
+          break
+        }
+
+        let project: VercelProjectInput = {} as VercelProjectInput
+
+        // 2. create new vercel project
+        let createProjectRes
+        githubProject = cloneRes.data.name
+
+        project = {
+          name: cloneRes.data.name,
+          framework,
+          gitRepository: gitRepository(cloneRes.data.full_name),
+          environmentVariables: [
+            ...ENVIRONMENT_VARIABLES,
+            ...[
+              'GH_TOKEN',
+              'VERCEL_TOKEN',
+              'VERCEL_TEAM',
+              'AWS_ACCESS_KEY_ID',
+              'AWS_SECRET_ACCESS_KEY',
+              'AWS_LANDING_S3',
+            ].map((v) => {
+              return {
+                key: v,
+                target: 'production',
+                type: 'encrypted',
+                value: process.env[v],
+              }
+            }),
+            {
+              key: 'OG_IMAGE',
+              target: 'production',
+              type: 'encrypted',
+              value: HEADSHOT_URL,
+            },
+            {
+              key: 'NEXT_PUBLIC_PROJECT_NAME',
+              target: 'production',
+              type: 'encrypted',
+              value: cloneRes.data.name,
+            },
+          ],
+        }
+
+        try {
+          createProjectRes = await createProject(project)
+        } catch (err: any) {
+          console.log(2, 'catch', err.error)
+          await prisma.order.update({
+            where: { id: orderId },
+            data: {
+              metadata: {
+                ...(project as unknown as Prisma.JsonObject),
+                projectName: { vercelApp, githubProject },
+                clientName: CLIENT_NAME,
+              },
+              error: {
+                step: 2,
+                ...err.error,
               },
             },
           })
@@ -163,51 +184,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         // 3. create blob of headshot
         let blobShaRes
-        if (createProjectRes.status === 200) {
-          const projectData = await createProjectRes.json()
-          vercelApp = projectData.name
 
-          blobShaRes = await createBlob(githubProject, headshotBase64).catch(
-            (err) => {
-              console.log(3, 'catch', err.response.data)
-              return err
-            }
-          )
-        } else {
-          const projectData = await createProjectRes.json()
-          await prisma.order.update({
-            where: { id: orderId },
-            data: {
-              metadata: {
-                ...(project as unknown as Prisma.JsonObject),
-                projectName: { vercelApp, githubProject },
-                clientName: CLIENT_NAME,
-              },
-              error: {
-                step: 2,
-                ...projectData.error,
-              },
-            },
-          })
-          break
-        }
+        const projectData = await createProjectRes.json()
+        vercelApp = projectData.name
 
-        const main = async (): Promise<any> =>
-          getMainTree(githubProject).catch(async (err) => {
-            console.log(4, 'catch', err.response.data)
-            if (err.status === 404) {
-              return main()
-            } else return err
-          })
-
-        // 4. get main tree sha
-        let mainTreeShaRes
-        if (blobShaRes.status === 201)
-          mainTreeShaRes = await main().catch((err) => {
-            console.log(4, 'catch', err.response.data)
-            return err
-          })
-        else {
+        try {
+          blobShaRes = await createBlob(githubProject, headshotBase64)
+        } catch (err: any) {
+          console.log(3, 'catch', err.response.data)
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -218,27 +202,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 3,
-                ...blobShaRes.response.data,
-                body: blobShaRes.request.body,
+                ...err.response.data,
+                body: err.request.body,
               },
             },
           })
           break
         }
 
-        // 5. create tree with headshot file
-        let newTreeShaRes
-        if (mainTreeShaRes.status === 200)
-          newTreeShaRes = await createTree(
-            githubProject,
-            mainTreeShaRes.data.commit.sha,
-            `headshot.${EXTENSION}`,
-            blobShaRes.data.sha
-          ).catch((err) => {
-            console.log(5, 'catch', err.response.data)
-            return err
-          })
-        else {
+        const main = async (): Promise<any> => {
+          try {
+            return await getMainTree(githubProject)
+          } catch (err: any) {
+            console.log(4, 'catch', err.response.data)
+            if (err.status === 404) {
+              return await main()
+            } else return err
+          }
+        }
+
+        // 4. get main tree sha
+        let mainTreeShaRes
+
+        try {
+          mainTreeShaRes = await main()
+        } catch (err: any) {
+          console.log(4, 'catch', err.response.data)
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -249,25 +238,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 4,
-                ...mainTreeShaRes.response.data,
+                ...err.response.data,
               },
             },
           })
           break
         }
 
-        // 6. create commit to new repo
-        let newCommitShaRes
-        if (newTreeShaRes.status === 201)
-          newCommitShaRes = await createCommit(
+        // 5. create tree with headshot file
+        let newTreeShaRes
+
+        try {
+          newTreeShaRes = await createTree(
             githubProject,
             mainTreeShaRes.data.commit.sha,
-            newTreeShaRes.data.sha
-          ).catch((err) => {
-            console.log(6, 'catch', err.response.data)
-            return err
-          })
-        else {
+            `headshot.${EXTENSION}`,
+            blobShaRes.data.sha
+          )
+        } catch (err: any) {
+          console.log(5, 'catch', err.response.data)
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -278,25 +267,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 5,
-                ...newTreeShaRes.response.data,
-                body: newTreeShaRes.request.body,
+                ...err.response.data,
+                body: err.request.body,
               },
             },
           })
           break
         }
 
-        // 7. push commit to deploy vercel project
-        let pushCommitRes
-        if (newCommitShaRes.status === 201)
-          pushCommitRes = await pushCommit(
+        // 6. create commit to new repo
+        let newCommitShaRes
+
+        try {
+          newCommitShaRes = await createCommit(
             githubProject,
-            newCommitShaRes.data.sha
-          ).catch((err) => {
-            console.log(7, 'catch', err.response.data)
-            return err
-          })
-        else {
+            mainTreeShaRes.data.commit.sha,
+            newTreeShaRes.data.sha
+          )
+        } catch (err: any) {
+          console.log(6, 'catch', err.response.data)
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -307,30 +296,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 6,
-                ...newCommitShaRes.response.data,
-                body: newCommitShaRes.request.body,
+                ...err.response.data,
+                body: err.request.body,
               },
             },
           })
           break
         }
 
-        if (pushCommitRes.status === 200) {
-          await prisma.order
-            .update({
-              where: { id: orderId },
-              data: {
-                metadata: {
-                  ...(project as unknown as Prisma.JsonObject),
-                  projectName: { vercelApp, githubProject },
-                  clientName: CLIENT_NAME,
-                },
-                complete: true,
-              },
-            })
-            .then((r) => console.log(r))
-          break
-        } else {
+        // 7. push commit to deploy vercel project
+        try {
+          await pushCommit(githubProject, newCommitShaRes.data.sha)
+        } catch (err: any) {
+          console.log(7, 'catch', err.response.data)
           await prisma.order.update({
             where: { id: orderId },
             data: {
@@ -341,13 +319,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               error: {
                 step: 7,
-                ...pushCommitRes.response.data,
-                body: pushCommitRes.request.body,
+                ...err.response.data,
+                body: err.request.body,
               },
             },
           })
           break
         }
+
+        await prisma.order
+          .update({
+            where: { id: orderId },
+            data: {
+              metadata: {
+                ...(project as unknown as Prisma.JsonObject),
+                projectName: { vercelApp, githubProject },
+                clientName: CLIENT_NAME,
+              },
+              complete: true,
+            },
+          })
+          .then((r) => console.log(r))
+        break
+
       case 'payment_intent.created':
         console.log('payment intent created')
 

@@ -90,9 +90,13 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
   return (
     <Stack
       id="spenpo-site-card"
-      onClick={() =>
-        !actionHover && router.push(`/products/landing-page/${project.name}`)
-      }
+      onClick={async () => {
+        if (!actionHover) {
+          if (project.targets?.production)
+            router.push(`/products/landing-page/${project.name}`)
+          else await fetchProject()
+        }
+      }}
       border="solid 2px #aaa"
       p={2}
       borderRadius={1}

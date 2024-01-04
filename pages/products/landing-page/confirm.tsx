@@ -10,6 +10,9 @@ import Stripe from 'stripe'
 import { ProjectEnvVariableInput } from '@/context/shoppingCart'
 import Link from 'next/link'
 
+const getProject = async (name: string) =>
+  await fetch(`/api/landing-page/getVercelProject?name=${name}`)
+
 type ConfirmPageOrder = {
   metadata: {
     projectName: { vercelApp: string }
@@ -30,16 +33,25 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
   }
 
   const [order, setOrder] = useState(ssrOrder as unknown as ComponentOrder)
+  const [domains, setDomains] = useState<string[]>([])
 
   useEffect(() => {
-    if (!order.error && !order.complete) {
+    if (domains.length === 0) {
       ;(async () => {
-        const refetchOrder = await getOrder()
-        console.log(refetchOrder.order)
-
-        setOrder(refetchOrder.order)
+        const projectReq = await getProject(order.metadata.projectName.vercelApp)
+        const project = await projectReq.json()
+        setDomains(project?.targets?.production?.alias || [])
       })()
     }
+  }, [domains, order]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const refetch = async () => {
+      const refetchOrder = await getOrder()
+      setOrder(refetchOrder.order)
+    }
+    if (!order.error && !order.complete) refetch()
+    else if (!order.metadata.projectName?.vercelApp) refetch()
   }, [order]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -72,8 +84,23 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
             Congratulations
           </Typography>
           <Typography variant="h5" textAlign="center">
-            Your website is being deployed and will be available shortly
+            Your website is being deployed and will be available shortly as the
+            following URLs:
           </Typography>
+          <Box mx="auto">
+            {domains.length > 0 ? (
+              <Box component="ul">
+                {domains.map((domain) => (
+                  <Typography key={domain} component="li" variant="subtitle2">
+                    {domain}
+                  </Typography>
+                ))}
+              </Box>
+            ) : (
+              <CircularProgress />
+            )}
+          </Box>
+          <Typography textAlign="center">See below for details</Typography>
           <Box mx="auto">
             <SiteCard
               name={order.metadata.projectName.vercelApp}
@@ -95,7 +122,7 @@ const Confirm: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> 
       >
         View your sites
       </Button>
-      <Typography>
+      <Typography textAlign="center">
         Need help? Please <Link href="/contact">contact us</Link> for support
       </Typography>
     </Stack>

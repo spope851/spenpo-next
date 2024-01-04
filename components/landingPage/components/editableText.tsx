@@ -1,4 +1,4 @@
-import { Stack, IconButton, SxProps, TextField, Typography } from "@mui/material"
+import { Stack, IconButton, SxProps, TextField, Typography } from '@mui/material'
 import React, {
   Dispatch,
   SetStateAction,
@@ -6,11 +6,11 @@ import React, {
   useContext,
   useEffect,
   useState,
-} from "react"
-import DeleteIcon from "@mui/icons-material/DeleteOutlined"
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined"
-import { CmsGetSet } from ".."
-import { LandingPageContext } from "@/context/landingPage"
+} from 'react'
+import DeleteIcon from '@mui/icons-material/DeleteOutlined'
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
+import { CmsGetSet } from '..'
+import { LandingPageContext } from '@/context/landingPage'
 
 export const EditableText: React.FC<{
   confirmEvent?: [boolean, Dispatch<SetStateAction<boolean>>]
@@ -55,7 +55,7 @@ export const EditableText: React.FC<{
         onChange={(e) => setEditableText(e.target.value)}
       />
       {!hideBtn && (
-        <IconButton sx={{ my: "auto" }} onClick={confirm}>
+        <IconButton sx={{ my: 'auto' }} onClick={confirm}>
           {editableText ? <CheckCircleOutlinedIcon /> : <DeleteIcon />}
         </IconButton>
       )}
@@ -63,16 +63,15 @@ export const EditableText: React.FC<{
   ) : (
     <Typography
       sx={{
-        ":hover":
-          editable && editable[0] && sx?.lineHeight
+        ':hover':
+          editable && editable[0]
             ? {
-                border: `dashed ${SECONDARY_ACCENT_COLOR} 2px`,
+                outline: `dashed ${SECONDARY_ACCENT_COLOR} 2px`,
                 borderRadius: 2,
-                cursor: "pointer",
-                lineHeight: `calc(${sx?.lineHeight} - 4px)`,
+                cursor: 'pointer',
               }
             : {},
-        mx: "auto",
+        mx: 'auto',
         px: 1,
         ...sx,
       }}

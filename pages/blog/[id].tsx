@@ -1,23 +1,23 @@
-import { Box, Typography } from "@mui/material"
-import { styled } from "@mui/material/styles"
-import { BackButton } from "@/components/backButton"
-import { RobotError } from "@/components/robotError"
-import { TagList } from "@/components/blog/tagList"
-import Head from "next/head"
-import Link from "next/link"
-import { previewImages } from "@/constants"
-import { extractTagsFromPosts, extractTagsFromPost } from "@/utils/extractTags"
+import { Box, Typography } from '@mui/material'
+import { styled } from '@mui/material/styles'
+import { BackButton } from '@/components/backButton'
+import { RobotError } from '@/components/robotError'
+import { TagList } from '@/components/blog/tagList'
+import Head from 'next/head'
+import Link from 'next/link'
+import { previewImages } from '@/constants'
+import { extractTagsFromPosts, extractTagsFromPost } from '@/utils/extractTags'
 
 export type GetPostQuery = {
-  __typename?: "Query"
+  __typename?: 'Query'
   post: {
-    __typename?: "BlogPost"
+    __typename?: 'BlogPost'
     title: string
     content: string
     date: string
     excerpt: string
     tags: Array<{
-      __typename?: "Tag"
+      __typename?: 'Tag'
       ID: string
       slug: string
       name: string
@@ -27,11 +27,11 @@ export type GetPostQuery = {
 }
 
 const StyledBox = styled(Box)(({ theme }) => ({
-  marginRight: "15%",
-  marginLeft: "15%",
-  [theme.breakpoints.down("md")]: {
-    marginRight: "5%",
-    marginLeft: "5%",
+  marginRight: '15%',
+  marginLeft: '15%',
+  [theme.breakpoints.down('md')]: {
+    marginRight: '5%',
+    marginLeft: '5%',
   },
 }))
 
@@ -40,7 +40,7 @@ export default function Post({ id, data }: { id: string; data: GetPostQuery }) {
   return (
     <>
       <Head>
-        <title>spencer pope</title>
+        <title>spenpo.blog</title>
         <meta name="description" content={description} key="desc" />
         <meta property="og:title" content={data?.post.title} />
         <meta property="og:description" content={description} />
