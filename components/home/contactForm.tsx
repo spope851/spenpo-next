@@ -31,8 +31,7 @@ const ContactForm: React.FC = () => {
           'owxwQWa3Ry2FxkhKz'
         )
         .then(
-          (result) => {
-            console.log(result.text)
+          () => {
             setLoading(false)
             setSuccess(true)
           },

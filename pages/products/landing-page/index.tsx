@@ -68,7 +68,6 @@ export async function getServerSideProps() {
       id: 'landing-page',
     },
   })
-  console.log(product)
 
   return {
     props: {
