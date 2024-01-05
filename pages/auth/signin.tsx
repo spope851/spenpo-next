@@ -39,8 +39,12 @@ const SignIn: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
 
 export default SignIn
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions)
+export async function getServerSideProps({
+  req,
+  res,
+  query,
+}: GetServerSidePropsContext) {
+  const session = await getServerSession(req, res, authOptions)
 
   if (session) {
     return { redirect: { destination: '/' } }
@@ -51,7 +55,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       providers: providers ?? [],
-      redirect: `${context.query.redirect}?cache=${context.query.redisId}`,
+      redirect: `${query.redirect}?cache=${query.redisId}`,
     },
   }
 }
