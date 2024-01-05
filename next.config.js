@@ -5,13 +5,13 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "pbs.twimg.com",
-        port: "",
-        pathname: "**/**",
+        protocol: 'https',
+        hostname: 'pbs.twimg.com',
+        port: '',
+        pathname: '**/**',
       },
     ],
-    domains: ["lh3.googleusercontent.com"],
+    domains: ['lh3.googleusercontent.com'],
   },
 }
 
@@ -20,8 +20,8 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: "/projects",
-        destination: "/projects/spenpo-landing",
+        source: '/projects',
+        destination: '/projects/starter-kit-next',
         permanent: true,
       },
     ]
@@ -30,7 +30,7 @@ module.exports = {
     config.experiments = { ...config.experiments, topLevelAwait: true }
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.('.svg')
     )
 
     config.module.rules.push(
@@ -45,7 +45,7 @@ module.exports = {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
         resourceQuery: { not: /url/ }, // exclude if *.svg?url
-        use: ["@svgr/webpack"],
+        use: ['@svgr/webpack'],
       }
     )
 

@@ -6,6 +6,7 @@ import projects from '@/components/projects'
 import { ReactNode } from 'react'
 
 const PROJECTS: ProjectsType[] = [
+  'starter-kit-next',
   'spenpo-landing',
   'two-truths',
   'language-flash',

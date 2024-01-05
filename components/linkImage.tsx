@@ -1,35 +1,31 @@
-import React from "react"
-import { styled } from "@mui/material/styles"
-import Image from "next/image"
-import { Box } from "@mui/material"
-import Link from "next/link"
-
-const StyledImage = styled(Image)({
-  "&:hover": {
-    opacity: 0.6,
-  },
-  transition: "opacity .2s ease",
-  borderRadius: 8,
-})
+import React from 'react'
+import { SxProps } from '@mui/material/styles'
+import { Box } from '@mui/material'
+import Link from 'next/link'
+import { BgImage } from './bgImage'
 
 interface LinkImageProps {
-  height: number
-  width: number
+  sx?: SxProps & { height: number | string; width: number | string }
   href: string
   src: string
-  alt: string
 }
 
-export const LinkImage: React.FC<LinkImageProps> = ({
-  height,
-  width,
-  href,
-  src,
-  alt,
-}) => (
-  <Box bgcolor="#000" height={height} width={width} borderRadius="8px">
-    <Link href={href}>
-      <StyledImage src={src} height={height} width={width} alt={alt} />
+export const LinkImage: React.FC<LinkImageProps> = ({ sx, href, src }) => (
+  <Box>
+    <Link href={href} target="_blank" referrerPolicy="no-referrer">
+      <BgImage
+        src={src}
+        sx={{
+          ...sx,
+          height: sx?.height || 400,
+          width: sx?.width || 550,
+          '&:hover': {
+            opacity: 0.6,
+          },
+          transition: 'opacity .2s ease',
+          borderRadius: 1,
+        }}
+      />
     </Link>
   </Box>
 )
