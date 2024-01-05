@@ -21,7 +21,9 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
         {products.map(({ price, id, name, description }) => (
           <Grid
             item
-            md={4}
+            lg={3}
+            sm={6}
+            xs={12}
             key={id}
             borderRadius={1}
             gap={2}
