@@ -1,16 +1,17 @@
-import { useRouter } from "next/router"
-import { RobotError } from "@/components/robotError"
-import { Stack, Tabs, Tab, Typography } from "@mui/material"
-import { Projects as ProjectsType } from "@/types"
-import projects from "@/components/projects"
-import { ReactNode } from "react"
+import { useRouter } from 'next/router'
+import { RobotError } from '@/components/robotError'
+import { Stack, Tabs, Tab, Typography } from '@mui/material'
+import { Projects as ProjectsType } from '@/types'
+import projects from '@/components/projects'
+import { ReactNode } from 'react'
 
 const PROJECTS: ProjectsType[] = [
-  "spenpo-landing",
-  "two-truths",
-  "language-flash",
-  "3x3-cube",
-  "react-timeclock",
+  'starter-kit-next',
+  'spenpo-landing',
+  'two-truths',
+  'language-flash',
+  '3x3-cube',
+  'react-timeclock',
 ]
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
@@ -21,14 +22,14 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
 
 const Body: React.FC<{
   children: ReactNode
-  justifyContent?: "center" | "flex-start"
-}> = ({ children, justifyContent = "flex-start" }) => (
+  justifyContent?: 'center' | 'flex-start'
+}> = ({ children, justifyContent = 'flex-start' }) => (
   <Stack
     flex={1}
     border="solid .5px"
-    maxWidth={{ xs: "unset", md: "75vw" }}
+    maxWidth={{ xs: 'unset', md: '75vw' }}
     overflow="auto"
-    sx={{ boxSizing: "unset", lineHeight: 1 }}
+    sx={{ boxSizing: 'unset', lineHeight: 1 }}
     justifyContent={justifyContent}
   >
     {children}
@@ -45,7 +46,7 @@ export default function Projects() {
         scrollButtons
         allowScrollButtonsMobile
         variant="scrollable"
-        value={Object.keys(projects).indexOf(project || "spenpo-landing")}
+        value={Object.keys(projects).indexOf(project || 'spenpo-landing')}
       >
         {PROJECTS.map((projectName) => (
           <Tab
@@ -56,11 +57,11 @@ export default function Projects() {
         ))}
       </Tabs>
       <Stack
-        direction={{ xs: "column-reverse", md: "row" }}
+        direction={{ xs: 'column-reverse', md: 'row' }}
         flex={1}
         border="solid .5px"
       >
-        <Stack maxWidth={{ xs: "100%", md: "25%" }}>
+        <Stack maxWidth={{ xs: '100%', md: '25%' }}>
           <Header>description</Header>
           <Body>{projects[project]?.description}</Body>
         </Stack>

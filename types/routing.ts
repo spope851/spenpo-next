@@ -1,9 +1,10 @@
-type Tabs = "root" | "home" | "projects" | "products" | "resume" | "blog" | "contact"
+type Tabs = 'root' | 'home' | 'projects' | 'products' | 'resume' | 'blog' | 'contact'
 type Projects =
-  | "spenpo-landing"
-  | "two-truths"
-  | "language-flash"
-  | "3x3-cube"
-  | "react-timeclock"
+  | 'starter-kit-next'
+  | 'spenpo-landing'
+  | 'two-truths'
+  | 'language-flash'
+  | '3x3-cube'
+  | 'react-timeclock'
 
 export type { Tabs, Projects }

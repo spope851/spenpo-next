@@ -1,48 +1,27 @@
-import React from "react"
-import { HomeComponentWrapper } from "@/components/home"
-import Head from "next/head"
-import ContactForm from "@/components/home/contactForm"
-import { pool } from "@/utils/postgres"
-import { Button, Grid, Stack, Typography } from "@mui/material"
-import redis from "@/utils/redis"
-import { LinkPreview } from "@/components/linkPreview"
-
-export async function getServerSideProps() {
-  console.log("GET content")
-  const cachedContent = await redis.get(`content`)
-  if (cachedContent) return { props: { content: JSON.parse(cachedContent) } }
-  const data = await pool.query(`SELECT * FROM content ORDER BY id DESC LIMIT 1;`)
-  const content = data.rows[0]
-  await redis.set("content", JSON.stringify(content))
-
-  return {
-    props: { content },
-  }
-}
+import React from 'react'
+import { HomeComponentWrapper } from '@/components/home'
+import Head from 'next/head'
+import ContactForm from '@/components/home/contactForm'
+import { Button, Grid, Stack, Typography } from '@mui/material'
+import { LinkPreview } from '@/components/linkPreview'
+import { useRouter } from 'next/router'
+import { DEFAULT_PROJECT } from '@/constants/projects'
 
 const GRID_PROPS = {
   item: true,
   xs: 12,
-  display: "flex",
-  flexDirection: "column" as const,
+  display: 'flex',
+  flexDirection: 'column' as const,
 }
 
 const BUTTON_SX = {
-  my: "auto",
+  my: 'auto',
   py: 2,
   borderRadius: 2,
 }
 
-interface Content {
-  id: string
-  title: string
-  img?: string
-  href: string
-  description: string
-  target_blank: boolean
-}
-
-export default function Home({ content }: { content: Content }) {
+export default function Home() {
+  const router = useRouter()
   return (
     <>
       <Head>
@@ -57,7 +36,10 @@ export default function Home({ content }: { content: Content }) {
                   check out my latest post
                 </Typography>
                 <Stack my="auto">
-                  <LinkPreview url={content.href} descriptionLength={50} />
+                  <LinkPreview
+                    url="https://spenpo.com/products/landing-page"
+                    descriptionLength={50}
+                  />
                 </Stack>
               </HomeComponentWrapper>
             </Grid>
@@ -67,7 +49,11 @@ export default function Home({ content }: { content: Content }) {
                   <Typography variant="h6" fontWeight="bold">
                     explore my new products
                   </Typography>
-                  <Button variant="outlined" href="/products" sx={BUTTON_SX}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push('/products')}
+                    sx={BUTTON_SX}
+                  >
                     click here!
                   </Button>
                 </HomeComponentWrapper>
@@ -77,14 +63,18 @@ export default function Home({ content }: { content: Content }) {
                   <Typography variant="h6" fontWeight="bold">
                     see what else I&apos;m working on
                   </Typography>
-                  <Button variant="outlined" href="/projects" sx={BUTTON_SX}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => router.push(`/projects/${DEFAULT_PROJECT}`)}
+                    sx={BUTTON_SX}
+                  >
                     click here!
                   </Button>
                 </HomeComponentWrapper>
               </Grid>
               <Grid
                 {...GRID_PROPS}
-                display={{ lg: "flex", xs: "none" }}
+                display={{ lg: 'flex', xs: 'none' }}
                 justifyContent="flex-end"
               >
                 <ContactForm />
@@ -92,7 +82,7 @@ export default function Home({ content }: { content: Content }) {
             </Grid>
             <Grid
               {...GRID_PROPS}
-              display={{ lg: "none", xs: "flex" }}
+              display={{ lg: 'none', xs: 'flex' }}
               justifyContent="flex-end"
             >
               <ContactForm />

@@ -16,6 +16,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import AvatarMenu from './avatarMenu'
+import { DEFAULT_PROJECT } from '@/constants/projects'
 
 interface NavbarProps {
   active: Tabs
@@ -105,9 +106,7 @@ export default function Navbar({ active }: NavbarProps) {
                 color={active === tab ? 'primary' : 'secondary'}
                 key={tab}
                 onClick={() =>
-                  router.push(
-                    `/${tab}${tab === 'projects' ? '/spenpo-landing' : ''}`
-                  )
+                  router.push(`/${tab}/${tab === 'projects' ? DEFAULT_PROJECT : ''}`)
                 }
                 className={tabState(active === tab)}
               >
@@ -133,7 +132,7 @@ export default function Navbar({ active }: NavbarProps) {
                 variant={active === tab ? 'contained' : 'text'}
                 key={tab}
                 onClick={() =>
-                  route(`/${tab}${tab === 'projects' ? '/spenpo-landing' : ''}`)
+                  route(`/${tab}/${tab === 'projects' ? DEFAULT_PROJECT : ''}`)
                 }
               >
                 {tab}
