@@ -4,10 +4,12 @@ import { Button } from '@mui/material'
 import Landing from '@/components/landingPage'
 import { InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 
 const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   s3,
 }) => {
+  const router = useRouter()
   const name = 'Spencer Pope'
   const title = 'Developer & Entrepreneur'
   const previewImage = `${s3}/headshot.jpeg`
@@ -29,7 +31,7 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
       <Landing
         title={title}
         name={name}
-        subtitle="Building an unconventional life"
+        subtitle="Striving to be useful"
         socialUrls={[
           'https://twitter.com/s_pop3',
           'https://github.com/spope851',
@@ -39,16 +41,16 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         ]}
         headshotSrc="/images/headshot.jpeg"
         actionDestination="products/landing-page"
-        actionStatement="publish your own landing page"
+        actionStatement="let's build your website"
         linkNewTab={true}
         topComponents={
           <Button
             endIcon={<ChevronRightIcon />}
             variant="contained"
-            href="/home"
-            sx={{ ml: 'auto', mr: 5, mt: 5 }}
+            onClick={() => router.push('/home')}
+            sx={{ ml: 'auto', mr: 5, mt: 5, textTransform: 'none' }}
           >
-            continue to spenpo.com
+            Continue to spenpo.com
           </Button>
         }
       />

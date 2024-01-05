@@ -1,9 +1,18 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
-import { getProviders, signIn } from 'next-auth/react'
+import { getProviders, signIn, LiteralUnion } from 'next-auth/react'
+import { BuiltInProviderType } from 'next-auth/providers'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { Stack, Button, Typography, Divider } from '@mui/material'
 import Image from 'next/image'
+
+const PROVIDER_COLORS: Partial<
+  Record<LiteralUnion<BuiltInProviderType, string>, string>
+> = {
+  github: '#4078c0',
+  google: '#4285f4',
+  facebook: '#1877f2',
+}
 
 const SignIn: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   providers,
@@ -13,24 +22,29 @@ const SignIn: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> =
     <Stack gap={1} m="auto" textAlign="center">
       <Typography variant="h5">Welcome</Typography>
       <Divider flexItem />
-      {Object.values(providers).map((provider) => (
+      {Object.values(providers).map(({ id, name }) => (
         <Button
-          key={provider.id}
+          key={id}
           variant="outlined"
           onClick={() =>
-            signIn(provider.id, {
+            signIn(id, {
               callbackUrl: redirect,
             })
           }
-          sx={{ gap: 1, textTransform: 'capitalize' }}
+          sx={{
+            gap: 1,
+            textTransform: 'none',
+            borderColor: PROVIDER_COLORS[id],
+            color: PROVIDER_COLORS[id],
+          }}
         >
           <Image
-            src={`/images/providers/${provider.name}.png`}
+            src={`/images/providers/${name}.png`}
             height={30}
             width={30}
-            alt={provider.name}
+            alt={name}
           />
-          <Typography>Continue with {provider.name}</Typography>
+          <Typography>Continue with {name}</Typography>
         </Button>
       ))}
     </Stack>
