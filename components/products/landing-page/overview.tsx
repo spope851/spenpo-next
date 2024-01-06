@@ -10,12 +10,13 @@ import {
 } from '@mui/material'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { OverviewStepper } from './overviewStepper'
 import Link from 'next/link'
 import ReactPlayer from 'react-player/lazy'
 import { PRODUCTS } from '@/constants/products'
+import { LinkPreview } from '@/components/linkPreview'
 
 const STEP_COPY = [
   {
@@ -35,9 +36,15 @@ const STEP_COPY = [
         <Typography component="span">
           The product includes a <strong>.vercel.app</strong> domain name such as{' '}
         </Typography>
-        <Link href="https://spenpo-next.vercel.app">spenpo-next.vercel.app</Link>
+        <Link
+          href="https://landing-template-five.vercel.app"
+          target="_blank"
+          referrerPolicy="no-referrer"
+        >
+          landing-template-five.vercel.app
+        </Link>
         <Typography component="span">
-          . These are assigned based on availability, but if the one you want
+          . These are assigned based on availability, but if the one you suggest
           isn&apos;t available we will still get you a close match. If you already
           have a domain, please contact us and we&apos;d happy to publish the site
           there as well. Support for purchasing and assigning domains during checkout
@@ -45,6 +52,7 @@ const STEP_COPY = [
         </Typography>
       </>
     ),
+    link: 'https://landing-template-five.vercel.app',
   },
   {
     copy: (
@@ -116,6 +124,32 @@ const VideoStep: React.FC<{ step: number }> = ({ step }) => (
     </Grid>
   </>
 )
+
+const LinkStep: React.FC<{ step: number }> = ({ step }) => {
+  const Component = useMemo(() => <LinkPreview url={STEP_COPY[step].link!} />, [])
+  return (
+    <>
+      <Grid
+        item
+        lg={3}
+        xs={12}
+        display="flex"
+        alignItems="flex-start"
+        justifyContent="center"
+        gap={3}
+        flexDirection="column"
+      >
+        <Typography variant="h4">Step {step + 1}</Typography>
+        <Box>{STEP_COPY[step].copy}</Box>
+      </Grid>
+      <Grid item lg={9} xs={12}>
+        <Box m="auto" width="90%" maxWidth={400}>
+          {Component}
+        </Box>
+      </Grid>
+    </>
+  )
+}
 
 const NonVideoStep: React.FC<{ step: number }> = ({ step }) => (
   <>
@@ -243,21 +277,22 @@ export const LandingPageOverview: React.FC = () => {
           }}
         />
         <Stack>
-          {[designRef, nameRef, secureRef, claimRef].map((ref, idx) => (
-            <Grid
-              key={STEP_COPY[idx].video}
-              container
-              ref={ref}
-              pt="104px"
-              spacing={3}
-            >
-              {STEP_COPY[idx].video ? (
-                <VideoStep step={idx} />
-              ) : (
-                <NonVideoStep step={idx} />
-              )}
-            </Grid>
-          ))}
+          {[designRef, nameRef, secureRef, claimRef].map((ref, idx) => {
+            let Component = NonVideoStep
+            if (STEP_COPY[idx].video) Component = VideoStep
+            else if (STEP_COPY[idx].link) Component = LinkStep
+            return (
+              <Grid
+                key={STEP_COPY[idx].video}
+                container
+                ref={ref}
+                pt="104px"
+                spacing={3}
+              >
+                <Component step={idx} />
+              </Grid>
+            )
+          })}
         </Stack>
         <Divider />
         <Stack gap={3}>
