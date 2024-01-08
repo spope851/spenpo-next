@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { BgImage } from './bgImage'
 
 interface LinkImageProps {
-  sx?: SxProps & { height: number | string; width: number | string }
+  sx?: SxProps & { height?: number | string; width?: number | string }
   href: string
   src: string
 }

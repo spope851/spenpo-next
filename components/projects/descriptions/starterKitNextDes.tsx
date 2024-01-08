@@ -48,7 +48,13 @@ export default function StarterKitNextDes() {
         </a>
       </li>
       <li>
-        <a href="https://starter-kit-next-kappa.vercel.app">demo</a>
+        <a
+          href="https://starter-kit-next-kappa.vercel.app"
+          target="_blank"
+          rel="noreferrer"
+        >
+          demo
+        </a>
       </li>
       <li>architecture:</li>
       <ul>
@@ -60,7 +66,7 @@ export default function StarterKitNextDes() {
         </li>
         <li>
           <strong>internationalization and localization</strong>:{' '}
-          <a href="https://next-auth.js.org" target="_blank" rel="noreferrer">
+          <a href="https://www.i18next.com/" target="_blank" rel="noreferrer">
             i18next
           </a>
         </li>

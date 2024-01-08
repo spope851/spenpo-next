@@ -11,6 +11,8 @@ import SpenpoLandingDes from './descriptions/spenpoLandingDes'
 import SpenpoLandingDemo from './demos/spenpoLandingDemo'
 import StarterKitNextDemo from './demos/starterKitNextDemo'
 import StarterKitNextDes from './descriptions/starterKitNextDes'
+import CrackerDes from './descriptions/crackerDes'
+import CrackerDemo from './demos/crackerDemo'
 
 export * from './styled'
 
@@ -18,6 +20,10 @@ const projects: Record<Projects, Record<'description' | 'demo', JSX.Element>> = 
   'starter-kit-next': {
     description: <StarterKitNextDes />,
     demo: <StarterKitNextDemo />,
+  },
+  cracker: {
+    description: <CrackerDes />,
+    demo: <CrackerDemo />,
   },
   'spenpo-landing': {
     description: <SpenpoLandingDes />,

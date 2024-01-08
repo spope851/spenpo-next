@@ -7,6 +7,7 @@ import { ReactNode } from 'react'
 
 const PROJECTS: ProjectsType[] = [
   'starter-kit-next',
+  'cracker',
   'spenpo-landing',
   'two-truths',
   'language-flash',
@@ -61,7 +62,7 @@ export default function Projects() {
         flex={1}
         border="solid .5px"
       >
-        <Stack maxWidth={{ xs: '100%', md: '25%' }}>
+        <Stack width={{ xs: '100%', md: '25%' }}>
           <Header>description</Header>
           <Body>{projects[project]?.description}</Body>
         </Stack>
