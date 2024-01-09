@@ -86,7 +86,7 @@ const Products: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>>
 export default Products
 
 export async function getServerSideProps() {
-  const products = await prisma.product.findMany()
+  const products = await prisma.product.findMany({ where: { hide: false } })
   return {
     props: {
       products,
