@@ -1,11 +1,11 @@
-import { Stack } from "@mui/material"
-import { useEffect, useState } from "react"
-import { VercelReadyState } from "./deployment/useDeployment"
-import { ReadyState } from "./readyState"
-import { NewTabLink } from "./newTabLink"
-import TimeAgo from "react-timeago"
-import { useRouter } from "next/router"
-import { HoverAwareness } from "./hoverAwareness"
+import { Stack } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { VercelReadyState } from './deployment/useDeployment'
+import { ReadyState } from './readyState'
+import { NewTabLink } from './newTabLink'
+import TimeAgo from 'react-timeago'
+import { useRouter } from 'next/router'
+import { HoverAwareness } from './hoverAwareness'
 
 const getDeployment = async (uid: string) =>
   fetch(`/api/landing-page/getVercelDeployment?uid=${uid}`)
@@ -48,7 +48,7 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
       onClick={() => {
         if (linkHover) return
         const pathname = `${router.asPath}${
-          router.pathname.split("/").at(-1) === "deployments" ? "" : "/deployments"
+          router.pathname.split('/').at(-1) === 'deployments' ? '' : '/deployments'
         }/${data.id}`
         router.push(
           {
@@ -64,24 +64,23 @@ export const DeploymentCard: React.FC<{ uid: string }> = ({ uid }) => {
       direction="row"
       justifyContent="space-between"
       sx={{
-        ":hover": {
-          bgcolor: "#aaa",
-          cursor: "pointer",
+        ':hover': {
+          bgcolor: '#aaa',
+          cursor: 'pointer',
         },
       }}
       alignItems="center"
     >
-      {/* @ts-expect-error Server Component */}
       <TimeAgo date={data.ready || data.createdAt} />
       <Stack direction="row" alignItems="center" mb="auto">
         {data.alias && (
           <HoverAwareness
             setHovering={setLinkHover}
             sx={{
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "40vw",
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: '40vw',
             }}
           >
             <NewTabLink url={data.url} />

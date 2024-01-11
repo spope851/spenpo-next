@@ -1,4 +1,4 @@
-import { BgImage } from '@/components/bgImage'
+import { BgImage } from '../../../components/bgImage'
 import {
   Button,
   Grid,
@@ -15,8 +15,8 @@ import ChevronRight from '@mui/icons-material/ChevronRight'
 import { OverviewStepper } from './overviewStepper'
 import Link from 'next/link'
 import ReactPlayer from 'react-player/lazy'
-import { PRODUCTS } from '@/constants/products'
-import { LinkPreview } from '@/components/linkPreview'
+import { PRODUCTS } from '../../../constants/products'
+import { LinkPreview } from '../../../components/linkPreview'
 
 const STEP_COPY = [
   {
@@ -126,7 +126,7 @@ const VideoStep: React.FC<{ step: number }> = ({ step }) => (
 )
 
 const LinkStep: React.FC<{ step: number }> = ({ step }) => {
-  const Component = useMemo(() => <LinkPreview url={STEP_COPY[step].link!} />, [])
+  const Component = useMemo(() => <LinkPreview url={STEP_COPY[step].link!} />, []) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <Grid

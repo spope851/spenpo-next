@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Divider, Stack, Typography } from '@mui/material'
-import { ShoppingCartContext } from '@/context/shoppingCart'
-import { LandingSummary } from '@/components/products/landing-page/checkout/landingSummary'
+import { ShoppingCartContext } from '../../../context/shoppingCart'
+import { LandingSummary } from '../../../components/products/landing-page/checkout/landingSummary'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
-import { CheckoutForm } from '@/components/products/landing-page/checkout/checkoutForm'
+import { CheckoutForm } from '../../../components/products/landing-page/checkout/checkoutForm'
 import { useSession } from 'next-auth/react'
-import { LandingStepper } from '@/components/products/landing-page/stepper'
+import { LandingStepper } from '../../../components/products/landing-page/stepper'
 import { useRouter } from 'next/router'
 import CheckIcon from '@mui/icons-material/Check'
 import Link from 'next/link'
@@ -19,14 +19,13 @@ const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 const Checkout: React.FC = () => {
   const session = useSession()
-  const {
-    paymentIntentMetadata,
-    file: [file],
-  } = useContext(ShoppingCartContext)
+  const { paymentIntentMetadata, landingCms } = useContext(ShoppingCartContext)
 
   const [clientSecret, setClientSecret] = useState('')
 
   const router = useRouter()
+
+  const file = landingCms?.headshotFile.getter()
 
   useEffect(() => {
     if (!clientSecret) {
@@ -91,8 +90,8 @@ const Checkout: React.FC = () => {
           </Stack>
           <Stack gap={1}>
             <Typography variant="h5">Contact information</Typography>
-            <Typography>{session.data?.user.name}</Typography>
-            <Typography>{session.data?.user.email}</Typography>
+            <Typography>{session.data?.user?.name}</Typography>
+            <Typography>{session.data?.user?.email}</Typography>
           </Stack>
         </Stack>
         <Divider

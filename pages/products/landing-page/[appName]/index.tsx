@@ -9,20 +9,20 @@ import {
   Typography,
 } from '@mui/material'
 import { useRouter } from 'next/router'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]'
 import { GetServerSidePropsContext } from 'next'
 import { getServerSession } from 'next-auth'
-import { DeploymentCard } from '@/components/deploymentCard'
-import { LinkPreview } from '@/components/linkPreview'
+import { DeploymentCard } from '../../../../components/deploymentCard'
+import { LinkPreview } from '../../../../components/linkPreview'
 import Link from 'next/link'
-import { Breadcrumbs } from '@/components/breadcrumbs'
-import { HoverAwareness } from '@/components/hoverAwareness'
-import { Project } from '@/components/siteCard'
-import { Domains } from '@/components/deployment/domains'
-import { Status } from '@/components/deployment/status'
-import { SmallHeader } from '@/components/deployment/smallHeader'
+import { Breadcrumbs } from '../../../../components/breadcrumbs'
+import { HoverAwareness } from '../../../../components/hoverAwareness'
+import { Project } from '../../../../components/siteCard'
+import { Domains } from '../../../../components/deployment/domains'
+import { Status } from '../../../../components/deployment/status'
+import { SmallHeader } from '../../../../components/deployment/smallHeader'
 import ReactTimeago from 'react-timeago'
-import prisma from '@/utils/prisma'
+import prisma from '../../../../utils/prisma'
 import { Prisma } from '@prisma/client'
 
 const getProject = async (name: string) =>
@@ -80,7 +80,6 @@ const SitePage: React.FC = () => {
             <Status readyState={data?.targets?.production?.readyState} />
             <Stack>
               <SmallHeader>Created</SmallHeader>
-              {/* @ts-expect-error Server Component */}
               {data?.createdAt && <ReactTimeago date={data.createdAt} />}
             </Stack>
           </Stack>

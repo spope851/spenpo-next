@@ -1,18 +1,18 @@
-import Landing, { LandingCache } from "@/components/landingPage"
-import { useContext, useEffect, useState } from "react"
-import { ShoppingCartContext } from "@/context/shoppingCart"
-import { TopComponents } from "@/components/landingPage/components/topComponents"
-import { useRouter } from "next/router"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import redis from "@/utils/redis"
-import { GetServerSidePropsContext } from "next"
-import { useSession } from "next-auth/react"
-import { SnackbarContext } from "@/context/snackbar"
-import { Button } from "@mui/material"
-import { useCachedSignin } from "@/hooks/useCachedSignin"
+import React, { useContext, useEffect, useState } from 'react'
+import { ShoppingCartContext } from '../../../context/shoppingCart'
+import { TopComponents } from '../../../components/products/landing-page/topComponents'
+import { useRouter } from 'next/router'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '../../../pages/api/auth/[...nextauth]'
+import redis from '../../../utils/redis'
+import { GetServerSidePropsContext } from 'next'
+import { useSession } from 'next-auth/react'
+import { SnackbarContext } from '../../../context/snackbar'
+import { Button } from '@mui/material'
+import { useCachedSignin } from '../../../hooks/useCachedSignin'
+import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
 
-const Demo: React.FC<{ cache: LandingCache }> = ({ cache }) => {
+const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
   const { landingCms } = useContext(ShoppingCartContext)
   const { setSnackbarOpen, setSnackbarMessage, setSnackbarAction } =
     useContext(SnackbarContext)
@@ -22,12 +22,12 @@ const Demo: React.FC<{ cache: LandingCache }> = ({ cache }) => {
   const { routeToSignin } = useCachedSignin()
 
   useEffect(() => {
-    router.replace("", undefined, { shallow: true })
-    if (session.status === "unauthenticated") {
+    router.replace('', undefined, { shallow: true })
+    if (session.status === 'unauthenticated') {
       setTimeout(() => {
         setSnackbarOpen(true)
         setSnackbarMessage(
-          "minimum caching is enabled. please sign in to save your progress"
+          'minimum caching is enabled. please sign in to save your progress'
         )
         setSnackbarAction(
           <Button variant="outlined" onClick={() => routeToSignin()}>
@@ -39,10 +39,10 @@ const Demo: React.FC<{ cache: LandingCache }> = ({ cache }) => {
   }, [session.status]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Landing
+    <SpenpoLanding
       cms={landingCms}
       editable={editable}
-      topComponents={<TopComponents />}
+      topComponents={<TopComponents editable={editable[0]} />}
       cache={cache}
     />
   )

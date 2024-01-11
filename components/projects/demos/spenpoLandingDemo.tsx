@@ -1,11 +1,11 @@
-import Landing from "@/components/landingPage"
-import { useState, ReactNode, useEffect } from "react"
+import { SpenpoLanding } from 'spenpo-landing'
+import React, { useState, ReactNode, useEffect } from 'react'
 
 export default function SpenpoLandingDemo() {
   const [spenpoLanding, setSpenpoLanding] = useState<ReactNode>()
 
   useEffect(() => {
-    setSpenpoLanding(<Landing />)
+    setSpenpoLanding(<SpenpoLanding />)
   }, [])
 
   return <>{spenpoLanding}</>
