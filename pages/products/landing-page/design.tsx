@@ -14,8 +14,6 @@ import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
 import { UnAuthContext } from '@/context/unAuth'
 
 const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
-  console.log(cache)
-
   const { landingCms } = useContext(ShoppingCartContext)
   const { setSnackbarOpen, setSnackbarMessage, setSnackbarAction } =
     useContext(SnackbarContext)
