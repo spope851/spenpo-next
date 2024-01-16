@@ -42,7 +42,6 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         headshotSrc="/images/headshot.jpeg"
         actionDestination="products/landing-page"
         actionStatement="let's build your website"
-        linkNewTab={true}
         topComponents={
           <Button
             endIcon={<ChevronRightIcon />}

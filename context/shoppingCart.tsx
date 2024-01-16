@@ -79,20 +79,10 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const backgroundImage = useState<string>()
   const accentColor = useState<string>()
   const secondaryAccentColor = useState<string>()
-  const [linkNewTab, setLinkNewTab] = useState<string>()
   const [password, setPassword] = useState<string>()
   const secret = useState(randBase64(32))
 
   const file = useState<File>()
-
-  const linkNewTabGetSet: SpenpoLandingCms['linkNewTab'] = {
-    getter: () => {
-      if (!!linkNewTab) return JSON.parse(linkNewTab)
-    },
-    setter: (newTab: boolean) => {
-      setLinkNewTab(JSON.stringify(newTab))
-    },
-  }
 
   const socialsGetSet: SpenpoLandingCms['socialUrls'] = {
     getter: () => {
@@ -126,7 +116,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXT_PUBLIC_ACCENT_COLOR: accentColor[0],
     NEXT_PUBLIC_SECONDARY_ACCENT_COLOR: secondaryAccentColor[0],
     NEXT_PUBLIC_HIDE_ADMIN: 'false',
-    NEXT_PUBLIC_LINK_NEW_TAB: linkNewTab,
     NEXT_AUTH_USERNAME: session.data?.user?.email ?? '',
     NEXT_AUTH_PASSWORD: password,
     NEXTAUTH_SECRET: secret[0],
@@ -156,7 +145,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         backgroundImage: getSet(backgroundImage),
         accentColor: getSet(accentColor),
         secondaryAccentColor: getSet(secondaryAccentColor),
-        linkNewTab: linkNewTabGetSet,
       },
     }
   }, [
@@ -171,7 +159,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     secondaryAccentColor,
     backgroundColor,
     backgroundImage,
-    linkNewTab,
     headshotSrc,
     environmentVariables,
     password,
