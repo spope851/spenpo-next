@@ -108,8 +108,8 @@ dependencies:
     specifier: ^3.0.7
     version: 3.0.7(react@18.2.0)
   spenpo-landing:
-    specifier: ^2.0.3
-    version: 2.0.3(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^2.0.4
+    version: 2.0.4(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0)
   spenpo-svelte:
     specifier: link:svelte-apps
     version: link:svelte-apps
@@ -6128,8 +6128,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /spenpo-landing@2.0.3(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Sk5aL/1kJqg29n0XH9tTQSe7nudFzoInokPlpAAjOMB09M3q661IQ2pacPSYWNPLEBBLF5ehIZ1NFYvbxAk+bA==}
+  /spenpo-landing@2.0.4(@types/react@18.2.47)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-KxRNEiAh0tY8HeTI1ifPw/FtYJX/8X/wfGN8QZC64yxRFgb91+CTA0+CreHPbAEdax+WYX4xw6DxmJvwvY8mVQ==}
     peerDependencies:
       react: ^18.2.0
     dependencies:

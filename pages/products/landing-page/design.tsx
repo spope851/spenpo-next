@@ -11,6 +11,7 @@ import { SnackbarContext } from '../../../context/snackbar'
 import { Button } from '@mui/material'
 import { useCachedSignin } from '../../../hooks/useCachedSignin'
 import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
+import { UnAuthContext } from '@/context/unAuth'
 
 const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
   const { landingCms } = useContext(ShoppingCartContext)
@@ -18,6 +19,7 @@ const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
     useContext(SnackbarContext)
   const editable = useState(true)
   const router = useRouter()
+  const { redisId } = useContext(UnAuthContext)
   const session = useSession()
   const { routeToSignin } = useCachedSignin()
 
@@ -41,6 +43,19 @@ const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
   return (
     <SpenpoLanding
       cms={landingCms}
+      cacheCallback={async () => {
+        if (session.status === 'unauthenticated') {
+          fetch('/api/cache/unAuthLanding', {
+            body: JSON.stringify({ cache, id: redisId }),
+            method: 'post',
+          })
+        } else if (session.status === 'authenticated') {
+          fetch('/api/cache/authLanding', {
+            body: JSON.stringify(cache),
+            method: 'post',
+          })
+        }
+      }}
       editable={editable}
       topComponents={<TopComponents editable={editable[0]} />}
       cache={cache}

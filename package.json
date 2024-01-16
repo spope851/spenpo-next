@@ -53,7 +53,7 @@
     "react-timeago": "^7.2.0",
     "react-timeclock": "^0.2.0",
     "react-timer-hook": "^3.0.7",
-    "spenpo-landing": "^2.0.3",
+    "spenpo-landing": "^2.0.4",
     "spenpo-svelte": "link:svelte-apps",
     "stripe": "^13.11.0",
     "validator": "^13.11.0"
