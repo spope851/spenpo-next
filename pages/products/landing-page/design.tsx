@@ -14,6 +14,8 @@ import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
 import { UnAuthContext } from '@/context/unAuth'
 
 const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
+  console.log(cache)
+
   const { landingCms } = useContext(ShoppingCartContext)
   const { setSnackbarOpen, setSnackbarMessage, setSnackbarAction } =
     useContext(SnackbarContext)
@@ -43,15 +45,15 @@ const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
   return (
     <SpenpoLanding
       cms={landingCms}
-      cacheCallback={async () => {
+      cacheCallback={async (callbackCache) => {
         if (session.status === 'unauthenticated') {
           fetch('/api/cache/unAuthLanding', {
-            body: JSON.stringify({ cache, id: redisId }),
+            body: JSON.stringify({ cache: callbackCache, id: redisId }),
             method: 'post',
           })
         } else if (session.status === 'authenticated') {
           fetch('/api/cache/authLanding', {
-            body: JSON.stringify(cache),
+            body: JSON.stringify(callbackCache),
             method: 'post',
           })
         }

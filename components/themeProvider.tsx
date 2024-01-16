@@ -41,6 +41,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         },
         components: {
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: {
+                overflowX: 'hidden',
+              },
+            },
+          },
           MuiAppBar: {
             styleOverrides: {
               root: {
