@@ -42,9 +42,7 @@ export default function SpenpoLandingDemo() {
   const [backgroundImage, setBackgroundImage] = useState<string>()
   const [headshotSrc, setHeadshotSrc] = useState<string>()
   const [socialUrls, setSocialUrls] = useState<string[]>()
-  const [topComponents, setTopComponents] = useState<ReactNode>()
   const [editable, setEditable] = useState(false)
-  const [editableState, setEditableState] = useState(false)
   const [headshotFile, setHeadshotFile] = useState<File>()
 
   const cms: SpenpoLandingCms = {
@@ -97,6 +95,9 @@ export default function SpenpoLandingDemo() {
       setter: (prop) => setHeadshotFile(prop),
     },
   }
+
+  const [topComponents, setTopComponents] = useState<ReactNode>()
+  const [editableState, setEditableState] = useState(false)
 
   const { setMuiDrawerStyleOverrides } = useContext(CustomizeThemeContext)
 
