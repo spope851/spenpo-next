@@ -1,21 +1,34 @@
-import React, { useState, useMemo } from 'react'
-import { createTheme, ThemeProvider as MuiProvider } from '@mui/material'
-import { ColorModeContext } from './toggleTheme'
-
+import React, {
+  useState,
+  useMemo,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from 'react'
+import {
+  createTheme,
+  CSSInterpolation,
+  ThemeProvider as MuiProvider,
+} from '@mui/material'
 const DARK_GREY = '#999'
+
+type CustomizeThemeContextProps = {
+  setMuiDrawerStyleOverrides: Dispatch<SetStateAction<CSSInterpolation>>
+}
+
+export const CustomizeThemeContext = createContext({} as CustomizeThemeContextProps)
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [mode, setMode] = useState<'light' | 'dark'>('light')
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'))
-      },
-    }),
-    []
-  )
+  const [muiDrawerStyleOverrides, setMuiDrawerStyleOverrides] =
+    useState<CSSInterpolation>({})
+  const colorMode = useMemo(() => {
+    const ctxVal: CustomizeThemeContextProps = {
+      setMuiDrawerStyleOverrides,
+    }
+    return ctxVal
+  }, [muiDrawerStyleOverrides])
 
   const PRIMARY = '#4f86f7'
 
@@ -23,7 +36,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     () =>
       createTheme({
         palette: {
-          mode,
           primary: {
             main: PRIMARY,
           },
@@ -41,6 +53,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
           },
         },
         components: {
+          MuiCssBaseline: {
+            styleOverrides: {
+              body: {
+                overflowX: 'hidden',
+              },
+            },
+          },
           MuiAppBar: {
             styleOverrides: {
               root: {
@@ -102,16 +121,21 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
               },
             },
           },
+          MuiDrawer: {
+            styleOverrides: {
+              root: muiDrawerStyleOverrides,
+            },
+          },
         },
       }),
-    [mode]
+    [muiDrawerStyleOverrides]
   )
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
+    <CustomizeThemeContext.Provider value={colorMode}>
       <MuiProvider theme={theme}>
         <>{children}</>
       </MuiProvider>
-    </ColorModeContext.Provider>
+    </CustomizeThemeContext.Provider>
   )
 }

@@ -4,8 +4,14 @@ import { Box } from '@mui/material'
 import Link from 'next/link'
 import { BgImage } from './bgImage'
 
+type NumStr = number | string
+
+type Dimension =
+  | NumStr
+  | Partial<{ xs: NumStr; sm: NumStr; md: NumStr; lg: NumStr; xl: NumStr }>
+
 interface LinkImageProps {
-  sx?: SxProps & { height?: number | string; width?: number | string }
+  sx?: SxProps & Partial<{ height: Dimension; width: Dimension }>
   href: string
   src: string
 }

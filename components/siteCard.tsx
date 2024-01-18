@@ -1,5 +1,5 @@
 import { Stack, Typography, Button, SxProps } from '@mui/material'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { VercelReadyState } from './deployment/useDeployment'
 import { ReadyState } from './readyState'
 import { NewTabLink } from './newTabLink'
@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import CachedIcon from '@mui/icons-material/Cached'
 import { HoverAwareness } from './hoverAwareness'
 import { BgImage } from './bgImage'
-import { LINK_PREVIEW_FALLBACK } from '@/constants/image'
+import { LINK_PREVIEW_FALLBACK } from '../constants/image'
 
 const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 40): SxProps => {
   const maxWidth = Object.entries({ lg, md, xs }).reduce(
@@ -129,7 +129,6 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
           <Typography fontWeight="bold" sx={MIN_WIDTH()}>
             {project.name}
           </Typography>
-          {/* @ts-expect-error Server Component */}
           <TimeAgo date={project.updatedAt} style={MIN_WIDTH()} />
         </Stack>
       </Stack>

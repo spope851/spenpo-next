@@ -1,19 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  compress: false,
-  reactStrictMode: true,
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'pbs.twimg.com',
-        port: '',
-        pathname: '**/**',
-      },
-    ],
-    domains: ['lh3.googleusercontent.com'],
-  },
-}
+const nextConfig = {}
 
 module.exports = {
   ...nextConfig,

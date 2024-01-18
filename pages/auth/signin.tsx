@@ -1,10 +1,11 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { getProviders, signIn, LiteralUnion } from 'next-auth/react'
-import { BuiltInProviderType } from 'next-auth/providers'
+import { BuiltInProviderType } from 'next-auth/providers/index'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '../api/auth/[...nextauth]'
 import { Stack, Button, Typography, Divider } from '@mui/material'
 import Image from 'next/image'
+import React from 'react'
 
 const PROVIDER_COLORS: Partial<
   Record<LiteralUnion<BuiltInProviderType, string>, string>

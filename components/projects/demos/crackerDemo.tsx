@@ -7,7 +7,10 @@ const CrackerDemo: React.FC = () => (
     <LinkImage
       href="https://reflective-hour.vercel.app"
       src="/images/cracker.png"
-      sx={{ width: 710 }}
+      sx={{
+        width: { xs: 'calc(100vw - 64px)', md: 'calc(75vw - 64px)' },
+        maxWidth: 710,
+      }}
     />
   </Stack>
 )

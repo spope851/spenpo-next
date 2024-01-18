@@ -1,6 +1,6 @@
-import { CmsGetSet, LandingCms } from '@/components/landingPage'
-import { useLandEnvVars } from '@/hooks/useLandEnvVars'
-import { randBase64 } from '@/utils/randStr'
+import { SpenpoLandingCmsGetSet, SpenpoLandingCms } from 'spenpo-landing'
+import { useLandEnvVars } from '../hooks/useLandEnvVars'
+import { randBase64 } from '../utils/randStr'
 import { useSession } from 'next-auth/react'
 import React, {
   Dispatch,
@@ -54,12 +54,11 @@ interface PaymentIntentMetadata {
 }
 
 type ShoppingCartContextProps = {
-  file: [File | undefined, Dispatch<SetStateAction<File | undefined>>]
   setPassword: Dispatch<SetStateAction<string | undefined>>
   projectName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
   passwordSet: boolean
   paymentIntentMetadata: PaymentIntentMetadata
-  landingCms: LandingCms
+  landingCms: SpenpoLandingCms
 }
 
 export const ShoppingCartContext = createContext({} as ShoppingCartContextProps)
@@ -74,28 +73,18 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const subtitle = useState<string>()
   const [socialUrls, setSocialUrls] = useState<string>()
   const actionDestination = useState<string>()
-  const actionStatement = useState<string>()
+  const actionStatement = useState<string | undefined>('your action statement')
   const headshotSrc = useState<string>()
   const backgroundColor = useState<string>()
   const backgroundImage = useState<string>()
   const accentColor = useState<string>()
   const secondaryAccentColor = useState<string>()
-  const [linkNewTab, setLinkNewTab] = useState<string>()
   const [password, setPassword] = useState<string>()
   const secret = useState(randBase64(32))
 
   const file = useState<File>()
 
-  const linkNewTabGetSet: LandingCms['linkNewTab'] = {
-    getter: () => {
-      if (!!linkNewTab) return JSON.parse(linkNewTab)
-    },
-    setter: (newTab: boolean) => {
-      setLinkNewTab(JSON.stringify(newTab))
-    },
-  }
-
-  const socialsGetSet: LandingCms['socialUrls'] = {
+  const socialsGetSet: SpenpoLandingCms['socialUrls'] = {
     getter: () => {
       if (socialUrls) return JSON.parse(socialUrls)
     },
@@ -107,7 +96,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   function getSet<T>([state, setState]: [
     T,
     Dispatch<SetStateAction<T>>
-  ]): CmsGetSet<T> {
+  ]): SpenpoLandingCmsGetSet<T> {
     return {
       getter: () => state,
       setter: setState,
@@ -127,15 +116,13 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXT_PUBLIC_ACCENT_COLOR: accentColor[0],
     NEXT_PUBLIC_SECONDARY_ACCENT_COLOR: secondaryAccentColor[0],
     NEXT_PUBLIC_HIDE_ADMIN: 'false',
-    NEXT_PUBLIC_LINK_NEW_TAB: linkNewTab,
-    NEXT_AUTH_USERNAME: session.data?.user.email,
+    NEXT_AUTH_USERNAME: session.data?.user?.email ?? '',
     NEXT_AUTH_PASSWORD: password,
     NEXTAUTH_SECRET: secret[0],
   })
 
   const contextValue: ShoppingCartContextProps = useMemo(() => {
     return {
-      file,
       setPassword,
       passwordSet: !!password,
       projectName: [projectName, setProjectName],
@@ -153,11 +140,11 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         actionDestination: getSet(actionDestination),
         actionStatement: getSet(actionStatement),
         headshotSrc: getSet(headshotSrc),
+        headshotFile: getSet(file),
         backgroundColor: getSet(backgroundColor),
         backgroundImage: getSet(backgroundImage),
         accentColor: getSet(accentColor),
         secondaryAccentColor: getSet(secondaryAccentColor),
-        linkNewTab: linkNewTabGetSet,
       },
     }
   }, [
@@ -172,7 +159,6 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     secondaryAccentColor,
     backgroundColor,
     backgroundImage,
-    linkNewTab,
     headshotSrc,
     environmentVariables,
     password,

@@ -16,22 +16,26 @@ const PROJECTS: ProjectsType[] = [
 ]
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
-  <Typography variant="h5" textAlign="center" border="solid .5px">
+  <Typography variant="h5" textAlign="center" border="solid .5px" height={34}>
     {children}
   </Typography>
 )
 
 const Body: React.FC<{
   children: ReactNode
-  justifyContent?: 'center' | 'flex-start'
-}> = ({ children, justifyContent = 'flex-start' }) => (
+  maxWidth: string
+}> = ({ children, maxWidth }) => (
   <Stack
     flex={1}
     border="solid .5px"
-    maxWidth={{ xs: 'unset', md: '75vw' }}
-    overflow="auto"
-    sx={{ boxSizing: 'unset', lineHeight: 1 }}
-    justifyContent={justifyContent}
+    maxWidth={{ xs: 'unset', md: maxWidth }}
+    maxHeight={{ xs: 'unset', md: 'calc(100vh - 267px)' }}
+    overflow="scroll"
+    sx={{
+      boxSizing: 'unset',
+      lineHeight: 1,
+    }}
+    justifyContent="flex-start"
   >
     {children}
   </Stack>
@@ -62,13 +66,13 @@ export default function Projects() {
         flex={1}
         border="solid .5px"
       >
-        <Stack width={{ xs: '100%', md: '25%' }}>
+        <Stack maxWidth={{ xs: '100%', md: '25%' }}>
           <Header>description</Header>
-          <Body>{projects[project]?.description}</Body>
+          <Body maxWidth="calc(25vw - 11px)">{projects[project]?.description}</Body>
         </Stack>
-        <Stack flex={1}>
+        <Stack flex={1} maxWidth={{ xs: '100%', md: '75%' }}>
           <Header>demo</Header>
-          <Body justifyContent="center">
+          <Body maxWidth="calc(75vw - 11px)">
             {projects[project]?.demo || (
               <RobotError>this project doesn&apos;t exist yet</RobotError>
             )}

@@ -1,10 +1,10 @@
 import React from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { Button } from '@mui/material'
-import Landing from '@/components/landingPage'
 import { InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { SpenpoLanding } from 'spenpo-landing'
 
 const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = ({
   s3,
@@ -28,7 +28,7 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         <meta property="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@s_pop3" />
       </Head>
-      <Landing
+      <SpenpoLanding
         title={title}
         name={name}
         subtitle="Striving to be useful"
@@ -42,7 +42,6 @@ const Home: React.FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         headshotSrc="/images/headshot.jpeg"
         actionDestination="products/landing-page"
         actionStatement="let's build your website"
-        linkNewTab={true}
         topComponents={
           <Button
             endIcon={<ChevronRightIcon />}
