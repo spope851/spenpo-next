@@ -191,6 +191,7 @@ export default function SpenpoLandingDemo() {
             },
           },
           '#spenpo-landing-editControlPanel': {
+            position: 'relative',
             width: SPENPO_LANDING_WIDTH_DESKTOP,
             mt: 7,
             mx: `${(LAPTOP_WIDTH - SPENPO_LANDING_WIDTH_DESKTOP) / 2}px`,
@@ -310,8 +311,8 @@ export default function SpenpoLandingDemo() {
                         setTopComponents(undefined)
                       }}
                       sx={{
-                        position: 'absolute',
-                        mb: { xs: 72, md: 56 },
+                        position: { xs: 'absolute', md: 'relative' },
+                        mb: { xs: 72, md: 0 },
                         ml: { xs: 0, md: 84 },
                       }}
                     >
