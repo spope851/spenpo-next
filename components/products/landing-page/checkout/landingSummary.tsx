@@ -29,7 +29,11 @@ const ColorExample: React.FC<{ color: string; opacity?: number }> = ({
 
 const SummaryRow: React.FC<{ children: ReactNode }> = ({ children }) => (
   <>
-    <Stack columnGap={15} direction="row" justifyContent="space-between">
+    <Stack
+      columnGap={{ xs: 5, sm: 10, md: 15 }}
+      direction="row"
+      justifyContent="space-between"
+    >
       {children}
     </Stack>
     <Divider flexItem />

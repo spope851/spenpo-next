@@ -45,7 +45,7 @@ const ContactForm: React.FC = () => {
   }
 
   const sendSuccessOrFailure = (): string => {
-    if (success) return 'seccess'
+    if (success) return 'success'
     if (failure) return 'failure'
     return 'send'
   }

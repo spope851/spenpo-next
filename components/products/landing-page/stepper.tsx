@@ -22,7 +22,11 @@ export const LandingStepper: React.FC<{
   }, [activeStep]) //eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Stepper nonLinear activeStep={activeStep} sx={{ flex: 1, ...STEP_SX }}>
+    <Stepper
+      nonLinear
+      activeStep={activeStep}
+      sx={{ flex: 1, ...STEP_SX, overflow: 'hidden' }}
+    >
       <Step completed={true}>
         <StepButton onClick={() => router.replace('design')}>Design it</StepButton>
       </Step>

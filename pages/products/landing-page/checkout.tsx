@@ -75,7 +75,7 @@ const Checkout: React.FC = () => {
   }
 
   return (
-    <Stack rowGap={1} m={5}>
+    <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
       <LandingStepper activeStep={3} />
       <Stack
         direction={{ xl: 'row', lg: 'row', md: 'row' }}

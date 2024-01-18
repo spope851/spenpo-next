@@ -10,11 +10,15 @@ const Password: React.FC = () => {
   const { setPassword, passwordSet } = useContext(ShoppingCartContext)
 
   return (
-    <Stack gap={5} flex={1} justifyContent="flex-start" m={5}>
+    <Stack gap={5} flex={1} justifyContent="flex-start" m={{ xs: 2, sm: 5 }}>
       <Stack mb="auto">
         <LandingStepper activeStep={2} />
       </Stack>
-      <Stack justifyContent="space-between" direction="row">
+      <Stack
+        justifyContent="space-between"
+        direction={{ xs: 'column', sm: 'row' }}
+        gap={1}
+      >
         <Typography variant="h5">
           Choose a secure password for accessing admin features on your site
         </Typography>
@@ -23,6 +27,7 @@ const Password: React.FC = () => {
           variant="contained"
           onClick={() => router.push('checkout')}
           disabled={!passwordSet}
+          sx={{ ml: 'auto', mb: 'auto' }}
         >
           checkout
         </Button>

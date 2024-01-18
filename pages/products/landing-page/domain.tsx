@@ -18,11 +18,15 @@ const Domain: React.FC = () => {
   }, [domainName, projectName])
 
   return (
-    <Stack m={5} gap={5} flex={1} justifyContent="flex-start">
+    <Stack m={{ xs: 2, sm: 5 }} gap={5} flex={1} justifyContent="flex-start">
       <Stack mb="auto">
         <LandingStepper activeStep={1} />
       </Stack>
-      <Stack justifyContent="space-between" direction="row">
+      <Stack
+        justifyContent="space-between"
+        direction={{ xs: 'column', sm: 'row' }}
+        gap={1}
+      >
         <Typography variant="h5">
           Choose the URL you want your site published to
         </Typography>
@@ -31,6 +35,7 @@ const Domain: React.FC = () => {
           variant="contained"
           onClick={() => router.push('password')}
           disabled={!projectName[0]}
+          sx={{ ml: 'auto', mb: 'auto' }}
         >
           continue
         </Button>
