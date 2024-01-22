@@ -27,6 +27,8 @@ const Checkout: React.FC = () => {
 
   const file = landingCms?.headshotFile.getter()
 
+  const price = (paymentIntentMetadata.price || 0) + 99
+
   useEffect(() => {
     if (!clientSecret) {
       // Create PaymentIntent as soon as the page loads
@@ -83,7 +85,7 @@ const Checkout: React.FC = () => {
         mt={5}
       >
         <Stack gap={3}>
-          <Typography variant="h2">Checkout</Typography>
+          <Typography variant="h4">Checkout</Typography>
           <Stack gap={1}>
             <Typography variant="h5">Order summary</Typography>
             <LandingSummary />
@@ -119,7 +121,12 @@ const Checkout: React.FC = () => {
             <Divider flexItem />
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="subtitle2">Domain</Typography>
-              <Typography variant="subtitle2">Free</Typography>
+              <Typography variant="subtitle2">
+                $
+                {paymentIntentMetadata.price
+                  ? (paymentIntentMetadata.price / 100).toFixed(2)
+                  : '0.00'}
+              </Typography>
             </Stack>
             <Divider flexItem />
             <Stack direction="row" justifyContent="space-between">
@@ -129,16 +136,18 @@ const Checkout: React.FC = () => {
             <Divider flexItem />
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="subtitle2">Subtotal</Typography>
-              <Typography variant="subtitle2">$0.99</Typography>
+              <Typography variant="subtitle2">
+                ${(price / 100).toFixed(2)}
+              </Typography>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="subtitle2">Tax</Typography>
-              <Typography variant="subtitle2">$0</Typography>
+              <Typography variant="subtitle2">$0.00</Typography>
             </Stack>
             <Divider flexItem />
             <Stack direction="row" justifyContent="space-between">
               <Typography>Total</Typography>
-              <Typography>$0.99</Typography>
+              <Typography>${(price / 100).toFixed(2)}</Typography>
             </Stack>
           </Stack>
           <Typography variant="h5">Payment method</Typography>

@@ -1,3 +1,4 @@
+'use client'
 import React, {
   useState,
   useMemo,
@@ -28,7 +29,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
       setMuiDrawerStyleOverrides,
     }
     return ctxVal
-  }, [muiDrawerStyleOverrides])
+  }, [])
 
   const PRIMARY = '#4f86f7'
 

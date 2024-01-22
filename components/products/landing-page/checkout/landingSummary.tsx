@@ -55,7 +55,7 @@ export const LandingSummary: React.FC = () => {
     <Stack rowGap={1}>
       <SummaryRow>
         <Typography>Domain:</Typography>
-        <Typography>{projectName[0]}.vercel.app</Typography>
+        <Typography>{projectName[0]}</Typography>
       </SummaryRow>
       <SummaryRow>
         <Typography>Headshot:</Typography>

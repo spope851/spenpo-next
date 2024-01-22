@@ -1,18 +1,13 @@
-import { UnAuthContext } from "@/context/unAuth"
-import { useRouter } from "next/router"
-import { useContext } from "react"
+import { UnAuthContext } from '@/context/unAuth'
+import { usePathname, useRouter } from 'next/navigation'
+import { useContext } from 'react'
 
 export const useCachedSignin = () => {
   const { redisId } = useContext(UnAuthContext)
   const router = useRouter()
+  const pathname = usePathname()
   return {
     routeToSignin: () =>
-      router.push(
-        {
-          pathname: "/auth/signin",
-          query: { redirect: router.asPath, redisId },
-        },
-        "/auth/signin"
-      ),
+      router.push(`/auth/signin?redirect=${pathname}&redisId=${redisId}`),
   }
 }

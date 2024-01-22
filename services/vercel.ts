@@ -89,6 +89,24 @@ const getDeploymentEvents = async (deploymentId: string) =>
     }
   )
 
+const getDomainStatus = async (name: string) =>
+  fetch(
+    `https://api.vercel.com/v4/domains/status?name=${name}&teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+    }
+  )
+
+const getDomainPrice = async (name: string) =>
+  fetch(
+    `https://api.vercel.com/v4/domains/price?name=${name}&teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+    }
+  )
+
 export {
   createProject,
   getProject,
@@ -99,4 +117,6 @@ export {
   addEnvironmentVariables,
   getDeployment,
   getDeploymentEvents,
+  getDomainStatus,
+  getDomainPrice,
 }

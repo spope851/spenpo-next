@@ -1,7 +1,8 @@
+'use client'
 import { ShoppingCartContext } from '@/context/shoppingCart'
 import { Stepper, Step, StepButton } from '@mui/material'
-import { useRouter } from 'next/router'
-import React, { useContext, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useContext } from 'react'
 
 export const STEP_SX = {
   '& .MuiStepLabel-label': {
@@ -16,11 +17,6 @@ export const LandingStepper: React.FC<{
   const router = useRouter()
   const { projectName, passwordSet } = useContext(ShoppingCartContext)
 
-  useEffect(() => {
-    if (activeStep > 1 && !projectName[0]) router.replace('design')
-    else if (activeStep > 2 && !passwordSet) router.replace('password')
-  }, [activeStep]) //eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <Stepper
       nonLinear
@@ -30,7 +26,7 @@ export const LandingStepper: React.FC<{
       <Step completed={true}>
         <StepButton onClick={() => router.replace('design')}>Design it</StepButton>
       </Step>
-      <Step completed={!!projectName[0]}>
+      <Step completed={!!projectName?.[0]}>
         <StepButton onClick={() => router.replace('domain')}>Name it</StepButton>
       </Step>
       <Step completed={passwordSet}>

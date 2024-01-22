@@ -1,23 +1,24 @@
-import Navbar from "./navbar"
-import Footer from "./footer"
-import { useRouter } from "next/router"
-import { Tabs } from "../types"
-import { Box } from "@mui/material"
-import React from "react"
+'use client'
+import Navbar from './navbar'
+import Footer from './footer'
+import { usePathname } from 'next/navigation'
+import { Tabs } from '../types'
+import { Box } from '@mui/material'
+import React from 'react'
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { pathname } = useRouter()
+  const pathname = usePathname() || ''
 
-  const active = (pathname.split("/")[1] as Tabs) || "root"
+  const active = (pathname.split('/')[1] as Tabs) || 'root'
 
-  const hideLayoutPaths = ["/products/landing-page/design", "/"]
+  const hideLayoutPaths = ['/products/landing-page/design', '/']
 
   return (
     <Box
       sx={{
-        bgcolor: "background.default",
-        color: "text.primary",
-        minHeight: "100vh",
+        bgcolor: 'background.default',
+        color: 'text.primary',
+        minHeight: '100vh',
       }}
       display="flex"
       flexDirection="column"

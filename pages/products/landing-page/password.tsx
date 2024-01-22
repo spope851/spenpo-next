@@ -1,17 +1,33 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Stack, TextField, Typography } from '@mui/material'
 import { ShoppingCartContext } from '@/context/shoppingCart'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useRouter } from 'next/router'
 import { LandingStepper } from '@/components/products/landing-page/stepper'
+import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import redis from '@/utils/redis'
+import { GetServerSidePropsContext } from 'next'
+import { getServerSession } from 'next-auth'
 
-const Password: React.FC = () => {
+const Password: React.FC<{ cache: Record<string, string> }> = ({ cache }) => {
   const router = useRouter()
-  const { setPassword, passwordSet } = useContext(ShoppingCartContext)
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const {
+    setPassword: setCtxPassword,
+    passwordSet,
+    projectName,
+    price,
+  } = useContext(ShoppingCartContext)
+
+  useEffect(() => {
+    projectName[1](cache?.domain)
+    price[1](Number(cache?.price))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Stack gap={5} flex={1} justifyContent="flex-start" m={{ xs: 2, sm: 5 }}>
-      <Stack mb="auto">
+      <Stack>
         <LandingStepper activeStep={2} />
       </Stack>
       <Stack
@@ -32,18 +48,32 @@ const Password: React.FC = () => {
           checkout
         </Button>
       </Stack>
-      <Stack m="auto" flex={1} justifyContent="center" gap={3} alignItems="center">
+      <Stack flex={1} justifyContent="flex-start" gap={1} alignItems="center">
         <TextField
-          label="password"
+          onChange={(e) => setPassword(e.target.value)}
+          error={password !== confirmPassword}
+          size="small"
+          label="Password"
           type="password"
+        />
+        <TextField
           onChange={async (e) => {
-            const req = await fetch('/api/hashString', {
-              method: 'post',
-              body: JSON.stringify({ string: e.target.value }),
-            })
-            const password = await req.json()
-            setPassword(password.hash)
+            setConfirmPassword(e.target.value)
+            if (password === e.target.value) {
+              const change = await fetch('/api/hashString', {
+                method: 'post',
+                body: JSON.stringify({
+                  string: password,
+                }),
+              })
+              const changeRes = await change.json()
+              setCtxPassword(changeRes.hash)
+            }
           }}
+          error={password !== confirmPassword}
+          size="small"
+          label="Confirm Password"
+          type="password"
         />
       </Stack>
     </Stack>
@@ -51,3 +81,19 @@ const Password: React.FC = () => {
 }
 
 export default Password
+
+export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+  const session = await getServerSession(req, res, authOptions)
+
+  if (session) {
+    const cache = await redis.hgetall(String(session.user.email))
+    return { props: { cache } }
+  }
+
+  return {
+    redirect: {
+      permanent: false,
+      destination: `/products/landing-page/design`,
+    },
+  }
+}

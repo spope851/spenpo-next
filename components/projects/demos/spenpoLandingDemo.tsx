@@ -120,7 +120,7 @@ export default function SpenpoLandingDemo() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const Demo = (
     <SpenpoLanding

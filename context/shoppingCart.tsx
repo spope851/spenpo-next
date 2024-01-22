@@ -51,11 +51,13 @@ interface PaymentIntentMetadata {
   projectName?: string
   headshotExtension?: string
   environmentVariables: ProjectEnvVariableInput[]
+  price?: number
 }
 
 type ShoppingCartContextProps = {
   setPassword: Dispatch<SetStateAction<string | undefined>>
   projectName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+  price: [number | undefined, Dispatch<SetStateAction<number | undefined>>]
   passwordSet: boolean
   paymentIntentMetadata: PaymentIntentMetadata
   landingCms: SpenpoLandingCms
@@ -68,6 +70,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const session = useSession()
   const [projectName, setProjectName] = useState<string>()
+  const [price, setPrice] = useState<number>()
   const [clientName, setClientName] = useState<string>()
   const title = useState<string>()
   const subtitle = useState<string>()
@@ -122,15 +125,17 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   })
 
   const contextValue: ShoppingCartContextProps = useMemo(() => {
-    return {
+    const value: ShoppingCartContextProps = {
       setPassword,
       passwordSet: !!password,
       projectName: [projectName, setProjectName],
+      price: [price, setPrice],
       paymentIntentMetadata: {
         clientName,
-        projectName,
+        projectName: projectName?.split('.')[0],
         headshotExtension: file[0]?.name.split('.').at(-1),
         environmentVariables,
+        price,
       },
       landingCms: {
         name: getSet([clientName, setClientName]),
@@ -147,6 +152,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
         secondaryAccentColor: getSet(secondaryAccentColor),
       },
     }
+    return value
   }, [
     projectName,
     clientName,
@@ -163,6 +169,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     environmentVariables,
     password,
     file,
+    price,
   ])
 
   return (

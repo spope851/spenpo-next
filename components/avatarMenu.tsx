@@ -14,7 +14,7 @@ import React, { useState } from 'react'
 import { signOut, useSession } from 'next-auth/react'
 import { useCachedSignin } from '@/hooks/useCachedSignin'
 import LanguageIcon from '@mui/icons-material/Language'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 const AvatarMenu: React.FC = () => {
   const { routeToSignin } = useCachedSignin()

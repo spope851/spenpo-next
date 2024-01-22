@@ -12,6 +12,7 @@ import { Button } from '@mui/material'
 import { useCachedSignin } from '../../../hooks/useCachedSignin'
 import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
 import { UnAuthContext } from '@/context/unAuth'
+import { formatDomain } from '@/utils/string'
 
 const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
   const { landingCms } = useContext(ShoppingCartContext)
@@ -51,7 +52,10 @@ const Demo: React.FC<{ cache: SpenpoLandingCache }> = ({ cache }) => {
           })
         } else if (session.status === 'authenticated') {
           fetch('/api/cache/authLanding', {
-            body: JSON.stringify(callbackCache),
+            body: JSON.stringify({
+              ...callbackCache,
+              domain: formatDomain(landingCms.name.getter() || ''),
+            }),
             method: 'post',
           })
         }

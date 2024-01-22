@@ -14,7 +14,7 @@ import {
 import { styled } from '@mui/material/styles'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import AvatarMenu from './avatarMenu'
 import { DEFAULT_PROJECT } from '@/constants/projects'
 
