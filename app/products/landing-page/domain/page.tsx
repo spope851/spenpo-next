@@ -10,13 +10,9 @@ import redis from '@/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
+import { PageProps } from '@/types/app'
 
-export interface PageProps {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
-export default async function Home({ searchParams }: PageProps) {
+export default async function DomainStep({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
   const q = searchParams.q ? String(searchParams.q) : ''
   const d = searchParams.d ? String(searchParams.d) : ''

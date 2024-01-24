@@ -3,11 +3,7 @@ import redis from '@/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { CMS } from './components/CMS'
-
-export interface PageProps {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+import { PageProps } from '@/types/app'
 
 export default async function Home({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)

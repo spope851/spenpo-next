@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Tabs } from '../types'
+import { Tabs } from '../types/routing'
 import {
   AppBar,
   Box,

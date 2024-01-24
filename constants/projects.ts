@@ -1,4 +1,4 @@
-import { Projects } from '@/types'
+import { Projects } from '@/types/routing'
 
-const DEFAULT_PROJECT: Projects = 'starter-kit-next'
+const DEFAULT_PROJECT: Projects = 'spenpo-landing'
 export { DEFAULT_PROJECT }

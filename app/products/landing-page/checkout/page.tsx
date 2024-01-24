@@ -9,11 +9,6 @@ import { LandingSummary } from './components/LandingSummary'
 import { IncludedWithYourPurchase } from './components/IncludedWithYourPurchase'
 import { StripeCheckout } from './components/StripeCheckout'
 
-export interface PageProps {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
 export default async function Checkout() {
   const session = await getServerSession(authOptions)
 

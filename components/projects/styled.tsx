@@ -1,14 +1,14 @@
-import { styled } from "@mui/material/styles"
-import { Typography } from "@mui/material"
-import { ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from "react"
-import { Projects } from "@/types"
+import { styled } from '@mui/material/styles'
+import { Typography } from '@mui/material'
+import { ReactNode, DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
+import { Projects } from '@/types/routing'
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const Container = styled("td")(({ theme }) => ({
-    padding: "10px",
-    justifyContent: "center",
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+  const Container = styled('td')(({ theme }) => ({
+    padding: '10px',
+    justifyContent: 'center',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   }))
 
@@ -19,22 +19,22 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => {
   )
 }
 
-const Description = styled("div")(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
+const Description = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
   },
 }))
 
-const MobileDescription = styled("td")(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
-    display: "none",
+const MobileDescription = styled('td')(({ theme }) => ({
+  [theme.breakpoints.up('sm')]: {
+    display: 'none',
   },
 }))
 
-const StyledButton = styled("button")(() => ({
-  ":hover": {
-    cursor: "pointer",
-    backgroundColor: "#ddd",
+const StyledButton = styled('button')(() => ({
+  ':hover': {
+    cursor: 'pointer',
+    backgroundColor: '#ddd',
   },
 }))
 
@@ -47,7 +47,7 @@ const TabBtn: React.FC<
   <StyledButton
     onClick={onClick}
     id={`${id}-btn`}
-    className={`tab ${active === id && "active"}`}
+    className={`tab ${active === id && 'active'}`}
   >
     {id}
   </StyledButton>

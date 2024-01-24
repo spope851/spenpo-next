@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { RobotError } from '@/components/robotError'
 import { Stack, Tabs, Tab, Typography } from '@mui/material'
-import { Projects as ProjectsType } from '@/types'
+import { Projects as ProjectsType } from '@/types/routing'
 import projects from '@/components/projects'
 import { ReactNode } from 'react'
 

@@ -2,7 +2,7 @@
 import Navbar from './navbar'
 import Footer from './footer'
 import { usePathname } from 'next/navigation'
-import { Tabs } from '../types'
+import { Tabs } from '../types/routing'
 import { Box } from '@mui/material'
 import React from 'react'
 

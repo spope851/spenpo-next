@@ -1,4 +1,4 @@
-import { Projects } from '@/types'
+import { Projects } from '@/types/routing'
 import CubeDemo from './demos/cubeSolverDemo'
 import LanguageFlashDemo from './demos/languageFlashDemo'
 import ReactTimeclockDemo from './demos/reactTimeclockDemo'
