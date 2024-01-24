@@ -94,4 +94,22 @@ const pushCommit = async (projectName: string, commitSha: string) =>
     },
   })
 
-export { cloneRepo, createBlob, getMainTree, createTree, createCommit, pushCommit }
+const getProjectVersion = async (projectName: string) =>
+  await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    owner: 'spenpo-landing',
+    repo: projectName,
+    path: 'package.json',
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  })
+
+export {
+  cloneRepo,
+  createBlob,
+  getMainTree,
+  createTree,
+  createCommit,
+  pushCommit,
+  getProjectVersion,
+}

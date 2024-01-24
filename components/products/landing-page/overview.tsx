@@ -15,7 +15,6 @@ import ChevronRight from '@mui/icons-material/ChevronRight'
 import { OverviewStepper } from './overviewStepper'
 import Link from 'next/link'
 import ReactPlayer from 'react-player/lazy'
-import { PRODUCTS } from '../../../constants/products'
 import { LinkPreview } from '../../../components/linkPreview'
 
 const STEP_COPY = [
@@ -173,7 +172,7 @@ const NonVideoStep: React.FC<{ step: number }> = ({ step }) => (
   </>
 )
 
-export const LandingPageOverview: React.FC = () => {
+export const LandingPageOverview: React.FC<{ version: string }> = ({ version }) => {
   const router = useRouter()
   const session = useSession()
   const designRef = useRef<HTMLDivElement>(null)
@@ -319,7 +318,7 @@ export const LandingPageOverview: React.FC = () => {
           </Typography>
         </Stack>
         <Typography variant="subtitle2" textAlign="center">
-          verion: {PRODUCTS.landingPage.version}
+          verion: {version}
         </Typography>
       </Stack>
     </Stack>

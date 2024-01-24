@@ -1,7 +1,8 @@
+'use client'
 import React, { ReactNode, useContext } from 'react'
 import { Box, Chip, Divider, Stack, Typography } from '@mui/material'
-import { ShoppingCartContext } from '../../../../context/shoppingCart'
-import { BgImage } from '../../../bgImage'
+import { ShoppingCartContext } from '../../../../../context/shoppingCart'
+import { BgImage } from '../../../../../components/bgImage'
 
 const BG_SX = {
   height: 200,
@@ -49,13 +50,13 @@ const DEFAULT_PROPS = {
 }
 
 export const LandingSummary: React.FC = () => {
-  const { landingCms, projectName } = useContext(ShoppingCartContext)
+  const { landingCms, domainName } = useContext(ShoppingCartContext)
 
   return (
     <Stack rowGap={1}>
       <SummaryRow>
         <Typography>Domain:</Typography>
-        <Typography>{projectName[0]}</Typography>
+        <Typography>{domainName[0]}</Typography>
       </SummaryRow>
       <SummaryRow>
         <Typography>Headshot:</Typography>

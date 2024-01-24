@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import {
   createTheme,
+  CssBaseline,
   CSSInterpolation,
   ThemeProvider as MuiProvider,
 } from '@mui/material'
@@ -135,7 +136,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   return (
     <CustomizeThemeContext.Provider value={colorMode}>
       <MuiProvider theme={theme}>
-        <>{children}</>
+        <CssBaseline />
+        {children}
       </MuiProvider>
     </CustomizeThemeContext.Provider>
   )

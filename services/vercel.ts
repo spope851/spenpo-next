@@ -107,6 +107,36 @@ const getDomainPrice = async (name: string) =>
     }
   )
 
+const purchaseDomain = async (name: string, expectedPrice: number, renew: boolean) =>
+  fetch(`https://api.vercel.com/v4/domains/buy?teamId=${process.env.VERCEL_TEAM}`, {
+    body: JSON.stringify({
+      name,
+      expectedPrice,
+      renew,
+    }),
+    headers,
+    method: 'post',
+  })
+
+const addDomainToProject = async (
+  project: string,
+  name: string,
+  redirect?: string,
+  redirectStatusCode?: number
+) =>
+  fetch(
+    `https://api.vercel.com/v10/projects/${project}/domains?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      body: JSON.stringify({
+        name,
+        redirect: redirect || null,
+        redirectStatusCode: redirectStatusCode || null,
+      }),
+      headers,
+      method: 'post',
+    }
+  )
+
 export {
   createProject,
   getProject,
@@ -119,4 +149,6 @@ export {
   getDeploymentEvents,
   getDomainStatus,
   getDomainPrice,
+  purchaseDomain,
+  addDomainToProject,
 }

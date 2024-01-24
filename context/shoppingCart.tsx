@@ -1,3 +1,4 @@
+'use client'
 import { SpenpoLandingCmsGetSet, SpenpoLandingCms } from 'spenpo-landing'
 import { useLandEnvVars } from '../hooks/useLandEnvVars'
 import { randBase64 } from '../utils/randStr'
@@ -49,15 +50,18 @@ export type DeployLandingPageBodyInput = {
 interface PaymentIntentMetadata {
   clientName?: string
   projectName?: string
+  domainName?: string
   headshotExtension?: string
   environmentVariables: ProjectEnvVariableInput[]
   price?: number
+  renew: boolean
 }
 
 type ShoppingCartContextProps = {
   setPassword: Dispatch<SetStateAction<string | undefined>>
-  projectName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
+  domainName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
   price: [number | undefined, Dispatch<SetStateAction<number | undefined>>]
+  renew: [boolean, Dispatch<SetStateAction<boolean>>]
   passwordSet: boolean
   paymentIntentMetadata: PaymentIntentMetadata
   landingCms: SpenpoLandingCms
@@ -69,8 +73,9 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const session = useSession()
-  const [projectName, setProjectName] = useState<string>()
+  const [domainName, setDomainName] = useState<string>()
   const [price, setPrice] = useState<number>()
+  const [renew, setRenew] = useState<boolean>(true)
   const [clientName, setClientName] = useState<string>()
   const title = useState<string>()
   const subtitle = useState<string>()
@@ -128,14 +133,17 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     const value: ShoppingCartContextProps = {
       setPassword,
       passwordSet: !!password,
-      projectName: [projectName, setProjectName],
+      domainName: [domainName, setDomainName],
       price: [price, setPrice],
+      renew: [renew, setRenew],
       paymentIntentMetadata: {
         clientName,
-        projectName: projectName?.split('.')[0],
+        projectName: domainName?.split('.')[0],
+        domainName,
         headshotExtension: file[0]?.name.split('.').at(-1),
         environmentVariables,
         price,
+        renew,
       },
       landingCms: {
         name: getSet([clientName, setClientName]),
@@ -154,7 +162,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     }
     return value
   }, [
-    projectName,
+    domainName,
     clientName,
     title,
     subtitle,
@@ -170,6 +178,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     password,
     file,
     price,
+    renew,
   ])
 
   return (

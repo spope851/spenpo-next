@@ -1,18 +1,22 @@
 'use client'
 
-import { IconButton, Stack, TextField, Typography } from '@mui/material'
+import { Checkbox, IconButton, Stack, TextField, Typography } from '@mui/material'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Close from '@mui/icons-material/Close'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { ShoppingCartContext } from '@/context/shoppingCart'
+import { formatDomain } from '@/utils/string'
 
-export const DomainField: React.FC<{ defaultValue?: string }> = ({
-  defaultValue,
-}) => {
+export const DomainField: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [q, setQ] = useState(searchParams?.get('q'))
   const [d, setD] = useState(searchParams?.get('d'))
   const [p, setP] = useState(searchParams?.get('p'))
+  const {
+    landingCms,
+    renew: [renew, setRenew],
+  } = useContext(ShoppingCartContext)
 
   useEffect(() => {
     if (searchParams?.get('d')) setQ('')
@@ -23,39 +27,58 @@ export const DomainField: React.FC<{ defaultValue?: string }> = ({
 
   if (d)
     return (
-      <Stack alignItems="center" direction="row" columnGap={1}>
-        <TextField
-          label="domain name"
-          value={d}
-          type="url"
-          InputProps={{
-            endAdornment: `($${p})`,
-          }}
-          disabled
-        />
-        <IconButton
-          onClick={() => {
-            router.push('/products/landing-page/domain')
-          }}
+      <Stack>
+        <Stack alignItems="center" direction="row" columnGap={1}>
+          <TextField
+            size="small"
+            label="domain name"
+            value={d}
+            type="url"
+            InputProps={{
+              endAdornment: `($${p})`,
+            }}
+            disabled
+          />
+          <IconButton
+            onClick={() => {
+              const search = new URLSearchParams(Array.from(searchParams || []))
+              search.delete('d')
+              search.delete('p')
+              router.push(`/products/landing-page/domain?${search}`)
+            }}
+          >
+            <Close />
+          </IconButton>
+        </Stack>
+        <Stack
+          alignItems="center"
+          direction="row"
+          columnGap={1}
+          justifyContent="space-between"
+          pl={1}
         >
-          <Close />
-        </IconButton>
+          <Typography variant="caption">
+            Auto renew yearly for <strong>${p}</strong>
+          </Typography>
+          <Checkbox checked={renew} onChange={(e) => setRenew(e.target.checked)} />
+        </Stack>
       </Stack>
     )
 
   return (
     <Stack alignItems="flex-end" direction="row" columnGap={1}>
       <TextField
+        size="small"
         label="domain name"
         value={q || ''}
-        placeholder={defaultValue}
+        placeholder={formatDomain(landingCms.name.getter() || '')}
         type="url"
         onChange={(e) => {
           setQ(e.target.value)
           router.push(`/products/landing-page/domain?q=${e.target.value}`)
         }}
       />
-      {!q?.split('.')[1] && <Typography>.vercel.app</Typography>}
+      {!q?.split('.')[1] && <Typography>.vercel.app ($0)</Typography>}
     </Stack>
   )
 }

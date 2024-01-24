@@ -2,29 +2,27 @@
 
 import { Button } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import React, { useContext } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { ShoppingCartContext } from '@/context/shoppingCart'
 
 export const ContinueBtn: React.FC<{
   disabled: boolean
-  cache: Record<string, string>
-}> = ({ disabled, cache }) => {
+}> = ({ disabled }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const {
+    domainName: [, setDomain],
+    price: [, setPrice],
+  } = useContext(ShoppingCartContext)
 
   return (
     <Button
       endIcon={<ChevronRightIcon />}
       variant="contained"
-      onClick={async () => {
-        await fetch('/api/cache/authLanding', {
-          method: 'post',
-          body: JSON.stringify({
-            ...cache,
-            domain: searchParams?.get('d') || `${searchParams?.get('q')}.vercel.app`,
-            price: searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0,
-          }),
-        })
+      onClick={() => {
+        setDomain(searchParams?.get('d') || `${searchParams?.get('q')}.vercel.app`)
+        setPrice(searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0)
         router.push('password')
       }}
       disabled={disabled}

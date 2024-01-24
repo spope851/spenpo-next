@@ -1,3 +1,4 @@
+'use client'
 import React, { FormEvent } from 'react'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Layout, LayoutObject } from '@stripe/stripe-js'
@@ -5,7 +6,7 @@ import { Box, Button, Stack } from '@mui/material'
 import { useSession } from 'next-auth/react'
 
 export const CheckoutForm: React.FC = () => {
-  const stripe = useStripe()
+  const usestripe = useStripe()
   const elements = useElements()
 
   const session = useSession()
@@ -15,7 +16,7 @@ export const CheckoutForm: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!stripe || !elements) {
+    if (!usestripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return
@@ -23,7 +24,7 @@ export const CheckoutForm: React.FC = () => {
 
     setIsLoading(true)
 
-    const { error } = await stripe.confirmPayment({
+    const { error } = await usestripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page

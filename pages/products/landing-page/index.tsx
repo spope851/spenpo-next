@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from 'next'
 import prisma from '@/utils/prisma'
+import { getProjectVersion } from '@/services/github'
 
 const Overview = dynamic(
   () =>
@@ -17,7 +18,7 @@ const Overview = dynamic(
 
 const LandingPageProductPage: React.FC<
   InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ s3, product }) => {
+> = ({ s3, product, version }) => {
   const router = useRouter()
   const auth = useSession().status === 'authenticated'
 
@@ -54,7 +55,7 @@ const LandingPageProductPage: React.FC<
             <Tab label="my sites" />
           </Tabs>
         )}
-        <Overview />
+        <Overview version={version} />
       </Stack>
     </>
   )
@@ -63,6 +64,10 @@ const LandingPageProductPage: React.FC<
 export default LandingPageProductPage
 
 export async function getServerSideProps() {
+  const latestVersionRes = await getProjectVersion('landing-template')
+  const packagejson = latestVersionRes.data as unknown as { content: string }
+  const base64ToString = Buffer.from(packagejson.content, 'base64').toString()
+  const version = JSON.parse(base64ToString).version
   const product = await prisma.product.findFirst({
     where: {
       id: 'landing-page',
@@ -73,6 +78,7 @@ export async function getServerSideProps() {
     props: {
       product,
       s3: process.env.AWS_LANDING_S3,
+      version,
     },
   }
 }

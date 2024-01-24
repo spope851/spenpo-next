@@ -1,6 +1,6 @@
 'use client'
 import { ShoppingCartContext } from '@/context/shoppingCart'
-import { Stepper, Step, StepButton } from '@mui/material'
+import { Stepper as MuiStepper, Step, StepButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React, { useContext } from 'react'
 
@@ -11,14 +11,14 @@ export const STEP_SX = {
   },
 }
 
-export const LandingStepper: React.FC<{
+export const Stepper: React.FC<{
   activeStep: number
 }> = ({ activeStep }) => {
   const router = useRouter()
-  const { projectName, passwordSet } = useContext(ShoppingCartContext)
+  const { domainName, passwordSet } = useContext(ShoppingCartContext)
 
   return (
-    <Stepper
+    <MuiStepper
       nonLinear
       activeStep={activeStep}
       sx={{ flex: 1, ...STEP_SX, overflow: 'hidden' }}
@@ -26,15 +26,25 @@ export const LandingStepper: React.FC<{
       <Step completed={true}>
         <StepButton onClick={() => router.replace('design')}>Design it</StepButton>
       </Step>
-      <Step completed={!!projectName?.[0]}>
+      <Step completed={!!domainName[0]}>
         <StepButton onClick={() => router.replace('domain')}>Name it</StepButton>
       </Step>
       <Step completed={passwordSet}>
-        <StepButton onClick={() => router.replace('password')}>Secure it</StepButton>
+        <StepButton
+          disabled={activeStep < 2}
+          onClick={() => router.replace('password')}
+        >
+          Secure it
+        </StepButton>
       </Step>
       <Step>
-        <StepButton onClick={() => router.replace('checkout')}>Claim it</StepButton>
+        <StepButton
+          disabled={activeStep < 3}
+          onClick={() => router.replace('checkout')}
+        >
+          Claim it
+        </StepButton>
       </Step>
-    </Stepper>
+    </MuiStepper>
   )
 }

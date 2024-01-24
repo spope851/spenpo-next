@@ -1,6 +1,6 @@
-import { Step, StepButton, Stepper, SxProps } from "@mui/material"
-import React from "react"
-import { STEP_SX } from "./stepper"
+import { Step, StepButton, Stepper, SxProps } from '@mui/material'
+import React from 'react'
+import { STEP_SX } from '../../../app/products/landing-page/components/Stepper'
 
 export const OverviewStepper: React.FC<{
   activeStep: number
@@ -13,7 +13,7 @@ export const OverviewStepper: React.FC<{
   }
 }> = ({ activeStep, sx, refs: { designRef, nameRef, secureRef, claimRef } }) => {
   const scrollTo = (current: HTMLSpanElement | null) =>
-    current && current.scrollIntoView({ behavior: "smooth", block: "start" })
+    current && current.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   return (
     <Stepper
@@ -21,13 +21,13 @@ export const OverviewStepper: React.FC<{
       activeStep={activeStep}
       sx={{
         ...sx,
-        position: "fixed",
+        position: 'fixed',
         left: 0,
-        width: "100%",
-        bgcolor: "#fff",
+        width: '100%',
+        bgcolor: '#fff',
         py: 5,
         zIndex: 999,
-        borderBottom: "solid 1px #ccc",
+        borderBottom: 'solid 1px #ccc',
         ...STEP_SX,
       }}
     >

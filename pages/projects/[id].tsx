@@ -29,7 +29,11 @@ const Body: React.FC<{
     flex={1}
     border="solid .5px"
     maxWidth={{ xs: 'unset', md: maxWidth }}
-    maxHeight={{ xs: 'unset', md: 'calc(100vh - 267px)' }}
+    maxHeight={{
+      xs: 'unset',
+      md: 'calc(100vh - 264.5px)',
+      xl: 'calc(100vh - 267px)',
+    }}
     overflow="scroll"
     sx={{
       boxSizing: 'unset',
@@ -68,11 +72,11 @@ export default function Projects() {
       >
         <Stack maxWidth={{ xs: '100%', md: '25%' }}>
           <Header>description</Header>
-          <Body maxWidth="calc(25vw - 11px)">{projects[project]?.description}</Body>
+          <Body maxWidth="calc(25vw - 9px)">{projects[project]?.description}</Body>
         </Stack>
         <Stack flex={1} maxWidth={{ xs: '100%', md: '75%' }}>
           <Header>demo</Header>
-          <Body maxWidth="calc(75vw - 11px)">
+          <Body maxWidth="calc(75vw)">
             {projects[project]?.demo || (
               <RobotError>this project doesn&apos;t exist yet</RobotError>
             )}
