@@ -46,15 +46,16 @@ const STEP_COPY = [
           landing-template-five.vercel.app
         </Link>
         <Typography component="span">
-          . These are assigned based on availability, but if the one you suggest
-          isn&apos;t available we will still get you a close match. If you already
-          have a domain, please contact us and we&apos;d happy to publish the site
-          there as well. Support for purchasing and assigning domains during checkout
-          is coming in a later version.
+          . You can also add a custom domain name onto your purchase which we will
+          configure for you. If you already have a domain, reach out to{' '}
+          <Link href="/contact" target="_blank" referrerPolicy="no-referrer">
+            support
+          </Link>{' '}
+          and we will help you transfer it into the site.
         </Typography>
       </>
     ),
-    link: 'https://landing-template-five.vercel.app',
+    link: ['https://landing-template-five.vercel.app', 'https://www.spenpo.net'],
   },
   {
     copy: (
@@ -128,7 +129,10 @@ const VideoStep: React.FC<{ step: number }> = ({ step }) => (
 )
 
 const LinkStep: React.FC<{ step: number }> = ({ step }) => {
-  const Component = useMemo(() => <LinkPreview url={STEP_COPY[step].link!} />, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const Component = useMemo(
+    () => STEP_COPY[step].link?.map((link) => <LinkPreview key={link} url={link} />),
+    [step]
+  ) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <>
       <Grid
@@ -145,9 +149,15 @@ const LinkStep: React.FC<{ step: number }> = ({ step }) => {
         <Box>{STEP_COPY[step].copy}</Box>
       </Grid>
       <Grid item lg={9} xs={12}>
-        <Box m="auto" width="90%" maxWidth={400}>
+        <Stack
+          gap={3}
+          direction={{ xs: 'column', sm: 'row' }}
+          m="auto"
+          width="90%"
+          justifyContent="center"
+        >
           {Component}
-        </Box>
+        </Stack>
       </Grid>
     </>
   )
