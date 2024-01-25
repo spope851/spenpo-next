@@ -1,4 +1,4 @@
-import { Truth } from '@/pages/api/getTruths'
+import { Truth } from '@/app/api/getTruths/route'
 
 export const shuffle = (array: Truth[]) => {
   let currentIndex = array.length,
