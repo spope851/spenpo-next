@@ -1,20 +1,23 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { Button } from '@mui/material'
-import React from 'react'
+import Close from '@mui/icons-material/Close'
+import Arrow from '@mui/icons-material/ArrowForward'
+import { IconButton } from '@mui/material'
+import React, { useState } from 'react'
 
 export const RootTopComponents: React.FC = () => {
   const router = useRouter()
+  const [hover, setHover] = useState(false)
 
   return (
-    <Button
-      endIcon={<ChevronRightIcon />}
-      variant="contained"
+    <IconButton
       onClick={() => router.push('/home')}
-      sx={{ ml: 'auto', mr: 5, mt: 5, textTransform: 'none' }}
+      sx={{ position: 'absolute', right: 0, top: 0, transition: 'ease' }}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
+      size="large"
     >
-      Continue to spenpo.com
-    </Button>
+      {hover ? <Arrow fontSize="large" /> : <Close fontSize="large" />}
+    </IconButton>
   )
 }
