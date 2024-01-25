@@ -1,8 +1,8 @@
 'use client'
 import React, { ReactNode, useContext } from 'react'
 import { Box, Chip, Divider, Stack, Typography } from '@mui/material'
-import { ShoppingCartContext } from '../../../../../context/shoppingCart'
-import { BgImage } from '../../../../../components/bgImage'
+import { ShoppingCartContext } from '../../../../context/shoppingCart'
+import { BgImage } from '../../../../components/bgImage'
 
 const BG_SX = {
   height: 200,

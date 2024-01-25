@@ -1,7 +1,7 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
 import { Stepper } from '@/app/products/landing-page/components/Stepper'
-import redis from '@/utils/redis'
+import redis from '@/app/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'

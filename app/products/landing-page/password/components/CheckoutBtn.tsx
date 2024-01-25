@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext } from 'react'
 import { Button } from '@mui/material'
-import { ShoppingCartContext } from '@/context/shoppingCart'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useRouter } from 'next/navigation'
 

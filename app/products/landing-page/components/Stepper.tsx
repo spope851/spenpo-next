@@ -1,5 +1,5 @@
 'use client'
-import { ShoppingCartContext } from '@/context/shoppingCart'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
 import { Stepper as MuiStepper, Step, StepButton } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React, { useContext } from 'react'

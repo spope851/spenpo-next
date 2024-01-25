@@ -37,8 +37,7 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
             setLoading(false)
             setSuccess(true)
           },
-          (error) => {
-            console.log(error.text)
+          () => {
             setLoading(false)
             setFailure(true)
           }

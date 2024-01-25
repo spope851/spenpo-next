@@ -1,4 +1,4 @@
-import { getDomainPrice, getDomainStatus } from '@/services/vercel'
+import { getDomainPrice, getDomainStatus } from '@/app/services/vercel'
 import { Box, Typography } from '@mui/material'
 import { AvailableDomain } from './AvailableDomain'
 

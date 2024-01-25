@@ -2,7 +2,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { buffer } from 'micro'
 import { Prisma } from '@prisma/client'
-import { ProjectEnvVariableInput, VercelProjectInput } from '@/context/shoppingCart'
+import {
+  ProjectEnvVariableInput,
+  VercelProjectInput,
+} from '@/app/context/shoppingCart'
 import {
   cloneRepo,
   createBlob,
@@ -10,9 +13,13 @@ import {
   createTree,
   getMainTree,
   pushCommit,
-} from '@/services/github'
-import { addDomainToProject, createProject, purchaseDomain } from '@/services/vercel'
-import prisma from '@/utils/prisma'
+} from '@/app/services/github'
+import {
+  addDomainToProject,
+  createProject,
+  purchaseDomain,
+} from '@/app/services/vercel'
+import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
 
 // This is your test secret API key.

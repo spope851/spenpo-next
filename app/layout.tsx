@@ -1,8 +1,10 @@
-import Layout from '../components/layout'
-import { NextAuthProvider } from './nextAuthProvider'
-import { ThemeProvider } from '../components/themeProvider'
+import Layout from './components/layout'
+import { NextAuthProvider } from './context/nextAuth'
+import { ThemeProvider } from './context/theme'
 import { Metadata } from 'next'
 import React from 'react'
+import { SnackbarContextProvider } from '@/app/context/snackbar'
+import { UnAuthContextProvider } from '@/app/context/unAuth'
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'Spencer Pope'
@@ -33,12 +35,12 @@ export async function generateMetadata(): Promise<Metadata> {
       },
     },
     icons: {
-      icon: '/images/favicon.png',
-      shortcut: '/images/favicon.png',
-      apple: '/images/favicon.png',
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
       other: {
         rel: 'apple-touch-icon-precomposed',
-        url: '/images/favicon.png',
+        url: '/favicon.ico',
       },
     },
     twitter: {
@@ -55,9 +57,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body style={{ margin: 0 }}>
         <NextAuthProvider>
-          <ThemeProvider>
-            <Layout>{children}</Layout>
-          </ThemeProvider>
+          <UnAuthContextProvider>
+            <SnackbarContextProvider>
+              <ThemeProvider>
+                <Layout>{children}</Layout>
+              </ThemeProvider>
+            </SnackbarContextProvider>
+          </UnAuthContextProvider>
         </NextAuthProvider>
       </body>
     </html>

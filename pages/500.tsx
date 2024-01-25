@@ -1,5 +1,5 @@
-import { RobotError } from "@/components/robotError"
-import { Typography } from "@mui/material"
+import { RobotError } from '@/app/components/robotError'
+import { Typography } from '@mui/material'
 
 export default function Custom500() {
   return (

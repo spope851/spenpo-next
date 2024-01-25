@@ -4,8 +4,8 @@ import React, { useContext } from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useSession } from 'next-auth/react'
-import { useCachedSignin } from '../../../../../hooks/useCachedSignin'
-import { ShoppingCartContext } from '../../../../../context/shoppingCart'
+import { useCachedSignin } from '../../../../hooks/useCachedSignin'
+import { ShoppingCartContext } from '../../../../context/shoppingCart'
 
 export const TopComponents: React.FC<{ editable: boolean }> = ({ editable }) => {
   const router = useRouter()

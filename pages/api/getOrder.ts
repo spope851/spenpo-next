@@ -1,10 +1,10 @@
-import prisma from '@/utils/prisma'
+import prisma from '@/app/utils/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './auth/[...nextauth]'
 
 const getOrder = async (req: NextApiRequest, res: NextApiResponse) => {
-  console.log('GET order ', req.query)
+  // console.log('GET order ', req.query)
 
   const session = await getServerSession(req, res, authOptions)
   if (session) {

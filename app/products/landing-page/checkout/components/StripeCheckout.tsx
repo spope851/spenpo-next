@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
-import { ShoppingCartContext } from '@/context/shoppingCart'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
 import { usePathname, useRouter } from 'next/navigation'
 import { CheckoutForm } from './CheckoutForm'
 

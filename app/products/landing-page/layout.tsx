@@ -1,6 +1,6 @@
-import { ShoppingCartContextProvider } from '@/context/shoppingCart'
+import { ShoppingCartContextProvider } from '@/app/context/shoppingCart'
 import { Metadata } from 'next'
-import prisma from '@/utils/prisma'
+import prisma from '@/app/utils/prisma'
 
 export async function generateMetadata(): Promise<Metadata> {
   const product = await prisma.product.findFirst({
@@ -33,15 +33,6 @@ export async function generateMetadata(): Promise<Metadata> {
         'max-video-preview': -1,
         'max-image-preview': 'large',
         'max-snippet': -1,
-      },
-    },
-    icons: {
-      icon: '/images/favicon.png',
-      shortcut: '/images/favicon.png',
-      apple: '/images/favicon.png',
-      other: {
-        rel: 'apple-touch-icon-precomposed',
-        url: '/images/favicon.png',
       },
     },
     twitter: {

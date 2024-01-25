@@ -3,7 +3,7 @@ import { Typography, Button } from '@mui/material'
 import { SxProps } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import { DEFAULT_PROJECT } from '../../../constants/projects'
+import { DEFAULT_PROJECT } from '../../constants/projects'
 import { HomeComponentWrapper } from './HomeComponentWraper'
 
 export const RightButton: React.FC<{ sx?: SxProps }> = ({ sx }) => {

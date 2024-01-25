@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext, useState } from 'react'
 import { TextField } from '@mui/material'
-import { ShoppingCartContext } from '@/context/shoppingCart'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
 
 export const PasswordForm: React.FC = () => {
   const [password, setPassword] = useState('')

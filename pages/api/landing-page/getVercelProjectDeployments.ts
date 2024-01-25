@@ -1,11 +1,11 @@
-import { getProjectDeployments } from "@/services/vercel"
-import type { NextApiRequest, NextApiResponse } from "next"
+import { getProjectDeployments } from '@/app/services/vercel'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const getVercelProjectDeployments = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  console.log("GET project deployments ", req.query)
+  // console.log('GET project deployments ', req.query)
 
   const projectDeploymentsReq = await getProjectDeployments(
     String(req.query.appName)

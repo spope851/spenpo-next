@@ -1,9 +1,9 @@
 import React from 'react'
-import redis from '@/utils/redis'
+import redis from '@/app/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { CMS } from './components/CMS'
-import { PageProps } from '@/types/app'
+import { PageProps } from '@/app/types/app'
 
 export default async function Home({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)

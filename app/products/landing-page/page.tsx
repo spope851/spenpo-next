@@ -1,6 +1,6 @@
 import { Stack } from '@mui/material'
 import React from 'react'
-import { getProjectVersion } from '@/services/github'
+import { getProjectVersion } from '@/app/services/github'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { Tabs } from './components/Tabs'

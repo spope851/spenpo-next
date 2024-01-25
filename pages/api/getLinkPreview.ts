@@ -1,6 +1,6 @@
-import { LINK_PREVIEW_FALLBACK } from "@/constants/image"
-import parser from "html-metadata-parser"
-import type { NextApiRequest, NextApiResponse } from "next"
+import { LINK_PREVIEW_FALLBACK } from '@/app/constants/image'
+import parser from 'html-metadata-parser'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 type LinkPreview = {
   title: string
@@ -14,7 +14,7 @@ const getLinkPreview = async (
   req: NextApiRequest,
   res: NextApiResponse<LinkPreview>
 ) => {
-  console.log("GET link preview  ", req.query)
+  // console.log('GET link preview  ', req.query)
   const url = String(req.query.url)
 
   try {
@@ -24,14 +24,14 @@ const getLinkPreview = async (
       ? og.image
       : images?.length && images.length > 0
       ? (images[0] as unknown as { src: string }).src
-      : ""
+      : ''
     const description = og.description
       ? og.description
       : meta.description
       ? meta.description
-      : ""
-    const title = (og.title ? og.title : meta.title) || ""
-    const siteName = og.site_name || ""
+      : ''
+    const title = (og.title ? og.title : meta.title) || ''
+    const siteName = og.site_name || ''
 
     res.send({
       title,
@@ -42,10 +42,10 @@ const getLinkPreview = async (
     })
   } catch {
     res.send({
-      title: "Unavailable",
-      description: "deployment in progress...",
+      title: 'Unavailable',
+      description: 'deployment in progress...',
       image: LINK_PREVIEW_FALLBACK,
-      siteName: "",
+      siteName: '',
       hostname: url,
     })
   }

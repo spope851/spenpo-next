@@ -1,13 +1,13 @@
 'use client'
 import React, { useContext, useEffect, useState } from 'react'
-import { ShoppingCartContext } from '../../../../../context/shoppingCart'
+import { ShoppingCartContext } from '../../../../context/shoppingCart'
 import { TopComponents } from './TopComponents'
 import { useSession } from 'next-auth/react'
-import { SnackbarContext } from '../../../../../context/snackbar'
+import { SnackbarContext } from '../../../../context/snackbar'
 import { Button } from '@mui/material'
-import { useCachedSignin } from '../../../../../hooks/useCachedSignin'
+import { useCachedSignin } from '../../../../hooks/useCachedSignin'
 import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
-import { UnAuthContext } from '@/context/unAuth'
+import { UnAuthContext } from '@/app/context/unAuth'
 
 export const CMS: React.FC<{ cache?: SpenpoLandingCache }> = ({ cache }) => {
   const { landingCms } = useContext(ShoppingCartContext)

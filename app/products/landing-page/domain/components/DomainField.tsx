@@ -4,8 +4,8 @@ import { Checkbox, IconButton, Stack, TextField, Typography } from '@mui/materia
 import { useSearchParams, useRouter } from 'next/navigation'
 import Close from '@mui/icons-material/Close'
 import React, { useContext, useEffect, useState } from 'react'
-import { ShoppingCartContext } from '@/context/shoppingCart'
-import { formatDomain } from '@/utils/string'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
+import { formatDomain } from '@/app/utils/string'
 
 export const DomainField: React.FC = () => {
   const router = useRouter()

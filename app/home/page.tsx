@@ -5,7 +5,7 @@ import { Grid, Stack, Typography } from '@mui/material'
 import { ContactForm } from '../contact/components/contactForm'
 import { RightButton } from './components/RightButton'
 import { LeftButton } from './components/LeftButton'
-import { LinkPreview } from '../../components/linkPreview'
+import { LinkPreview } from '../components/linkPreview'
 
 const GRID_PROPS = {
   item: true,

@@ -4,7 +4,7 @@ import { Button } from '@mui/material'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useContext } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { ShoppingCartContext } from '@/context/shoppingCart'
+import { ShoppingCartContext } from '@/app/context/shoppingCart'
 
 export const ContinueBtn: React.FC<{
   disabled: boolean

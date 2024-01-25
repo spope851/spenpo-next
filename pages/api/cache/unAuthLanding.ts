@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import redis from '@/utils/redis'
+import redis from '@/app/utils/redis'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const BODY = JSON.parse(req.body)

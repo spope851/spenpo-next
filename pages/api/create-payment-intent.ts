@@ -1,4 +1,4 @@
-import prisma from '@/utils/prisma'
+import prisma from '@/app/utils/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'

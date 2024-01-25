@@ -6,11 +6,11 @@ import { LoadMoreBtn } from './components/LoadMoreBtn'
 import Domain from './components/Domain'
 import { ContinueBtn } from './components/ContinueBtn'
 import { Stepper } from '@/app/products/landing-page/components/Stepper'
-import redis from '@/utils/redis'
+import redis from '@/app/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
-import { PageProps } from '@/types/app'
+import { PageProps } from '@/app/types/app'
 
 export default async function DomainStep({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)

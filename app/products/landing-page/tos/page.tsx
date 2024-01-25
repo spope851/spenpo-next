@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
-import { getProjectVersion } from '@/services/github'
+import { getProjectVersion } from '@/app/services/github'
 
 export default async function Tos() {
   const latestVersionRes = await getProjectVersion('landing-template')

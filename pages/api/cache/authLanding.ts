@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import redis from '@/utils/redis'
+import redis from '@/app/utils/redis'
 import { authOptions } from '../auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
 

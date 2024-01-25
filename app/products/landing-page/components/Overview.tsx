@@ -1,5 +1,5 @@
 'use client'
-import { BgImage } from '../../../../components/bgImage'
+import { BgImage } from '../../../components/bgImage'
 import {
   Button,
   Grid,
@@ -15,7 +15,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { OverviewStepper } from './OverviewStepper'
 import Link from 'next/link'
-import { LinkPreview } from '../../../../components/linkPreview'
+import { LinkPreview } from '../../../components/linkPreview'
 import dynamic from 'next/dynamic'
 
 const Player = dynamic(() => import('react-player/lazy'))

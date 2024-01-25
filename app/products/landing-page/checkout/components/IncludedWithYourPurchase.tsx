@@ -1,7 +1,7 @@
 'use client'
 import React, { useContext } from 'react'
 import { Divider, Stack, Typography } from '@mui/material'
-import { ShoppingCartContext } from '../../../../../context/shoppingCart'
+import { ShoppingCartContext } from '../../../../context/shoppingCart'
 import CheckIcon from '@mui/icons-material/Check'
 
 const Check = () => <CheckIcon color="success" />

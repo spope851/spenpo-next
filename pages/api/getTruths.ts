@@ -1,6 +1,6 @@
-import { pool } from "@/utils/postgres"
-import { shuffle } from "@/utils/shuffle"
-import type { NextApiRequest, NextApiResponse } from "next"
+import { pool } from '@/app/utils/postgres'
+import { shuffle } from '@/app/utils/shuffle'
+import type { NextApiResponse } from 'next'
 
 export interface Truth {
   id: number
@@ -8,8 +8,7 @@ export interface Truth {
   sentence: string
 }
 
-const getTruths = async (req: NextApiRequest, res: NextApiResponse<Truth[]>) => {
-  console.log("GET truths  ", req.query)
+const getTruths = async (res: NextApiResponse<Truth[]>) => {
   const truths = await pool.query(
     `SELECT * FROM truths WHERE is_true = CAST(1 as BIT) ORDER BY random() LIMIT 2;`
   )
