@@ -172,12 +172,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               }
             }),
             {
-              key: 'OG_IMAGE',
-              target: 'production',
-              type: 'encrypted',
-              value: HEADSHOT_URL,
-            },
-            {
               key: 'NEXT_PUBLIC_PROJECT_NAME',
               target: 'production',
               type: 'encrypted',
