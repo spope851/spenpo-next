@@ -74,8 +74,9 @@ export const DomainField: React.FC = () => {
         placeholder={formatDomain(landingCms.name.getter() || '')}
         type="url"
         onChange={(e) => {
-          setQ(e.target.value)
-          router.push(`/products/landing-page/domain?q=${e.target.value}`)
+          const formatted = formatDomain(e.target.value)
+          setQ(formatted)
+          router.push(`/products/landing-page/domain?q=${formatted}`)
         }}
       />
       {!q?.split('.')[1] && <Typography>.vercel.app ($0)</Typography>}
