@@ -156,24 +156,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           gitRepository: gitRepository(cloneRes.data.full_name),
           environmentVariables: [
             ...ENVIRONMENT_VARIABLES,
-            ...[
-              'GH_TOKEN',
-              'VERCEL_TOKEN',
-              'VERCEL_TEAM',
-              'AWS_ACCESS_KEY_ID',
-              'AWS_SECRET_ACCESS_KEY',
-              'AWS_LANDING_S3',
-            ].map((v) => {
+            ...['GH_TOKEN', 'VERCEL_TOKEN', 'VERCEL_TEAM'].map((v) => {
               return {
                 key: v,
-                target: 'production',
+                target: ['production', 'preview', 'development'],
                 type: 'encrypted',
                 value: process.env[v],
               }
             }),
             {
               key: 'NEXT_PUBLIC_PROJECT_NAME',
-              target: 'production',
+              target: ['production', 'preview', 'development'],
               type: 'encrypted',
               value: cloneRes.data.name,
             },

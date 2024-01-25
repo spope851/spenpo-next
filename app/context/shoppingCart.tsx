@@ -14,7 +14,7 @@ import React, {
 
 interface ProjectEnvVariable {
   key: string
-  target: string
+  target: string[]
   type: string
   value?: string
 }

@@ -8,7 +8,7 @@ export const useLandEnvVars = (
     return Object.entries(variables).map(([key, value]) => {
       return {
         key,
-        target: 'production',
+        target: ['production', 'preview', 'development'],
         type: 'encrypted',
         value: value || '',
       }
