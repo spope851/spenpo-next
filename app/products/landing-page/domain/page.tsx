@@ -5,12 +5,12 @@ import { DomainField } from './components/DomainField'
 import { LoadMoreBtn } from './components/LoadMoreBtn'
 import Domain from './components/Domain'
 import { ContinueBtn } from './components/ContinueBtn'
-import { Stepper } from '@/app/products/landing-page/components/Stepper'
-import redis from '@/app/utils/redis'
+import { Stepper } from '../components/Stepper'
+import redis from '../../../utils/redis'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '../../../../pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
-import { PageProps } from '@/app/types/app'
+import { PageProps } from '../../../types/app'
 
 export default async function DomainStep({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
@@ -41,6 +41,9 @@ export default async function DomainStep({ searchParams }: PageProps) {
   if (Object.keys(cache).length > 0)
     await redis.expire(String(session?.user.email), 300)
   else redirect('/products/landing-page/design')
+
+  let xl = 1
+  if (limit < 12) xl = 2
 
   return (
     <Stack m={{ xs: 2, sm: 5 }} gap={5} flex={1} justifyContent="flex-start">
@@ -78,7 +81,7 @@ export default async function DomainStep({ searchParams }: PageProps) {
         {q &&
           q.length > 2 &&
           domainNames.map((domainName) => (
-            <Grid item xs={6} sm={4} md={2} xl={1} key={domainName}>
+            <Grid item xs={6} sm={4} md={2} xl={xl} key={domainName}>
               <Suspense
                 fallback={
                   <Box

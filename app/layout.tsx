@@ -3,8 +3,8 @@ import { NextAuthProvider } from './context/nextAuth'
 import { ThemeProvider } from './context/theme'
 import { Metadata } from 'next'
 import React from 'react'
-import { SnackbarContextProvider } from '@/app/context/snackbar'
-import { UnAuthContextProvider } from '@/app/context/unAuth'
+import { SnackbarContextProvider } from './context/snackbar'
+import { UnAuthContextProvider } from './context/unAuth'
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'Spencer Pope'
