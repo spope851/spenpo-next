@@ -203,7 +203,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           try {
             await addDomainToProject(vercelApp, `www.${DOMAIN_NAME}`)
           } catch (err: any) {
-            console.log(4, 'catch', err.response.data)
+            console.log(4, 'catch', err.error)
             await prisma.order.update({
               where: { id: orderId },
               data: {
@@ -230,7 +230,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               308
             )
           } catch (err: any) {
-            console.log(4, 'catch', err.response.data)
+            console.log(4, 'catch', err.error)
             await prisma.order.update({
               where: { id: orderId },
               data: {
