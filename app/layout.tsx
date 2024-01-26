@@ -11,6 +11,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = 'Developer & Entrepreneur'
 
   return {
+    metadataBase: new URL(`https://${process.env.VERCEL_URL}`),
     title,
     description,
     openGraph: {
