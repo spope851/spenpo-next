@@ -1,6 +1,6 @@
 import { PostList } from './components/postList'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
-import { Typography } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 
 export type Tag = {
   __typename?: 'Tag'
@@ -37,11 +37,11 @@ export default async function Blog() {
     .then(extractTagsFromPosts)
   const data: GetBlogPostsQuery = { allPosts }
   return (
-    <>
-      <Typography variant="h4" mt={5} textAlign="center" fontStyle="italic">
+    <Stack m={{ xs: 2, sm: 5 }} gap={3}>
+      <Typography variant="h4" textAlign="center" fontStyle="italic">
         spenpo.blog
       </Typography>
       <PostList posts={data} />
-    </>
+    </Stack>
   )
 }
