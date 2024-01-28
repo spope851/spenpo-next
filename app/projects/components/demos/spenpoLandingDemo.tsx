@@ -1,6 +1,6 @@
 'use client'
-import { SpenpoLanding, SpenpoLandingCms } from 'spenpo-landing'
-import React, { ReactNode, useContext, useEffect, useState } from 'react'
+import { SpenpoLanding, SpenpoLandingCache, SpenpoLandingCms } from 'spenpo-landing'
+import React, { ReactNode, useContext, useEffect, useMemo, useState } from 'react'
 import {
   Autocomplete,
   Button,
@@ -9,6 +9,8 @@ import {
   InputLabel,
   Stack,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import { BgImage } from '@/app/components/bgImage'
 import { CustomizeThemeContext } from '@/app/context/theme'
@@ -16,8 +18,53 @@ import { CustomizeThemeContext } from '@/app/context/theme'
 const SPENPO_LANDING_WIDTH_DESKTOP = 880
 const LAPTOP_WIDTH = 1200
 
+const DESKTOP_SX = {
+  aspectRatio: 5 / 3,
+  width: LAPTOP_WIDTH,
+  main: {
+    minHeight: 'unset',
+    width: SPENPO_LANDING_WIDTH_DESKTOP,
+    height: 560,
+    mx: 'auto',
+    mt: '5%',
+    borderRadius: 2,
+    '#spenpo-landing-headshot': {
+      height: 300,
+    },
+  },
+  '#spenpo-landing-editControlPanel': {
+    position: 'relative',
+    width: SPENPO_LANDING_WIDTH_DESKTOP,
+    mt: 7,
+    mx: `${(LAPTOP_WIDTH - SPENPO_LANDING_WIDTH_DESKTOP) / 2}px`,
+  },
+}
+
 const SPENPO_LANDING_WIDTH_MOBILE = 290
 const IPHONE_WIDTH = 320
+
+const MOBILE_SX = {
+  aspectRatio: 1 / 2,
+  width: IPHONE_WIDTH,
+  my: 1,
+  main: {
+    minHeight: 'unset',
+    width: SPENPO_LANDING_WIDTH_MOBILE,
+    height: 615,
+    mx: 'auto',
+    mt: 1.5,
+    borderRadius: 9,
+    overflowY: 'scroll',
+  },
+  '#spenpo-landing-editControlPanel': {
+    width: SPENPO_LANDING_WIDTH_MOBILE,
+    mt: 2,
+    mx: `${(IPHONE_WIDTH - SPENPO_LANDING_WIDTH_MOBILE) / 2}px`,
+  },
+  '#spenpo-landing-wrapper': {
+    mt: 24,
+  },
+}
 
 const GRID_ITEM_PROPS = {
   item: true,
@@ -42,7 +89,7 @@ export default function SpenpoLandingDemo() {
   const [backgroundColor, setBackgroundColor] = useState<string>()
   const [backgroundImage, setBackgroundImage] = useState<string>()
   const [headshotSrc, setHeadshotSrc] = useState<string>()
-  const [socialUrls, setSocialUrls] = useState<string[]>()
+  const [socialUrls, setSocialUrls] = useState<string[]>([])
   const [editable, setEditable] = useState(false)
   const [headshotFile, setHeadshotFile] = useState<File>()
 
@@ -89,7 +136,7 @@ export default function SpenpoLandingDemo() {
     },
     socialUrls: {
       getter: () => socialUrls,
-      setter: (prop) => setSocialUrls(prop),
+      setter: (prop) => setSocialUrls(prop || []),
     },
     headshotFile: {
       getter: () => headshotFile,
@@ -98,108 +145,85 @@ export default function SpenpoLandingDemo() {
   }
 
   const [topComponents, setTopComponents] = useState<ReactNode>()
-  const [editableState, setEditableState] = useState(false)
+  const [editableEnabled, setEditableEnabled] = useState(false)
+  const [cacheCallbackEnabled, setCacheCallbackEnabled] = useState(false)
+
+  const cacheCallback = async (cache: SpenpoLandingCache) => {
+    if (cacheCallbackEnabled)
+      alert(`the following data was cached:  ${JSON.stringify(cache, undefined, 2)}`)
+  }
 
   const { setMuiDrawerStyleOverrides } = useContext(CustomizeThemeContext)
 
   useEffect(() => {
-    const handleScroll = () => {
-      setMuiDrawerStyleOverrides({
-        '&#spenpo-landing-contentControl-mobile': {
-          '& .MuiPaper-root': {
-            width: 290,
-            margin: `${182 - window.scrollY}px auto 0`,
-            borderRadius: '36px 36px 0 0',
-            transition: 'none !important',
+    document
+      .getElementById('spenpo-landing-contentControl-open-btn')
+      ?.addEventListener('click', () => {
+        setMuiDrawerStyleOverrides({
+          '&#spenpo-landing-contentControl-mobile': {
+            '& .MuiPaper-root': {
+              width: 290,
+              margin: `${182 - window.scrollY}px auto 0`,
+              borderRadius: '36px 36px 0 0',
+              transition: 'none !important',
+            },
           },
-        },
+        })
       })
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const Demo = (
-    <SpenpoLanding
-      {...{
-        title,
-        name,
-        subtitle,
-        actionStatement,
-        actionDestination,
-        accentColor,
-        secondaryAccentColor,
-        backgroundColor,
-        backgroundImage,
-        headshotSrc,
-        socialUrls,
-        topComponents,
-        editable: editable ? [editableState, setEditableState] : undefined,
-        cms,
-      }}
-    />
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'))
+
+  const Demo = useMemo(
+    () => (
+      <SpenpoLanding
+        {...{
+          title,
+          name,
+          subtitle,
+          actionStatement,
+          actionDestination,
+          accentColor,
+          secondaryAccentColor,
+          backgroundColor,
+          backgroundImage,
+          headshotSrc,
+          socialUrls,
+          topComponents,
+          editable: editableEnabled ? [editable, setEditable] : undefined,
+          cms,
+          cacheCallback,
+        }}
+      />
+    ),
+    [
+      title,
+      name,
+      subtitle,
+      actionStatement,
+      actionDestination,
+      accentColor,
+      secondaryAccentColor,
+      backgroundColor,
+      backgroundImage,
+      headshotSrc,
+      socialUrls,
+      topComponents,
+      editable,
+      editableEnabled,
+      cacheCallbackEnabled,
+    ]
   )
 
   return (
     <Stack gap={3}>
       <BgImage
+        src={`/images/${isSmallScreen ? 'iphone' : 'laptop'}.png`}
         sx={{
-          aspectRatio: 1 / 2,
-          width: IPHONE_WIDTH,
-          m: 1,
           mx: 'auto',
-          main: {
-            minHeight: 'unset',
-            width: SPENPO_LANDING_WIDTH_MOBILE,
-            height: 615,
-            mx: 'auto',
-            mt: 1.5,
-            borderRadius: 9,
-            overflowY: 'scroll',
-          },
-          '#spenpo-landing-editControlPanel': {
-            width: SPENPO_LANDING_WIDTH_MOBILE,
-            mt: 2,
-            mx: `${(IPHONE_WIDTH - SPENPO_LANDING_WIDTH_MOBILE) / 2}px`,
-          },
-          '#spenpo-landing-wrapper': {
-            mt: 32,
-          },
-          display: { xs: 'block', md: 'none' },
+          ...(isSmallScreen ? MOBILE_SX : DESKTOP_SX),
         }}
-        src="/images/iphone.png"
-      >
-        {Demo}
-      </BgImage>
-      <BgImage
-        sx={{
-          aspectRatio: 5 / 3,
-          width: LAPTOP_WIDTH,
-          mx: 'auto',
-          main: {
-            minHeight: 'unset',
-            width: SPENPO_LANDING_WIDTH_DESKTOP,
-            height: 560,
-            mx: 'auto',
-            mt: '5%',
-            borderRadius: 2,
-            '#spenpo-landing-headshot': {
-              height: 300,
-            },
-          },
-          '#spenpo-landing-editControlPanel': {
-            position: 'relative',
-            width: SPENPO_LANDING_WIDTH_DESKTOP,
-            mt: 7,
-            mx: `${(LAPTOP_WIDTH - SPENPO_LANDING_WIDTH_DESKTOP) / 2}px`,
-          },
-          display: { xs: 'none', md: 'block' },
-        }}
-        src="/images/laptop.png"
       >
         {Demo}
       </BgImage>
@@ -282,6 +306,7 @@ export default function SpenpoLandingDemo() {
         </Grid>
         <Grid {...GRID_ITEM_PROPS} sm={12} md={6}>
           <Autocomplete
+            size="small"
             value={socialUrls}
             multiple
             freeSolo
@@ -331,8 +356,17 @@ export default function SpenpoLandingDemo() {
           <Stack direction="row" alignItems="center">
             <InputLabel>editable?</InputLabel>
             <Checkbox
-              checked={!!editable}
-              onChange={(e) => setEditable(e.target.checked)}
+              checked={!!editableEnabled}
+              onChange={(e) => setEditableEnabled(e.target.checked)}
+            />
+          </Stack>
+        </Grid>
+        <Grid {...GRID_ITEM_PROPS}>
+          <Stack direction="row" alignItems="center">
+            <InputLabel>cacheCallback?</InputLabel>
+            <Checkbox
+              checked={!!cacheCallbackEnabled}
+              onChange={(e) => setCacheCallbackEnabled(e.target.checked)}
             />
           </Stack>
         </Grid>

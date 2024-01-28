@@ -91,13 +91,13 @@ export default function SpenpoLandingDes() {
               </a>
             </li>
             <li>
-              <a href="https://landing-template-five.vercel.app">demo</a>
+              <a href="https://spenpo-landing.vercel.app">demo</a>
             </li>
           </ul>
         </ul>
       </ul>
       <Stack gap={2} m={1} pl={2}>
-        <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspenpo-landing%2Flanding-template&env=AWS_SECRET_ACCESS_KEY,AWS_ACCESS_KEY_ID,AWS_LANDING_S3,VERCEL_TEAM,VERCEL_TOKEN,GH_TOKEN,NEXT_AUTH_USERNAME,NEXT_AUTH_PASSWORD,NEXT_PUBLIC_PROJECT_NAME,NEXT_PUBLIC_NAME&envDescription=Content%20and%20API%20Keys&envLink=https%3A%2F%2Fgithub.com%2Fspenpo-landing%2Flanding-template&redirect-url=https%3A%2F%2Fspenpo.com%2Fprojects%2Fspenpo-landing&demo-title=Spenpo%20Landing&demo-description=A%20full%20stack%20implementation%20of%20the%20spenpo-landing%20React%20component&demo-url=https%3A%2F%2Flanding-template-five.vercel.app%2F&demo-image=https%3A%2F%2Fwww.pngitem.com%2Fpimgs%2Fm%2F618-6183618_transparent-unknown-person-png-transparent-background-female-user.png">
+        <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fspenpo-landing%2Flanding-template&env=AWS_SECRET_ACCESS_KEY,AWS_ACCESS_KEY_ID,AWS_LANDING_S3,VERCEL_TEAM,VERCEL_TOKEN,GH_TOKEN,NEXT_AUTH_USERNAME,NEXT_AUTH_PASSWORD,NEXT_PUBLIC_PROJECT_NAME,NEXT_PUBLIC_NAME&envDescription=Content%20and%20API%20Keys&envLink=https%3A%2F%2Fgithub.com%2Fspenpo-landing%2Flanding-template&redirect-url=https%3A%2F%2Fspenpo.com%2Fprojects%2Fspenpo-landing&demo-title=Spenpo%20Landing&demo-description=A%20full%20stack%20implementation%20of%20the%20spenpo-landing%20React%20component&demo-url=https%3A%2F%2Fspenpo-landing.vercel.app%2F&demo-image=https%3A%2F%2Fspenpo-landing.vercel.app%2Fdefault.svg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="https://vercel.com/button" alt="Deploy with Vercel" />
         </a>

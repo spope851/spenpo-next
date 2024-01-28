@@ -39,11 +39,11 @@ const STEP_COPY = [
           The product includes a <strong>.vercel.app</strong> domain name such as{' '}
         </Typography>
         <Link
-          href="https://landing-template-five.vercel.app"
+          href="https://spenpo-landing.vercel.app"
           target="_blank"
           referrerPolicy="no-referrer"
         >
-          landing-template-five.vercel.app
+          spenpo-landing.vercel.app
         </Link>
         <Typography component="span">
           . You can also add a custom domain name onto your purchase which we will
@@ -55,7 +55,7 @@ const STEP_COPY = [
         </Typography>
       </>
     ),
-    link: ['https://landing-template-five.vercel.app', 'https://www.spenpo.net'],
+    link: ['https://spenpo-landing.vercel.app', 'https://www.spenpo.net'],
   },
   {
     copy: (
