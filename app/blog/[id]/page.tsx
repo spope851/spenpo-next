@@ -20,7 +20,7 @@ export async function generateMetadata({
 
   const title = post.title
   const description = post.excerpt.slice(3).slice(0, 200)
-  const images = [previewImages[params.id] || previewImages.default]
+  const images = [previewImages[params.id]]
 
   return {
     title,
