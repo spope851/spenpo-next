@@ -7,8 +7,44 @@ import { Stack, Typography } from '@mui/material'
 import { Projects as ProjectsType } from '@/app/types/routing'
 import projects from '../components'
 import { ReactNode } from 'react'
-import { PageProps } from '@/app/types/app'
+import { MetadataProps, PageProps } from '@/app/types/app'
 import { Tabs } from '../components/Tabs'
+import { Metadata } from 'next'
+
+const previewImages: Record<string, string> = {
+  'starter-kit-next': '/images/starter-kit-next.png',
+  cracker: '/images/cracker.png',
+  'spenpo-landing': '/images/landing-page.png',
+}
+
+export async function generateMetadata({
+  params,
+}: MetadataProps): Promise<Metadata> {
+  const title = params.id
+  const description = ''
+  const images = [previewImages[params.id] || '/images/headshot.jpeg']
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: process.env.VERCEL_URL,
+      siteName: 'spenpo.com',
+      locale: 'en_US',
+      type: 'website',
+      images,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      creator: '@s_pop3',
+      images,
+    },
+  }
+}
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
   <Typography variant="h5" textAlign="center" border="solid .5px" height={34}>
