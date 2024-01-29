@@ -6,13 +6,13 @@ export const HomeComponentWrapper: React.FC<StackProps> = ({
   ...stackProps
 }) => (
   <Stack
-    {...stackProps}
     p={5}
     gap={5}
     flex={1}
     border="solid #ccc"
     borderRadius={1}
     textAlign="center"
+    {...stackProps}
   >
     {children}
   </Stack>

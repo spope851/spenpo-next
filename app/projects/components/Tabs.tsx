@@ -4,16 +4,7 @@ import { Tabs as MuiTabs, Tab } from '@mui/material'
 import { Projects as ProjectsType } from '@/app/types/routing'
 import projects from '.'
 import { useRouter } from 'next/navigation'
-
-const PROJECTS: ProjectsType[] = [
-  'starter-kit-next',
-  'cracker',
-  'spenpo-landing',
-  'two-truths',
-  'language-flash',
-  '3x3-cube',
-  'react-timeclock',
-]
+import { PROJECTS } from '@/app/constants/projects'
 
 export const Tabs: React.FC<{ project: ProjectsType }> = ({ project }) => {
   const router = useRouter()

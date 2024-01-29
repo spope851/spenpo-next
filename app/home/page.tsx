@@ -1,66 +1,60 @@
-'use client'
 import React from 'react'
-import { HomeComponentWrapper } from './components/HomeComponentWraper'
-import { Grid, Stack, Typography } from '@mui/material'
-import { ContactForm } from '../contact/components/contactForm'
-import { RightButton } from './components/RightButton'
-import { LeftButton } from './components/LeftButton'
+import { Stack } from '@mui/material'
 import { LinkPreview } from '../components/linkPreview'
+import prisma from '../utils/prisma'
+import { PROJECTS } from '../constants/projects'
+import { previewImages } from '../constants/blog'
+import { ContactForm } from '../contact/components/contactForm'
 
-const GRID_PROPS = {
-  item: true,
-  xs: 12,
-  display: 'flex',
-  flexDirection: 'column' as const,
+const LIMIT = 3
+
+const LINK_PREV_PROPS = {
+  backgroundColor: '#555',
+  primaryTextColor: '#fff',
+  secondaryTextColor: '#fff',
+  borderRadius: 4,
 }
 
-const BUTTON_SX = {
-  my: 'auto',
-  py: 2,
-  borderRadius: 2,
-}
+export default async function Home() {
+  const products = await prisma.product.findMany({
+    where: {
+      hide: false,
+    },
+  })
 
-export default function Home() {
   return (
-    <Stack flex={1}>
-      <Stack m={{ sm: 5, xs: 2 }} flex={1} justifyContent="space-between" gap={5}>
-        <Grid container justifyContent="space-between" spacing={5} flex={1}>
-          <Grid lg={5} md={6} sm={12} {...GRID_PROPS}>
-            <HomeComponentWrapper>
-              <Typography variant="h6" fontWeight="bold">
-                check out my latest post
-              </Typography>
-              <Stack my="auto">
-                <LinkPreview
-                  url="https://spenpo.com/products/landing-page"
-                  descriptionLength={50}
-                />
-              </Stack>
-            </HomeComponentWrapper>
-          </Grid>
-          <Grid container item lg={7} md={6} sm={12} spacing={5} flex={1}>
-            <Grid lg={6} md={12} {...GRID_PROPS}>
-              <LeftButton sx={BUTTON_SX} />
-            </Grid>
-            <Grid lg={6} md={12} {...GRID_PROPS}>
-              <RightButton sx={BUTTON_SX} />
-            </Grid>
-            <Grid
-              {...GRID_PROPS}
-              display={{ lg: 'flex', xs: 'none' }}
-              justifyContent="flex-end"
-            >
-              <ContactForm />
-            </Grid>
-          </Grid>
-          <Grid
-            {...GRID_PROPS}
-            display={{ lg: 'none', xs: 'flex' }}
-            justifyContent="flex-end"
-          >
-            <ContactForm />
-          </Grid>
-        </Grid>
+    <Stack p={{ sm: 5, xs: 2 }} gap={3} bgcolor="#555">
+      <Stack direction="row" gap={3}>
+        {products.map(({ id }) => (
+          <LinkPreview
+            key={id}
+            {...LINK_PREV_PROPS}
+            url={`https://spenpo.com/products/${id}`}
+          />
+        ))}
+        <ContactForm />
+      </Stack>
+      <Stack direction="row" gap={3}>
+        {PROJECTS.slice(0, LIMIT).map((id) => (
+          <LinkPreview
+            key={id}
+            {...LINK_PREV_PROPS}
+            borderRadius={4}
+            url={`https://spenpo-next-git-feature-home-redesign-spope851.vercel.app/projects/${id}`}
+          />
+        ))}
+      </Stack>
+      <Stack direction="row" gap={3}>
+        {Object.keys(previewImages)
+          .slice(0, LIMIT)
+          .map((id) => (
+            <LinkPreview
+              key={id}
+              {...LINK_PREV_PROPS}
+              borderRadius={4}
+              url={`https://spenpo-next-git-feature-home-redesign-spope851.vercel.app/blog/${id}`}
+            />
+          ))}
       </Stack>
     </Stack>
   )

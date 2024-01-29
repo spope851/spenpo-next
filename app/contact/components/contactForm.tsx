@@ -65,7 +65,7 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
           <TextField
             fullWidth
             multiline
-            rows={6}
+            rows={5}
             name="message"
             label="What can I do for you?"
             disabled={success || failure}
@@ -82,6 +82,7 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
                   type="text"
                   name="user_name"
                   label="name"
+                  size="small"
                   disabled={success || failure}
                   onChange={(e) => setName(!!e.target.value)}
                 />
@@ -96,6 +97,7 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
                   type="email"
                   label="email"
                   name="user_email"
+                  size="small"
                   disabled={success || failure}
                   onChange={(e) => {
                     setEmail(!!e.target.value)
