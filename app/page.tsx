@@ -4,13 +4,10 @@ import { SpenpoLanding } from 'spenpo-landing'
 import { RootTopComponents } from './components/RootTopComponents'
 
 export default function Root() {
-  const name = 'Spencer Pope'
-  const title = 'Developer & Entrepreneur'
-
   return (
     <SpenpoLanding
-      title={title}
-      name={name}
+      title="Developer & Entrepreneur"
+      name="Spencer Pope"
       subtitle="Striving to be useful"
       socialUrls={[
         'https://twitter.com/s_pop3',

@@ -1,9 +1,7 @@
 import Image from 'next/image'
-import { Tabs } from '../types/routing'
 import {
   AppBar,
   Box,
-  Button,
   Container,
   Drawer,
   IconButton,
@@ -11,50 +9,28 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { styled } from '@mui/material/styles'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import AvatarMenu from './avatarMenu'
-import { DEFAULT_PROJECT } from '@/app/constants/projects'
+import { usePathname, useRouter } from 'next/navigation'
+import { AvatarMenu } from './avatarMenu'
+import { type TabProps, Tab } from './Tab'
+import { MobileTab } from './MobileTab'
 
-interface NavbarProps {
-  active: Tabs
-}
-
-const TABS: Tabs[] = ['products', 'projects', 'blog', 'resume', 'contact']
-
-const Burger = styled(IconButton)(({ theme }) => ({
-  [theme.breakpoints.up('sm')]: {
-    display: 'none',
+const TABS: TabProps[] = [
+  { id: 'about' },
+  {
+    id: 'work',
+    menuItems: ['products', 'projects', 'resume'],
   },
-}))
+  { id: 'now' },
+  { id: 'blog' },
+  { id: 'contact' },
+]
 
-const Tab = styled(Button)(({ theme }) => ({
-  [theme.breakpoints.down('sm')]: {
-    display: 'none',
-  },
-  paddingLeft: 16,
-  paddingRight: 16,
-}))
-
-const Route = styled(Button)`
-  color: white;
-  padding: 10px 20px;
-  :hover {
-    background-color: #999;
-  }
-`
-
-export default function Navbar({ active }: NavbarProps) {
-  const tabState = (a: boolean) => (a ? 'active' : '')
+export const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false)
   const router = useRouter()
-
-  const route = (r: string): void => {
-    setOpen(false)
-    router.push(r)
-  }
+  const pathname = usePathname()
 
   return (
     <AppBar position="static" sx={{ bgcolor: '#555' }}>
@@ -68,7 +44,7 @@ export default function Navbar({ active }: NavbarProps) {
         >
           <Box
             bgcolor={(theme) =>
-              active === 'home' ? theme.palette.primary.main : ''
+              pathname === '/home' ? theme.palette.primary.main : ''
             }
             p={2}
             onClick={() => router.push('/home')}
@@ -101,42 +77,27 @@ export default function Navbar({ active }: NavbarProps) {
           </Box>
           <Stack direction="row" gap={1}>
             {TABS.map((tab) => (
-              <Tab
-                variant={active === tab ? 'contained' : 'text'}
-                color={active === tab ? 'primary' : 'secondary'}
-                key={tab}
-                onClick={() =>
-                  router.push(`/${tab}/${tab === 'projects' ? DEFAULT_PROJECT : ''}`)
-                }
-                className={tabState(active === tab)}
-              >
-                {tab}
-              </Tab>
+              <Tab key={tab.id} {...tab} />
             ))}
-            <Burger
-              sx={{ height: 51, color: 'white' }}
+            <IconButton
+              sx={{
+                color: 'white',
+                display: { sm: 'none' },
+              }}
               onClick={() => setOpen(true)}
             >
               <MenuIcon />
-            </Burger>
+            </IconButton>
             <AvatarMenu />
           </Stack>
           <Drawer
-            PaperProps={{ sx: { backgroundColor: 'transparent', pt: 7, px: 1 } }}
+            PaperProps={{ sx: { backgroundColor: 'transparent', pt: 8 } }}
             anchor="right"
             open={open}
             onClose={() => setOpen(false)}
           >
             {TABS.map((tab) => (
-              <Route
-                variant={active === tab ? 'contained' : 'text'}
-                key={tab}
-                onClick={() =>
-                  route(`/${tab}/${tab === 'projects' ? DEFAULT_PROJECT : ''}`)
-                }
-              >
-                {tab}
-              </Route>
+              <MobileTab key={tab.id} {...tab} />
             ))}
           </Drawer>
         </Toolbar>

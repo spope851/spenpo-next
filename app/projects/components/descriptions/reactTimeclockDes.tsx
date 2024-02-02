@@ -1,7 +1,9 @@
+import { METADATA } from '@/app/constants/projects'
+
 export default function ReactTimeclockDes() {
   return (
     <ul>
-      <li>description: timeclock component for tracking work done on a website</li>
+      <li>description: {METADATA['react-timeclock'].description}</li>
       <ul>
         <li>
           clock in/out when working on your site and record what you&apos;ve done

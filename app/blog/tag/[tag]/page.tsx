@@ -4,6 +4,7 @@ import { Box, Chip } from '@mui/material'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
+import { WORDPRESS_ROOT } from '@/app/constants/blog'
 
 export type GetBlogPostsWithTagQuery = {
   __typename?: 'Query'
@@ -30,11 +31,7 @@ export type GetBlogPostsWithTagQuery = {
 
 export default async function Blog({ params }: PageProps) {
   const tag = params.tag
-  const allPosts = await fetch(
-    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts${
-      tag ? `?tag=${tag}` : '/'
-    }`
-  )
+  const allPosts = await fetch(`${WORDPRESS_ROOT}/posts${tag ? `?tag=${tag}` : '/'}`)
     .then((res) => res.json())
     .then(extractTagsFromPosts)
 

@@ -1,6 +1,7 @@
 import { PostList } from './components/postList'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
 import { Stack, Typography } from '@mui/material'
+import { WORDPRESS_ROOT } from '../constants/blog'
 
 export type Tag = {
   __typename?: 'Tag'
@@ -31,13 +32,13 @@ export type GetBlogPostsQuery = {
 
 export default async function Blog() {
   const allPosts = await fetch(
-    `https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts?fields=ID,title,excerpt,tags,date`
+    `${WORDPRESS_ROOT}/posts?fields=ID,title,excerpt,tags,date`
   )
     .then((res) => res.json())
     .then(extractTagsFromPosts)
   const data: GetBlogPostsQuery = { allPosts }
   return (
-    <Stack m={{ xs: 2, sm: 5 }} gap={3}>
+    <Stack m={{ xs: 2, sm: 5 }} gap={5}>
       <Typography variant="h4" textAlign="center" fontStyle="italic">
         spenpo.blog
       </Typography>

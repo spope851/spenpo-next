@@ -6,10 +6,10 @@ import { extractTagsFromPost } from '@/app/utils/extractTags'
 import { redirect } from 'next/navigation'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Metadata } from 'next'
-import { previewImages } from '@/app/constants/blog'
+import { WORDPRESS_ROOT, previewImages } from '@/app/constants/blog'
 
 const getPost = async (id: string) =>
-  fetch(`https://public-api.wordpress.com/rest/v1.1/sites/182626139/posts/${id}`)
+  fetch(`${WORDPRESS_ROOT}/posts/${id}`)
     .then((res) => res.json())
     .then(extractTagsFromPost)
 
@@ -69,21 +69,22 @@ export default async function Post({ params }: PageProps) {
   }
 
   return (
-    <Box overflow="auto">
-      <Box mt={5} ml="5%">
-        <BackButton href="/blog" />
-      </Box>
-      <Box my={5} mx={{ xs: 2, sm: 5, md: '15%' }}>
+    <Box m={{ xs: 2, sm: 5 }}>
+      <BackButton href="/blog" />
+      <Box mx="auto" maxWidth="50em">
         <TagList tags={post.tags} />
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography component="span" variant="h4">
             {post.title}
           </Typography>
-          <Typography component="span" variant="caption">
+          <Typography component="span">
             {post.date && new Date(post.date).toLocaleDateString()}
           </Typography>
         </Box>
-        <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        <Typography
+          variant="body2"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
         <Link
           href={`https://introspective20s.wordpress.com/?p=${params.id}`}
           target="_blank"

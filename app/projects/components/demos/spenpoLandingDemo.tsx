@@ -197,6 +197,7 @@ export default function SpenpoLandingDemo() {
         }}
       />
     ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       title,
       name,

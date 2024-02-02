@@ -12,11 +12,10 @@ export const BackButton: React.FC<{ href?: string } & ButtonProps> = ({
   return (
     <Button
       sx={sx}
-      href={href}
       onClick={() => {
         if (!href) {
           router.back()
-        }
+        } else router.push(href)
       }}
       variant="outlined"
       color="primary"

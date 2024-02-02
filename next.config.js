@@ -3,15 +3,6 @@ const nextConfig = {}
 
 module.exports = {
   ...nextConfig,
-  async redirects() {
-    return [
-      {
-        source: '/projects',
-        destination: '/projects/starter-kit-next',
-        permanent: true,
-      },
-    ]
-  },
   webpack: (config) => {
     config.experiments = { ...config.experiments, topLevelAwait: true }
     // Grab the existing rule that handles SVG imports

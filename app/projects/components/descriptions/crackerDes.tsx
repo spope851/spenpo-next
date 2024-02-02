@@ -1,8 +1,10 @@
+import { METADATA } from '@/app/constants/projects'
+
 export default function CrackerDes() {
   return (
     <ul>
       <li>
-        description: a full-stack creativity tracker app
+        description: {METADATA.cracker.description}
         <ul>
           <li>track three data points each night</li>
           <li>

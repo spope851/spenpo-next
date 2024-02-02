@@ -1,12 +1,10 @@
 'use client'
-import React, { MutableRefObject, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Grid, Stack, TextField, Typography } from '@mui/material'
 import validator from 'validator'
 import emailjs from '@emailjs/browser'
-import { HomeComponentWrapper } from '../../home/components/HomeComponentWraper'
-import { SxProps } from '@mui/material'
 
-export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
+export const ContactForm: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [failure, setFailure] = useState(false)
@@ -52,13 +50,19 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
   }
 
   return (
-    <HomeComponentWrapper
+    <Stack
+      p={{ xs: 2, sm: 5 }}
+      gap={5}
+      borderRadius={1}
+      textAlign="center"
       component="form"
-      ref={formRef as unknown as MutableRefObject<HTMLDivElement>}
-      sx={sx}
+      ref={formRef}
+      maxWidth="50em"
+      mx="auto"
+      minWidth={{ md: 800 }}
     >
-      <Typography variant="h6" fontWeight="bold">
-        send an email ♡
+      <Typography component="h1" textAlign="left">
+        Send me an email ♡
       </Typography>
       <Grid container spacing={{ md: 5, xs: 2 }} alignSelf="center">
         <Grid item display="flex" md={6} flex={1}>
@@ -131,6 +135,6 @@ export const ContactForm: React.FC<{ sx?: SxProps }> = ({ sx }) => {
           must be a valid email
         </Typography>
       )}
-    </HomeComponentWrapper>
+    </Stack>
   )
 }

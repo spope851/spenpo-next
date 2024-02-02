@@ -10,19 +10,14 @@ import { ReactNode } from 'react'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Tabs } from '../components/Tabs'
 import { Metadata } from 'next'
-
-const previewImages: Record<string, string> = {
-  'starter-kit-next': '/images/starter-kit-next.png',
-  cracker: '/images/cracker.png',
-  'spenpo-landing': '/images/landing-page.png',
-}
+import { METADATA } from '@/app/constants/projects'
 
 export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
-  const title = params.id
-  const description = ''
-  const images = [previewImages[params.id] || '/images/headshot.jpeg']
+  const title = params.id as ProjectsType
+  const description = METADATA[title].description
+  const images = [METADATA[title].image || '/images/headshot.jpeg']
 
   return {
     title,

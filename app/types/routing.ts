@@ -1,4 +1,13 @@
-type Tabs = 'root' | 'home' | 'projects' | 'products' | 'resume' | 'blog' | 'contact'
+type Tabs =
+  | 'about'
+  | 'home'
+  | 'projects'
+  | 'products'
+  | 'resume'
+  | 'blog'
+  | 'contact'
+  | 'now'
+  | 'work'
 type Projects =
   | 'starter-kit-next'
   | 'cracker'

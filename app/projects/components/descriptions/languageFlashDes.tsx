@@ -1,7 +1,9 @@
+import { METADATA } from '@/app/constants/projects'
+
 export default function LanguageFlashDes() {
   return (
     <ul>
-      <li>description: flashcards for studying a new language</li>
+      <li>description: {METADATA['language-flash'].description}</li>
       <ul>
         <li>choose how many words to study at a time</li>
         <li>

@@ -1,7 +1,9 @@
+import { METADATA } from '@/app/constants/projects'
+
 export default function TwoTruthsDes() {
   return (
     <ul>
-      <li>description: two truths and a lie app</li>
+      <li>description: {METADATA['two-truths'].description}</li>
       <ul>
         <li>choose the two you think are true</li>
         <li>replay button resets the game with new values</li>

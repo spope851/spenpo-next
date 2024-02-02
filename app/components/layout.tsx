@@ -1,15 +1,12 @@
 'use client'
-import Navbar from './navbar'
+import { Navbar } from './navbar'
 import Footer from './footer'
 import { usePathname } from 'next/navigation'
-import { Tabs } from '../types/routing'
 import { Box } from '@mui/material'
 import React from 'react'
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const pathname = usePathname() || ''
-
-  const active = (pathname.split('/')[1] as Tabs) || 'root'
+  const pathname = usePathname()
 
   const hideLayoutPaths = ['/products/landing-page/design', '/']
 
@@ -23,9 +20,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       display="flex"
       flexDirection="column"
     >
-      {!hideLayoutPaths.includes(pathname) && <Navbar active={active} />}
+      {pathname && !hideLayoutPaths.includes(pathname) && <Navbar />}
       {children}
-      {!hideLayoutPaths.includes(pathname) && <Footer />}
+      {pathname && !hideLayoutPaths.includes(pathname) && <Footer />}
     </Box>
   )
 }

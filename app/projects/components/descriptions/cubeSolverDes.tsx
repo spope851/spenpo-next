@@ -1,7 +1,9 @@
+import { METADATA } from '@/app/constants/projects'
+
 export default function CubeDes() {
   return (
     <ul>
-      <li>description: solve a 3x3 puzzle cube</li>
+      <li>description: {METADATA['3x3-cube'].description}</li>
       <ul>
         <li>
           click each square and use the color picker to set the colors to match your

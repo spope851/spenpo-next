@@ -4,4 +4,6 @@ const previewImages: Record<string, string> = {
   152: 'https://images.unsplash.com/photo-1525545575852-94dac00e6836?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ',
 }
 
-export { previewImages }
+const WORDPRESS_ROOT = 'https://public-api.wordpress.com/rest/v1.1/sites/182626139'
+
+export { previewImages, WORDPRESS_ROOT }

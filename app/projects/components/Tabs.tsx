@@ -13,13 +13,13 @@ export const Tabs: React.FC<{ project: ProjectsType }> = ({ project }) => {
       scrollButtons
       allowScrollButtonsMobile
       variant="scrollable"
-      value={Object.keys(projects).indexOf(project || 'spenpo-landing')}
+      value={Object.keys(projects).indexOf(project)}
     >
       {PROJECTS.map((projectName) => (
         <Tab
           key={projectName}
           label={projectName}
-          onClick={() => router.push(projectName)}
+          onClick={() => router.push(`/projects/${projectName}`)}
         />
       ))}
     </MuiTabs>

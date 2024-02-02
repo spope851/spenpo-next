@@ -60,6 +60,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
               body: {
                 overflowX: 'hidden',
               },
+              h1: {
+                '&.MuiTypography-root': {
+                  fontSize: 30,
+                },
+              },
             },
           },
           MuiAppBar: {
@@ -79,6 +84,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             },
           },
           MuiTypography: {
+            styleOverrides: {
+              body2: {
+                fontSize: 20,
+              },
+            },
             variants: [
               {
                 props: { id: 'deployment' },

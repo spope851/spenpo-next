@@ -5,6 +5,7 @@ import { Metadata } from 'next'
 import React from 'react'
 import { SnackbarContextProvider } from './context/snackbar'
 import { UnAuthContextProvider } from './context/unAuth'
+import { MenuContextProvider } from './components/Menu'
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'Spencer Pope'
@@ -60,9 +61,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <NextAuthProvider>
           <UnAuthContextProvider>
             <SnackbarContextProvider>
-              <ThemeProvider>
-                <Layout>{children}</Layout>
-              </ThemeProvider>
+              <MenuContextProvider>
+                <ThemeProvider>
+                  <Layout>{children}</Layout>
+                </ThemeProvider>
+              </MenuContextProvider>
             </SnackbarContextProvider>
           </UnAuthContextProvider>
         </NextAuthProvider>

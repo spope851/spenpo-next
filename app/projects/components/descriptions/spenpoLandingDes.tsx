@@ -1,3 +1,4 @@
+import { METADATA } from '@/app/constants/projects'
 import {
   Stack,
   Table,
@@ -30,7 +31,7 @@ export default function SpenpoLandingDes() {
   return (
     <Stack>
       <ul>
-        <li>description: customizable landing page product</li>
+        <li>description: {METADATA['spenpo-landing'].description}</li>
         <ul>
           <li>
             client side SPA that displays an image and additional configurable

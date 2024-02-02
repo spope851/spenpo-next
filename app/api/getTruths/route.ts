@@ -17,7 +17,6 @@ export async function GET() {
   )
   const twoTruths = truths.rows
   twoTruths.push(lie.rows[0])
-  console.log(twoTruths)
 
   return NextResponse.json(shuffle(twoTruths))
 }
