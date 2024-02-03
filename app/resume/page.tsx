@@ -39,7 +39,7 @@ export default async function Resume() {
           </Link>
         </Typography>
       </Typography>
-      <Stack borderTop="solid 2px #999" p={3} gap={3}>
+      <Stack borderTop="solid 2px #999" pt={3} gap={3}>
         <Typography variant="h6" textAlign="center">
           Spencer Pope - Web Developer & Software Engineer
         </Typography>

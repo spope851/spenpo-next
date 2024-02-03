@@ -10,17 +10,20 @@ export const BgImage: React.FC<{
   fallback?: string
   children?: ReactNode
 }> = ({ src, opacity = 1, sx, fallback, children }) => {
-  const [bgImage, setBgImage] = useState(src)
+  const [bgImage, setBgImage] = useState(src || fallback || LINK_PREVIEW_FALLBACK)
+  console.log(src, fallback)
 
   useEffect(() => {
-    ;(async () => {
-      try {
-        const checkImg = await fetch(src, { method: 'get' })
-        if (checkImg.ok) setBgImage(URL.createObjectURL(await checkImg.blob()))
-      } catch {
-        setBgImage(fallback || LINK_PREVIEW_FALLBACK)
-      }
-    })()
+    if (src) {
+      ;(async () => {
+        try {
+          const checkImg = await fetch(src, { method: 'get' })
+          if (checkImg.ok) setBgImage(URL.createObjectURL(await checkImg.blob()))
+        } catch {
+          setBgImage(fallback || LINK_PREVIEW_FALLBACK)
+        }
+      })()
+    }
   }, [src, fallback])
 
   const SX = {

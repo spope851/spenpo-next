@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { ShoppingCartContext } from '@/app/context/shoppingCart'
 
@@ -15,12 +15,16 @@ export const ContinueBtn: React.FC<{
     domainName: [, setDomain],
     price: [, setPrice],
   } = useContext(ShoppingCartContext)
+  const [loading, setLoading] = useState(false)
 
   return (
-    <Button
+    <LoadingButton
+      loading={loading}
+      loadingPosition="end"
       endIcon={<ChevronRightIcon />}
       variant="contained"
       onClick={() => {
+        setLoading(true)
         setDomain(searchParams?.get('d') || `${searchParams?.get('q')}.vercel.app`)
         setPrice(searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0)
         router.push('password')
@@ -29,6 +33,6 @@ export const ContinueBtn: React.FC<{
       sx={{ ml: 'auto', mb: 'auto' }}
     >
       continue
-    </Button>
+    </LoadingButton>
   )
 }

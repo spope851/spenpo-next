@@ -1,6 +1,6 @@
 'use client'
 import { Navbar } from './navbar'
-import Footer from './footer'
+import Footer from './Footer'
 import { usePathname } from 'next/navigation'
 import { Box } from '@mui/material'
 import React from 'react'

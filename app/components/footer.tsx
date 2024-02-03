@@ -6,6 +6,7 @@ import Wordpress from '@/images/svg/wordpress.svg'
 import Twitch from '@/images/svg/twitch.svg'
 import Mail from '@/images/svg/mail.svg'
 import { Stack, SvgIcon, Typography } from '@mui/material'
+import Package from '../../package.json'
 
 const socials = [
   { href: 'https://github.com/spope851', icon: Github },
@@ -36,6 +37,13 @@ export default function Footer() {
           </Link>
         ))}
       </Stack>
+      <Typography
+        color="white"
+        display={{ xs: 'none', sm: 'block' }}
+        component="span"
+      >
+        v{Package.version}
+      </Typography>
       <Typography
         color="white"
         display={{ xs: 'none', sm: 'block' }}

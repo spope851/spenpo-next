@@ -1,0 +1,3 @@
+kind: Fixed
+body: check if src prop is defined before validation on BgImage component
+time: 2024-02-03T13:19:34.494113-07:00

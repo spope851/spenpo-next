@@ -41,46 +41,46 @@ const SummaryRow: React.FC<{ children: ReactNode }> = ({ children }) => (
   </>
 )
 
-const DEFAULT_PROPS = {
-  BACKGROUND_COLOR: '#E6E1DF',
-  BACKGROUND_IMAGE: 'https://spenpo-landing.s3.amazonaws.com/default-background.svg',
-  ACCENT_COLOR: '#4f86f7',
-  SECONDARY_ACCENT_COLOR: '#5FA052',
-}
+const WarningSummaryRow: React.FC<{ title: string; data: ReactNode }> = ({
+  title,
+  data,
+}) => (
+  <SummaryRow>
+    <Typography>{title}:</Typography>
+    <Typography color={data ? 'inherit' : 'red'}>
+      {data || 'No value provided'}
+    </Typography>
+  </SummaryRow>
+)
 
-export const LandingSummary: React.FC = () => {
+export const LandingSummary: React.FC<{ s3?: string }> = ({ s3 }) => {
+  const DEFAULT_PROPS = {
+    BACKGROUND_COLOR: '#E6E1DF',
+    BACKGROUND_IMAGE: `${s3}/default-background.svg`,
+    ACCENT_COLOR: '#4f86f7',
+    SECONDARY_ACCENT_COLOR: '#5FA052',
+  }
+
   const { landingCms, domainName } = useContext(ShoppingCartContext)
 
   return (
     <Stack rowGap={1}>
-      <SummaryRow>
-        <Typography>Domain:</Typography>
-        <Typography>{domainName[0]}</Typography>
-      </SummaryRow>
+      <WarningSummaryRow title="Domain" data={domainName[0]} />
       <SummaryRow>
         <Typography>Headshot:</Typography>
         <BgImage src={landingCms.headshotSrc.getter()!} sx={BG_SX} />
       </SummaryRow>
-      <SummaryRow>
-        <Typography>Name:</Typography>
-        <Typography>{landingCms.name.getter()}</Typography>
-      </SummaryRow>
-      <SummaryRow>
-        <Typography>Title:</Typography>
-        <Typography>{landingCms.title.getter()}</Typography>
-      </SummaryRow>
-      <SummaryRow>
-        <Typography>Subtitle:</Typography>
-        <Typography>{landingCms.subtitle.getter()}</Typography>
-      </SummaryRow>
-      <SummaryRow>
-        <Typography>Action Statement:</Typography>
-        <Typography>{landingCms.actionStatement.getter()}</Typography>
-      </SummaryRow>
-      <SummaryRow>
-        <Typography>Action Destination:</Typography>
-        <Typography>{landingCms.actionDestination.getter()}</Typography>
-      </SummaryRow>
+      <WarningSummaryRow title="Name" data={landingCms.name.getter()} />
+      <WarningSummaryRow title="Title" data={landingCms.title.getter()} />
+      <WarningSummaryRow title="Subtitle" data={landingCms.subtitle.getter()} />
+      <WarningSummaryRow
+        title="Action Statement"
+        data={landingCms.actionStatement.getter()}
+      />
+      <WarningSummaryRow
+        title="Action Destination"
+        data={landingCms.actionDestination.getter()}
+      />
       <SummaryRow>
         <Typography>Social URLs:</Typography>
         <Stack rowGap={1}>
@@ -93,7 +93,8 @@ export const LandingSummary: React.FC = () => {
         <Typography>Background Image:</Typography>
         <BgImage
           sx={BG_SX}
-          src={landingCms.backgroundImage.getter() || DEFAULT_PROPS.BACKGROUND_IMAGE}
+          src={landingCms.backgroundImage.getter() || ''}
+          fallback={DEFAULT_PROPS.BACKGROUND_IMAGE}
         />
       </SummaryRow>
       <SummaryRow>

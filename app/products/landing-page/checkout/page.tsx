@@ -10,6 +10,7 @@ import { IncludedWithYourPurchase } from './components/IncludedWithYourPurchase'
 import { StripeCheckout } from './components/StripeCheckout'
 
 export default async function Checkout() {
+  const s3 = process.env.AWS_LANDING_S3
   const session = await getServerSession(authOptions)
 
   if (!session) redirect('/products/landing-page/design')
@@ -32,7 +33,7 @@ export default async function Checkout() {
           <Typography variant="h4">Checkout</Typography>
           <Stack gap={1}>
             <Typography variant="h5">Order summary</Typography>
-            <LandingSummary />
+            <LandingSummary s3={s3} />
           </Stack>
           <Stack gap={1}>
             <Typography variant="h5">Contact information</Typography>
