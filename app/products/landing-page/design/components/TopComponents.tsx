@@ -82,7 +82,7 @@ export const TopComponents: React.FC<{ editable: boolean }> = ({ editable }) => 
             endIcon={<ChevronRightIcon />}
             disabled={session.status !== 'unauthenticated'}
           >
-            sign in
+            add to cart
           </LoadingButton>
         )}
       </Box>
