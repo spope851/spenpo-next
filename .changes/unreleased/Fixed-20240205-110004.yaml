@@ -1,0 +1,3 @@
+kind: Fixed
+body: added req and res to getServerSession in webhook
+time: 2024-02-05T11:00:04.131015-07:00

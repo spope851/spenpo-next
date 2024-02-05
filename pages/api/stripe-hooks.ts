@@ -43,7 +43,7 @@ const framework = 'nextjs'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(req, res, authOptions)
     const sig = req.headers['stripe-signature']
     const reqBuffer = await buffer(req)
 
