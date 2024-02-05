@@ -9,14 +9,12 @@ import { CheckoutForm } from './CheckoutForm'
 const stripe = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 export const StripeCheckout: React.FC = () => {
-  const { paymentIntentMetadata, landingCms } = useContext(ShoppingCartContext)
+  const { paymentIntentMetadata } = useContext(ShoppingCartContext)
 
   const [clientSecret, setClientSecret] = useState('')
 
   const router = useRouter()
   const pathname = usePathname()
-
-  const file = landingCms?.headshotFile.getter()
 
   useEffect(() => {
     if (!clientSecret) {
@@ -39,26 +37,10 @@ export const StripeCheckout: React.FC = () => {
 
         if (paymentIntentRes) {
           setClientSecret(paymentIntentRes.clientSecret)
-          const signedS3Url = await fetch(
-            `/api/get-signed-s3-url?filename=${paymentIntentRes.id}.${file?.name
-              .split('.')
-              .at(-1)}&filetype=${file?.type}`,
-            {
-              method: 'get',
-            }
-          )
-
-          const signedS3UrlRes = await signedS3Url.json()
-
-          await fetch(signedS3UrlRes.url, {
-            method: 'put',
-            headers: { 'Content-Type': file?.type || '' },
-            body: file,
-          })
         }
       })()
     }
-  }, [clientSecret, file, paymentIntentMetadata, pathname]) //eslint-disable-line react-hooks/exhaustive-deps
+  }, [clientSecret, paymentIntentMetadata, pathname]) //eslint-disable-line react-hooks/exhaustive-deps
 
   const appearance: { theme: 'stripe' | 'night' | 'flat' | undefined } = {
     theme: 'stripe',

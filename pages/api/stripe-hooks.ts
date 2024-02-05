@@ -21,6 +21,9 @@ import {
 } from '@/app/services/vercel'
 import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
+import redis from '@/app/utils/redis'
+import { getServerSession } from 'next-auth'
+import { authOptions } from './auth/[...nextauth]'
 
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
@@ -40,6 +43,7 @@ const framework = 'nextjs'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
+    const session = await getServerSession(authOptions)
     const sig = req.headers['stripe-signature']
     const reqBuffer = await buffer(req)
 
@@ -81,8 +85,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         let vercelApp: string = PROJECT_NAME
         let githubProject: string = PROJECT_NAME
-
-        const HEADSHOT_URL = `${process.env.AWS_LANDING_S3}/${order?.id}.${EXTENSION}`
 
         const IS_DOMAIN_PURCHASE = !DOMAIN_NAME.endsWith('.vercel.app')
 
@@ -249,11 +251,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         }
 
-        // fetch headshot from s3
-        const headshotReq = await fetch(HEADSHOT_URL, { method: 'get' })
-        const blob = await headshotReq.blob()
-        const buffer = Buffer.from(await blob.arrayBuffer())
-        const headshotBase64 = buffer.toString('base64')
+        // fetch headshot
+        const cache = await redis.hgetall(String(session.user.email))
+        const headshotBase64 = cache.HEADSHOT_FILE
 
         // 5. create blob of headshot
         let blobShaRes

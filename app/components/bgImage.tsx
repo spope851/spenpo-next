@@ -11,7 +11,6 @@ export const BgImage: React.FC<{
   children?: ReactNode
 }> = ({ src, opacity = 1, sx, fallback, children }) => {
   const [bgImage, setBgImage] = useState(src || fallback || LINK_PREVIEW_FALLBACK)
-  console.log(src, fallback)
 
   useEffect(() => {
     if (src) {

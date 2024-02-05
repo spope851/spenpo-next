@@ -1,0 +1,4 @@
+kind: Changed
+body: updated spenpo-landing. refactored cachecallback to handle headshot file. get
+  headshotfile from redis instead of s3 in webhook
+time: 2024-02-04T18:59:52.663466-07:00
