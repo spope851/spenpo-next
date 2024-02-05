@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
   const BODY = JSON.parse(req.body)
-  await redis.hmset(String(session?.user.email), BODY)
-  await redis.expire(String(session?.user.email), 300)
-  res.json({ [String(session?.user.email)]: BODY })
+  await redis.hmset(session.user.id, BODY)
+  await redis.expire(session.user.id, 300)
+  res.json({ status: 200, message: 'cached successfully' })
 }

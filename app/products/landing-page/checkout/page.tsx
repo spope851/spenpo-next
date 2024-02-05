@@ -15,9 +15,9 @@ export default async function Checkout() {
 
   if (!session) redirect('/products/landing-page/design')
 
-  const cache = await redis.hgetall(String(session.user.email))
+  const cache = await redis.hgetall(session.user.id)
 
-  if (cache.HEADSHOT_FILE) await redis.expire(String(session.user.email), 300)
+  if (cache.HEADSHOT_FILE) await redis.expire(session.user.id, 300)
   else redirect('/products/landing-page/design')
 
   return (

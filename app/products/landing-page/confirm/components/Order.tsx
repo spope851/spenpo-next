@@ -5,6 +5,7 @@ import { ProjectEnvVariableInput } from '@/app/context/shoppingCart'
 import { Box, CircularProgress, Link, Stack, Typography } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { SSROrder } from '../page'
+import { b64toBlob } from '@/app/utils/string'
 
 const getProject = async (name: string) =>
   await fetch(`/api/landing-page/getVercelProject?name=${name}`)
@@ -16,11 +17,14 @@ type ConfirmPageOrder = {
   }
 }
 
-export const Order: React.FC<{ ssrOrder: SSROrder; s3: string }> = ({
+export const Order: React.FC<{ ssrOrder: SSROrder; imageB64: string }> = ({
   ssrOrder,
-  s3,
+  imageB64,
 }) => {
   type ComponentOrder = typeof ssrOrder & ConfirmPageOrder
+
+  const blob = b64toBlob(imageB64)
+  const fallback = URL.createObjectURL(blob)
 
   const getOrder = async (): Promise<{ order: ComponentOrder }> => {
     const refetchOrder = await fetch(`/api/getOrder?orderId=${order.id}`)
@@ -88,11 +92,7 @@ export const Order: React.FC<{ ssrOrder: SSROrder; s3: string }> = ({
           <Box mx="auto">
             <SiteCard
               name={order.metadata.projectName.vercelApp}
-              fallback={`${s3}/${order.id}.${
-                order.metadata.environmentVariables
-                  .find((envVar) => envVar.key === 'NEXT_PUBLIC_HEADSHOT')
-                  ?.value.split('.')[1]
-              }`}
+              fallback={fallback}
             />
           </Box>
         </>

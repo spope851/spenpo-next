@@ -12,12 +12,12 @@ export default async function Home({ searchParams }: PageProps) {
 
   if (session && redisId) {
     const cache = await redis.hgetall(redisId)
-    await redis.hmset(String(session?.user.email), cache)
-    await redis.expire(String(session?.user.email), 300)
+    await redis.hmset(session.user.id, cache)
+    await redis.expire(session.user.id, 300)
     await redis.del(redisId)
     redirect('/products/landing-page/design')
   } else if (session) {
-    const cache = await redis.hgetall(String(session.user.email))
+    const cache = await redis.hgetall(session.user.id)
     return <CMS cache={cache} />
   }
   return <CMS />

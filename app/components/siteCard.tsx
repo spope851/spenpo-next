@@ -113,11 +113,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
     >
       <Stack direction="row" columnGap={1}>
         <BgImage
-          src={
-            fallback && linkPreview === LINK_PREVIEW_FALLBACK
-              ? fallback
-              : linkPreview
-          }
+          src={linkPreview}
           sx={{
             borderRadius: 25,
             height: 50,
@@ -125,6 +121,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
             border: 'solid 1px #555',
             m: '2px',
           }}
+          fallback={fallback}
         />
         <Stack>
           <Typography fontWeight="bold" sx={MIN_WIDTH()}>

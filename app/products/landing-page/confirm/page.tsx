@@ -10,6 +10,7 @@ import { PageProps } from '@/app/types/app'
 import { Prisma } from '@prisma/client'
 import { ViewYourSitesBtn } from './components/ViewYourSitesBtn'
 import { Order } from './components/Order'
+import redis from '@/app/utils/redis'
 
 export type SSROrder = {
   id: string
@@ -23,8 +24,8 @@ export type SSROrder = {
 
 export default async function Confirm({ searchParams }: PageProps) {
   let ssrOrder: SSROrder = {} as SSROrder
-  let s3 = ''
   const session = await getServerSession(authOptions)
+  let imageB64 = ''
   if (session) {
     // This is your test secret API key.
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
@@ -45,14 +46,17 @@ export default async function Confirm({ searchParams }: PageProps) {
       })
       if (order) {
         ssrOrder = order
-        s3 = process.env.AWS_LANDING_S3 || ''
+        const cache = await redis.hgetall(session.user.id)
+        if (cache.HEADSHOT_FILE) {
+          imageB64 = cache.HEADSHOT_FILE
+        }
       } else redirect(`/products/landing-page`)
     } else redirect(`/products/landing-page`)
   } else redirect(`/products/landing-page`)
 
   return (
     <Stack rowGap={3} m="auto">
-      <Order ssrOrder={ssrOrder} s3={s3} />
+      <Order ssrOrder={ssrOrder} imageB64={imageB64} />
       <ViewYourSitesBtn />
       <Typography textAlign="center">
         Need help? Please <Link href="/contact">contact us</Link> for support

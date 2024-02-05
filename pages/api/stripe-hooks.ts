@@ -22,8 +22,6 @@ import {
 import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
 import redis from '@/app/utils/redis'
-import { getServerSession } from 'next-auth'
-import { authOptions } from './auth/[...nextauth]'
 
 // This is your test secret API key.
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
@@ -43,7 +41,6 @@ const framework = 'nextjs'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const session = await getServerSession(req, res, authOptions)
     const sig = req.headers['stripe-signature']
     const reqBuffer = await buffer(req)
 
@@ -252,7 +249,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         // fetch headshot
-        const cache = await redis.hgetall(String(session.user.email))
+        const cache = await redis.hgetall(order?.userId || '')
         const headshotBase64 = cache.HEADSHOT_FILE
 
         // 5. create blob of headshot
