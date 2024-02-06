@@ -14,6 +14,7 @@ import {
 } from '@mui/material'
 import { BgImage } from '@/app/components/bgImage'
 import { CustomizeThemeContext } from '@/app/context/theme'
+import { DEFAULT_LANDING_PROPS } from '@/app/products/landing-page/design/components/CMS'
 
 const SPENPO_LANDING_WIDTH_DESKTOP = 880
 const LAPTOP_WIDTH = 1200
@@ -79,17 +80,27 @@ const TEXTFIELD_PROPS: { fullWidth: boolean; size: 'small' } = {
 }
 
 export default function SpenpoLandingDemo() {
-  const [title, setTitle] = useState<string>()
-  const [name, setName] = useState<string>()
-  const [subtitle, setSubtitle] = useState<string>()
-  const [actionStatement, setActionStatement] = useState<string>()
-  const [actionDestination, setActionDestination] = useState<string>()
+  const [title, setTitle] = useState<string | undefined>(DEFAULT_LANDING_PROPS.title)
+  const [name, setName] = useState<string | undefined>(DEFAULT_LANDING_PROPS.name)
+  const [subtitle, setSubtitle] = useState<string | undefined>(
+    DEFAULT_LANDING_PROPS.subtitle
+  )
+  const [actionStatement, setActionStatement] = useState<string | undefined>(
+    DEFAULT_LANDING_PROPS.actionStatement
+  )
+  const [actionDestination, setActionDestination] = useState<string | undefined>(
+    DEFAULT_LANDING_PROPS.actionDestination
+  )
   const [accentColor, setAccentColor] = useState<string>()
   const [secondaryAccentColor, setSecondaryAccentColor] = useState<string>()
   const [backgroundColor, setBackgroundColor] = useState<string>()
   const [backgroundImage, setBackgroundImage] = useState<string>()
-  const [headshotSrc, setHeadshotSrc] = useState<string>()
-  const [socialUrls, setSocialUrls] = useState<string[]>([])
+  const [headshotSrc, setHeadshotSrc] = useState<string | undefined>(
+    DEFAULT_LANDING_PROPS.headshotSrc
+  )
+  const [socialUrls, setSocialUrls] = useState<string[] | undefined>(
+    DEFAULT_LANDING_PROPS.socialUrls.slice(0, 4)
+  )
   const [editable, setEditable] = useState(false)
   const [headshotFile, setHeadshotFile] = useState<File>()
 
@@ -107,7 +118,7 @@ export default function SpenpoLandingDemo() {
       setter: (prop) => setSubtitle(prop),
     },
     actionStatement: {
-      getter: () => actionStatement || 'your action statement',
+      getter: () => actionStatement,
       setter: (prop) => setActionStatement(prop),
     },
     actionDestination: {
@@ -308,7 +319,6 @@ export default function SpenpoLandingDemo() {
         <Grid {...GRID_ITEM_PROPS} sm={12} md={6}>
           <Autocomplete
             size="small"
-            value={socialUrls}
             multiple
             freeSolo
             renderInput={(params) => (

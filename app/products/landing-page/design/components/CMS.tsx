@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import { SpenpoLandingCache, SpenpoLanding } from 'spenpo-landing'
 import { UnAuthContext } from '@/app/context/unAuth'
 
-const DEFAULT_PROPS = {
+export const DEFAULT_LANDING_PROPS = {
   name: 'your name',
   title: 'your title',
   subtitle: 'something interesting about you',
@@ -61,7 +61,7 @@ export const CMS: React.FC<{ cache?: SpenpoLandingCache }> = ({ cache }) => {
       editable={editable}
       topComponents={<TopComponents editable={editable[0]} />}
       cache={cache}
-      {...DEFAULT_PROPS}
+      {...DEFAULT_LANDING_PROPS}
     />
   )
 }
