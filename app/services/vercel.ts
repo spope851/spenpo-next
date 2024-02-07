@@ -57,7 +57,7 @@ const cancelDeployment = async (deploymentId: string) =>
     `https://api.vercel.com/v12/deployments/${deploymentId}/cancel?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: 'patch',
+      method: 'PATCH',
     }
   )
 
@@ -110,6 +110,18 @@ const getDomainPrice = async (name: string) =>
     }
   )
 
+const getDomainInfo = async (name: string) =>
+  fetch(
+    `https://api.vercel.com/v5/domains/${name}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+      next: {
+        tags: ['domainInfo'],
+      },
+    }
+  )
+
 const purchaseDomain = async (name: string, expectedPrice: number, renew: boolean) =>
   fetch(`https://api.vercel.com/v4/domains/buy?teamId=${process.env.VERCEL_TEAM}`, {
     body: JSON.stringify({
@@ -140,6 +152,24 @@ const addDomainToProject = async (
     }
   )
 
+const removeDomainFromProject = async (project: string, domain: string) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains/${domain}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'delete',
+    }
+  )
+
+const getProjectDomains = async (project: string) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+    }
+  )
+
 export {
   createProject,
   getProject,
@@ -152,6 +182,9 @@ export {
   getDeploymentEvents,
   getDomainStatus,
   getDomainPrice,
+  getDomainInfo,
   purchaseDomain,
   addDomainToProject,
+  removeDomainFromProject,
+  getProjectDomains,
 }

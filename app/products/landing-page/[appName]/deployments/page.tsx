@@ -1,5 +1,5 @@
-import React from 'react'
-import { Stack } from '@mui/material'
+import React, { Suspense } from 'react'
+import { CircularProgress, Stack } from '@mui/material'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
 import { Breadcrumbs } from '@/app/components/breadcrumbs'
@@ -7,10 +7,12 @@ import prisma from '@/app/utils/prisma'
 import { Prisma } from '@prisma/client'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
-import { Deployments as SpenpoDeployments } from './components/Deployments'
+import { getProjectDeployments } from '@/app/services/vercel'
+import { DeploymentCard } from '@/app/components/deploymentCard'
 
 export default async function Deployments({ params }: PageProps) {
   const session = await getServerSession(authOptions)
+  let projectDeployments
   if (!!session) {
     const projects = await prisma.order
       .findMany({
@@ -23,16 +25,31 @@ export default async function Deployments({ params }: PageProps) {
               .vercelApp
         )
       )
-    if (!projects.includes(params?.appName)) {
-      redirect(`/products/landing-page`)
-    }
+    if (projects.includes(params?.appName)) {
+      const projectDeploymentsReq = await getProjectDeployments(params?.appName)
+      projectDeployments = await projectDeploymentsReq.json()
+    } else redirect(`/products/landing-page`)
   } else redirect(`/products/landing-page`)
 
   return (
     <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
       <Breadcrumbs />
       <Stack direction="row" justifyContent="space-around">
-        <SpenpoDeployments />
+        <Stack rowGap={1} width="100%">
+          {projectDeployments?.deployments.map((deployment: { uid: string }) => (
+            <Suspense
+              key={deployment.uid}
+              fallback={
+                <Stack border="solid 2px #aaa" p={2} borderRadius={1}>
+                  ...loading
+                </Stack>
+              }
+            >
+              <DeploymentCard uid={deployment.uid} />
+            </Suspense>
+          ))}
+          {!projectDeployments && <CircularProgress sx={{ alignSelf: 'center' }} />}
+        </Stack>
       </Stack>
     </Stack>
   )
