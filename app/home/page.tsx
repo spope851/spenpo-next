@@ -77,6 +77,12 @@ export default async function Home() {
         Please <Link href="/contact">reach out</Link> for anything at all. I respond
         to email and I&apos;m always glad to e-meet someone new.
       </Typography>
+      <Typography component="h1">Privacy Policy</Typography>
+      <Typography variant="body2">
+        Now that I have enabled third-party login features so that I can identify
+        users who make purchases on my site, I am required to have a privacy policy.
+        You can find it <Link href="/privacy">here</Link>.
+      </Typography>
     </Stack>
   )
 }

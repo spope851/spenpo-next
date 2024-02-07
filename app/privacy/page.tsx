@@ -177,6 +177,16 @@ export default async function Privacy() {
         and/or other general communication.
       </Typography>
       <Typography component="h1" display="flex" alignItems="baseline" gap={5}>
+        Personal Information We Collect from Third Parties
+      </Typography>
+      <Typography variant="body2">
+        If you login to spenpo.com with a third party service (e.g. GitHub, Facebook,
+        Google), you direct the service to send us information such as your email
+        address and profile information as controlled by that service or as
+        authorized by you via your privacy settings at that service. This data will
+        be used to identify orders you place on spenpo.com.
+      </Typography>
+      <Typography component="h1" display="flex" alignItems="baseline" gap={5}>
         External Data Storage Sites
       </Typography>
       <Typography variant="body2">
@@ -205,18 +215,10 @@ export default async function Privacy() {
         believe that the Company has not adhered to this Policy, please contact the
         Company at:
       </Typography>
-      <Box>
-        <Typography variant="body2">Spencer Pope</Typography>
-        <Typography variant="body2">132 S College Ave</Typography>
-        <Typography variant="body2">FORT COLLINS, Colorado 80524</Typography>
-      </Box>
+      <Typography variant="body2">Spencer Pope</Typography>
       <Box>
         <Typography variant="body2">Email Address:</Typography>
         <Typography variant="body2">spenpo@spenpo.com</Typography>
-      </Box>
-      <Box>
-        <Typography variant="body2">Phone Number:</Typography>
-        <Typography variant="body2">9546940844</Typography>
       </Box>
       <Typography variant="body2">Effective as of February 06, 2024</Typography>
     </Stack>
