@@ -7,7 +7,7 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
 import { LandingSummary } from './components/LandingSummary'
 import { IncludedWithYourPurchase } from '../../components/IncludedWithYourPurchase'
-import { StripeCheckout } from '../../components/StripeCheckout'
+import { StripeCheckout } from '../../components/checkout/StripeCheckout'
 
 export default async function Checkout() {
   const s3 = process.env.AWS_LANDING_S3

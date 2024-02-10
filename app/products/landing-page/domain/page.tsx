@@ -41,9 +41,7 @@ export default async function DomainStep({ searchParams }: PageProps) {
           {!TLD && !d ? (
             <Typography variant="caption" maxWidth="75%">
               <strong>.vercel.app</strong> domains are included even if you purchase
-              additional custom domains. We ensure you get assigned the closest
-              available option. You can always reach out to support to have this
-              changed.
+              additional custom domains.
             </Typography>
           ) : (
             <Typography variant="caption" maxWidth="75%">

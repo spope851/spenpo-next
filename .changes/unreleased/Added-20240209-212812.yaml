@@ -1,3 +1,3 @@
 kind: Added
-body: 'api routes: domains/remove, domains/update'
+body: 'api routes: domains/add, domains/remove, domains/update'
 time: 2024-02-09T21:28:12.118871-07:00

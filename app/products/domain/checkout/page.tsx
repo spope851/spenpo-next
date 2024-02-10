@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
 import { IncludedWithYourPurchase } from '../../components/IncludedWithYourPurchase'
-import { StripeCheckout } from '../../components/StripeCheckout'
+import { StripeCheckout } from '../../components/checkout/StripeCheckout'
 import { Breadcrumbs } from '@/app/components/breadcrumbs'
 import { OrderSummary } from './components/OrderSummary'
 

@@ -159,8 +159,6 @@ export const ClientDomain: React.FC<{
             <LoadingButton
               loading={loading}
               onClick={async () => {
-                console.log(newRedirectStatus, redirectStatusCode)
-
                 setLoading(true)
                 const req = await fetch('/api/domains/update', {
                   method: 'post',
