@@ -7,6 +7,7 @@ export const LinkPreview: React.FC<{ url: string }> = ({ url }) => {
   return (
     <Box
       display={{ xs: 'block', sm: 'flex' }}
+      mx="auto"
       sx={{
         '& .Container': {
           height: 'unset',

@@ -98,6 +98,7 @@ const getDomainStatus = async (name: string) =>
     {
       headers,
       method: 'get',
+      next: { tags: [name] },
     }
   )
 
@@ -117,7 +118,7 @@ const getDomainInfo = async (name: string) =>
       headers,
       method: 'get',
       next: {
-        tags: ['domainInfo'],
+        tags: [name],
       },
     }
   )
@@ -170,6 +171,24 @@ const getProjectDomains = async (project: string) =>
     }
   )
 
+const updateProjectDomain = async (
+  project: string,
+  domain: string,
+  redirect: string | null,
+  redirectStatusCode: number | null
+) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains/${domain}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'PATCH',
+      body: JSON.stringify({
+        redirect,
+        redirectStatusCode,
+      }),
+    }
+  )
+
 export {
   createProject,
   getProject,
@@ -187,4 +206,5 @@ export {
   addDomainToProject,
   removeDomainFromProject,
   getProjectDomains,
+  updateProjectDomain,
 }

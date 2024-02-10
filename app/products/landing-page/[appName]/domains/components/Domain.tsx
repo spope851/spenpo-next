@@ -3,7 +3,7 @@ import { Stack, Typography } from '@mui/material'
 import DomainVerificationIcon from '@mui/icons-material/DomainVerification'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import { getDomainInfo, getDomainPrice } from '@/app/services/vercel'
-import { revalidateTag } from 'next/cache'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { ClientDomain } from './ClientDomain'
 
 export type DomainProps = {
@@ -11,6 +11,7 @@ export type DomainProps = {
   domains: string[]
   redirect: string | null
   redirectStatusCode: number | null
+  project: string
 }
 
 export async function Domain({
@@ -18,6 +19,7 @@ export async function Domain({
   domains,
   redirect,
   redirectStatusCode,
+  project,
 }: DomainProps) {
   let domain
   let price
@@ -30,7 +32,7 @@ export async function Domain({
     price = p.price
   }
   return (
-    <Stack p={3} border="solid #555" borderRadius={1} key={name} gap={3}>
+    <Stack p={3} border="solid #aaa" borderRadius={1} key={name} gap={3}>
       <ClientDomain
         redirectStatusCode={redirectStatusCode}
         redirect={redirect}
@@ -38,17 +40,26 @@ export async function Domain({
         name={name}
         refresh={async () => {
           'use server'
-          revalidateTag('domainInfo')
+          revalidateTag(name)
+        }}
+        revalidate={async () => {
+          'use server'
+          revalidatePath(`/products/landing-page/${project}/domains`)
         }}
       />
-      <Stack direction="row" gap={3} justifyContent="space-between">
+      <Stack
+        direction="row"
+        gap={3}
+        justifyContent="space-between"
+        alignItems="self-start"
+      >
         {domain?.verified && (
           <Stack direction="row" gap={1} alignItems="center">
             <DomainVerificationIcon />
             <Typography variant="body2">Verified</Typography>
           </Stack>
         )}
-        <Stack direction="row" gap={3}>
+        <Stack direction={{ md: 'row', xs: 'column' }} columnGap={3} rowGap={1}>
           {domain?.expiresAt && (
             <Stack direction="row" gap={1} alignItems="center">
               <Typography variant="body2">

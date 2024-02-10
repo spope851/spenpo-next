@@ -4,10 +4,12 @@ import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Layout, LayoutObject } from '@stripe/stripe-js'
 import { Box, Button, Stack } from '@mui/material'
 import { useSession } from 'next-auth/react'
+import { usePathname } from 'next/navigation'
 
 export const CheckoutForm: React.FC = () => {
   const usestripe = useStripe()
   const elements = useElements()
+  const pathname = usePathname()
 
   const session = useSession()
   const [message, setMessage] = React.useState<string | null | undefined>(null)
@@ -29,7 +31,7 @@ export const CheckoutForm: React.FC = () => {
       confirmParams: {
         // Make sure to change this to your payment completion page
         return_url: `${window?.location.origin}${
-          window?.location.pathname.split('/checkout')[0]
+          pathname?.split('/checkout')[0]
         }/confirm`,
       },
     })
@@ -66,7 +68,7 @@ export const CheckoutForm: React.FC = () => {
       </Button>
       {/* Show any error or success messages */}
       {message && <Box id="payment-message">{message}</Box>}
-      <Button variant="contained" href="design" disabled={isLoading}>
+      <Button variant="contained" href="/products/landing-page" disabled={isLoading}>
         cancel
       </Button>
     </Stack>

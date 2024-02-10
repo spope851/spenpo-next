@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ShoppingCartContext } from '../../../../context/shoppingCart'
 import { TopComponents } from './TopComponents'
 import { useSession } from 'next-auth/react'
@@ -24,10 +24,12 @@ export const DEFAULT_LANDING_PROPS = {
 }
 
 export const CMS: React.FC<{ cache?: SpenpoLandingCache }> = ({ cache }) => {
-  const { landingCms } = useContext(ShoppingCartContext)
+  const { landingCms, setProjectName } = useContext(ShoppingCartContext)
   const editable = useState(true)
   const { redisId } = useContext(UnAuthContext)
   const session = useSession()
+
+  useEffect(() => setProjectName(undefined), []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <SpenpoLanding

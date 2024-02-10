@@ -13,7 +13,7 @@ export default async function Products() {
           spenpo.shop
         </Typography>
       </Grid>
-      <Grid container>
+      <Grid container spacing={3}>
         {products.map((product) => (
           <Product {...product} key={product.id} />
         ))}
