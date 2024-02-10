@@ -26,7 +26,7 @@ export type SSROrder = {
 }
 
 type Metadata = {
-  projectName: { vercelApp: string }
+  projectName: string
 }
 
 export default async function Confirm({ searchParams }: PageProps) {
@@ -39,11 +39,11 @@ export default async function Confirm({ searchParams }: PageProps) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
       apiVersion: '2023-08-16',
     })
-    if (!stripe) redirect(`/products/landing-page`)
+    if (!stripe) redirect(`/products/domain`)
 
     const paymentIntentId = searchParams.payment_intent?.toString()
 
-    if (!paymentIntentId) redirect(`/products/landing-page`)
+    if (!paymentIntentId) redirect(`/products/domain`)
 
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
     const orderId = paymentIntent.metadata.orderId
@@ -60,14 +60,14 @@ export default async function Confirm({ searchParams }: PageProps) {
           imageB64 = cache.HEADSHOT_FILE
         }
         const projectReq = await getProject(
-          (order.metadata as unknown as Metadata).projectName.vercelApp
+          (order.metadata as unknown as Metadata).projectName
         )
         const project = await projectReq.json()
 
         domains = project?.targets?.production?.alias
-      } else redirect(`/products/landing-page`)
-    } else redirect(`/products/landing-page`)
-  } else redirect(`/products/landing-page`)
+      } else redirect(`/products/domain`)
+    } else redirect(`/products/domain`)
+  } else redirect(`/products/domain`)
 
   return (
     <Stack rowGap={3} m="auto">
@@ -88,8 +88,8 @@ export default async function Confirm({ searchParams }: PageProps) {
             Congratulations
           </Typography>
           <Typography variant="h5" textAlign="center">
-            Your website is being deployed and will be available shortly at the
-            following URLs:
+            Your domain is being assiged and your site will be available shortly at
+            the following URLs:
           </Typography>
           <Box mx="auto">
             {domains.length > 0 ? (
@@ -106,7 +106,7 @@ export default async function Confirm({ searchParams }: PageProps) {
                 <RevalidateBtn
                   revalidate={async () => {
                     'use server'
-                    revalidatePath('/products/landing-page/confirm')
+                    revalidatePath('/products/domain/confirm')
                   }}
                 />
               </Stack>

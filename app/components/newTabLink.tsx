@@ -1,3 +1,4 @@
+'use client'
 import { SxProps, Typography } from '@mui/material'
 
 export const NewTabLink: React.FC<{

@@ -47,8 +47,17 @@ export default async function Home() {
       </Typography>
       <LinkPreview
         {...LINK_PREV_PROPS}
-        borderRadius={4}
         url={'https://www.spenpo.com/blog/' + latestPost}
+      />
+      <Typography component="h1">The latest thing I&apos;ve posted</Typography>
+      <Typography variant="body2">
+        I recorded this video on how I integrated Vercel&apos;s &quot;buy a
+        domain&quot; functionality with my website. There were a couple key tricks
+        that leverages some of the newest Next.js features.
+      </Typography>
+      <LinkPreview
+        {...LINK_PREV_PROPS}
+        url={'https://www.youtube.com/watch?v=t-THJgafWuM'}
       />
       <Typography component="h1">What I&apos;ve been tinkering with</Typography>
       <Typography variant="body2">
@@ -58,7 +67,6 @@ export default async function Home() {
       </Typography>
       <LinkPreview
         {...LINK_PREV_PROPS}
-        borderRadius={4}
         url={'https://www.spenpo.com/projects/' + PROJECTS[0]}
       />
       <Typography component="h1">More about me</Typography>

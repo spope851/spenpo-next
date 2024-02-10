@@ -1555,5 +1555,5 @@ const ALL_TLD = new Map([
 
 const TLDS = new Map([...ALL_TLD, ...TLDS_BY_SHARE].sort((a, b) => b[1] - a[1]))
 
-const LIMIT_INCREMENT = 6
+const LIMIT_INCREMENT = 16
 export { TLDS, TLDS_BY_SHARE, LIMIT_INCREMENT }

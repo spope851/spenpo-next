@@ -2,15 +2,29 @@
 
 import { Button } from '@mui/material'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
-import React from 'react'
-import { LIMIT_INCREMENT } from '../constants'
+import React, { useEffect, useRef } from 'react'
+import { LIMIT_INCREMENT } from '../landing-page/domain/constants'
 
 export const LoadMoreBtn: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
+  const loadMoreBtn = useRef<HTMLButtonElement | null>(null)
+  const mount = useRef(true)
+  const limit = searchParams?.get('limit')
+
+  useEffect(() => {
+    if (searchParams?.get('limit') && mount.current) {
+      mount.current = false
+      return
+    }
+    if (loadMoreBtn.current)
+      loadMoreBtn.current.scrollIntoView({ behavior: 'instant' })
+  }, [limit]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Button
+      ref={loadMoreBtn}
       variant="outlined"
       onClick={() => {
         const current = new URLSearchParams(
