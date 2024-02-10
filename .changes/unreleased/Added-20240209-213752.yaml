@@ -1,4 +1,0 @@
-kind: Added
-body: learnMore and buyNow fields to Product table, conditional rendering on products
-  page based on them
-time: 2024-02-09T21:37:52.332914-07:00
