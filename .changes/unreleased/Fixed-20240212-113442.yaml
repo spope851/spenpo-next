@@ -1,0 +1,3 @@
+kind: Fixed
+body: check auth before fetching orders in domain product
+time: 2024-02-12T11:34:42.282438-05:00

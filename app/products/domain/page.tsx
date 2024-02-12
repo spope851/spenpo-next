@@ -7,14 +7,16 @@ import prisma from '@/app/utils/prisma'
 import { PageProps } from '@/app/types/app'
 import { SelectDomain } from '@/app/products/components/SelectDomain'
 import { CheckoutBtn } from './components/CheckoutBtn'
-import { AppSelect } from './components/AppSelect'
+import { AppSelect, Order } from './components/AppSelect'
 
 export default async function Buy({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
-  let orders = []
-  orders = await prisma.order.findMany({
-    where: { userId: session.user.id, complete: true, productId: 'landing-page' },
-  })
+  let orders: Order[] = []
+
+  if (session)
+    orders = await prisma.order.findMany({
+      where: { userId: session.user.id, complete: true, productId: 'landing-page' },
+    })
 
   const d = searchParams.d ? String(searchParams.d) : ''
 

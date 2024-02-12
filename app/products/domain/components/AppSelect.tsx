@@ -19,7 +19,7 @@ type Metadata = {
   projectName: { vercelApp: string }
 }
 
-type Order = {
+export type Order = {
   id: string
   metadata: JsonValue
 }
