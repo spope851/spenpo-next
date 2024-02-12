@@ -12,10 +12,11 @@ type ConfirmPageOrder = {
   }
 }
 
-export const OrderPreview: React.FC<{ ssrOrder: SSROrder; imageB64: string }> = ({
-  ssrOrder,
-  imageB64,
-}) => {
+export const OrderPreview: React.FC<{
+  ssrOrder: SSROrder
+  imageB64: string
+  revalidate: () => Promise<void>
+}> = ({ ssrOrder, imageB64, revalidate }) => {
   type ComponentOrder = typeof ssrOrder & ConfirmPageOrder
 
   const blob = b64toBlob(imageB64)
@@ -27,6 +28,7 @@ export const OrderPreview: React.FC<{ ssrOrder: SSROrder; imageB64: string }> = 
     <SiteCard
       name={order.metadata.projectName?.vercelApp || order.metadata.project || ''}
       fallback={fallback}
+      revalidate={revalidate}
     />
   )
 }

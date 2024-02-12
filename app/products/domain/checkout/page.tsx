@@ -26,7 +26,11 @@ export default async function Checkout() {
           <Stack gap={1}>
             <Typography variant="h5">Order summary</Typography>
           </Stack>
-          <OrderSummary />
+          <OrderSummary
+            revalidate={async () => {
+              'use server'
+            }}
+          />
           <Stack gap={1}>
             <Typography variant="h5">Contact information</Typography>
             <Typography>{session.user.name}</Typography>

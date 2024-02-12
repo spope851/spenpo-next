@@ -1,0 +1,3 @@
+kind: Fixed
+body: pass revalidate to sitecard through props
+time: 2024-02-12T11:28:12.0754-05:00

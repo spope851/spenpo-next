@@ -30,7 +30,9 @@ const WarningSummaryRow: React.FC<{ title: string; data: ReactNode }> = ({
   </SummaryRow>
 )
 
-export const OrderSummary: React.FC = () => {
+export const OrderSummary: React.FC<{ revalidate: () => Promise<void> }> = ({
+  revalidate,
+}) => {
   const { paymentIntentMetadata } = useContext(ShoppingCartContext)
   const router = useRouter()
 
@@ -50,7 +52,10 @@ export const OrderSummary: React.FC = () => {
         The domain <strong>{paymentIntentMetadata.domainName}</strong> will be
         assigned to the following website:
       </Typography>
-      <SiteCard name={paymentIntentMetadata.projectName || ''} />
+      <SiteCard
+        name={paymentIntentMetadata.projectName || ''}
+        revalidate={revalidate}
+      />
       <WarningSummaryRow
         title="Auto Renewal"
         data={paymentIntentMetadata.renew ? 'ON' : 'OFF'}

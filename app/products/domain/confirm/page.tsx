@@ -114,7 +114,13 @@ export default async function Confirm({ searchParams }: PageProps) {
           </Box>
           <Typography textAlign="center">See below for details</Typography>
           <Box mx="auto">
-            <OrderPreview ssrOrder={ssrOrder} imageB64={imageB64} />
+            <OrderPreview
+              ssrOrder={ssrOrder}
+              imageB64={imageB64}
+              revalidate={async () => {
+                'use server'
+              }}
+            />
           </Box>
         </>
       )}

@@ -6,9 +6,11 @@ import { SiteCardClient } from './SiteCardClient'
 
 export async function SiteCard({
   name,
+  revalidate,
   fallback,
 }: {
   name: string
+  revalidate: () => Promise<void>
   fallback?: string
 }) {
   const projectReq = await getProject(name)
@@ -29,9 +31,7 @@ export async function SiteCard({
       linkPreview={linkPreview}
       project={project}
       fallback={fallback}
-      revalidate={async () => {
-        'use server'
-      }}
+      revalidate={revalidate}
     />
   )
 }
