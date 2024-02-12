@@ -11,7 +11,7 @@ import { OrderSummary } from './components/OrderSummary'
 export default async function Checkout() {
   const session = await getServerSession(authOptions)
 
-  if (!session) redirect('/products/landing-page/design')
+  if (!session) redirect('/products/domain')
 
   return (
     <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
