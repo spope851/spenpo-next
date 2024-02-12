@@ -10,7 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { AvatarMenu } from './avatarMenu'
 import { type TabProps, Tab } from './Tab'
@@ -88,7 +88,9 @@ export const Navbar: React.FC = () => {
             >
               <MenuIcon />
             </IconButton>
-            <AvatarMenu />
+            <Suspense>
+              <AvatarMenu />
+            </Suspense>
           </Stack>
           <Drawer
             PaperProps={{ sx: { backgroundColor: 'transparent', pt: 8 } }}

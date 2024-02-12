@@ -14,6 +14,8 @@ import {
 import { AppPreviewImg } from '../../components/AppPreviewImg'
 import { JsonValue } from '@prisma/client/runtime/library'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import { useCachedSignin } from '@/app/hooks/useCachedSignin'
 
 type Metadata = {
   projectName: { vercelApp: string }
@@ -31,9 +33,34 @@ const ValueItem: React.FC<{ name: string }> = ({ name }) => (
   </Box>
 )
 
+const Auth = () => (
+  <FormHelperText error>
+    You must manage a site on spenpo.com before you can purchase a domain. Click{' '}
+    <Link href="/products/landing-page">here</Link> to set one up or{' '}
+    <Link href="/contact">email me</Link> for custom options.
+  </FormHelperText>
+)
+
+const UnAuth: React.FC = () => {
+  const { path } = useCachedSignin()
+
+  return (
+    <FormHelperText error>
+      Please <Link href={path}>sign in</Link> to continue.
+    </FormHelperText>
+  )
+}
+
+const helperText = {
+  authenticated: <Auth />,
+  unauthenticated: <UnAuth />,
+  loading: <UnAuth />,
+}
+
 export const AppSelect: React.FC<{ orders: Order[] }> = ({ orders }) => {
   const { setProjectName } = useContext(ShoppingCartContext)
   const [value, setValue] = useState(0)
+  const { status } = useSession()
 
   return (
     <Stack gap={1} alignItems="center">
@@ -68,13 +95,7 @@ export const AppSelect: React.FC<{ orders: Order[] }> = ({ orders }) => {
           })}
         </Select>
       </FormControl>
-      {orders.length === 0 && (
-        <FormHelperText error>
-          You must manage a site on spenpo.com before you can purchase a domain.
-          Click <Link href="/products/landing-page">here</Link> to set one up or{' '}
-          <Link href="/contact">email me</Link> for custom options.
-        </FormHelperText>
-      )}
+      {orders.length === 0 && helperText[status]}
     </Stack>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Stack, Typography } from '@mui/material'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
@@ -39,7 +39,11 @@ export default async function Buy({ searchParams }: PageProps) {
         </Stack>
         <CheckoutBtn />
       </Stack>
-      {d && <AppSelect orders={orders} />}
+      {d && (
+        <Suspense>
+          <AppSelect orders={orders} />
+        </Suspense>
+      )}
       <SelectDomain searchParams={searchParams} />
     </Stack>
   )
