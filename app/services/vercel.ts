@@ -24,9 +24,11 @@ const getProject = async (name: string) =>
     }
   )
 
-const getProjectDeployments = async (app: string) =>
+const getProjectDeployments = async (app: string, limit?: number) =>
   fetch(
-    `https://api.vercel.com/v2/deployments?app=${app}&teamId=${process.env.VERCEL_TEAM}`,
+    `https://api.vercel.com/v2/deployments?app=${app}${
+      limit ? `&limit=${limit}` : ''
+    }&teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
       method: 'get',

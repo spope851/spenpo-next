@@ -13,7 +13,7 @@ export default async function Buy({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
   let orders = []
   orders = await prisma.order.findMany({
-    where: { userId: session.user.id, complete: true },
+    where: { userId: session.user.id, complete: true, productId: 'landing-page' },
   })
 
   const d = searchParams.d ? String(searchParams.d) : ''

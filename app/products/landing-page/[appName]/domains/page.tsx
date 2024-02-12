@@ -18,7 +18,11 @@ export default async function Domains({ params }: PageProps) {
   if (session) {
     const projects = await prisma.order
       .findMany({
-        where: { userId: session.user.id, complete: true },
+        where: {
+          userId: session.user.id,
+          productId: 'landing-page',
+          complete: true,
+        },
       })
       .then((res) =>
         res.map(

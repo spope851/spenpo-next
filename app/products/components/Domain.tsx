@@ -2,6 +2,19 @@ import { getDomainPrice, getDomainStatus } from '@/app/services/vercel'
 import { Box, Typography } from '@mui/material'
 import { AvailableDomain } from './AvailableDomain'
 import { revalidateTag, unstable_cache } from 'next/cache'
+import { ReactNode } from 'react'
+
+const Unavailable: React.FC<{ children: ReactNode }> = ({ children }) => (
+  <Box
+    borderRadius={1}
+    textAlign="center"
+    p={1}
+    sx={{ textDecorationLine: 'line-through' }}
+    overflow="scroll"
+  >
+    <Typography>{children}</Typography>
+  </Box>
+)
 
 const getStatus = async (domain: string) =>
   unstable_cache(
@@ -44,26 +57,14 @@ export default async function Domain({ domainName }: { domainName: string }) {
     )
   }
 
-  const Unavailable = (
-    <Box
-      borderRadius={1}
-      textAlign="center"
-      p={1}
-      sx={{ textDecorationLine: 'line-through' }}
-      overflow="scroll"
-    >
-      <Typography>{domainName}</Typography>
-    </Box>
-  )
-
-  if (status.available === false) return Unavailable
+  if (status.available === false) return <Unavailable>{domainName}</Unavailable>
 
   if (status.available === true) {
     const price = await getPrice(domainName)
 
     if (!!price?.price)
       return <AvailableDomain domainName={domainName} price={price.price} />
-    return Unavailable
+    return <Unavailable>{domainName}</Unavailable>
   }
-  return Unavailable
+  return <Unavailable>{domainName}</Unavailable>
 }

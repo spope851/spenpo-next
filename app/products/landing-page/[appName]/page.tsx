@@ -30,6 +30,7 @@ export default async function SitePage({ params }: PageProps) {
       where: {
         userId: session.user.id,
         complete: true,
+        productId: 'landing-page',
         metadata: {
           path: ['projectName', 'vercelApp'],
           equals: params?.appName,

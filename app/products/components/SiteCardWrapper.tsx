@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { HoverAwareness } from '@/app/components/hoverAwareness'
 import { NewTabLink } from '@/app/components/newTabLink'
 import { ReadyState } from '@/app/components/readyState'
-import { Project } from '@/app/components/siteCard'
+import { Project } from './SiteCardClient'
 
 export const SiteCardWrapper: React.FC<{
   children: ReactNode

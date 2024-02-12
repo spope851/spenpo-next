@@ -2,7 +2,7 @@
 import React, { ReactNode, useContext, useEffect } from 'react'
 import { Divider, Stack, Typography } from '@mui/material'
 import { ShoppingCartContext } from '../../../../context/shoppingCart'
-import { SiteCard } from '@/app/components/siteCard'
+import { SiteCard } from '@/app/products/components/SiteCard'
 import { useRouter } from 'next/navigation'
 
 const SummaryRow: React.FC<{ children: ReactNode }> = ({ children }) => (

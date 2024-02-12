@@ -1,15 +1,14 @@
 'use client'
 
-import { SiteCard } from '@/app/components/siteCard'
-import { ProjectEnvVariableInput } from '@/app/context/shoppingCart'
+import { SiteCard } from '@/app/products/components/SiteCard'
 import { useState } from 'react'
 import { SSROrder } from '../../landing-page/confirm/page'
 import { b64toBlob } from '@/app/utils/string'
 
 type ConfirmPageOrder = {
   metadata: {
-    projectName: { vercelApp: string }
-    environmentVariables: ProjectEnvVariableInput[]
+    project?: string
+    projectName?: { vercelApp: string }
   }
 }
 
@@ -24,5 +23,10 @@ export const OrderPreview: React.FC<{ ssrOrder: SSROrder; imageB64: string }> = 
 
   const [order] = useState(ssrOrder as unknown as ComponentOrder)
 
-  return <SiteCard name={order.metadata.projectName.vercelApp} fallback={fallback} />
+  return (
+    <SiteCard
+      name={order.metadata.projectName?.vercelApp || order.metadata.project || ''}
+      fallback={fallback}
+    />
+  )
 }

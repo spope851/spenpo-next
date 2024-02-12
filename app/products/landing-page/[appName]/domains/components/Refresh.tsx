@@ -17,7 +17,7 @@ export const Refresh: React.FC<{ refresh: () => Promise<void> }> = ({ refresh })
   return (
     <LoadingButton
       variant="outlined"
-      loadingPosition="end"
+      loadingPosition={loading ? 'end' : 'center'}
       loading={loading}
       endIcon={loading && <RefreshIcon />}
       onClick={async () => {

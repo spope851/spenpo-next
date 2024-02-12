@@ -132,7 +132,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXTAUTH_SECRET: secret[0],
   })
 
-  const contextValue: ShoppingCartContextProps = useMemo(() => {
+  const contextValue = useMemo(() => {
     const value: ShoppingCartContextProps = {
       setPassword,
       setProjectName,

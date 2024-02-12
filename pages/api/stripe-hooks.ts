@@ -17,7 +17,9 @@ import {
 import {
   addDomainToProject,
   createProject,
+  getProjectDeployments,
   purchaseDomain,
+  redeployProject,
 } from '@/app/services/vercel'
 import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
@@ -420,6 +422,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const assign = await assignDomain(metadata)
 
           if (!assign) break
+
+          const deploymentsReq = await getProjectDeployments(PROJECT_NAME, 1)
+          const deployments = await deploymentsReq.json()
+
+          await redeployProject(deployments.deployments[0].uid, PROJECT_NAME)
 
           await prisma.order.update({
             where: { id: orderId },

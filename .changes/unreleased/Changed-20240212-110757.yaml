@@ -1,0 +1,3 @@
+kind: Changed
+body: extrace html parser functionality to util for getting link preview
+time: 2024-02-12T11:07:57.654336-05:00

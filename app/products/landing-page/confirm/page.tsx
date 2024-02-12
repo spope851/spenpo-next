@@ -50,7 +50,7 @@ export default async function Confirm({ searchParams }: PageProps) {
 
     if (orderId) {
       const order = await prisma.order.findFirst({
-        where: { userId: session.user.id, id: orderId },
+        where: { userId: session.user.id, productId: 'landing-page', id: orderId },
       })
 
       if (order) {
