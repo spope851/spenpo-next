@@ -1,4 +1,5 @@
 import { ShoppingCartContextProvider } from '@/app/context/shoppingCart'
+import prisma from '@/app/utils/prisma'
 import { Metadata } from 'next'
 
 export async function generateMetadata(): Promise<Metadata> {
