@@ -1,6 +1,6 @@
-import { ShoppingCartContextProvider } from '@/app/context/shoppingCart'
 import { Metadata } from 'next'
 import prisma from '@/app/utils/prisma'
+import { ShoppingCartContextProvider } from '@/app/context/shoppingCart'
 
 export async function generateMetadata(): Promise<Metadata> {
   const product = await prisma.product.findFirst({
@@ -10,13 +10,14 @@ export async function generateMetadata(): Promise<Metadata> {
   })
 
   const title = `${product?.name} $0.${product?.price}`
+  const description = product?.description
 
   return {
     title,
-    description: product?.description,
+    description,
     openGraph: {
       title,
-      description: product?.description,
+      description,
       url: process.env.VERCEL_URL,
       siteName: 'spenpo.com',
       locale: 'en_US',
@@ -38,7 +39,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       title,
-      description: product?.description,
+      description,
       creator: '@s_pop3',
     },
   }

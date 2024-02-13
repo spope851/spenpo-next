@@ -1,0 +1,4 @@
+kind: Removed
+body: useEffect from CMS component. no need to prevent that confusion since the products
+  use separate context providers now
+time: 2024-02-13T13:39:50.275735-05:00

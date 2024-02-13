@@ -1,0 +1,4 @@
+kind: Changed
+body: separated layout component, ShoppingCartContextProviders, and generateMetadata
+  functions for domain and landing-page products
+time: 2024-02-13T13:38:38.300076-05:00
