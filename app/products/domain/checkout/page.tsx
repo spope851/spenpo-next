@@ -6,12 +6,20 @@ import { redirect } from 'next/navigation'
 import { IncludedWithYourPurchase } from '../../components/IncludedWithYourPurchase'
 import { StripeCheckout } from '../../components/checkout/StripeCheckout'
 import { Breadcrumbs } from '@/app/components/breadcrumbs'
-import { OrderSummary } from './components/OrderSummary'
+import { SiteCard } from '../../components/SiteCard'
+import { WarningSummaryRow } from '../../components/checkout/Summary'
+import redis from '@/app/utils/redis'
 
 export default async function Checkout() {
   const session = await getServerSession(authOptions)
+  let cache
+  if (session) {
+    cache = await redis.hgetall(session.user.id)
 
-  if (!session) redirect('/products/domain')
+    if (cache.domainName && cache.price && cache.renew && cache.projectName)
+      await redis.expire(session.user.id, 300)
+    else redirect('/products/domain')
+  } else redirect('/products/domain')
 
   return (
     <Stack rowGap={1} m={{ xs: 2, sm: 5 }}>
@@ -26,11 +34,17 @@ export default async function Checkout() {
           <Stack gap={1}>
             <Typography variant="h5">Order summary</Typography>
           </Stack>
-          <OrderSummary
-            revalidate={async () => {
-              'use server'
-            }}
-          />
+          <Stack rowGap={3}>
+            <Typography>
+              The domain <strong>{cache.domainName}</strong> will be assigned to the
+              following website:
+            </Typography>
+            <SiteCard name={cache.projectName || ''} />
+            <WarningSummaryRow
+              title="Auto Renewal"
+              data={cache.renew ? 'ON' : 'OFF'}
+            />
+          </Stack>
           <Stack gap={1}>
             <Typography variant="h5">Contact information</Typography>
             <Typography>{session.user.name}</Typography>

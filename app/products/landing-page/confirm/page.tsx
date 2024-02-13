@@ -9,11 +9,11 @@ import Link from 'next/link'
 import { PageProps } from '@/app/types/app'
 import { Prisma } from '@prisma/client'
 import { ViewYourSitesBtn } from '../../components/confirm/ViewYourSitesBtn'
-import { OrderPreview } from '../../components/confirm/OrderPreview'
 import redis from '@/app/utils/redis'
 import { getProject } from '@/app/services/vercel'
 import { revalidatePath } from 'next/cache'
 import { RevalidateBtn } from '../../components/confirm/RevalidateBtn'
+import { SiteCard } from '../../components/SiteCard'
 
 export type SSROrder = {
   id: string
@@ -32,7 +32,8 @@ type Metadata = {
 export default async function Confirm({ searchParams }: PageProps) {
   let ssrOrder: SSROrder = {} as SSROrder
   const session = await getServerSession(authOptions)
-  let imageB64 = ''
+  let fallbackB64
+
   let domains: string[] = []
   if (session) {
     // This is your test secret API key.
@@ -57,7 +58,7 @@ export default async function Confirm({ searchParams }: PageProps) {
         ssrOrder = order
         const cache = await redis.hgetall(session.user.id)
         if (cache.HEADSHOT_FILE) {
-          imageB64 = cache.HEADSHOT_FILE
+          fallbackB64 = cache.HEADSHOT_FILE
         }
         const projectReq = await getProject(
           (order.metadata as unknown as Metadata).projectName.vercelApp
@@ -114,12 +115,11 @@ export default async function Confirm({ searchParams }: PageProps) {
           </Box>
           <Typography textAlign="center">See below for details</Typography>
           <Box mx="auto">
-            <OrderPreview
-              ssrOrder={ssrOrder}
-              imageB64={imageB64}
-              revalidate={async () => {
-                'use server'
-              }}
+            <SiteCard
+              name={
+                (ssrOrder.metadata as unknown as Metadata).projectName?.vercelApp
+              }
+              fallbackB64={fallbackB64}
             />
           </Box>
         </>

@@ -21,6 +21,7 @@ const getProject = async (name: string) =>
     {
       headers,
       method: 'get',
+      next: { tags: [name] },
     }
   )
 

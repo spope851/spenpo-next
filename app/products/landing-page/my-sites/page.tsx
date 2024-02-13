@@ -37,12 +37,7 @@ export default async function MySites() {
                     </Stack>
                   }
                 >
-                  <SiteCard
-                    name={metadata.projectName.vercelApp}
-                    revalidate={async () => {
-                      'use server'
-                    }}
-                  />
+                  <SiteCard name={metadata.projectName.vercelApp} />
                 </Suspense>
               </Grid>
             )

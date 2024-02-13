@@ -9,6 +9,7 @@ import CachedIcon from '@mui/icons-material/Cached'
 import { HoverAwareness } from '../../components/hoverAwareness'
 import { BgImage } from '../../components/bgImage'
 import { VercelReadyState } from '@/app/products/landing-page/[appName]/deployments/components/useDeployment'
+import { b64toBlob } from '@/app/utils/string'
 
 const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 40): SxProps => {
   const maxWidth = Object.entries({ lg, md, xs }).reduce(
@@ -44,10 +45,18 @@ export const SiteCardClient: React.FC<{
   project: Project
   linkPreview: string
   fallback?: string
-  revalidate: () => Promise<void>
-}> = ({ fallback, linkPreview, project, revalidate }) => {
+  fallbackB64?: string
+  revalidate?: () => Promise<void>
+}> = ({ fallback, fallbackB64, linkPreview, project, revalidate }) => {
   const router = useRouter()
   const [actionHover, setActionHover] = useState(false)
+
+  let fallbackUrl: string | undefined = ''
+
+  if (fallbackB64) {
+    const blob = b64toBlob(fallbackB64)
+    fallbackUrl = URL.createObjectURL(blob)
+  } else fallbackUrl = fallback
 
   return (
     <Stack
@@ -56,7 +65,7 @@ export const SiteCardClient: React.FC<{
         if (!actionHover) {
           if (project.targets?.production)
             router.push(`/products/landing-page/${project.name}`)
-          else await revalidate()
+          else if (revalidate) await revalidate()
         }
       }}
       border="solid 2px #aaa"
@@ -82,7 +91,7 @@ export const SiteCardClient: React.FC<{
             border: 'solid 1px #555',
             m: '2px',
           }}
-          fallback={fallback}
+          fallback={fallbackUrl}
         />
         <Stack>
           <Typography fontWeight="bold" sx={MIN_WIDTH()}>
@@ -104,7 +113,9 @@ export const SiteCardClient: React.FC<{
         <HoverAwareness setHovering={setActionHover}>
           <Button
             variant="contained"
-            onClick={async () => revalidate()}
+            onClick={async () => {
+              if (revalidate) revalidate()
+            }}
             sx={{ ml: 'auto', minWidth: 40, p: 1 }}
           >
             <CachedIcon />

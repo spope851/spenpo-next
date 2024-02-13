@@ -3,15 +3,16 @@ import { LINK_PREVIEW_FALLBACK } from '../../constants/image'
 import { getLinkPreview } from '../../utils/getLinkPreview'
 import { getProject } from '../../services/vercel'
 import { SiteCardClient } from './SiteCardClient'
+import { revalidateTag } from 'next/cache'
 
 export async function SiteCard({
   name,
-  revalidate,
   fallback,
+  fallbackB64,
 }: {
   name: string
-  revalidate: () => Promise<void>
   fallback?: string
+  fallbackB64?: string
 }) {
   const projectReq = await getProject(name)
   const project = await projectReq.json()
@@ -31,7 +32,11 @@ export async function SiteCard({
       linkPreview={linkPreview}
       project={project}
       fallback={fallback}
-      revalidate={revalidate}
+      revalidate={async () => {
+        'use server'
+        revalidateTag(name)
+      }}
+      fallbackB64={fallbackB64}
     />
   )
 }

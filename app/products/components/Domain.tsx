@@ -40,7 +40,6 @@ const getPrice = async (domain: string) =>
 
 export default async function Domain({ domainName }: { domainName: string }) {
   const status = await getStatus(domainName)
-  console.log(status)
 
   if (status?.available === undefined) {
     revalidateTag(domainName)

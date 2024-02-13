@@ -33,15 +33,15 @@ export async function SelectDomain({
   }
 
   return (
-    <Stack maxWidth="70em" mx="auto" gap={5}>
+    <Stack maxWidth="70em" width="-webkit-fill-available" mx="auto" gap={5}>
       <Stack justifyContent="center" gap={3} alignItems="center">
         <DomainField />
       </Stack>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} width="100%">
         {q &&
           q.length > 2 &&
           domainNames.map((domainName) => (
-            <Grid item xs={6} sm={4} md={3} key={domainName}>
+            <Grid item xs={12} sm={6} md={3} key={domainName}>
               <Suspense
                 fallback={
                   <Box

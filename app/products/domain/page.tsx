@@ -8,6 +8,7 @@ import { PageProps } from '@/app/types/app'
 import { SelectDomain } from '@/app/products/components/SelectDomain'
 import { CheckoutBtn } from './components/CheckoutBtn'
 import { AppSelect, Order } from './components/AppSelect'
+import redis from '@/app/utils/redis'
 
 export default async function Buy({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
@@ -37,7 +38,22 @@ export default async function Buy({ searchParams }: PageProps) {
             renewal
           </Typography>
         </Stack>
-        <CheckoutBtn />
+        <CheckoutBtn
+          cache={async (
+            domainName: string,
+            projectName: string,
+            price: number,
+            renew: boolean
+          ) => {
+            'use server'
+            await redis.hmset(session.user.id, {
+              domainName,
+              projectName,
+              price,
+              renew,
+            })
+          }}
+        />
       </Stack>
       {d && (
         <Suspense>

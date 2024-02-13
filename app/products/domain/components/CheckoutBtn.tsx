@@ -6,7 +6,14 @@ import React, { useContext, useState } from 'react'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { ShoppingCartContext } from '@/app/context/shoppingCart'
 
-export const CheckoutBtn: React.FC = () => {
+export const CheckoutBtn: React.FC<{
+  cache: (
+    domainName: string,
+    projectName: string,
+    price: number,
+    renew: boolean
+  ) => Promise<void>
+}> = ({ cache }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const {
@@ -16,16 +23,22 @@ export const CheckoutBtn: React.FC = () => {
   } = useContext(ShoppingCartContext)
   const [loading, setLoading] = useState(false)
 
+  const domainName = String(searchParams?.get('d'))
+  const projectName = paymentIntentMetadata.projectName
+  const price = searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0
+  const renew = paymentIntentMetadata.renew
+
   return (
     <LoadingButton
       loading={loading}
       loadingPosition="end"
       endIcon={<ChevronRightIcon />}
       variant="contained"
-      onClick={() => {
+      onClick={async () => {
         setLoading(true)
-        setDomain(String(searchParams?.get('d')))
-        setPrice(searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0)
+        setDomain(domainName)
+        setPrice(price)
+        await cache(domainName, projectName!, price, renew)
         router.push('/products/domain/checkout')
       }}
       disabled={!searchParams?.get('d') || !paymentIntentMetadata.projectName}
