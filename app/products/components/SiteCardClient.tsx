@@ -11,7 +11,7 @@ import { BgImage } from '../../components/bgImage'
 import { VercelReadyState } from '@/app/products/landing-page/[appName]/deployments/components/useDeployment'
 import { b64toBlob } from '@/app/utils/string'
 
-const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 40): SxProps => {
+const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 30): SxProps => {
   const maxWidth = Object.entries({ lg, md, xs }).reduce(
     (p: { [key: string]: string }, c) => {
       p[c[0]] = `${c[1]}vw`
@@ -80,6 +80,7 @@ export const SiteCardClient: React.FC<{
           cursor: 'pointer',
         },
       }}
+      maxWidth={{ xs: 'calc(100vw - 32px)', sm: 'calc(100vw - 80px)' }}
     >
       <Stack direction="row" columnGap={1}>
         <BgImage

@@ -1,35 +1,25 @@
 import React from 'react'
-import { Box, CircularProgress, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
-import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
 import Link from 'next/link'
 import { PageProps } from '@/app/types/app'
-import { Prisma } from '@prisma/client'
 import { ViewYourSitesBtn } from '../../components/confirm/ViewYourSitesBtn'
 import { getProject } from '@/app/services/vercel'
 import { revalidatePath } from 'next/cache'
 import { RevalidateBtn } from '../../components/confirm/RevalidateBtn'
 import { SiteCard } from '../../components/SiteCard'
-
-export type SSROrder = {
-  id: string
-  userId: string
-  productId: string
-  metadata: Prisma.JsonValue
-  complete: boolean
-  error: Prisma.JsonValue
-  environment: string
-}
+import { Order } from '../../types'
+import { recursivelyFetchOrder } from '../../functions/recursivelyFetchOrder'
 
 type Metadata = {
   project: string
 }
 
 export default async function Confirm({ searchParams }: PageProps) {
-  let ssrOrder: SSROrder = {} as SSROrder
+  let order: Order
   const session = await getServerSession(authOptions)
   let domains: string[] = []
   if (session) {
@@ -47,36 +37,26 @@ export default async function Confirm({ searchParams }: PageProps) {
     const orderId = paymentIntent.metadata.orderId
 
     if (orderId) {
-      const order = await prisma.order.findFirst({
-        where: { userId: session.user.id, id: orderId, productId: 'domain' },
-      })
+      order = await recursivelyFetchOrder(orderId, 'domain', session.user.id)
 
-      if (order) {
-        ssrOrder = order
-        const projectReq = await getProject(
-          (order.metadata as unknown as Metadata).project
-        )
-        const project = await projectReq.json()
+      const projectReq = await getProject(
+        (order.metadata as unknown as Metadata).project
+      )
+      const project = await projectReq.json()
 
-        domains = project?.targets?.production?.alias
-      } else redirect(`/products/domain`)
+      domains = project?.targets?.production?.alias
     } else redirect(`/products/domain`)
   } else redirect(`/products/domain`)
 
   return (
     <Stack rowGap={3} m="auto">
-      {!ssrOrder.error && !ssrOrder.complete && (
-        <Stack m="auto">
-          <CircularProgress />
-        </Stack>
-      )}
-      {ssrOrder.error && (
+      {order.error && (
         <Typography color="red" maxWidth={300}>
           Something went wrong. Please <Link href="/contact">contact support</Link>{' '}
-          with your order number: #{ssrOrder.id}
+          with your order number: #{order.id}
         </Typography>
       )}
-      {ssrOrder.complete && (
+      {order.complete && (
         <>
           <Typography variant="h4" textAlign="center">
             Congratulations
@@ -108,7 +88,7 @@ export default async function Confirm({ searchParams }: PageProps) {
           </Box>
           <Typography textAlign="center">See below for details</Typography>
           <Box mx="auto">
-            <SiteCard name={(ssrOrder.metadata as unknown as Metadata).project} />
+            <SiteCard name={(order.metadata as unknown as Metadata).project} />
           </Box>
         </>
       )}

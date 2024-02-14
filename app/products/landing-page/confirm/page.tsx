@@ -1,36 +1,26 @@
 import React from 'react'
-import { Box, CircularProgress, Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { redirect } from 'next/navigation'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
-import prisma from '@/app/utils/prisma'
 import Stripe from 'stripe'
 import Link from 'next/link'
 import { PageProps } from '@/app/types/app'
-import { Prisma } from '@prisma/client'
 import { ViewYourSitesBtn } from '../../components/confirm/ViewYourSitesBtn'
 import redis from '@/app/utils/redis'
 import { getProject } from '@/app/services/vercel'
+import { SiteCard } from '../../components/SiteCard'
 import { revalidatePath } from 'next/cache'
 import { RevalidateBtn } from '../../components/confirm/RevalidateBtn'
-import { SiteCard } from '../../components/SiteCard'
-
-export type SSROrder = {
-  id: string
-  userId: string
-  productId: string
-  metadata: Prisma.JsonValue
-  complete: boolean
-  error: Prisma.JsonValue
-  environment: string
-}
+import { Order } from '../../types'
+import { recursivelyFetchOrder } from '../../functions/recursivelyFetchOrder'
 
 type Metadata = {
   projectName: { vercelApp: string }
 }
 
 export default async function Confirm({ searchParams }: PageProps) {
-  let ssrOrder: SSROrder = {} as SSROrder
+  let order: Order
   const session = await getServerSession(authOptions)
   let fallbackB64
 
@@ -50,40 +40,29 @@ export default async function Confirm({ searchParams }: PageProps) {
     const orderId = paymentIntent.metadata.orderId
 
     if (orderId) {
-      const order = await prisma.order.findFirst({
-        where: { userId: session.user.id, productId: 'landing-page', id: orderId },
-      })
+      order = await recursivelyFetchOrder(orderId, 'landing-page', session.user.id)
+      const cache = await redis.hgetall(session.user.id)
+      if (cache.HEADSHOT_FILE) {
+        fallbackB64 = cache.HEADSHOT_FILE
+      }
+      const projectReq = await getProject(
+        (order.metadata as unknown as Metadata).projectName.vercelApp
+      )
+      const project = await projectReq.json()
 
-      if (order) {
-        ssrOrder = order
-        const cache = await redis.hgetall(session.user.id)
-        if (cache.HEADSHOT_FILE) {
-          fallbackB64 = cache.HEADSHOT_FILE
-        }
-        const projectReq = await getProject(
-          (order.metadata as unknown as Metadata).projectName.vercelApp
-        )
-        const project = await projectReq.json()
-
-        domains = project?.targets?.production?.alias
-      } else redirect(`/products/landing-page`)
+      domains = project?.targets?.production?.alias
     } else redirect(`/products/landing-page`)
   } else redirect(`/products/landing-page`)
 
   return (
-    <Stack rowGap={3} m="auto">
-      {!ssrOrder.error && !ssrOrder.complete && (
-        <Stack m="auto">
-          <CircularProgress />
-        </Stack>
-      )}
-      {ssrOrder.error && (
+    <Stack rowGap={3} p={{ xs: 2, sm: 5 }}>
+      {order.error && (
         <Typography color="red" maxWidth={300}>
           Something went wrong. Please <Link href="/contact">contact support</Link>{' '}
-          with your order number: #{ssrOrder.id}
+          with your order number: #{order.id}
         </Typography>
       )}
-      {ssrOrder.complete && (
+      {order.complete && (
         <>
           <Typography variant="h4" textAlign="center">
             Congratulations
@@ -116,9 +95,7 @@ export default async function Confirm({ searchParams }: PageProps) {
           <Typography textAlign="center">See below for details</Typography>
           <Box mx="auto">
             <SiteCard
-              name={
-                (ssrOrder.metadata as unknown as Metadata).projectName?.vercelApp
-              }
+              name={(order.metadata as unknown as Metadata).projectName?.vercelApp}
               fallbackB64={fallbackB64}
             />
           </Box>
