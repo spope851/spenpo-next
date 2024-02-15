@@ -3,7 +3,7 @@
 import { Button } from '@mui/material'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useRef } from 'react'
-import { LIMIT_INCREMENT } from '../landing-page/domain/constants'
+import { LIMIT_INCREMENT } from '../constants'
 
 export const LoadMoreBtn: React.FC<{ disabled: boolean }> = ({ disabled }) => {
   const router = useRouter()

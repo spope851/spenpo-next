@@ -7,7 +7,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
 import { Breadcrumbs } from '../../../components/Breadcrumbs'
 import prisma from '../../../utils/prisma'
@@ -21,6 +20,7 @@ import { Status } from './deployments/components/Status'
 import { Timeago } from './components/Timeago'
 import { DeploymentCard } from '../../../components/DeploymentCard'
 import { NavBtns } from './components/NavBtns'
+import { authOptions } from '@/app/constants/api'
 
 export default async function SitePage({ params }: PageProps) {
   const session = await getServerSession(authOptions)

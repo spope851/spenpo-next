@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { getDeploymentEvents } from '@/app/services/vercel'
-import { NextApiRequest } from 'next'
+import { type NextRequest } from 'next/server'
 
-export const config = {
-  runtime: 'edge',
-}
-
-const getVercelDeploymentEvents = async (req: NextApiRequest) => {
-  const uid = new URL(req.url!).searchParams.get('uid')
+export async function GET(req: NextRequest) {
+  const uid = req.nextUrl.searchParams.get('uid')
   // console.log('GET deployment events ', uid)
 
   const response = await getDeploymentEvents(String(uid))
@@ -27,5 +23,3 @@ const getVercelDeploymentEvents = async (req: NextApiRequest) => {
 
   return new Response(stream)
 }
-
-export default getVercelDeploymentEvents

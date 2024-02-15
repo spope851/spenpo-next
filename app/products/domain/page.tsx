@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { Stack, Typography } from '@mui/material'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/app/constants/api'
 import { getServerSession } from 'next-auth'
 import { Breadcrumbs } from '@/app/components/Breadcrumbs'
 import prisma from '@/app/utils/prisma'
@@ -9,17 +9,33 @@ import { SelectDomain } from '@/app/products/components/SelectDomain'
 import { CheckoutBtn } from './components/CheckoutBtn'
 import { AppSelect, Order } from './components/AppSelect'
 import redis from '@/app/utils/redis'
+import { redirect } from 'next/navigation'
 
 export default async function Buy({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
   let orders: Order[] = []
 
-  if (session)
+  let defaultApp
+
+  const d = searchParams.d ? String(searchParams.d) : ''
+  const p = searchParams.p ? String(searchParams.p) : ''
+
+  if (session) {
     orders = await prisma.order.findMany({
       where: { userId: session.user.id, complete: true, productId: 'landing-page' },
     })
 
-  const d = searchParams.d ? String(searchParams.d) : ''
+    const cache = await redis.hgetall(session.user.id)
+
+    const price = Number(cache.price)
+    if (cache.domainName && !d && !!price && !p)
+      redirect(
+        `/products/domain?q=${cache.domainName}&d=${cache.domainName}&p=${
+          price / 100
+        }`
+      )
+    defaultApp = cache.projectName
+  }
 
   return (
     <Stack m={{ xs: 2, sm: 5 }} gap={5} flex={1} justifyContent="flex-start">
@@ -57,7 +73,7 @@ export default async function Buy({ searchParams }: PageProps) {
       </Stack>
       {d && (
         <Suspense>
-          <AppSelect orders={orders} />
+          <AppSelect orders={orders} defaultValue={defaultApp} />
         </Suspense>
       )}
       <SelectDomain searchParams={searchParams} />

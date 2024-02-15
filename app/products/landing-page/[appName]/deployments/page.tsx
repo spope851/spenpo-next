@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { CircularProgress, Stack } from '@mui/material'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/app/constants/api'
 import { getServerSession } from 'next-auth'
 import { Breadcrumbs } from '@/app/components/Breadcrumbs'
 import prisma from '@/app/utils/prisma'

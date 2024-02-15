@@ -14,7 +14,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ShoppingCartContext } from '@/app/context/shoppingCart'
 import { formatDomain } from '@/app/utils/string'
 
-export const DomainField: React.FC = () => {
+export const DomainField: React.FC<{ defaultRenew: boolean | null }> = ({
+  defaultRenew,
+}) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -32,6 +34,10 @@ export const DomainField: React.FC = () => {
     setD(searchParams?.get('d'))
     setP(searchParams?.get('p'))
   }, [searchParams])
+
+  useEffect(() => {
+    setRenew(defaultRenew ?? true)
+  }, [])
 
   if (d)
     return (

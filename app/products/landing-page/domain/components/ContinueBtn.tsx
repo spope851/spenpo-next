@@ -8,14 +8,20 @@ import { ShoppingCartContext } from '@/app/context/shoppingCart'
 
 export const ContinueBtn: React.FC<{
   disabled: boolean
-}> = ({ disabled }) => {
+  cache: (domainName: string, price: number, renew: boolean) => Promise<void>
+}> = ({ disabled, cache }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const {
     domainName: [, setDomain],
     price: [, setPrice],
+    paymentIntentMetadata,
   } = useContext(ShoppingCartContext)
   const [loading, setLoading] = useState(false)
+
+  const domainName = String(searchParams?.get('d'))
+  const price = searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0
+  const renew = paymentIntentMetadata.renew
 
   return (
     <LoadingButton
@@ -23,10 +29,11 @@ export const ContinueBtn: React.FC<{
       loadingPosition="end"
       endIcon={<ChevronRightIcon />}
       variant="contained"
-      onClick={() => {
+      onClick={async () => {
         setLoading(true)
-        setDomain(searchParams?.get('d') || `${searchParams?.get('q')}.vercel.app`)
-        setPrice(searchParams?.get('p') ? Number(searchParams?.get('p')) * 100 : 0)
+        await cache(domainName, price, renew)
+        setDomain(domainName || `${searchParams?.get('q')}.vercel.app`)
+        setPrice(price)
         router.push('password')
       }}
       disabled={disabled}
