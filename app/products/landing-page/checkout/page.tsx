@@ -1,13 +1,13 @@
 import React from 'react'
-import { Divider, Link, Stack, Typography } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import { Stepper } from '../components/Stepper'
 import redis from '@/app/utils/redis'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
 import { LandingSummary } from './components/LandingSummary'
-import { IncludedWithYourPurchase } from './components/IncludedWithYourPurchase'
-import { StripeCheckout } from './components/StripeCheckout'
+import { IncludedWithYourPurchase } from '../../components/IncludedWithYourPurchase'
+import { StripeCheckout } from '../../components/checkout/StripeCheckout'
 
 export default async function Checkout() {
   const s3 = process.env.AWS_LANDING_S3
@@ -47,17 +47,6 @@ export default async function Checkout() {
         />
         <Stack gap={3} my={5}>
           <IncludedWithYourPurchase />
-          <Typography variant="h5">Payment method</Typography>
-          <Stack gap={1}>
-            <Typography variant="h6">By checking out:</Typography>
-            <Typography variant="subtitle2" maxWidth={{ xs: 'unset', md: 300 }}>
-              You understand that there are currently no legal{' '}
-              <Link href="/products/landing-page/tos">Terms of service</Link> for
-              this version of the product, and that refunds will be issued upon
-              request <Link href="/contact">via email</Link> within the 14-day
-              guarantee period.
-            </Typography>
-          </Stack>
           <StripeCheckout />
         </Stack>
       </Stack>

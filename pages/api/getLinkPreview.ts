@@ -1,5 +1,4 @@
-import { LINK_PREVIEW_FALLBACK } from '@/app/constants/image'
-import parser from 'html-metadata-parser'
+import { getLinkPreview as fetchData } from '@/app/utils/getLinkPreview'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type LinkPreview = {
@@ -17,38 +16,9 @@ const getLinkPreview = async (
   // console.log('GET link preview  ', req.query)
   const url = String(req.query.url)
 
-  try {
-    const { meta, og, images } = await parser(url)
-    const { hostname } = new URL(url)
-    const image = og.image
-      ? og.image
-      : images?.length && images.length > 0
-      ? (images[0] as unknown as { src: string }).src
-      : ''
-    const description = og.description
-      ? og.description
-      : meta.description
-      ? meta.description
-      : ''
-    const title = (og.title ? og.title : meta.title) || ''
-    const siteName = og.site_name || ''
+  const lp = await fetchData(url)
 
-    res.send({
-      title,
-      description,
-      image,
-      siteName,
-      hostname,
-    })
-  } catch {
-    res.send({
-      title: 'Unavailable',
-      description: 'deployment in progress...',
-      image: LINK_PREVIEW_FALLBACK,
-      siteName: '',
-      hostname: url,
-    })
-  }
+  res.send(lp)
 }
 
 export default getLinkPreview

@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useState } from 'react'
+import React, { Suspense, useContext, useState } from 'react'
 import { ShoppingCartContext } from '../../../../context/shoppingCart'
 import { TopComponents } from './TopComponents'
 import { useSession } from 'next-auth/react'
@@ -59,7 +59,11 @@ export const CMS: React.FC<{ cache?: SpenpoLandingCache }> = ({ cache }) => {
         }
       }}
       editable={editable}
-      topComponents={<TopComponents editable={editable[0]} />}
+      topComponents={
+        <Suspense>
+          <TopComponents editable={editable[0]} />
+        </Suspense>
+      }
       cache={cache}
       {...DEFAULT_LANDING_PROPS}
     />

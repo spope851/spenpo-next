@@ -1,6 +1,6 @@
 const formatDomain = (input: string): string =>
   input
-    ?.replace(/['".,\/#!$%\^&\*;:{}=\@?+_`~()]/g, '')
+    ?.replace(/['",\/#!$%\^&\*;:{}=\@?+_`~()]/g, '')
     .replaceAll(' ', '')
     .toLocaleLowerCase()
 

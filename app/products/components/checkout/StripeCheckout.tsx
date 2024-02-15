@@ -33,7 +33,7 @@ export const StripeCheckout: React.FC = () => {
 
         if (paymentIntent.status === 200)
           paymentIntentRes = await paymentIntent.json()
-        else router.replace('design')
+        else router.push(`/products/${pathname?.split('/')[2]}`)
 
         if (paymentIntentRes) {
           setClientSecret(paymentIntentRes.clientSecret)

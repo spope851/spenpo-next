@@ -12,7 +12,7 @@ export const UnAuthContext = createContext({} as UnAuthContextProps)
 export const UnAuthContextProvider: React.FC<{
   children: ReactNode
 }> = ({ children }) => {
-  const redisId = useRef(randBase64(32))
+  const redisId = useRef(randBase64(32).slice(0, -1))
   const session = useSession()
 
   const contextValue: UnAuthContextProps = useMemo(() => {

@@ -59,6 +59,7 @@ interface PaymentIntentMetadata {
 
 type ShoppingCartContextProps = {
   setPassword: Dispatch<SetStateAction<string | undefined>>
+  setProjectName: Dispatch<SetStateAction<string | undefined>>
   domainName: [string | undefined, Dispatch<SetStateAction<string | undefined>>]
   price: [number | undefined, Dispatch<SetStateAction<number | undefined>>]
   renew: [boolean, Dispatch<SetStateAction<boolean>>]
@@ -89,6 +90,8 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
   const secondaryAccentColor = useState<string>()
   const [password, setPassword] = useState<string>()
   const secret = useState(randBase64(32))
+
+  const [projectName, setProjectName] = useState<string>()
 
   const file = useState<File>()
 
@@ -129,16 +132,17 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     NEXTAUTH_SECRET: secret[0],
   })
 
-  const contextValue: ShoppingCartContextProps = useMemo(() => {
+  const contextValue = useMemo(() => {
     const value: ShoppingCartContextProps = {
       setPassword,
+      setProjectName,
       passwordSet: !!password,
       domainName: [domainName, setDomainName],
       price: [price, setPrice],
       renew: [renew, setRenew],
       paymentIntentMetadata: {
         clientName,
-        projectName: domainName?.split('.')[0],
+        projectName: projectName || domainName?.split('.')[0],
         domainName,
         headshotExtension: file[0]?.name.split('.').at(-1),
         environmentVariables,
@@ -180,6 +184,7 @@ export const ShoppingCartContextProvider: React.FC<{ children: ReactNode }> = ({
     file,
     price,
     renew,
+    projectName,
   ])
 
   return (

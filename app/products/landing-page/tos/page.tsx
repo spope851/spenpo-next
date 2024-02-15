@@ -9,8 +9,8 @@ export default async function Tos() {
   const version = JSON.parse(base64ToString).version
   return (
     <Stack m={{ xs: 2, sm: 5 }} justifyContent="space-between" flex={1}>
-      <Stack rowGap={3} m={{ xs: 2, sm: 5 }}>
-        <Typography variant="h2">Terms of service</Typography>
+      <Stack rowGap={3}>
+        <Typography component="h1">Terms of service</Typography>
         <Typography textAlign="right" fontStyle="italic">
           Last updated: January 2, 2024
         </Typography>

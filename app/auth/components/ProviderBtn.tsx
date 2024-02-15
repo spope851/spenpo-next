@@ -5,6 +5,7 @@ import React from 'react'
 import Image from 'next/image'
 import { ClientSafeProvider, LiteralUnion, signIn } from 'next-auth/react'
 import { BuiltInProviderType } from 'next-auth/providers/index'
+import { useGetQuery } from '@/app/hooks/useGetQuery'
 
 const PROVIDER_COLORS: Partial<
   Record<LiteralUnion<BuiltInProviderType, string>, string>
@@ -17,13 +18,14 @@ const PROVIDER_COLORS: Partial<
 export const ProviderBtn: React.FC<
   ClientSafeProvider & { redirectPath: string }
 > = ({ redirectPath, id, name }) => {
+  const query = useGetQuery()
   return (
     <Button
       key={id}
       variant="outlined"
       onClick={() =>
         signIn(id, {
-          callbackUrl: redirectPath,
+          callbackUrl: redirectPath + query,
         })
       }
       sx={{

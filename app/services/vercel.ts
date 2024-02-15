@@ -21,12 +21,15 @@ const getProject = async (name: string) =>
     {
       headers,
       method: 'get',
+      next: { tags: [name] },
     }
   )
 
-const getProjectDeployments = async (app: string) =>
+const getProjectDeployments = async (app: string, limit?: number) =>
   fetch(
-    `https://api.vercel.com/v2/deployments?app=${app}&teamId=${process.env.VERCEL_TEAM}`,
+    `https://api.vercel.com/v2/deployments?app=${app}${
+      limit ? `&limit=${limit}` : ''
+    }&teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
       method: 'get',
@@ -57,7 +60,7 @@ const cancelDeployment = async (deploymentId: string) =>
     `https://api.vercel.com/v12/deployments/${deploymentId}/cancel?teamId=${process.env.VERCEL_TEAM}`,
     {
       headers,
-      method: 'patch',
+      method: 'PATCH',
     }
   )
 
@@ -98,6 +101,7 @@ const getDomainStatus = async (name: string) =>
     {
       headers,
       method: 'get',
+      next: { tags: [name] },
     }
   )
 
@@ -107,6 +111,18 @@ const getDomainPrice = async (name: string) =>
     {
       headers,
       method: 'get',
+    }
+  )
+
+const getDomainInfo = async (name: string) =>
+  fetch(
+    `https://api.vercel.com/v5/domains/${name}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+      next: {
+        tags: [name],
+      },
     }
   )
 
@@ -140,6 +156,42 @@ const addDomainToProject = async (
     }
   )
 
+const removeDomainFromProject = async (project: string, domain: string) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains/${domain}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'delete',
+    }
+  )
+
+const getProjectDomains = async (project: string) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'get',
+    }
+  )
+
+const updateProjectDomain = async (
+  project: string,
+  domain: string,
+  redirect: string | null,
+  redirectStatusCode: number | null
+) =>
+  fetch(
+    `https://api.vercel.com/v9/projects/${project}/domains/${domain}?teamId=${process.env.VERCEL_TEAM}`,
+    {
+      headers,
+      method: 'PATCH',
+      body: JSON.stringify({
+        redirect,
+        redirectStatusCode,
+      }),
+    }
+  )
+
 export {
   createProject,
   getProject,
@@ -152,6 +204,10 @@ export {
   getDeploymentEvents,
   getDomainStatus,
   getDomainPrice,
+  getDomainInfo,
   purchaseDomain,
   addDomainToProject,
+  removeDomainFromProject,
+  getProjectDomains,
+  updateProjectDomain,
 }

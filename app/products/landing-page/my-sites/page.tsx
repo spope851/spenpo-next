@@ -1,12 +1,12 @@
 import { Button, Grid, Stack, Typography } from '@mui/material'
 import { getServerSession } from 'next-auth'
-import React from 'react'
+import React, { Suspense } from 'react'
 import prisma from '@/app/utils/prisma'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import { redirect } from 'next/navigation'
 import { Tabs } from '../components/Tabs'
-import { SiteCard } from '@/app/components/siteCard'
+import { SiteCard } from '@/app/products/components/SiteCard'
 
 type Metadata = {
   projectName: { vercelApp: string }
@@ -17,7 +17,7 @@ export default async function MySites() {
   let orders = []
   if (session) {
     orders = await prisma.order.findMany({
-      where: { userId: session.user.id, complete: true },
+      where: { userId: session.user.id, complete: true, productId: 'landing-page' },
     })
   } else redirect('/products/landing-page')
 
@@ -30,7 +30,15 @@ export default async function MySites() {
             const metadata = order.metadata as unknown as Metadata
             return (
               <Grid key={order.id} item lg={3} md={6} xs={12}>
-                <SiteCard name={metadata.projectName.vercelApp} />
+                <Suspense
+                  fallback={
+                    <Stack border="solid 2px #aaa" p={2} borderRadius={1}>
+                      loading...
+                    </Stack>
+                  }
+                >
+                  <SiteCard name={metadata.projectName.vercelApp} />
+                </Suspense>
               </Grid>
             )
           })

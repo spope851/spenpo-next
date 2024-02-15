@@ -10,9 +10,9 @@ export const AvailableDomain: React.FC<{ domainName: string; price: string }> = 
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const isSelected = searchParams?.get('d') === domainName
   return (
     <Box
-      border="solid"
       borderRadius={1}
       textAlign="center"
       p={1}
@@ -21,11 +21,13 @@ export const AvailableDomain: React.FC<{ domainName: string; price: string }> = 
       overflow="scroll"
       gap={1}
       sx={{
-        bgcolor: searchParams?.get('d') === domainName ? '#999' : '',
+        bgcolor: isSelected ? '#555' : '',
+        color: isSelected ? '#fff' : '',
         ':hover': {
-          bgcolor: '#999',
+          outline: 'solid #999',
           cursor: 'pointer',
         },
+        '& .MuiTypography-root': { fontWeight: isSelected ? 700 : 400 },
       }}
       onClick={() => {
         const search = new URLSearchParams(Array.from(searchParams?.entries() || []))
@@ -35,7 +37,7 @@ export const AvailableDomain: React.FC<{ domainName: string; price: string }> = 
       }}
     >
       <Typography>{domainName}</Typography>
-      <Typography color="blue">${price}</Typography>
+      <Typography color={isSelected ? 'lime' : 'blue'}>${price}</Typography>
     </Box>
   )
 }

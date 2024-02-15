@@ -63,6 +63,8 @@ model Product {
   price         Float
   orders        Order[]
   hide          Boolean   @default(false)
+  learnMore     String?
+  buyNow        String?
 }
 
 model Order {

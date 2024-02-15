@@ -1,15 +1,21 @@
 'use client'
 import React, { useContext } from 'react'
 import { Divider, Stack, Typography } from '@mui/material'
-import { ShoppingCartContext } from '../../../../context/shoppingCart'
+import { ShoppingCartContext } from '../../context/shoppingCart'
 import CheckIcon from '@mui/icons-material/Check'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
 
 const Check = () => <CheckIcon color="success" />
 
 export const IncludedWithYourPurchase: React.FC = () => {
   const { paymentIntentMetadata } = useContext(ShoppingCartContext)
+  const pathname = usePathname()
 
-  const price = (paymentIntentMetadata.price || 0) + 99
+  let price = paymentIntentMetadata.price || 0
+
+  const isLandingCheckout = pathname === '/products/landing-page/checkout'
+  if (isLandingCheckout) price += 99
 
   return (
     <>
@@ -38,11 +44,15 @@ export const IncludedWithYourPurchase: React.FC = () => {
           </Typography>
         </Stack>
         <Divider flexItem />
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle2">Website</Typography>
-          <Typography variant="subtitle2">$0.99</Typography>
-        </Stack>
-        <Divider flexItem />
+        {isLandingCheckout && (
+          <>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography variant="subtitle2">Website</Typography>
+              <Typography variant="subtitle2">$0.99</Typography>
+            </Stack>
+            <Divider flexItem />
+          </>
+        )}
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="subtitle2">Subtotal</Typography>
           <Typography variant="subtitle2">${(price / 100).toFixed(2)}</Typography>
@@ -56,6 +66,16 @@ export const IncludedWithYourPurchase: React.FC = () => {
           <Typography>Total</Typography>
           <Typography>${(price / 100).toFixed(2)}</Typography>
         </Stack>
+      </Stack>
+      <Typography variant="h5">Payment method</Typography>
+      <Stack gap={1}>
+        <Typography variant="h6">By checking out:</Typography>
+        <Typography variant="subtitle2" maxWidth={{ xs: 'unset', md: 300 }}>
+          You understand that there are currently no legal{' '}
+          <Link href="tos">Terms of service</Link> for this version of the product,
+          and that refunds will be issued upon request{' '}
+          <Link href="/contact">via email</Link> within the 14-day guarantee period.
+        </Typography>
       </Stack>
     </>
   )

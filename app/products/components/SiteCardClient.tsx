@@ -1,17 +1,17 @@
 'use client'
 import { Stack, Typography, Button, SxProps } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { ReadyState } from './readyState'
-import { NewTabLink } from './newTabLink'
+import React, { useState } from 'react'
+import { ReadyState } from '../../components/readyState'
+import { NewTabLink } from '../../components/newTabLink'
 import TimeAgo from 'react-timeago'
 import { useRouter } from 'next/navigation'
 import CachedIcon from '@mui/icons-material/Cached'
-import { HoverAwareness } from './hoverAwareness'
-import { BgImage } from './bgImage'
-import { LINK_PREVIEW_FALLBACK } from '../constants/image'
+import { HoverAwareness } from '../../components/hoverAwareness'
+import { BgImage } from '../../components/bgImage'
 import { VercelReadyState } from '@/app/products/landing-page/[appName]/deployments/components/useDeployment'
+import { b64toBlob } from '@/app/utils/string'
 
-const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 40): SxProps => {
+const MIN_WIDTH = (lg: number = 7, md: number = 15, xs: number = 30): SxProps => {
   const maxWidth = Object.entries({ lg, md, xs }).reduce(
     (p: { [key: string]: string }, c) => {
       p[c[0]] = `${c[1]}vw`
@@ -41,52 +41,22 @@ export type Project = {
   latestDeployments: { id: string }[]
 }
 
-const getProject = async (name: string) =>
-  fetch(`/api/landing-page/getVercelProject?name=${name}`)
-
-export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
-  name,
-  fallback,
-}) => {
-  const [project, setProject] = useState<Project>()
+export const SiteCardClient: React.FC<{
+  project: Project
+  linkPreview: string
+  fallback?: string
+  fallbackB64?: string
+  revalidate?: () => Promise<void>
+}> = ({ fallback, fallbackB64, linkPreview, project, revalidate }) => {
   const router = useRouter()
   const [actionHover, setActionHover] = useState(false)
 
-  const fetchProject = async () =>
-    getProject(name).then(async (res) => {
-      const data = await res.json()
-      setProject(data)
-    })
+  let fallbackUrl: string | undefined = ''
 
-  useEffect(() => {
-    ;(async () => fetchProject())()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const [linkPreview, setLinkPreview] = useState(
-    fallback ? fallback : LINK_PREVIEW_FALLBACK
-  )
-
-  useEffect(() => {
-    if (!!project?.targets?.production?.alias?.[0]) {
-      ;(async () => {
-        const previewReq = await fetch(
-          `/api/getLinkPreview?url=https://${project?.targets?.production?.alias?.[0]}`,
-          { method: 'get' }
-        )
-        if (previewReq.ok) {
-          const preview = await previewReq.json()
-          setLinkPreview(preview.image)
-        } else setLinkPreview(fallback ? fallback : LINK_PREVIEW_FALLBACK)
-      })()
-    }
-  }, [project, fallback])
-
-  if (!project)
-    return (
-      <Stack border="solid 2px #aaa" p={2} borderRadius={1}>
-        ...loading
-      </Stack>
-    )
+  if (fallbackB64) {
+    const blob = b64toBlob(fallbackB64)
+    fallbackUrl = URL.createObjectURL(blob)
+  } else fallbackUrl = fallback
 
   return (
     <Stack
@@ -95,7 +65,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
         if (!actionHover) {
           if (project.targets?.production)
             router.push(`/products/landing-page/${project.name}`)
-          else await fetchProject()
+          else if (revalidate) await revalidate()
         }
       }}
       border="solid 2px #aaa"
@@ -110,6 +80,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
           cursor: 'pointer',
         },
       }}
+      maxWidth={{ xs: 'calc(100vw - 32px)', sm: 'calc(100vw - 80px)' }}
     >
       <Stack direction="row" columnGap={1}>
         <BgImage
@@ -121,7 +92,7 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
             border: 'solid 1px #555',
             m: '2px',
           }}
-          fallback={fallback}
+          fallback={fallbackUrl}
         />
         <Stack>
           <Typography fontWeight="bold" sx={MIN_WIDTH()}>
@@ -143,7 +114,9 @@ export const SiteCard: React.FC<{ name: string; fallback?: string }> = ({
         <HoverAwareness setHovering={setActionHover}>
           <Button
             variant="contained"
-            onClick={async () => fetchProject()}
+            onClick={async () => {
+              if (revalidate) revalidate()
+            }}
             sx={{ ml: 'auto', minWidth: 40, p: 1 }}
           >
             <CachedIcon />
