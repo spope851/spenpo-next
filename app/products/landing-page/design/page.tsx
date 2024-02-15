@@ -1,7 +1,7 @@
 import React from 'react'
 import redis from '@/app/utils/redis'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/app/constants/api'
 import { CMS } from './components/CMS'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'

@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material'
 import React, { Dispatch, ReactNode, SetStateAction, useMemo, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { createContext } from 'react'
-import { Snackbar } from '@/app/components/snackbar'
+import { Snackbar } from '@/app/components/Snackbar'
 
 interface SnackbarContextProps {
   setSnackbarOpen: Dispatch<SetStateAction<boolean>>

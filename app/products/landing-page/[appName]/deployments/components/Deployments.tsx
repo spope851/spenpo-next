@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { CircularProgress, Stack } from '@mui/material'
 import { useParams } from 'next/navigation'
-import { DeploymentCard } from '@/app/components/deploymentCard'
+import { DeploymentCard } from '@/app/components/DeploymentCard'
 
 const getProjectDeployments = async (appName: string) =>
   fetch(`/api/landing-page/getVercelProjectDeployments?appName=${appName}`)

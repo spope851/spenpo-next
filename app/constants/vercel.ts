@@ -1,4 +1,4 @@
-import { VercelReadyState } from '../products/landing-page/[appName]/deployments/components/useDeployment'
+import { VercelReadyState } from '../products/landing-page/[appName]/deployments/hooks/useDeployment'
 
 const READY_STATE_COLORS: Record<VercelReadyState, string> = {
   READY: '#00ff00',

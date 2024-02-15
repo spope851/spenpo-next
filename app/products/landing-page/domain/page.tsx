@@ -4,10 +4,10 @@ import { ContinueBtn } from './components/ContinueBtn'
 import { Stepper } from '../components/Stepper'
 import redis from '../../../utils/redis'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../../../../pages/api/auth/[...nextauth]'
 import { redirect } from 'next/navigation'
 import { PageProps } from '../../../types/app'
 import { SelectDomain } from '../../components/SelectDomain'
+import { authOptions } from '@/app/constants/api'
 
 export default async function DomainStep({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)
@@ -20,6 +20,15 @@ export default async function DomainStep({ searchParams }: PageProps) {
 
   const q = searchParams.q ? String(searchParams.q) : ''
   const d = searchParams.d ? String(searchParams.d) : ''
+  const p = searchParams.p ? String(searchParams.p) : ''
+
+  const price = Number(cache.price)
+  if (cache.domainName && !d && !!price && !p)
+    redirect(
+      `/products/landing-page/domain?q=${cache.domainName}&d=${cache.domainName}&p=${
+        price / 100
+      }`
+    )
 
   const arr = q.split('.')
   const TLD = arr[1]
@@ -50,7 +59,17 @@ export default async function DomainStep({ searchParams }: PageProps) {
             </Typography>
           )}
         </Stack>
-        <ContinueBtn disabled={!q} />
+        <ContinueBtn
+          disabled={!q}
+          cache={async (domainName: string, price: number, renew: boolean) => {
+            'use server'
+            await redis.hmset(session?.user.id, {
+              domainName,
+              price,
+              renew,
+            })
+          }}
+        />
       </Stack>
       <SelectDomain searchParams={searchParams} />
     </Stack>

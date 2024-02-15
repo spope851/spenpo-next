@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import { redirect } from 'next/navigation'
-import { authOptions } from '@/pages/api/auth/[...nextauth]'
+import { authOptions } from '@/app/constants/api'
 import { getServerSession } from 'next-auth'
 import Stripe from 'stripe'
 import Link from 'next/link'
@@ -44,7 +44,7 @@ export default async function Confirm({ searchParams }: PageProps) {
       )
       const project = await projectReq.json()
 
-      domains = project?.targets?.production?.alias
+      domains = project?.targets?.production?.alias ?? []
     } else redirect(`/products/domain`)
   } else redirect(`/products/domain`)
 

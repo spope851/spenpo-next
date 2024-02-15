@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { BackButton } from '@/app/components/backButton'
-import { TagList } from '@/app/blog/components/tagList'
+import { BackButton } from '@/app/components/BackButton'
+import { TagList } from '@/app/blog/components/TagList'
 import Link from 'next/link'
 import { extractTagsFromPost } from '@/app/utils/extractTags'
 import { redirect } from 'next/navigation'

@@ -1,4 +1,4 @@
-import { PostList } from './components/postList'
+import { PostList } from './components/PostList'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
 import { Stack, Typography } from '@mui/material'
 import { WORDPRESS_ROOT } from '../constants/blog'
