@@ -59,8 +59,9 @@ export default async function SitePage({ params }: PageProps) {
             flex={1}
             border="solid 2px #aaa"
             p={2}
-            direction="row"
             justifyContent="space-between"
+            direction={{ xs: 'column-reverse', sm: 'row' }}
+            gap={3}
           >
             <Stack rowGap={3}>
               <Domains alias={projectData?.targets?.production?.alias} />

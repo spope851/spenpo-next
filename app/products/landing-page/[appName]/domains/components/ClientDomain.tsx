@@ -121,7 +121,7 @@ export const ClientDomain: React.FC<{
       ) : (
         <Box
           display="flex"
-          flexDirection={{ md: 'row', xs: 'row', sm: 'column' }}
+          flexDirection={{ md: 'row', xs: 'column' }}
           columnGap={3}
           rowGap={1}
           alignItems="baseline"

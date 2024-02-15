@@ -48,7 +48,7 @@ export async function Domain({
         }}
       />
       <Stack
-        direction="row"
+        direction={{ xs: 'column', sm: 'row' }}
         gap={3}
         justifyContent="space-between"
         alignItems="self-start"

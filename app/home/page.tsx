@@ -53,7 +53,7 @@ export default async function Home() {
       <Typography variant="body2">
         I recorded this video on how I integrated Vercel&apos;s &quot;buy a
         domain&quot; functionality with my website. There were a couple key tricks
-        that leverages some of the newest Next.js features.
+        that leverage some of the newest Next.js features.
       </Typography>
       <LinkPreview
         {...LINK_PREV_PROPS}

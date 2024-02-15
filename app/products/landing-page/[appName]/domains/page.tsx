@@ -4,7 +4,6 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
 import { Breadcrumbs } from '@/app/components/breadcrumbs'
 import prisma from '@/app/utils/prisma'
-import { Prisma } from '@prisma/client'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
 import { getProjectDomains } from '@/app/services/vercel'
@@ -16,22 +15,18 @@ export default async function Domains({ params }: PageProps) {
   const session = await getServerSession(authOptions)
   let domains
   if (session) {
-    const projects = await prisma.order
-      .findMany({
-        where: {
-          userId: session.user.id,
-          productId: 'landing-page',
-          complete: true,
+    const project = await prisma.order.findFirst({
+      where: {
+        userId: session.user.id,
+        productId: 'landing-page',
+        complete: true,
+        metadata: {
+          path: ['projectName', 'vercelApp'],
+          equals: params?.appName,
         },
-      })
-      .then((res) =>
-        res.map(
-          (order) =>
-            ((order.metadata as Prisma.JsonObject).projectName as Prisma.JsonObject)
-              .vercelApp
-        )
-      )
-    if (projects.includes(params?.appName)) {
+      },
+    })
+    if (project) {
       const domainsReq = await getProjectDomains(params?.appName)
       domains = await domainsReq.json()
     } else redirect(`/products/landing-page`)
