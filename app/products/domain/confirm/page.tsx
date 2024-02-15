@@ -44,7 +44,7 @@ export default async function Confirm({ searchParams }: PageProps) {
       )
       const project = await projectReq.json()
 
-      domains = project?.targets?.production?.alias
+      domains = project?.targets?.production?.alias ?? []
     } else redirect(`/products/domain`)
   } else redirect(`/products/domain`)
 
