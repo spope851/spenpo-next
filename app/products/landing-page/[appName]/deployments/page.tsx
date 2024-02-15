@@ -2,12 +2,12 @@ import React, { Suspense } from 'react'
 import { CircularProgress, Stack } from '@mui/material'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'
-import { Breadcrumbs } from '@/app/components/breadcrumbs'
+import { Breadcrumbs } from '@/app/components/Breadcrumbs'
 import prisma from '@/app/utils/prisma'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
 import { getProjectDeployments } from '@/app/services/vercel'
-import { DeploymentCard } from '@/app/components/deploymentCard'
+import { DeploymentCard } from '@/app/components/DeploymentCard'
 
 export default async function Deployments({ params }: PageProps) {
   const session = await getServerSession(authOptions)

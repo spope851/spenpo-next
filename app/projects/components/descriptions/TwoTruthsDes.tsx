@@ -1,6 +1,7 @@
 import { METADATA } from '@/app/constants/projects'
+import React from 'react'
 
-export default function TwoTruthsDes() {
+export const TwoTruthsDes: React.FC = () => {
   return (
     <ul>
       <li>description: {METADATA['two-truths'].description}</li>

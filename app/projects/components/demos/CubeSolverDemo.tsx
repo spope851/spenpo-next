@@ -1,8 +1,9 @@
 'use client'
 import { Cube, getFacelets } from '3x3-cube'
 import { Box } from '@mui/material'
+import React from 'react'
 
-export default function CubeDemo() {
+export const CubeDemo: React.FC = () => {
   return (
     <Box p={1}>
       <Cube

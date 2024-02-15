@@ -1,7 +1,7 @@
 import { Stack } from '@mui/material'
 import React from 'react'
 import { getDeployment } from '../services/vercel'
-import { DeploymentCardClient } from './deploymentCardClient'
+import { DeploymentCardClient } from './DeploymentCardClient'
 
 export async function DeploymentCard({ uid }: { uid: string }) {
   const deploymentReq = await getDeployment(uid)

@@ -2,15 +2,15 @@ import 'animate.css'
 import '../../../svelte-apps/dist/lang-flash-bundle.css'
 import '../../../svelte-apps/dist/two-truths-bundle.css'
 
-import { RobotError } from '@/app/components/robotError'
+import { RobotError } from '@/app/components/RobotError'
 import { Stack, Typography } from '@mui/material'
 import { Projects as ProjectsType } from '@/app/types/routing'
-import projects from '../components'
 import { ReactNode } from 'react'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Tabs } from '../components/Tabs'
 import { Metadata } from 'next'
 import { METADATA } from '@/app/constants/projects'
+import { projects } from '../components'
 
 export async function generateMetadata({
   params,

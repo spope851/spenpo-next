@@ -1,4 +1,6 @@
-export default function StarterKitNextDes() {
+import React from 'react'
+
+export const StarterKitNextDes: React.FC = () => {
   return (
     <ul>
       <li>

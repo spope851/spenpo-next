@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+import React from 'react'
 
 const props = {
   'title?': 'string',
@@ -27,7 +28,7 @@ const props = {
   'cacheCallback?': '(cache: SpenpoLandingCache) => Promise<void>',
 }
 
-export default function SpenpoLandingDes() {
+export const SpenpoLandingDes: React.FC = () => {
   return (
     <Stack>
       <ul>

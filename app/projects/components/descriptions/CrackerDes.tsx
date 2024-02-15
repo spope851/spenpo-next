@@ -1,6 +1,7 @@
 import { METADATA } from '@/app/constants/projects'
+import React from 'react'
 
-export default function CrackerDes() {
+export const CrackerDes: React.FC = () => {
   return (
     <ul>
       <li>

@@ -1,8 +1,8 @@
 import React from 'react'
 import { Stack, SxProps, Typography } from '@mui/material'
-import { ReadyState } from '../../../../../components/readyState'
-import { SmallHeader } from './smallHeader'
-import { VercelReadyState } from './useDeployment'
+import { ReadyState } from '../../../../../components/ReadyState'
+import { SmallHeader } from './SmallHeader'
+import { VercelReadyState } from '../hooks/useDeployment'
 
 export const Status: React.FC<{ sx?: SxProps; readyState?: VercelReadyState }> = ({
   sx,

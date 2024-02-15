@@ -2,7 +2,7 @@
 import { Stack } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { LINK_PREVIEW_FALLBACK } from '@/app/constants/image'
-import { BgImage } from '@/app/components/bgImage'
+import { BgImage } from '@/app/components/BgImage'
 
 export type Project = {
   id: string

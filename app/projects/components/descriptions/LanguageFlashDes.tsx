@@ -1,6 +1,7 @@
 import { METADATA } from '@/app/constants/projects'
+import React from 'react'
 
-export default function LanguageFlashDes() {
+export const LanguageFlashDes: React.FC = () => {
   return (
     <ul>
       <li>description: {METADATA['language-flash'].description}</li>

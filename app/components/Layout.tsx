@@ -1,11 +1,11 @@
 'use client'
-import { Navbar } from './navbar'
+import { Navbar } from './Navbar'
 import Footer from './Footer'
 import { usePathname } from 'next/navigation'
 import { Box } from '@mui/material'
 import React from 'react'
 
-const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname()
 
   const hideLayoutPaths = ['/products/landing-page/design', '/']
@@ -26,5 +26,3 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     </Box>
   )
 }
-
-export default Layout

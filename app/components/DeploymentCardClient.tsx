@@ -1,12 +1,12 @@
 'use client'
 import { Stack } from '@mui/material'
 import React, { useState } from 'react'
-import { ReadyState } from './readyState'
-import { NewTabLink } from './newTabLink'
+import { ReadyState } from './ReadyState'
+import { NewTabLink } from './NewTabLink'
 import TimeAgo from 'react-timeago'
 import { usePathname, useRouter } from 'next/navigation'
-import { HoverAwareness } from './hoverAwareness'
-import { VercelReadyState } from '@/app/products/landing-page/[appName]/deployments/components/useDeployment'
+import { HoverAwareness } from './HoverAwareness'
+import { VercelReadyState } from '@/app/products/landing-page/[appName]/deployments/hooks/useDeployment'
 
 type Deployment = {
   id: string

@@ -12,7 +12,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu'
 import { Suspense, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { AvatarMenu } from './avatarMenu'
+import { AvatarMenu } from './AvatarMenu'
 import { type TabProps, Tab } from './Tab'
 import { MobileTab } from './MobileTab'
 

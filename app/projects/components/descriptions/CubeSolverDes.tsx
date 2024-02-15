@@ -1,6 +1,7 @@
 import { METADATA } from '@/app/constants/projects'
+import React from 'react'
 
-export default function CubeDes() {
+export const CubeDes: React.FC = () => {
   return (
     <ul>
       <li>description: {METADATA['3x3-cube'].description}</li>

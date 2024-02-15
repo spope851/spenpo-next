@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import { BgImage } from '@/app/components/bgImage'
+import { BgImage } from '@/app/components/BgImage'
 import { CustomizeThemeContext } from '@/app/context/theme'
 import { DEFAULT_LANDING_PROPS } from '@/app/products/landing-page/design/components/CMS'
 
@@ -79,7 +79,7 @@ const TEXTFIELD_PROPS: { fullWidth: boolean; size: 'small' } = {
   size: 'small',
 }
 
-export default function SpenpoLandingDemo() {
+export const SpenpoLandingDemo: React.FC = () => {
   const [title, setTitle] = useState<string | undefined>(DEFAULT_LANDING_PROPS.title)
   const [name, setName] = useState<string | undefined>(DEFAULT_LANDING_PROPS.name)
   const [subtitle, setSubtitle] = useState<string | undefined>(

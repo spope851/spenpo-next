@@ -1,14 +1,14 @@
 'use client'
 import React, { useEffect, useMemo } from 'react'
 import { CircularProgress, Stack, Typography } from '@mui/material'
-import { useDeployment } from './useDeployment'
-import { DeploymentDate } from './deploymentDate'
+import { useDeployment } from '../hooks/useDeployment'
+import { DeploymentDate } from './DeploymentDate'
 import { useStopwatch } from 'react-timer-hook'
 import { READY_STATE_COLORS } from '@/app/constants/vercel'
-import { NewTabLink } from '../../../../../components/newTabLink'
-import { Status } from './status'
-import { SmallHeader } from './smallHeader'
-import { Domains } from './domains'
+import { Status } from './Status'
+import { SmallHeader } from './SmallHeader'
+import { Domains } from './Domains'
+import { NewTabLink } from '../../../../../components/NewTabLink'
 
 type DeploymentEvent = {
   type: string

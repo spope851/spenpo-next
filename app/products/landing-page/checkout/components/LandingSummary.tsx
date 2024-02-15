@@ -2,7 +2,7 @@
 import React, { useContext } from 'react'
 import { Chip, Stack, Typography } from '@mui/material'
 import { ShoppingCartContext } from '../../../../context/shoppingCart'
-import { BgImage } from '../../../../components/bgImage'
+import { BgImage } from '../../../../components/BgImage'
 import {
   WarningSummaryRow,
   SummaryRow,

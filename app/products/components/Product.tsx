@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { Button, Grid, Stack, Typography } from '@mui/material'
-import { BgImage } from '@/app/components/bgImage'
+import { BgImage } from '@/app/components/BgImage'
 import { useRouter } from 'next/navigation'
 
 export const Product: React.FC<{

@@ -1,6 +1,7 @@
 import { METADATA } from '@/app/constants/projects'
+import React from 'react'
 
-export default function ReactTimeclockDes() {
+export const ReactTimeclockDes: React.FC = () => {
   return (
     <ul>
       <li>description: {METADATA['react-timeclock'].description}</li>

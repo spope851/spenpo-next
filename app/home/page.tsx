@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
-import { LinkPreview } from '../components/linkPreview'
+import { LinkPreview } from '../components/LinkPreview'
 import { PROJECTS } from '../constants/projects'
 import { previewImages } from '../constants/blog'
 import Link from 'next/link'

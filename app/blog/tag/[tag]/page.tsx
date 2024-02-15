@@ -1,5 +1,5 @@
-import { PostList } from '@/app/blog/components/postList'
-import { BackButton } from '@/app/components/backButton'
+import { PostList } from '@/app/blog/components/PostList'
+import { BackButton } from '@/app/components/BackButton'
 import { Box, Chip } from '@mui/material'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
 import { PageProps } from '@/app/types/app'

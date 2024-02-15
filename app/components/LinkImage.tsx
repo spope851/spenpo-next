@@ -2,7 +2,7 @@ import React from 'react'
 import { SxProps } from '@mui/material/styles'
 import { Box } from '@mui/material'
 import Link from 'next/link'
-import { BgImage } from './bgImage'
+import { BgImage } from './BgImage'
 
 type NumStr = number | string
 

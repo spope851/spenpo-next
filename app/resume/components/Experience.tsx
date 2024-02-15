@@ -1,8 +1,8 @@
 import { Accordion, Box, ListItem, Typography } from '@mui/material'
 import React from 'react'
-import AccordionDetails from './accordionDetails'
-import List from './list'
-import LinkSummary from './linkSummary'
+import AccordionDetails from './AccordionDetails'
+import List from './List'
+import LinkSummary from './LinkSummary'
 
 const Experience: React.FC = () => {
   return (

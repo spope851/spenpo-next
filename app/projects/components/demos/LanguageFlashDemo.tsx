@@ -1,8 +1,8 @@
 'use client'
 import { Box } from '@mui/material'
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 
-export default function LanguageFlashDemo() {
+export const LanguageFlashDemo: React.FC = () => {
   const demoRoot = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {

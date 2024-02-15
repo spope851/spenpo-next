@@ -8,10 +8,10 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import React from 'react'
-import Experience from './components/experience'
-import LinkSummary from './components/linkSummary'
-import AccordionDetails from './components/accordionDetails'
-import List from './components/list'
+import Experience from './components/Experience'
+import LinkSummary from './components/LinkSummary'
+import AccordionDetails from './components/AccordionDetails'
+import List from './components/List'
 import Link from 'next/link'
 
 export default async function Resume() {

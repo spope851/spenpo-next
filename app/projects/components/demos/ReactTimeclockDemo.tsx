@@ -1,8 +1,8 @@
 'use client'
-import { useState, ReactNode, useEffect } from 'react'
+import React, { useState, ReactNode, useEffect } from 'react'
 import { Timeclock } from 'react-timeclock'
 
-export default function ReactTimeclockDemo() {
+export const ReactTimeclockDemo: React.FC = () => {
   const [timeclock, setTimeclock] = useState<ReactNode>()
 
   useEffect(() => {

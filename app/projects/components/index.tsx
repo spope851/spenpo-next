@@ -1,20 +1,23 @@
 import { Projects } from '@/app/types/routing'
-import CubeDemo from './demos/cubeSolverDemo'
-import LanguageFlashDemo from './demos/languageFlashDemo'
-import ReactTimeclockDemo from './demos/reactTimeclockDemo'
-import TwoTruthsDemo from './demos/twoTruthsDemo'
-import CubeDes from './descriptions/cubeSolverDes'
-import LanguageFlashDes from './descriptions/languageFlashDes'
-import ReactTimeclockDes from './descriptions/reactTimeclockDes'
-import TwoTruthsDes from './descriptions/twoTruthsDes'
-import SpenpoLandingDes from './descriptions/spenpoLandingDes'
-import SpenpoLandingDemo from './demos/spenpoLandingDemo'
-import StarterKitNextDemo from './demos/starterKitNextDemo'
-import StarterKitNextDes from './descriptions/starterKitNextDes'
-import CrackerDes from './descriptions/crackerDes'
-import CrackerDemo from './demos/crackerDemo'
+import { CrackerDemo } from '../components/demos/CrackerDemo'
+import { CubeDemo } from '../components/demos/CubeSolverDemo'
+import { LanguageFlashDemo } from '../components/demos/LanguageFlashDemo'
+import { ReactTimeclockDemo } from '../components/demos/ReactTimeclockDemo'
+import { SpenpoLandingDemo } from '../components/demos/SpenpoLandingDemo'
+import { StarterKitNextDemo } from '../components/demos/StarterKitNextDemo'
+import { TwoTruthsDemo } from '../components/demos/TwoTruthsDemo'
+import { CrackerDes } from '../components/descriptions/CrackerDes'
+import { CubeDes } from '../components/descriptions/CubeSolverDes'
+import { LanguageFlashDes } from '../components/descriptions/LanguageFlashDes'
+import { ReactTimeclockDes } from '../components/descriptions/ReactTimeclockDes'
+import { SpenpoLandingDes } from '../components/descriptions/SpenpoLandingDes'
+import { StarterKitNextDes } from '../components/descriptions/StarterKitNextDes'
+import { TwoTruthsDes } from '../components/descriptions/TwoTruthsDes'
 
-const projects: Record<Projects, Record<'description' | 'demo', JSX.Element>> = {
+export const projects: Record<
+  Projects,
+  Record<'description' | 'demo', JSX.Element>
+> = {
   'starter-kit-next': {
     description: <StarterKitNextDes />,
     demo: <StarterKitNextDemo />,
@@ -44,5 +47,3 @@ const projects: Record<Projects, Record<'description' | 'demo', JSX.Element>> = 
     demo: <ReactTimeclockDemo />,
   },
 }
-
-export default projects

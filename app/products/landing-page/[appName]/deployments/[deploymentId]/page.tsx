@@ -1,6 +1,6 @@
 import React from 'react'
-import { Deployment as SpenpoDeployment } from '../components/deployment'
-import { Breadcrumbs } from '@/app/components/breadcrumbs'
+import { Deployment as SpenpoDeployment } from '../components/Deployment'
+import { Breadcrumbs } from '@/app/components/Breadcrumbs'
 import { Box } from '@mui/material'
 import { authOptions } from '@/pages/api/auth/[...nextauth]'
 import { getServerSession } from 'next-auth'

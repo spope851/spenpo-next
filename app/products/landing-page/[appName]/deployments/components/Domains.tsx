@@ -1,7 +1,7 @@
 import React from 'react'
 import { Stack, SxProps, Typography } from '@mui/material'
-import { SmallHeader } from './smallHeader'
-import { NewTabLink } from '../../../../../components/newTabLink'
+import { SmallHeader } from './SmallHeader'
+import { NewTabLink } from '../../../../../components/NewTabLink'
 
 export const Domains: React.FC<{ sx?: SxProps; alias?: string[] }> = ({
   sx,
