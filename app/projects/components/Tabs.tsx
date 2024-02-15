@@ -2,7 +2,7 @@
 import React from 'react'
 import { Tabs as MuiTabs, Tab } from '@mui/material'
 import { Projects as ProjectsType } from '@/app/types/routing'
-import projects from '.'
+import { projects } from '.'
 import { useRouter } from 'next/navigation'
 import { PROJECTS } from '@/app/constants/projects'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ShoppingCartContext } from '@/app/context/shoppingCart'
 import {
   FormControl,
@@ -57,10 +57,24 @@ const helperText = {
   loading: <UnAuth />,
 }
 
-export const AppSelect: React.FC<{ orders: Order[] }> = ({ orders }) => {
+export const AppSelect: React.FC<{ orders: Order[]; defaultValue?: string }> = ({
+  orders,
+  defaultValue,
+}) => {
+  const getIndex = (dv?: string) => {
+    const idx = orders.findIndex(
+      (o) => (o.metadata as unknown as Metadata).projectName.vercelApp === dv
+    )
+    return idx + 1
+  }
+
   const { setProjectName } = useContext(ShoppingCartContext)
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(getIndex(defaultValue))
   const { status } = useSession()
+
+  useEffect(() => {
+    if (defaultValue) setProjectName(defaultValue)
+  }, [])
 
   return (
     <Stack gap={1} alignItems="center">

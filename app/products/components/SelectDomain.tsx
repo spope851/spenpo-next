@@ -3,14 +3,26 @@ import { Suspense } from 'react'
 import Domain from './Domain'
 import { LoadMoreBtn } from './LoadMoreBtn'
 import { DomainField } from './DomainField'
-import { LIMIT_INCREMENT, TLDS } from '../landing-page/domain/constants'
+import { LIMIT_INCREMENT, TLDS } from '../constants'
 import { PageProps } from '@/app/types/app'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/app/constants/api'
+import redis from '@/app/utils/redis'
 
 export async function SelectDomain({
   searchParams,
 }: {
   searchParams: PageProps['searchParams']
 }) {
+  let defaultRenew = null
+
+  const session = await getServerSession(authOptions)
+
+  if (session) {
+    const cache = await redis.hgetall(session.user.id)
+    if (cache.renew) defaultRenew = JSON.parse(cache.renew)
+  }
+
   const q = searchParams.q ? String(searchParams.q) : ''
   const limit = Number(searchParams.limit) || LIMIT_INCREMENT
   const domainNames: string[] = []
@@ -35,7 +47,7 @@ export async function SelectDomain({
   return (
     <Stack maxWidth="70em" width="-webkit-fill-available" mx="auto" gap={5}>
       <Stack justifyContent="center" gap={3} alignItems="center">
-        <DomainField />
+        <DomainField defaultRenew={defaultRenew} />
       </Stack>
       <Grid container spacing={1} width="100%">
         {q &&

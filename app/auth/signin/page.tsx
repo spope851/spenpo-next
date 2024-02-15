@@ -1,11 +1,11 @@
 import { getProviders } from 'next-auth/react'
 import { getServerSession } from 'next-auth/next'
-import { authOptions } from '../../../pages/api/auth/[...nextauth]'
 import { Stack, Typography, Divider } from '@mui/material'
 import React from 'react'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
 import { ProviderBtn } from '../components/ProviderBtn'
+import { authOptions } from '@/app/constants/api'
 
 export default async function Signin({ searchParams }: PageProps) {
   const session = await getServerSession(authOptions)

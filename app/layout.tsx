@@ -1,4 +1,4 @@
-import Layout from './components/layout'
+import { Layout } from './components/Layout'
 import { NextAuthProvider } from './context/nextAuth'
 import { ThemeProvider } from './context/theme'
 import { Metadata } from 'next'
