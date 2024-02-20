@@ -1,10 +1,10 @@
 import { Accordion, Box, ListItem, Typography } from '@mui/material'
 import React from 'react'
-import AccordionDetails from './AccordionDetails'
-import List from './List'
-import LinkSummary from './LinkSummary'
+import { AccordionDetails } from './AccordionDetails'
+import { List } from './List'
+import { LinkSummary } from './LinkSummary'
 
-const Experience: React.FC = () => {
+export const Experience: React.FC = () => {
   return (
     <>
       <Accordion>
@@ -211,5 +211,3 @@ const Experience: React.FC = () => {
     </>
   )
 }
-
-export default Experience

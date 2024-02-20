@@ -2,7 +2,7 @@ import { AccordionSummary, Typography, Box, Link } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import React from 'react'
 
-const LinkSummary: React.FC<{
+export const LinkSummary: React.FC<{
   title?: string
   href: string
   linkTitle: string
@@ -27,5 +27,3 @@ const LinkSummary: React.FC<{
     </AccordionSummary>
   )
 }
-
-export default LinkSummary

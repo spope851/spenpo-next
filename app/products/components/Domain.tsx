@@ -38,7 +38,7 @@ const getPrice = async (domain: string) =>
     { tags: [domain] }
   )(domain)
 
-export default async function Domain({ domainName }: { domainName: string }) {
+export const Domain = async ({ domainName }: { domainName: string }) => {
   const status = await getStatus(domainName)
 
   if (status?.available === undefined) {

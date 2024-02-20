@@ -7,6 +7,7 @@ import Twitch from '@/images/svg/twitch.svg'
 import Mail from '@/images/svg/mail.svg'
 import { Stack, SvgIcon, Typography } from '@mui/material'
 import Package from '../../package.json'
+import React from 'react'
 
 const socials = [
   { href: 'https://github.com/spope851', icon: Github },
@@ -17,7 +18,7 @@ const socials = [
   { href: 'https://www.twitch.tv/spenpo', icon: Twitch },
 ]
 
-export default function Footer() {
+export const Footer: React.FC = () => {
   return (
     <Stack
       component="footer"
