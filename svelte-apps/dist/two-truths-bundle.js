@@ -1,12 +1,12 @@
 !(function (t, e) {
-  "object" == typeof exports && "undefined" != typeof module
+  'object' == typeof exports && 'undefined' != typeof module
     ? (module.exports = e())
-    : "function" == typeof define && define.amd
+    : 'function' == typeof define && define.amd
     ? define(e)
-    : ((t = "undefined" != typeof globalThis ? globalThis : t || self).TwoTruths =
+    : ((t = 'undefined' != typeof globalThis ? globalThis : t || self).TwoTruths =
         e())
 })(this, function () {
-  "use strict"
+  'use strict'
   function t() {}
   function e(t) {
     return t()
@@ -18,12 +18,12 @@
     t.forEach(e)
   }
   function r(t) {
-    return "function" == typeof t
+    return 'function' == typeof t
   }
   function i(t, e) {
     return t != t
       ? e == e
-      : t !== e || (t && "object" == typeof t) || "function" == typeof t
+      : t !== e || (t && 'object' == typeof t) || 'function' == typeof t
   }
   function s(t, e) {
     t.appendChild(e)
@@ -41,7 +41,7 @@
     return document.createTextNode(t)
   }
   function d() {
-    return u(" ")
+    return u(' ')
   }
   function f(t, e, n, o) {
     return t.addEventListener(e, n, o), () => t.removeEventListener(e, n, o)
@@ -54,7 +54,7 @@
   function p(t, e, n, o) {
     null === n
       ? t.style.removeProperty(e)
-      : t.style.setProperty(e, n, o ? "important" : "")
+      : t.style.setProperty(e, n, o ? 'important' : '')
   }
   let h
   function g(t) {
@@ -210,21 +210,21 @@
     let n, o, r, i, d
     return {
       c() {
-        ;(n = a("div")),
-          (o = u("game over! ")),
-          (r = a("button")),
+        ;(n = a('div')),
+          (o = u('game over! ')),
+          (r = a('button')),
           (r.innerHTML =
             '<svg width="24px" fill="#ff3e00" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3.508 6.726c1.765-2.836 4.911-4.726 8.495-4.726 5.518 0 9.997 4.48 9.997 9.997 0 5.519-4.479 9.999-9.997 9.999-5.245 0-9.553-4.048-9.966-9.188-.024-.302.189-.811.749-.811.391 0 .715.3.747.69.351 4.369 4.012 7.809 8.47 7.809 4.69 0 8.497-3.808 8.497-8.499 0-4.689-3.807-8.497-8.497-8.497-3.037 0-5.704 1.597-7.206 3.995l1.991.005c.414 0 .75.336.75.75s-.336.75-.75.75h-4.033c-.414 0-.75-.336-.75-.75v-4.049c0-.414.336-.75.75-.75s.75.335.75.75z" fill-rule="nonzero"></path></svg>'),
-          p(r, "padding", "10px"),
-          p(r, "margin", "10px"),
-          m(r, "id", "replay"),
-          m(r, "class", "svelte-1syxrlx"),
-          m(n, "class", "animate__animated animate__zoomInDown"),
-          p(n, "display", "flex"),
-          p(n, "align-items", "center")
+          p(r, 'padding', '10px'),
+          p(r, 'margin', '10px'),
+          m(r, 'id', 'replay'),
+          m(r, 'class', 'svelte-1syxrlx'),
+          m(n, 'class', 'animate__animated animate__zoomInDown'),
+          p(n, 'display', 'flex'),
+          p(n, 'align-items', 'center')
       },
       m(t, c) {
-        l(t, n, c), s(n, o), s(n, r), i || ((d = f(r, "click", e[3])), (i = !0))
+        l(t, n, c), s(n, o), s(n, r), i || ((d = f(r, 'click', e[3])), (i = !0))
       },
       p: t,
       d(t) {
@@ -239,19 +239,19 @@
       r,
       i,
       d,
-      p = t[9].sentence + ""
+      p = t[9].sentence + ''
     function h() {
       return t[8](t[9], t[11])
     }
     return {
       c() {
-        ;(e = a("button")),
+        ;(e = a('button')),
           (n = u(p)),
-          m(e, "id", `truth${t[11]}`),
-          m(e, "class", "animate__animated animate__fadeIn svelte-1syxrlx"),
+          m(e, 'id', `truth${t[11]}`),
+          m(e, 'class', 'animate__animated animate__fadeIn svelte-1syxrlx'),
           m(
             e,
-            "style",
+            'style',
             (o = `margin: 10px; border-color: ${t[5](
               t[0][t[11]]
             )}; background-color: ${t[4](t[0][t[11]])};`)
@@ -259,21 +259,21 @@
           (e.disabled = r = 2 === t[1] || t[0].includes(2))
       },
       m(t, o) {
-        l(t, e, o), s(e, n), i || ((d = f(e, "click", h)), (i = !0))
+        l(t, e, o), s(e, n), i || ((d = f(e, 'click', h)), (i = !0))
       },
       p(i, s) {
         ;(t = i),
           4 & s &&
-            p !== (p = t[9].sentence + "") &&
+            p !== (p = t[9].sentence + '') &&
             (function (t, e) {
-              ;(e = "" + e), t.wholeText !== e && (t.data = e)
+              ;(e = '' + e), t.wholeText !== e && (t.data = e)
             })(n, p),
           1 & s &&
             o !==
               (o = `margin: 10px; border-color: ${t[5](
                 t[0][t[11]]
               )}; background-color: ${t[4](t[0][t[11]])};`) &&
-            m(e, "style", o),
+            m(e, 'style', o),
           3 & s && r !== (r = 2 === t[1] || t[0].includes(2)) && (e.disabled = r)
       },
       d(t) {
@@ -283,14 +283,14 @@
   }
   function O(t) {
     let e
-    function n(t, e) {
+    function n(t) {
       return t[0][t[11]] < 2 ? H : F
     }
     let o = n(t),
       r = o(t)
     return {
       c() {
-        r.c(), (e = u(""))
+        r.c(), (e = u(''))
       },
       m(t, n) {
         r.m(t, n), l(t, e, n)
@@ -309,21 +309,21 @@
     let n, o, r, i, d
     return {
       c() {
-        ;(n = a("div")),
-          (o = u("you win! ")),
-          (r = a("button")),
+        ;(n = a('div')),
+          (o = u('you win! ')),
+          (r = a('button')),
           (r.innerHTML =
             '<svg width="24px" fill="#ff3e00" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3.508 6.726c1.765-2.836 4.911-4.726 8.495-4.726 5.518 0 9.997 4.48 9.997 9.997 0 5.519-4.479 9.999-9.997 9.999-5.245 0-9.553-4.048-9.966-9.188-.024-.302.189-.811.749-.811.391 0 .715.3.747.69.351 4.369 4.012 7.809 8.47 7.809 4.69 0 8.497-3.808 8.497-8.499 0-4.689-3.807-8.497-8.497-8.497-3.037 0-5.704 1.597-7.206 3.995l1.991.005c.414 0 .75.336.75.75s-.336.75-.75.75h-4.033c-.414 0-.75-.336-.75-.75v-4.049c0-.414.336-.75.75-.75s.75.335.75.75z" fill-rule="nonzero"></path></svg>'),
-          p(r, "padding", "10px"),
-          p(r, "margin", "10px"),
-          m(r, "id", "replay"),
-          m(r, "class", "svelte-1syxrlx"),
-          m(n, "class", "animate__animated animate__zoomInDown"),
-          p(n, "display", "flex"),
-          p(n, "align-items", "center")
+          p(r, 'padding', '10px'),
+          p(r, 'margin', '10px'),
+          m(r, 'id', 'replay'),
+          m(r, 'class', 'svelte-1syxrlx'),
+          m(n, 'class', 'animate__animated animate__zoomInDown'),
+          p(n, 'display', 'flex'),
+          p(n, 'align-items', 'center')
       },
       m(t, c) {
-        l(t, n, c), s(n, o), s(n, r), i || ((d = f(r, "click", e[3])), (i = !0))
+        l(t, n, c), s(n, o), s(n, r), i || ((d = f(r, 'click', e[3])), (i = !0))
       },
       p: t,
       d(t) {
@@ -345,21 +345,21 @@
     let $ = 2 === e[1] && P(e)
     return {
       c() {
-        ;(n = a("head")),
+        ;(n = a('head')),
           (n.innerHTML =
             '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>'),
           (o = d()),
-          (r = a("main")),
-          (i = a("div")),
-          (u = a("h2")),
-          (u.textContent = "Guess which two are true!"),
+          (r = a('main')),
+          (i = a('div')),
+          (u = a('h2')),
+          (u.textContent = 'Guess which two are true!'),
           (f = d())
         for (let t = 0; t < g.length; t += 1) g[t].c()
         ;(p = d()),
           $ && $.c(),
-          m(i, "id", "game"),
-          m(i, "class", "animate__animated svelte-1syxrlx"),
-          m(r, "class", "svelte-1syxrlx")
+          m(i, 'id', 'game'),
+          m(i, 'class', 'animate__animated svelte-1syxrlx'),
+          m(r, 'class', 'svelte-1syxrlx')
       },
       m(t, e) {
         l(t, n, e), l(t, o, e), l(t, r, e), s(r, i), s(i, u), s(i, f)
@@ -398,7 +398,7 @@
   function S(t, e, n) {
     let o = [0, 0, 0],
       r = 0,
-      i = [{ id: 0, sentence: "...loading", is_true: "1" }],
+      i = [{ id: 0, sentence: '...loading', is_true: '1' }],
       { getTruths: s } = e
     const l = async () => {
       n(2, (i = (await s()) || i)),
@@ -407,26 +407,26 @@
         [0, 1, 2].forEach((t) => {
           const e = document.getElementById(`truth${t}`)
           e &&
-            (e.classList.remove("animate__pulse"),
-            e.classList.remove("animate__hinge"),
-            e.classList.add("animate__fadeIn"))
+            (e.classList.remove('animate__pulse'),
+            e.classList.remove('animate__hinge'),
+            e.classList.add('animate__fadeIn'))
         })
     }
     l()
-    const c = (t) => (1 === t ? "#99ee99" : 2 === t ? "#ee9999" : void 0),
-      a = (t) => (1 === t ? "#4CAF50" : 2 === t ? "#FF5252" : void 0),
+    const c = (t) => (1 === t ? '#99ee99' : 2 === t ? '#ee9999' : void 0),
+      a = (t) => (1 === t ? '#4CAF50' : 2 === t ? '#FF5252' : void 0),
       u = (t, e) => {
         const i = document.getElementById(`truth${e}`)
-        "1" === t
+        '1' === t
           ? (n(1, r++, r),
             n(0, (o[e] = 1), o),
             i &&
-              (i.classList.remove("animate__fadeIn"),
-              i.classList.add("animate__pulse")))
+              (i.classList.remove('animate__fadeIn'),
+              i.classList.add('animate__pulse')))
           : (i &&
-              (i.classList.add("animate__hinge"),
+              (i.classList.add('animate__hinge'),
               i.setAttribute(
-                "style",
+                'style',
                 `border-color: ${a(2)}; background-color: ${c(2)};`
               )),
             setTimeout(() => {
@@ -435,7 +435,7 @@
       }
     return (
       (t.$$set = (t) => {
-        "getTruths" in t && n(7, (s = t.getTruths))
+        'getTruths' in t && n(7, (s = t.getTruths))
       }),
       [o, r, i, l, c, a, u, s, (t, e) => u(t.is_true, e)]
     )
@@ -480,8 +480,15 @@
       }
     )
   }
-  function J(t) {
-    return [async () => await fetch("/api/getTruths").then((t) => t.json())]
+  function J() {
+    return [
+      async () =>
+        await fetch('/api/getTruths', {
+          next: {
+            cache: 'no-store',
+          },
+        }).then((t) => t.json()),
+    ]
   }
   return class extends C {
     constructor(t) {
