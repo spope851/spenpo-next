@@ -484,9 +484,7 @@
     return [
       async () =>
         await fetch('/api/getTruths', {
-          next: {
-            cache: 'no-store',
-          },
+          cache: 'no-store',
         }).then((t) => t.json()),
     ]
   }
