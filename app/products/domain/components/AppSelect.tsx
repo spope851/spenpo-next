@@ -74,7 +74,7 @@ export const AppSelect: React.FC<{ orders: Order[]; defaultValue?: string }> = (
 
   useEffect(() => {
     if (defaultValue) setProjectName(defaultValue)
-  }, [])
+  }, [defaultValue]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Stack gap={1} alignItems="center">
