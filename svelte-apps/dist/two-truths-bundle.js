@@ -481,12 +481,7 @@
     )
   }
   function J() {
-    return [
-      async () =>
-        await fetch('/api/getTruths', {
-          cache: 'no-store',
-        }).then((t) => t.json()),
-    ]
+    return [async () => await fetch('/api/getTruths').then((t) => t.json())]
   }
   return class extends C {
     constructor(t) {
