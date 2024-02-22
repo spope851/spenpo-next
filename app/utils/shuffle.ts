@@ -1,6 +1,4 @@
-import { Truth } from '@/app/api/getTruths/route'
-
-export const shuffle = (array: Truth[]) => {
+export const shuffle = (array: unknown[]) => {
   let currentIndex = array.length,
     randomIndex
   // While there remain elements to shuffle.

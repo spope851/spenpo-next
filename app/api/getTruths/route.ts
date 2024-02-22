@@ -1,22 +1,14 @@
-import { pool } from '@/app/utils/postgres'
+import prisma from '@/app/utils/prisma'
 import { shuffle } from '@/app/utils/shuffle'
 import { NextResponse } from 'next/server'
 
-export interface Truth {
-  id: number
-  is_true: string
-  sentence: string
-}
+export const dynamic = 'force-dynamic'
 
 export async function GET() {
-  const truths = await pool.query(
-    `SELECT * FROM truths WHERE is_true = CAST(1 as BIT) ORDER BY random() LIMIT 2;`
-  )
-  const lie = await pool.query(
-    `SELECT * FROM truths WHERE is_true != CAST(1 as BIT) ORDER BY random() LIMIT 1;`
-  )
-  const twoTruths = truths.rows
-  twoTruths.push(lie.rows[0])
+  const truths: unknown[] =
+    await prisma.$queryRaw`SELECT id, sentence, CASE when is_true then '1' else '0' end as is_true FROM "Truth" WHERE is_true ORDER BY random() LIMIT 2;`
+  const lie: unknown[] =
+    await prisma.$queryRaw`SELECT id, sentence, CASE when is_true then '1' else '0' end as is_true FROM "Truth" WHERE not is_true ORDER BY random() LIMIT 1;`
 
-  return NextResponse.json(shuffle(twoTruths))
+  return NextResponse.json(shuffle([...truths, ...lie]))
 }

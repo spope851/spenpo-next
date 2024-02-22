@@ -44,7 +44,7 @@ export const Product: React.FC<{
           </Button> */}
             {buyNow && (
               <Button
-                onClick={() => router.push(`/products/${id}/${learnMore}`)}
+                onClick={() => router.push(`/products/${id}/${learnMore ?? ''}`)}
                 variant="text"
               >
                 learn more

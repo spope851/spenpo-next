@@ -1,6 +1,6 @@
 import { Grid, Box, Typography, Stack } from '@mui/material'
 import { Suspense } from 'react'
-import Domain from './Domain'
+import { Domain } from './Domain'
 import { LoadMoreBtn } from './LoadMoreBtn'
 import { DomainField } from './DomainField'
 import { LIMIT_INCREMENT, TLDS } from '../constants'

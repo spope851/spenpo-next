@@ -78,3 +78,17 @@ model Order {
   error         Json?
   environment   String
 }
+
+model Mandarin {
+  id            Int    @id @default(autoincrement())
+  traditional   String
+  simplified    String
+  pinyin        String
+  meaning       String
+}
+
+model Truth {
+  id            Int    @id @default(autoincrement())
+  sentence      String
+  is_true       Boolean
+}

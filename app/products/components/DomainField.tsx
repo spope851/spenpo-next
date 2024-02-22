@@ -37,7 +37,7 @@ export const DomainField: React.FC<{ defaultRenew: boolean | null }> = ({
 
   useEffect(() => {
     setRenew(defaultRenew ?? true)
-  }, [])
+  }, [defaultRenew]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (d)
     return (
