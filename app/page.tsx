@@ -15,6 +15,7 @@ export default function Root() {
         'mailto:spenpo@spenpo.com',
         'https://www.youtube.com/@spope',
         'https://www.twitch.tv/spenpo',
+        'https://www.linkedin.com/in/spencer-pope-1b7a1411b/',
       ]}
       headshotSrc="/images/headshot.jpeg"
       actionDestination="products/landing-page"

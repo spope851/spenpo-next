@@ -14,6 +14,8 @@ export const RootTopComponents: React.FC = () => {
   const onFocus = (e: SyntheticEvent) =>
     rippleRef.current?.start(e, { center: true, pulsate: true })
 
+  const onBlur = () => rippleRef.current?.stop()
+
   useEffect(() => {
     document.getElementById('mui-button-to-ripple')?.focus()
   }, [])
@@ -23,6 +25,7 @@ export const RootTopComponents: React.FC = () => {
       <IconButton
         id="mui-button-to-ripple"
         onFocus={onFocus}
+        onBlur={onBlur}
         onClick={() => {
           router.push('/home')
         }}
