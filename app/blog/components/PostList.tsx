@@ -64,7 +64,7 @@ export const PostList: React.FC<{
             <Typography variant="caption" align="right">
               {dates[idx]}
             </Typography>
-            <Typography variant="h6">{title}</Typography>
+            <Typography variant="h6" dangerouslySetInnerHTML={{ __html: title }} />
             <Typography
               component="span"
               dangerouslySetInnerHTML={{ __html: excerpt.split(/[\[\]]/).join('') }}

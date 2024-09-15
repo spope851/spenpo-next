@@ -8,7 +8,7 @@ export const TagList: React.FC<{
   tags?: Tag[]
 }> = ({ tags }) => {
   return (
-    <p>
+    <p style={{ margin: 0 }}>
       {tags?.map(({ ID, slug, name, post_count }) => (
         <Tooltip title={post_count} placement="top" key={ID}>
           <Chip

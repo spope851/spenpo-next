@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { BackButton } from '@/app/components/BackButton'
 import { TagList } from '@/app/blog/components/TagList'
 import Link from 'next/link'
@@ -68,32 +68,55 @@ export default async function Post({ params }: PageProps) {
     redirect('/blog')
   }
 
+  const tags = post?.tags?.map((tag) => tag.name)
+
   return (
-    <Box m={{ xs: 2, sm: 5 }}>
-      <BackButton href="/blog" />
-      <Box mx="auto" maxWidth="50em">
-        <TagList tags={post.tags} />
+    <Stack>
+      <Box m={{ xs: 2, sm: 5 }}>
+        <BackButton href="/blog" />
+      </Box>
+      <Stack
+        gap={5}
+        pb={{ xs: 2, sm: 5 }}
+        px={{ xs: 2, sm: 5 }}
+        mx="auto"
+        maxWidth="50rem"
+      >
         <Box display="flex" justifyContent="space-between" alignItems="end">
-          <Typography component="span" variant="h4">
-            {post.title}
-          </Typography>
+          <Typography
+            component="span"
+            variant="h4"
+            dangerouslySetInnerHTML={{ __html: post.title }}
+          />
           <Typography component="span">
             {post.date && new Date(post.date).toLocaleDateString()}
           </Typography>
         </Box>
+        <TagList tags={post.tags} />
         <Typography
           variant="body2"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
-        <Link
-          href={`https://introspective20s.wordpress.com/?p=${params.id}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          please visit my Wordpress site to leave a comment on this post
-        </Link>
+        <Typography variant="body2">
+          Please visit{' '}
+          <Link
+            href={`https://introspective20s.wordpress.com/?p=${params.id}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            my Wordpress site
+          </Link>{' '}
+          to leave a comment on this post.
+        </Typography>
+        {tags.includes('now') && (
+          <Typography variant="body2">
+            You&apos;re reading this on my blog where all &quot;now&quot; posts are
+            archived. Check out my &quot;<Link href="/now">now</Link>&quot; page for
+            the latest update.
+          </Typography>
+        )}
         <TagList tags={post.tags} />
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   )
 }

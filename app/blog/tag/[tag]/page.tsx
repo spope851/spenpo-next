@@ -1,6 +1,6 @@
 import { PostList } from '@/app/blog/components/PostList'
 import { BackButton } from '@/app/components/BackButton'
-import { Box, Chip } from '@mui/material'
+import { Box, Chip, Stack } from '@mui/material'
 import { extractTagsFromPosts } from '@/app/utils/extractTags'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
@@ -45,15 +45,15 @@ export default async function Blog({ params }: PageProps) {
 
   if (allPosts.posts && allPosts.posts.length > 0)
     return (
-      <>
+      <Stack m={{ xs: 2, sm: 5 }} gap={5}>
         <Box
-          mt={5}
           display="grid"
           gridTemplateColumns="1fr 1fr 1fr"
           flexWrap="wrap-reverse"
           alignItems="flex-end"
+          py="4.25px"
         >
-          <BackButton sx={{ gridColumn: 1, m: 'auto' }} />
+          <BackButton sx={{ gridColumn: 1, mr: 'auto' }} />
           <Chip
             color="primary"
             label={name}
@@ -65,7 +65,7 @@ export default async function Blog({ params }: PageProps) {
           />
         </Box>
         <PostList posts={{ allPosts }} />
-      </>
+      </Stack>
     )
   else redirect('/blog')
 }

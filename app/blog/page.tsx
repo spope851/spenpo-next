@@ -39,7 +39,7 @@ export default async function Blog() {
   const data: GetBlogPostsQuery = { allPosts }
   return (
     <Stack m={{ xs: 2, sm: 5 }} gap={5}>
-      <Typography variant="h4" textAlign="center" fontStyle="italic">
+      <Typography component="h1" textAlign="center" fontStyle="italic">
         spenpo.blog
       </Typography>
       <PostList posts={data} />
