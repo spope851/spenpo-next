@@ -16,8 +16,8 @@ export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
   const title = params.id as ProjectsType
-  const description = METADATA[title].description
-  const images = [METADATA[title].image || '/images/headshot.jpeg']
+  const description = METADATA[title]?.description
+  const images = [METADATA[title]?.image || '/images/headshot.jpeg']
 
   return {
     title,

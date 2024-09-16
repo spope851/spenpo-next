@@ -13,11 +13,17 @@ import { ReactTimeclockDes } from './descriptions/ReactTimeclockDes'
 import { SpenpoLandingDes } from './descriptions/SpenpoLandingDes'
 import { StarterKitNextDes } from './descriptions/StarterKitNextDes'
 import { TwoTruthsDes } from './descriptions/TwoTruthsDes'
+import { FileFeedDemo } from './demos/FileFeedDemo'
+import { FileFeedDes } from './descriptions/FileFeedDes'
 
 export const projects: Record<
   Projects,
   Record<'description' | 'demo', JSX.Element>
 > = {
+  'file-feed': {
+    description: <FileFeedDes />,
+    demo: <FileFeedDemo />,
+  },
   'starter-kit-next': {
     description: <StarterKitNextDes />,
     demo: <StarterKitNextDemo />,

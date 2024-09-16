@@ -1,6 +1,7 @@
 import { Projects } from '@/app/types/routing'
 
 const PROJECTS: Projects[] = [
+  'file-feed',
   'starter-kit-next',
   'cracker',
   'spenpo-landing',
@@ -11,6 +12,10 @@ const PROJECTS: Projects[] = [
 ]
 
 const METADATA: Record<Projects, { image: string; description: string }> = {
+  'file-feed': {
+    description: 'public file sharing feed',
+    image: '/images/file-feed.png',
+  },
   'starter-kit-next': {
     description:
       "a framework implementation of Ryan from Oak Harbor Web Design's fabulous Starter-Kit-V2 static site template",

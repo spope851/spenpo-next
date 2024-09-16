@@ -21,9 +21,9 @@ export default async function Home() {
     <Stack p={{ sm: 5, xs: 2 }} gap={5} mx="auto" maxWidth="50em">
       <Typography component="h1">Welcome</Typography>
       <Typography variant="body2">
-        I&apos;m a hard working 20-something, and if you haven&apos;t noticed, this
-        is a homemade website. Handcrafted, artisan, and non-GMO. This is what I do
-        most of the time. I build custom software solutions and help others ideate on
+        I&apos;m an ambitious 20-something, and if you haven&apos;t noticed, this is
+        a homemade website. Handcrafted, artisan, and non-GMO. This is what I do most
+        of the time. I build custom software solutions and help others ideate on
         theirs. I love a good product, and I love it when an internet thing just
         works. There&apos;s lots of fun to be had here like{' '}
         <Link href="/blog">reading</Link>, <Link href="/products">shopping</Link>,
@@ -68,13 +68,35 @@ export default async function Home() {
       />
       <Typography component="h1">What I&apos;ve been tinkering with</Typography>
       <Typography variant="body2">
-        I&apos;m looking for some freelance work on the side, so I picked a nice HTML
-        template and converted it into a React app that I could easily spin up a copy
-        of for a client.
+        I interviewed for a role where I would have been building web apps with XML
+        data and{' '}
+        <Link
+          href="https://en.wikipedia.org/wiki/XSLT"
+          target="_blank"
+          referrerPolicy="no-referrer"
+        >
+          XSLT
+        </Link>{' '}
+        style sheets. In preparation, I used that stack to build a file-sharing feed.
+        I have a private server with{' '}
+        <Link
+          href="https://pope.love/pub"
+          target="_blank"
+          referrerPolicy="no-referrer"
+        >
+          one public directory
+        </Link>{' '}
+        that I use as a file-sharing alternative. I used PHP to extrapolate data from
+        that directory into XML format and then wrote a stylesheet that turns the
+        boring /pub/ page into a nice looking feed.
       </Typography>
       <LinkPreview
         {...LINK_PREV_PROPS}
-        url={'https://www.spenpo.com/projects/' + PROJECTS[0]}
+        url={
+          process.env.NODE_ENV === 'production'
+            ? 'https://www.spenpo.com/projects/'
+            : '/projects/' + PROJECTS[0]
+        }
       />
       <Typography component="h1">More about me</Typography>
       <Stack>

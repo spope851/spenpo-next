@@ -26,9 +26,9 @@ export const BgImage: React.FC<{
   }, [src, fallback])
 
   const SX = {
+    backgroundPosition: 'center',
     ...sx,
     backgroundImage: `url(${bgImage})`,
-    backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     opacity,

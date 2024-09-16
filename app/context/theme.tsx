@@ -91,6 +91,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             },
             variants: [
               {
+                props: { id: 'primary' },
+                style: {
+                  color: PRIMARY,
+                  fontWeight: 600,
+                },
+              },
+              {
                 props: { id: 'deployment' },
                 style: {
                   fontFamily: `Roboto Mono, Menlo, Monaco, Lucida Console, Liberation Mono,

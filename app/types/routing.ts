@@ -8,7 +8,9 @@ type Tabs =
   | 'contact'
   | 'now'
   | 'work'
+
 type Projects =
+  | 'file-feed'
   | 'starter-kit-next'
   | 'cracker'
   | 'spenpo-landing'
