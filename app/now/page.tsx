@@ -11,9 +11,15 @@ export default async function Now() {
 
   return (
     <Stack p={{ sm: 5, xs: 2 }} gap={5} mx="auto" maxWidth="50em">
-      <Typography component="h1" display="flex" alignItems="baseline" gap={5}>
+      <Typography
+        component="h1"
+        alignItems="baseline"
+        display="flex"
+        gap={5}
+        justifyContent="space-between"
+      >
         Now
-        <Typography>
+        <Typography display="flex" gap={5}>
           <Link
             href="https://nownownow.com/about"
             target="_blank"
@@ -21,8 +27,6 @@ export default async function Now() {
           >
             inspired by Derek Sivers
           </Link>
-        </Typography>
-        <Typography>
           {post?.date && new Date(post.date).toLocaleDateString()}
         </Typography>
       </Typography>

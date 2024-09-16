@@ -71,17 +71,20 @@ export default async function Post({ params }: PageProps) {
   const tags = post?.tags?.map((tag) => tag.name)
 
   return (
-    <Stack>
-      <Box m={{ xs: 2, sm: 5 }}>
+    <Stack
+      display="grid"
+      gridTemplateColumns={{
+        lg: '1fr 2fr 1fr',
+        md: '1fr 4fr 1fr',
+        sm: '1fr',
+      }}
+      p={{ xs: 2, sm: 5 }}
+      gap={{ md: 0, sm: 5, xs: 2 }}
+    >
+      <Box mr="auto" mb="auto">
         <BackButton href="/blog" />
       </Box>
-      <Stack
-        gap={5}
-        pb={{ xs: 2, sm: 5 }}
-        px={{ xs: 2, sm: 5 }}
-        mx="auto"
-        maxWidth="50rem"
-      >
+      <Stack gap={{ sm: 5, xs: 2 }}>
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography
             component="span"
