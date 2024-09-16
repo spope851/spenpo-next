@@ -9,6 +9,46 @@ export const Experience: React.FC = () => {
     <>
       <Accordion>
         <LinkSummary
+          title="Homeroom Teacher"
+          href="https://tasedu.com.cn"
+          linkTitle="Transformation Academy Shanghai"
+          subTitle="2024 - Present"
+        />
+        <AccordionDetails>
+          <List>
+            <ListItem>
+              <Typography>
+                Oversee all daily activities of 20 students in grade 4
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Teach English lessons on speaking, writing, and reading comprehension
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Teach History lessons on ancient times and provide the perspective of
+                western education
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Lead cultural activities that prepare the students for higher
+                educations at western institutions
+              </Typography>
+            </ListItem>
+            <ListItem>
+              <Typography>
+                Communicate the school&apos;s values to parents and provide daily
+                updates on my class
+              </Typography>
+            </ListItem>
+          </List>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <LinkSummary
           title="Technical Lead - Web Team"
           href="https://blockchains.com"
           linkTitle="Blockchains Inc"
