@@ -1,9 +1,9 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
-import { LinkPreview } from '../components/LinkPreview'
-import { PROJECTS } from '../constants/projects'
-import { previewImages } from '../constants/blog'
+import { WORDPRESS_ROOT } from '../constants/blog'
 import Link from 'next/link'
+
+import { LinkPreview } from '../components/LinkPreview'
 
 const LINK_PREV_PROPS = {
   backgroundColor: '#555',
@@ -14,90 +14,53 @@ const LINK_PREV_PROPS = {
   width: 400,
 }
 
+const getPost = async () =>
+  fetch(`${WORDPRESS_ROOT}/pages?slug=welcome`).then((res) => res.json())
+
 export default async function Home() {
-  const latestPost = Math.max(...Object.keys(previewImages).map((id) => Number(id)))
+  const post = await getPost().then((res) => res?.[0])
+
+  const html = post.content.rendered
 
   return (
     <Stack p={{ sm: 5, xs: 2 }} gap={5} mx="auto" maxWidth="50em">
-      <Typography component="h1">Welcome</Typography>
-      <Typography variant="body2">
-        I&apos;m an ambitious 20-something, and if you haven&apos;t noticed, this is
-        a homemade website. Handcrafted, artisan, and non-GMO. This is what I do most
-        of the time. I build custom software solutions and help others ideate on
-        theirs. I love a good product, and I love it when an internet thing just
-        works. There&apos;s lots of fun to be had here like{' '}
-        <Link href="/blog">reading</Link>, <Link href="/products">shopping</Link>,
-        and <Link href="/projects/two-truths">playing games</Link>. Thanks for paying
-        me a visit.
+      <Typography
+        component="h1"
+        alignItems="baseline"
+        display="flex"
+        gap={5}
+        justifyContent="space-between"
+      >
+        Welcome
+        <Typography display="flex" gap={5}>
+          {post?.modified && new Date(post.modified)?.toLocaleDateString()}
+        </Typography>
       </Typography>
-      <Typography component="h1">The latest thing I&apos;ve done</Typography>
-      <Typography variant="body2">
-        I created a product that allows anyone to get their face on the web for dirt
-        cheap.
-      </Typography>
-      <LinkPreview
-        {...LINK_PREV_PROPS}
-        url="https://www.spenpo.com/products/landing-page"
-      />
-      <Typography component="h1">The latest thing I&apos;ve written</Typography>
-      <Typography variant="body2">
-        I tried to buy a small business. My reasoning was a combination of
-        entrepreneurial thirst and wanting to get to work in my community instead of
-        on the interwebs for once. Here&apos;s how that went.
-      </Typography>
-      <LinkPreview
-        {...LINK_PREV_PROPS}
-        url={'https://www.spenpo.com/blog/' + latestPost}
-      />
-      <Typography component="h1">The latest thing I&apos;ve posted</Typography>
-      <Typography variant="body2">
-        I recorded this video on how I integrated Vercel&apos;s &quot;
-        <Link
-          href="https://vercel.com/domains"
-          target="_blank"
-          referrerPolicy="no-referrer"
-        >
-          buy a domain
-        </Link>
-        &quot; functionality with my website. There were a couple key tricks that
-        leverage some of the newest Next.js features.
-      </Typography>
-      <LinkPreview
-        {...LINK_PREV_PROPS}
-        url={'https://www.youtube.com/watch?v=t-THJgafWuM'}
-      />
-      <Typography component="h1">What I&apos;ve been tinkering with</Typography>
-      <Typography variant="body2">
-        I interviewed for a role where I would have been building web apps with XML
-        data and{' '}
-        <Link
-          href="https://en.wikipedia.org/wiki/XSLT"
-          target="_blank"
-          referrerPolicy="no-referrer"
-        >
-          XSLT
-        </Link>{' '}
-        style sheets. In preparation, I used that stack to build a file-sharing feed.
-        I have a private server with{' '}
-        <Link
-          href="https://pope.love/pub"
-          target="_blank"
-          referrerPolicy="no-referrer"
-        >
-          one public directory
-        </Link>{' '}
-        that I use as a file-sharing alternative. I used PHP to extrapolate data from
-        that directory into XML format and then wrote a stylesheet that turns the
-        boring /pub/ page into a nice looking feed.
-      </Typography>
-      <LinkPreview
-        {...LINK_PREV_PROPS}
-        url={
-          process.env.NODE_ENV === 'production'
-            ? 'https://www.spenpo.com/projects/'
-            : '/projects/' + PROJECTS[0]
-        }
-      />
+      {post ? (
+        <Stack>
+          {html.split('\n').map((content: string, i: string) => {
+            if (content.length < 8) return <React.Fragment key={i}></React.Fragment>
+
+            if (content.indexOf('zwt-wp-lnk-prev') > -1) {
+              const href = content.split('href="')[1].split('"')[0]
+              return <LinkPreview key={i} {...LINK_PREV_PROPS} url={href} />
+            }
+
+            return (
+              <Typography
+                key={i}
+                variant="body2"
+                dangerouslySetInnerHTML={{ __html: content }}
+                component="div"
+              />
+            )
+          })}
+        </Stack>
+      ) : (
+        <Typography variant="body2">
+          Hold up... wait a minute... somethin ain&apos;t right
+        </Typography>
+      )}
       <Typography component="h1">More about me</Typography>
       <Stack>
         <Typography variant="body2">

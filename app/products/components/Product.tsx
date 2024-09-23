@@ -16,8 +16,15 @@ export const Product: React.FC<{
   const router = useRouter()
 
   return (
-    <Grid item lg={3} sm={6} xs={12}>
-      <Stack borderRadius={1} gap={2} bgcolor="#eee" border="solid 1px #ddd" p={3}>
+    <Grid item lg={3} sm={6} xs={12} display="flex">
+      <Stack
+        borderRadius={1}
+        gap={2}
+        bgcolor="#eee"
+        border="solid 1px #ddd"
+        p={3}
+        flex={1}
+      >
         <BgImage
           src={`/images/${id}.png`}
           sx={{

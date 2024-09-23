@@ -7,7 +7,7 @@ const getPost = async () =>
   fetch(`${WORDPRESS_ROOT}/posts?tag=now&number=1`).then((res) => res.json())
 
 export default async function Now() {
-  const post = await getPost().then((res) => res?.posts?.[0])
+  const post = await getPost().then((res) => res?.[0])
 
   return (
     <Stack p={{ sm: 5, xs: 2 }} gap={5} mx="auto" maxWidth="50em">
@@ -33,17 +33,8 @@ export default async function Now() {
       {post ? (
         <Typography
           variant="body2"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-          sx={{
-            h3: {
-              fontSize: 30,
-              fontWeight: 400,
-              my: 5,
-            },
-            'p:first-child': {
-              mt: 0,
-            },
-          }}
+          dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+          component="div"
         />
       ) : (
         <Typography variant="body2">
@@ -51,7 +42,7 @@ export default async function Now() {
         </Typography>
       )}
       <Typography variant="body2">
-        All updates to this page are archived <Link href="/blog/tag/now">here</Link>.
+        All updates to this page are archived <Link href="/blog/tag/28">here</Link>.
       </Typography>
     </Stack>
   )

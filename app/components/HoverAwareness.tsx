@@ -8,6 +8,7 @@ export const HoverAwareness: React.FC<{
 }> = ({ setHovering, children, sx }) => (
   <Box
     sx={sx}
+    component="span"
     id="spenpo-hover-awareness"
     onMouseOver={() => setHovering(true)}
     onMouseOut={() => setHovering(false)}

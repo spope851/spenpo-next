@@ -1,17 +1,13 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { BackButton } from '@/app/components/BackButton'
 import { TagList } from '@/app/blog/components/TagList'
 import Link from 'next/link'
-import { extractTagsFromPost } from '@/app/utils/extractTags'
 import { redirect } from 'next/navigation'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Metadata } from 'next'
 import { WORDPRESS_ROOT, previewImages } from '@/app/constants/blog'
 
 const getPost = async (id: string) =>
-  fetch(`${WORDPRESS_ROOT}/posts/${id}`)
-    .then((res) => res.json())
-    .then(extractTagsFromPost)
+  fetch(`${WORDPRESS_ROOT}/posts/${id}`).then((res) => res.json())
 
 export async function generateMetadata({
   params,
@@ -19,7 +15,7 @@ export async function generateMetadata({
   const post = await getPost(params.id)
 
   const title = post.title
-  const description = post.excerpt.slice(3).slice(0, 200)
+  const description = post.excerpt.rendered.slice(3).slice(0, 200)
   const images = [previewImages[params.id] || '/images/headshot.jpeg']
 
   return {
@@ -44,82 +40,50 @@ export async function generateMetadata({
   }
 }
 
-export type GetPostQuery = {
-  __typename?: 'Query'
-  post: {
-    __typename?: 'BlogPost'
-    title: string
-    content: string
-    date: string
-    excerpt: string
-    tags: Array<{
-      __typename?: 'Tag'
-      ID: string
-      slug: string
-      name: string
-      post_count?: number | null
-    }>
-  }
-}
-
 export default async function Post({ params }: PageProps) {
   const post = await getPost(params.id)
   if (!post) {
     redirect('/blog')
   }
 
-  const tags = post?.tags?.map((tag) => tag.name)
-
   return (
-    <Stack
-      display="grid"
-      gridTemplateColumns={{
-        lg: '1fr 2fr 1fr',
-        md: '1fr 4fr 1fr',
-        sm: '1fr',
-      }}
-      p={{ xs: 2, sm: 5 }}
-      gap={{ md: 0, sm: 5, xs: 2 }}
-    >
-      <Box mr="auto" mb="auto">
-        <BackButton href="/blog" />
-      </Box>
-      <Stack gap={{ sm: 5, xs: 2 }}>
+    <Stack p={{ sm: 5, xs: 2 }} gap={{ sm: 5, xs: 2 }} mx="auto" maxWidth="50em">
+      <Stack gap={1}>
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography
-            component="span"
-            variant="h4"
-            dangerouslySetInnerHTML={{ __html: post.title }}
+            component="h1"
+            dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
           <Typography component="span">
             {post.date && new Date(post.date).toLocaleDateString()}
           </Typography>
         </Box>
         <TagList tags={post.tags} />
-        <Typography
-          variant="body2"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
-        <Typography variant="body2">
-          Please visit{' '}
-          <Link
-            href={`https://introspective20s.wordpress.com/?p=${params.id}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            my Wordpress site
-          </Link>{' '}
-          to leave a comment on this post.
-        </Typography>
-        {tags.includes('now') && (
-          <Typography variant="body2">
-            You&apos;re reading this on my blog where all &quot;now&quot; posts are
-            archived. Check out my &quot;<Link href="/now">now</Link>&quot; page for
-            the latest update.
-          </Typography>
-        )}
-        <TagList tags={post.tags} />
       </Stack>
+      <Typography
+        variant="body2"
+        component="div"
+        dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+      />
+      <Typography variant="body2">
+        Please visit{' '}
+        <Link
+          href={`https://introspective20s.com/?p=${params.id}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          my Wordpress site
+        </Link>{' '}
+        to leave a comment on this post.
+      </Typography>
+      {post.tags.includes(28) && (
+        <Typography variant="body2">
+          You&apos;re reading this on my blog where all &quot;now&quot; posts are
+          archived. Check out my &quot;<Link href="/now">now</Link>&quot; page for
+          the latest update.
+        </Typography>
+      )}
+      <TagList tags={post.tags} />
     </Stack>
   )
 }

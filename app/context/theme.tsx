@@ -12,7 +12,9 @@ import {
   CSSInterpolation,
   ThemeProvider as MuiProvider,
 } from '@mui/material'
+
 const DARK_GREY = '#999'
+const PRIMARY = '#4f86f7'
 
 type CustomizeThemeContextProps = {
   setMuiDrawerStyleOverrides: Dispatch<SetStateAction<CSSInterpolation>>
@@ -32,11 +34,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
     return ctxVal
   }, [])
 
-  const PRIMARY = '#4f86f7'
-
   const theme = useMemo(
     () =>
       createTheme({
+        cssVariables: true,
         palette: {
           primary: {
             main: PRIMARY,
@@ -87,6 +88,14 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
             styleOverrides: {
               body2: {
                 fontSize: 20,
+                h3: {
+                  fontSize: 30,
+                  fontWeight: 400,
+                  my: 5,
+                },
+                'p:first-child': {
+                  mt: 0,
+                },
               },
             },
             variants: [
