@@ -62,12 +62,13 @@ export default async function Buy({ searchParams }: PageProps) {
             renew: boolean
           ) => {
             'use server'
-            await redis.hmset(session?.user.id, {
-              domainName,
-              projectName,
-              price,
-              renew,
-            })
+            if (session?.user.id)
+              await redis.hmset(session.user.id, {
+                domainName,
+                projectName,
+                price,
+                renew,
+              })
           }}
         />
       </Stack>

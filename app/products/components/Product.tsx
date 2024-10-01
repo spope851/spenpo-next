@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Button, Grid, Stack, Typography } from '@mui/material'
+import { Button, Unstable_Grid2, Stack, Typography } from '@mui/material'
 import { BgImage } from '@/app/components/BgImage'
 import { useRouter } from 'next/navigation'
 
@@ -16,7 +16,7 @@ export const Product: React.FC<{
   const router = useRouter()
 
   return (
-    <Grid item lg={3} sm={6} xs={12} display="flex">
+    <Unstable_Grid2 sm={6} xs={12} display="flex">
       <Stack
         borderRadius={1}
         gap={2}
@@ -66,6 +66,6 @@ export const Product: React.FC<{
           </Stack>
         </Stack>
       </Stack>
-    </Grid>
+    </Unstable_Grid2>
   )
 }

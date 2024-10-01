@@ -11,9 +11,12 @@ import { PasswordForm } from './components/PasswordForm'
 export default async function Password() {
   const session = await getServerSession(authOptions)
 
-  const cache = await redis.hgetall(session.user.id)
+  let cache: Record<string, string> = {}
 
-  if (cache.HEADSHOT_FILE) await redis.expire(session.user.id, 300)
+  if (session?.user.id) cache = await redis.hgetall(session.user.id)
+
+  if (cache.HEADSHOT_FILE && session?.user.id)
+    await redis.expire(session.user.id, 300)
   else redirect('/products/landing-page/design')
 
   return (

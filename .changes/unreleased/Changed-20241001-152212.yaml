@@ -1,0 +1,4 @@
+kind: Changed
+body: separate Tag component from TagsList. add tooltip to first tab on /projects
+  page. reconfigure prisma util for Accelerate
+time: 2024-10-01T15:22:12.356814+08:00

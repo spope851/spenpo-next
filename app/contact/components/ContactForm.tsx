@@ -50,18 +50,8 @@ export const ContactForm: React.FC = () => {
   }
 
   return (
-    <Stack
-      p={{ xs: 2, sm: 5 }}
-      gap={5}
-      borderRadius={1}
-      textAlign="center"
-      component="form"
-      ref={formRef}
-      maxWidth="50em"
-      mx="auto"
-      minWidth={{ md: 800 }}
-    >
-      <Typography component="h1" textAlign="left">
+    <form ref={formRef}>
+      <Typography variant="body2" mb={5}>
         Send me an email ♡
       </Typography>
       <Grid container spacing={{ md: 5, xs: 2 }} alignSelf="center">
@@ -135,6 +125,6 @@ export const ContactForm: React.FC = () => {
           must be a valid email
         </Typography>
       )}
-    </Stack>
+    </form>
   )
 }

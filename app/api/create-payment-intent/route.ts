@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   const order = await prisma.order.create({
     data: {
       user: {
-        connect: { id: session.user.id },
+        connect: { id: session?.user.id },
       },
       metadata,
       product: {

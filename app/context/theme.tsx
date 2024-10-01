@@ -37,7 +37,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   const theme = useMemo(
     () =>
       createTheme({
-        cssVariables: true,
         palette: {
           primary: {
             main: PRIMARY,
@@ -93,7 +92,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
                   fontWeight: 400,
                   my: 5,
                 },
-                'p:first-child': {
+                'p:first-of-type': {
                   mt: 0,
                 },
               },

@@ -2,8 +2,9 @@
 import GitHubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 // import FacebookProvider from 'next-auth/providers/facebook'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import prisma from '@/app/utils/prisma'
+import { AuthOptions } from 'next-auth'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -52,4 +53,4 @@ export const authOptions = {
       return token
     },
   },
-}
+} as AuthOptions

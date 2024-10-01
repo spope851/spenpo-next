@@ -1,27 +1,18 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client/edge'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace NodeJS {
-    interface Global {
-      prisma: PrismaClient
-    }
-  }
+// Learn more about instantiating PrismaClient in Next.js here: https://www.prisma.io/docs/data-platform/accelerate/getting-started
+
+const prismaClientSingleton = () => {
+  return new PrismaClient().$extends(withAccelerate())
 }
 
-let prisma: PrismaClient
+declare const globalThis: {
+  prismaGlobal: ReturnType<typeof prismaClientSingleton>
+} & typeof global
 
-if (typeof window === 'undefined') {
-  if (process.env.NODE_ENV === 'production') {
-    prisma = new PrismaClient()
-  } else {
-    if (!global.prisma) {
-      global.prisma = new PrismaClient()
-    }
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
-    prisma = global.prisma
-  }
-}
-
-// @ts-expect-error for local development
 export default prisma
+
+if (process.env.NODE_ENV !== 'production') globalThis.prismaGlobal = prisma

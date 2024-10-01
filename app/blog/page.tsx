@@ -9,7 +9,7 @@ export default async function Blog() {
   const found = posts.length
 
   return (
-    <Stack p={{ sm: 5, xs: 2 }} gap={{ sm: 5, xs: 2 }} mx="auto" maxWidth="50em">
+    <Stack p={{ sm: 5, xs: 2 }} gap={5} mx="auto" maxWidth="50em">
       <Typography component="h1">Blog</Typography>
       {posts ? (
         <Stack gap={{ sm: 5, xs: 2 }}>
