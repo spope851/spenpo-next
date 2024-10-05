@@ -1,17 +1,4 @@
-import { Projects } from '@/app/types/routing'
-
-const PROJECTS: Projects[] = [
-  'file-feed',
-  'starter-kit-next',
-  'cracker',
-  'spenpo-landing',
-  'two-truths',
-  'language-flash',
-  '3x3-cube',
-  'react-timeclock',
-]
-
-const METADATA: Record<Projects, { image: string; description: string }> = {
+const METADATA: Record<string, { image: string; description: string }> = {
   'file-feed': {
     description: 'public file sharing feed',
     image: '/images/file-feed.png',
@@ -41,5 +28,4 @@ const METADATA: Record<Projects, { image: string; description: string }> = {
   'two-truths': { description: 'two truths and a lie app', image: '' },
 }
 
-const DEFAULT_PROJECT: Projects = 'spenpo-landing'
-export { DEFAULT_PROJECT, PROJECTS, METADATA }
+export { METADATA }

@@ -4,18 +4,18 @@ import '../../../svelte-apps/dist/two-truths-bundle.css'
 
 import { RobotError } from '@/app/components/RobotError'
 import { Stack, Typography } from '@mui/material'
-import { Projects as ProjectsType } from '@/app/types/routing'
 import { ReactNode } from 'react'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Tabs } from '../components/Tabs'
 import { Metadata } from 'next'
 import { METADATA } from '@/app/constants/projects'
+import { WORDPRESS_ROOT } from '@/app/constants/blog'
 import { projects } from '../components'
 
 export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
-  const title = params.id as ProjectsType
+  const title = params.id
   const description = METADATA[title]?.description
   const images = [METADATA[title]?.image || '/images/headshot.jpeg']
 
@@ -48,35 +48,66 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
 )
 
 const Body: React.FC<{
-  children: ReactNode
+  children?: ReactNode
   maxWidth: string
-}> = ({ children, maxWidth }) => (
-  <Stack
-    flex={1}
-    border="solid .5px"
-    maxWidth={{ xs: 'unset', md: maxWidth }}
-    maxHeight={{
+  dangerouslySetInnerHTML?: string
+}> = ({ children, dangerouslySetInnerHTML, maxWidth }) => {
+  const props = {
+    flex: 1,
+    border: 'solid .5px',
+    maxWidth: { xs: 'unset', md: maxWidth },
+    maxHeight: {
       xs: 'unset',
       md: 'calc(100vh - 264.5px)',
       xl: 'calc(100vh - 267px)',
-    }}
-    overflow="scroll"
-    sx={{
+    },
+    overflow: 'scroll',
+    sx: {
       boxSizing: 'unset',
       lineHeight: 1,
-    }}
-    justifyContent="flex-start"
-  >
-    {children}
-  </Stack>
-)
+      figure: {
+        margin: 0,
+      },
+      'th,td': {
+        padding: 2,
+        textAlign: 'left',
+        borderBottom: 'solid 1px #ccc',
+        borderCollapse: 'collapse',
+      },
+      '.spenpo-vercel-deploy': {
+        marginLeft: 3,
+      },
+    },
+    justifyContent: 'flex-start',
+  }
 
-export default function Projects({ params }: PageProps) {
-  const project = params.id as ProjectsType
+  return children ? (
+    <Stack {...props}>{children}</Stack>
+  ) : (
+    <Stack
+      {...props}
+      component="div"
+      dangerouslySetInnerHTML={{ __html: dangerouslySetInnerHTML || '' }}
+    />
+  )
+}
+
+const getProjects = async () =>
+  fetch(`${WORDPRESS_ROOT}/pages?parent=215`).then((res) => res.json())
+
+export default async function Projects({ params }: PageProps) {
+  const projectsData = await getProjects()
+  const projectNames = projectsData.map((p: Record<string, unknown>) => p.slug)
+
+  const project = params.id
+
+  const description = projectsData
+    .find((p: Record<string, unknown>) => p.slug === project)
+    ?.content?.rendered?.split('\n\n\n\n<p>Visit')[0]
 
   return (
     <Stack m={2} flex={1}>
-      <Tabs project={project} />
+      <Tabs value={projectNames.indexOf(project)} tabs={projectNames} />
       <Stack
         direction={{ xs: 'column-reverse', md: 'row' }}
         flex={1}
@@ -84,12 +115,12 @@ export default function Projects({ params }: PageProps) {
       >
         <Stack maxWidth={{ xs: '100%', md: '25%' }}>
           <Header>description</Header>
-          <Body maxWidth="calc(25vw - 9px)">{projects[project]?.description}</Body>
+          <Body maxWidth="calc(25vw - 9px)" dangerouslySetInnerHTML={description} />
         </Stack>
         <Stack flex={1} maxWidth={{ xs: '100%', md: '75%' }}>
           <Header>demo</Header>
           <Body maxWidth="calc(75vw)">
-            {projects[project]?.demo || (
+            {projects[project] || (
               <RobotError>this project doesn&apos;t exist yet</RobotError>
             )}
           </Body>

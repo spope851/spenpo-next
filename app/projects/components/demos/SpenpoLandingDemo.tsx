@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Button,
   Checkbox,
+  Chip,
   Grid,
   InputLabel,
   Stack,
@@ -331,6 +332,17 @@ export const SpenpoLandingDemo: React.FC = () => {
             )}
             onChange={(_, value) => setSocialUrls(value)}
             options={[]}
+            defaultValue={[] as string[]}
+            renderTags={(tagValue, getTagProps) => {
+              return tagValue.map((option, index) => (
+                <Chip
+                  sx={{ height: 24 }}
+                  {...getTagProps({ index })}
+                  key={option}
+                  label={option}
+                />
+              ))
+            }}
           />
         </Grid>
         <Grid {...GRID_ITEM_PROPS}>

@@ -1,9 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material'
-import { Projects as ProjectsType } from '@/app/types/routing'
 import { ReactNode } from 'react'
-import { PageProps } from '@/app/types/app'
 import { Tabs } from './components/Tabs'
-import Link from 'next/link'
+import { WORDPRESS_ROOT } from '../constants/blog'
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
   <Typography variant="h5" textAlign="center" border="solid .5px" height={34}>
@@ -11,26 +9,52 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
   </Typography>
 )
 
-export default function Projects({ params }: PageProps) {
-  const project = params.id as ProjectsType
+const getPost = async () =>
+  fetch(`${WORDPRESS_ROOT}/pages?slug=projects`).then((res) => res.json())
+
+export default async function Projects() {
+  const post = await getPost().then((res) => res?.[0])
+
+  const html = post.content.rendered
+  const content = html.split('\n')
+
+  const description = content.find(
+    (text: string) => text.indexOf('spenpo-wp-description') > -1
+  )
+
+  const projectsBlockStart = content.findIndex(
+    (text: string) => text.indexOf('wpb_page_list') > -1
+  )
+
+  const projectsBlockEnd = content.findIndex(
+    (text: string, idx: number) =>
+      text.indexOf('</ul>') > -1 && idx > projectsBlockStart
+  )
+
+  const projectsBlock = content
+    .slice(projectsBlockStart, projectsBlockEnd + 1)
+    .join('')
+
+  const dirtyProject = projectsBlock.split('introspective20s.com/projects/')
+
+  dirtyProject.shift()
+
+  const projects = dirtyProject
+    .map((project: string) => project.split('/')[0])
+    .reverse()
 
   return (
     <Stack flex={1}>
       <Stack maxWidth="50em" mx="auto" mb="auto" p={{ xs: 2, sm: 5 }} gap={5}>
         <Typography component="h1">Projects</Typography>
-        <Typography variant="body2">
-          The table below showcases all the near-completion projects I&apos;ve built
-          publicly over the past few years. Some are widgets, others are full
-          websites, and all are available in full for your enjoyment and criticism. I
-          build these things with accessibility in mind and hope any attempts to
-          implement them do not end in vain. Since the source code is available for
-          all of these, I welcome collaborative insights, so if you do implement or
-          extend any of these projects, please{' '}
-          <Link href="mailto:spenpo@spenpo.com">email me</Link>.
-        </Typography>
+        <Typography
+          variant="body2"
+          dangerouslySetInnerHTML={{ __html: description }}
+          component="div"
+        />
       </Stack>
       <Stack m={2}>
-        <Tabs project={project} />
+        <Tabs value={-1} tabs={projects} />
         <Stack direction={{ xs: 'column-reverse', md: 'row' }} border="solid .5px">
           <Stack width={{ xs: '100%', md: '25%' }}>
             <Header>description</Header>

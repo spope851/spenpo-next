@@ -37,7 +37,7 @@ export default async function Home() {
         </Typography>
       </Typography>
       {post ? (
-        <Stack>
+        <Stack gap={5}>
           {html.split('\n').map((content: string, i: string) => {
             if (content.length < 8) return <React.Fragment key={i}></React.Fragment>
 

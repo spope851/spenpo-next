@@ -90,14 +90,22 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
                 h3: {
                   fontSize: 30,
                   fontWeight: 400,
-                  my: 5,
+                  margin: 0,
                 },
-                'p:first-of-type': {
-                  mt: 0,
+                p: {
+                  margin: 0,
                 },
               },
             },
             variants: [
+              {
+                props: { component: 'div' },
+                style: {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 40,
+                },
+              },
               {
                 props: { id: 'primary' },
                 style: {

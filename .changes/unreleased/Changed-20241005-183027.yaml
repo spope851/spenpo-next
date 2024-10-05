@@ -1,0 +1,4 @@
+kind: Changed
+body: replaced tabs buttons on /projects pages with Links. removed "use client" from
+  component
+time: 2024-10-05T18:30:27.31018+08:00
