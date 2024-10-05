@@ -64,6 +64,15 @@ export default async function Post({ params }: PageProps) {
         variant="body2"
         component="div"
         dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+        sx={{
+          'figure.wp-block-image': {
+            margin: 0,
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+            },
+          },
+        }}
       />
       <Typography variant="body2">
         Please visit{' '}

@@ -65,7 +65,7 @@ const Body: React.FC<{
     sx: {
       boxSizing: 'unset',
       lineHeight: 1,
-      figure: {
+      'figure.wp-block-table': {
         margin: 0,
       },
       'th,td': {
