@@ -23,7 +23,7 @@ export const LinkPreview: React.FC<LinkPreviewProps> = ({ url, width, ...rest })
         return json
       }}
       fallbackImageSrc={LINK_PREVIEW_FALLBACK}
-      width={isSmallScreen ? 300 : width}
+      width={isSmallScreen ? 'unset' : width}
     />
   )
 }

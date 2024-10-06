@@ -95,6 +95,11 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
                 p: {
                   margin: 0,
                 },
+                'h3 a': {
+                  color: 'black',
+                  opacity: '0.87',
+                  textDecoration: 'none',
+                },
               },
             },
             variants: [

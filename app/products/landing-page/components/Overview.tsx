@@ -17,6 +17,8 @@ import { OverviewStepper } from './OverviewStepper'
 import Link from 'next/link'
 import { LinkPreview } from '../../../components/LinkPreview'
 import dynamic from 'next/dynamic'
+import { RobotError } from '@/app/components/RobotError'
+import { OneThingLayout } from '@/app/components/OneThingLayout'
 
 const Player = dynamic(() => import('react-player/lazy'))
 
@@ -102,31 +104,48 @@ const stepperStyle = (sm: number, xs: number): SxProps => {
   }
 }
 
-const VideoStep: React.FC<{ step: number }> = ({ step }) => (
-  <>
-    <Grid
-      item
-      lg={3}
-      xs={12}
-      display="flex"
-      alignItems="flex-start"
-      justifyContent="center"
-      gap={3}
-      flexDirection="column"
-    >
-      <Typography variant="h4">Step {step + 1}</Typography>
-      <Box>{STEP_COPY[step].copy}</Box>
-    </Grid>
-    <Grid item lg={9} xs={12}>
-      <Player
-        url={STEP_COPY[step].video}
-        style={{ margin: 'auto' }}
-        height="50vh"
-        width="90%"
-      />
-    </Grid>
-  </>
-)
+const VideoStep: React.FC<{ step: number }> = ({ step }) => {
+  const [error, setError] = useState(false)
+  return (
+    <>
+      <Grid
+        item
+        lg={3}
+        xs={12}
+        display="flex"
+        alignItems="flex-start"
+        justifyContent="center"
+        gap={3}
+        flexDirection="column"
+      >
+        <Typography variant="h4">Step {step + 1}</Typography>
+        <Box>{STEP_COPY[step].copy}</Box>
+      </Grid>
+      <Grid item lg={9} xs={12} id={`react-player-${step}`}>
+        {error ? (
+          <RobotError>
+            <Typography>Error playing YouTube video</Typography>
+          </RobotError>
+        ) : (
+          <Player
+            url={STEP_COPY[step].video}
+            style={{ margin: 'auto' }}
+            height="50vh"
+            width="90%"
+            fallback={
+              <OneThingLayout>
+                <Typography>Loading YouTube video</Typography>
+              </OneThingLayout>
+            }
+            onError={() => {
+              setError(true)
+            }}
+          />
+        )}
+      </Grid>
+    </>
+  )
+}
 
 const LinkStep: React.FC<{ step: number }> = ({ step }) => {
   const Component = useMemo(
@@ -291,11 +310,12 @@ export const Overview: React.FC<{ version: string }> = ({ version }) => {
         <Stack>
           {[designRef, nameRef, secureRef, claimRef].map((ref, idx) => {
             let Component = NonVideoStep
-            if (STEP_COPY[idx].video) Component = VideoStep
-            else if (STEP_COPY[idx].link) Component = LinkStep
+            const copy = STEP_COPY[idx]
+            if (copy.video) Component = VideoStep
+            else if (copy.link) Component = LinkStep
             return (
               <Grid
-                key={STEP_COPY[idx].video}
+                key={copy.video || JSON.stringify(copy.link)}
                 container
                 ref={ref}
                 pt="104px"
