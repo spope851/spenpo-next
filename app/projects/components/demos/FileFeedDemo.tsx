@@ -12,8 +12,8 @@ export const FileFeedDemo: React.FC = () => {
 
   return (
     <Stack
-      direction="row"
-      gap={5}
+      direction={{ sm: 'row', xs: 'column' }}
+      gap={{ sm: 5, xs: 2 }}
       flex={1}
       alignItems="center"
       justifyContent="center"
@@ -28,7 +28,12 @@ export const FileFeedDemo: React.FC = () => {
           backgroundPosition,
         }}
       />
-      <Stack gap={2} textAlign="center">
+      <Stack
+        gap={2}
+        textAlign="center"
+        direction={{ xs: 'row', sm: 'column' }}
+        alignItems="center"
+      >
         <Button
           variant="outlined"
           disabled={backgroundPosition === 'top'}
