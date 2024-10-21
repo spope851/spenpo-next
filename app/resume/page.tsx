@@ -78,11 +78,51 @@ export default async function Resume() {
             </AccordionSummary>
             <AccordionDetails>
               <List>
-                <ListItem>
+                <ListItem
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <Typography>Built this site from scratch</Typography>
+                  <Typography display={{ xs: 'none', sm: 'block' }}>2022</Typography>
                 </ListItem>
-                <ListItem>
+                <ListItem
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <Typography>First-degree black belt in karate</Typography>
+                  <Typography display={{ xs: 'none', sm: 'block' }}>2011</Typography>
+                </ListItem>
+              </List>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h6">Certifications</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <List>
+                <ListItem
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <Typography
+                    component={Link}
+                    href="https://aws.amazon.com/certification/certified-cloud-practitioner/"
+                  >
+                    AWS Certified Cloud Practitioner
+                  </Typography>
+                  <Typography
+                    component={Link}
+                    href="https://www.credly.com/badges/8e90c447-ebb4-4916-bf0e-3137783cf300/linked_in_profile"
+                  >
+                    2024
+                  </Typography>
                 </ListItem>
               </List>
             </AccordionDetails>

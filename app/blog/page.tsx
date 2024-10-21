@@ -5,7 +5,10 @@ import { OneThingLayout } from '../components/OneThingLayout'
 import { RobotError } from '../components/RobotError'
 
 export default async function Blog() {
-  const posts = await fetch(`${WORDPRESS_ROOT}/posts`).then((res) => res.json())
+  // TODO: add pagination and remove per_page query
+  const posts = await fetch(`${WORDPRESS_ROOT}/posts?per_page=11`).then((res) =>
+    res.json()
+  )
   const found = posts.length
 
   return (
