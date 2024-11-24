@@ -4,12 +4,9 @@ import { PostList } from './components/PostList'
 import { OneThingLayout } from '../components/OneThingLayout'
 import { RobotError } from '../components/RobotError'
 import { PaginationControls } from './components/PaginationControls'
+import { PageProps } from '../types/app'
 
-type BlogProps = {
-  searchParams: { page?: string }
-}
-
-export default async function Blog({ searchParams }: BlogProps) {
+export default async function Blog({ searchParams }: PageProps) {
   const page = Number(searchParams.page) || 1
   const postsPerPage = 10
 
