@@ -6,6 +6,8 @@ import React from 'react'
 import { SnackbarContextProvider } from './context/snackbar'
 import { UnAuthContextProvider } from './context/unAuth'
 import { MenuContextProvider } from './components/Menu'
+import Script from 'next/script'
+import { WP_CHILD_THEME_RESOURCES } from './constants/blog'
 
 export async function generateMetadata(): Promise<Metadata> {
   const title = 'Spencer Pope'
@@ -57,6 +59,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href={`${WP_CHILD_THEME_RESOURCES}/includes/prism.css`}
+        />
+        <link
+          rel="stylesheet"
+          href={`${WP_CHILD_THEME_RESOURCES}/assets/css/chat-styles.css`}
+        />
+      </head>
       <body style={{ margin: 0 }} suppressHydrationWarning>
         <NextAuthProvider>
           <UnAuthContextProvider>
@@ -69,6 +81,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </SnackbarContextProvider>
           </UnAuthContextProvider>
         </NextAuthProvider>
+        <Script
+          src={`${WP_CHILD_THEME_RESOURCES}/includes/prism.js`}
+          // You can use different strategies:
+          // beforeInteractive - Load before page becomes interactive
+          // afterInteractive (default) - Load immediately after page becomes interactive
+          // lazyOnload - Load during idle time
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

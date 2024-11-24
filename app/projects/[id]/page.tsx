@@ -9,7 +9,7 @@ import { MetadataProps, PageProps } from '@/app/types/app'
 import { Tabs } from '../components/Tabs'
 import { Metadata } from 'next'
 import { METADATA } from '@/app/constants/projects'
-import { WORDPRESS_ROOT } from '@/app/constants/blog'
+import { WP_REST_URI } from '@/app/constants/blog'
 import { projects } from '../components'
 
 export async function generateMetadata({
@@ -93,7 +93,7 @@ const Body: React.FC<{
 }
 
 const getProjects = async () =>
-  fetch(`${WORDPRESS_ROOT}/pages?parent=215`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/pages?parent=215`).then((res) => res.json())
 
 export default async function Projects({ params }: PageProps) {
   const projectsData = await getProjects()

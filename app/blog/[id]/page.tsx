@@ -4,15 +4,18 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { MetadataProps, PageProps } from '@/app/types/app'
 import { Metadata } from 'next'
-import { WORDPRESS_ROOT, previewImages } from '@/app/constants/blog'
+import { WP_REST_URI, previewImages } from '@/app/constants/blog'
 
 const getPost = async (id: string) =>
-  fetch(`${WORDPRESS_ROOT}/posts/${id}`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/posts/${id}`).then((res) => res.json())
 
 export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
   const post = await getPost(params.id)
+  if (!post.ok) {
+    return {}
+  }
 
   const title = post.title
   const description = post.excerpt.rendered.slice(3).slice(0, 200)
@@ -42,7 +45,7 @@ export async function generateMetadata({
 
 export default async function Post({ params }: PageProps) {
   const post = await getPost(params.id)
-  if (!post) {
+  if (!post.ok) {
     redirect('/blog')
   }
 

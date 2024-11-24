@@ -1,6 +1,6 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
-import { WORDPRESS_ROOT } from '../constants/blog'
+import { WP_REST_URI } from '../constants/blog'
 import Link from 'next/link'
 
 import { LinkPreview } from '../components/LinkPreview'
@@ -15,7 +15,7 @@ const LINK_PREV_PROPS = {
 }
 
 const getPost = async () =>
-  fetch(`${WORDPRESS_ROOT}/pages?slug=welcome`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/pages?slug=welcome`).then((res) => res.json())
 
 export default async function Home() {
   const post = await getPost().then((res) => res?.[0])

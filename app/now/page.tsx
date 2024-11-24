@@ -1,10 +1,10 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
 import Link from 'next/link'
-import { WORDPRESS_ROOT } from '../constants/blog'
+import { WP_REST_URI } from '../constants/blog'
 
 const getPost = async () =>
-  fetch(`${WORDPRESS_ROOT}/posts?tag=now&number=1`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/posts?tag=now&number=1`).then((res) => res.json())
 
 export default async function Now() {
   const post = await getPost().then((res) => res?.[0])

@@ -2,15 +2,19 @@ import { PostList } from '@/app/blog/components/PostList'
 import { Box, Chip, Stack, Typography } from '@mui/material'
 import { PageProps } from '@/app/types/app'
 import { redirect } from 'next/navigation'
-import { WORDPRESS_ROOT } from '@/app/constants/blog'
+import { WP_REST_URI } from '@/app/constants/blog'
 
 export default async function Tag({ params }: PageProps) {
-  const tag = await fetch(`${WORDPRESS_ROOT}/tags/${params.tag}`).then((res) =>
+  const tag = await fetch(`${WP_REST_URI}/tags/${params.tag}`).then((res) =>
     res.json()
   )
 
+  if (!tag.ok) {
+    return redirect('/blog')
+  }
+
   const allPosts = await fetch(
-    `${WORDPRESS_ROOT}/posts${tag ? `?tags=${tag.id}` : '/'}`
+    `${WP_REST_URI}/posts${tag ? `?tags=${tag.id}` : '/'}`
   ).then((res) => res.json())
 
   // removes spaces, dashes, forward slashes, and makes lower case

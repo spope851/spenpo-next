@@ -4,6 +4,10 @@ const previewImages: Record<string, string> = {
   152: 'https://images.unsplash.com/photo-1525545575852-94dac00e6836?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ',
 }
 
-const WORDPRESS_ROOT = 'https://introspective20s.com/wp-json/wp/v2'
+const WP_ROOT = 'https://introspective20s.com'
 
-export { previewImages, WORDPRESS_ROOT }
+const WP_REST_URI = `${WP_ROOT}/wp-json/wp/v2`
+
+const WP_CHILD_THEME_RESOURCES = `${WP_ROOT}/wp-content/themes/twentytwentyfour-spenpo`
+
+export { previewImages, WP_ROOT, WP_REST_URI, WP_CHILD_THEME_RESOURCES }

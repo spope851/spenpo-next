@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { ReactNode } from 'react'
 import { Tabs } from './components/Tabs'
-import { WORDPRESS_ROOT } from '../constants/blog'
+import { WP_REST_URI } from '../constants/blog'
 
 const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
   <Typography variant="h5" textAlign="center" border="solid .5px" height={34}>
@@ -10,7 +10,7 @@ const Header: React.FC<{ children: ReactNode }> = ({ children }) => (
 )
 
 const getPost = async () =>
-  fetch(`${WORDPRESS_ROOT}/pages?slug=projects`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/pages?slug=projects`).then((res) => res.json())
 
 export default async function Projects() {
   const post = await getPost().then((res) => res?.[0])

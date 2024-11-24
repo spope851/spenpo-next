@@ -1,9 +1,9 @@
 import React from 'react'
 import { Stack, Typography } from '@mui/material'
-import { WORDPRESS_ROOT } from '../constants/blog'
+import { WP_REST_URI } from '../constants/blog'
 
 const getPost = async () =>
-  fetch(`${WORDPRESS_ROOT}/pages?slug=about`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/pages?slug=about`).then((res) => res.json())
 
 export default async function About() {
   const post = await getPost().then((res) => res?.[0])
