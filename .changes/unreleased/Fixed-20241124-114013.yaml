@@ -1,3 +1,0 @@
-kind: Fixed
-body: proper checks and redirects for compile errors at /blog/tag and /blog/[INVALID_POST]
-time: 2024-11-24T11:40:13.834097+08:00
