@@ -9,7 +9,7 @@ export default async function Tag({ params }: PageProps) {
     res.json()
   )
 
-  if (!tag.ok) {
+  if (!tag || !tag.name || tag.code === 'rest_term_invalid') {
     return redirect('/blog')
   }
 

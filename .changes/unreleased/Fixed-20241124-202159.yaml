@@ -1,0 +1,4 @@
+kind: Fixed
+body: request bug in /now. added correct query params for most recent post with tag
+  "now"
+time: 2024-11-24T20:21:59.333924+08:00

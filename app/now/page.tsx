@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { WP_REST_URI } from '../constants/blog'
 
 const getPost = async () =>
-  fetch(`${WP_REST_URI}/posts?tag=now&number=1`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/posts?tags=28&per_page=1`).then((res) => res.json())
 
 export default async function Now() {
   const post = await getPost().then((res) => res?.[0])

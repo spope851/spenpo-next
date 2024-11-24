@@ -13,11 +13,11 @@ export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
   const post = await getPost(params.id)
-  if (!post.ok) {
+  if (!post || !post.title || post.code === 'rest_post_invalid_id') {
     return {}
   }
 
-  const title = post.title
+  const title = post.title.rendered
   const description = post.excerpt.rendered.slice(3).slice(0, 200)
   const images = [previewImages[params.id] || '/images/headshot.jpeg']
 
@@ -45,7 +45,7 @@ export async function generateMetadata({
 
 export default async function Post({ params }: PageProps) {
   const post = await getPost(params.id)
-  if (!post.ok) {
+  if (!post || !post.title || post.code === 'rest_post_invalid_id') {
     redirect('/blog')
   }
 
