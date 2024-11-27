@@ -75,6 +75,10 @@ export default async function Post({ params }: PageProps) {
               height: 'auto',
             },
           },
+          'pre.wp-block-code': {
+            borderRadius: 1,
+            maxWidth: 'calc(100vw - 32px)',
+          },
         }}
       />
       <Typography variant="body2">
