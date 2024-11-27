@@ -4,7 +4,7 @@ const previewImages: Record<string, string> = {
   152: 'https://images.unsplash.com/photo-1525545575852-94dac00e6836?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=2000&fit=max&ixid=eyJhcHBfaWQiOjExNzczfQ',
 }
 
-const WP_ROOT = 'https://introspective20s.com'
+const WP_ROOT = process.env.WP_ROOT
 
 const WP_REST_URI = `${WP_ROOT}/wp-json/wp/v2`
 
