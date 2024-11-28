@@ -63,10 +63,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link
           rel="stylesheet"
           href={`${WP_CHILD_THEME_RESOURCES}/includes/prism.css`}
+          // Temporary development aid: uncomment to break cache when needed
+          // ?v=${Date.now()}
         />
         <link
           rel="stylesheet"
           href={`${WP_CHILD_THEME_RESOURCES}/assets/css/chat-styles.css`}
+          // Temporary development aid: uncomment to break cache when needed
+          // ?v=${Date.now()}
         />
       </head>
       <body style={{ margin: 0 }} suppressHydrationWarning>

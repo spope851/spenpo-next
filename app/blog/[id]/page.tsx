@@ -49,8 +49,10 @@ export default async function Post({ params }: PageProps) {
     redirect('/blog')
   }
 
+  const padding = { sm: 5, xs: 2 }
+
   return (
-    <Stack p={{ sm: 5, xs: 2 }} gap={{ sm: 5, xs: 2 }} mx="auto" maxWidth="50em">
+    <Stack p={padding} gap={{ sm: 5, xs: 2 }} mx="auto" maxWidth="50em">
       <Stack gap={1}>
         <Box display="flex" justifyContent="space-between" alignItems="end">
           <Typography
@@ -77,7 +79,10 @@ export default async function Post({ params }: PageProps) {
           },
           'pre.wp-block-code': {
             borderRadius: 1,
-            maxWidth: 'calc(100vw - 32px)',
+            maxWidth: {
+              xs: `calc(100vw - ${padding.xs * 8 * 2}px)`,
+              sm: `calc(100vw - ${padding.sm * 8 * 2}px)`,
+            },
           },
         }}
       />
