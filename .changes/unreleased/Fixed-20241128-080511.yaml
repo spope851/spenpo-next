@@ -1,4 +1,0 @@
-kind: Fixed
-body: spacing bug on small sm viewports that expanded the content beyond app boundaries
-  in /blog/[id]
-time: 2024-11-28T08:05:11.061756+08:00
