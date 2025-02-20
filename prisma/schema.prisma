@@ -6,9 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Account {
@@ -28,6 +29,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@map("wp_nextauth_accounts")
 }
 
 model Session {
@@ -36,6 +38,8 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("wp_nextauth_sessions")
 }
 
 model User {
@@ -47,6 +51,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
   orders        Order[]
+
+  @@map("wp_nextauth_users")
 }
 
 model VerificationToken {
@@ -55,6 +61,7 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+  @@map("wp_nextauth_verification_tokens")
 }
 
 model Product {
@@ -66,6 +73,8 @@ model Product {
   hide          Boolean   @default(false)
   learnMore     String?
   buyNow        String?
+
+  @@map("wp_spenpo_products")
 }
 
 model Order {
@@ -78,6 +87,8 @@ model Order {
   complete      Boolean   @default(false)
   error         Json?
   environment   String
+
+  @@map("wp_spenpo_orders")
 }
 
 model Mandarin {
@@ -86,10 +97,14 @@ model Mandarin {
   simplified    String
   pinyin        String
   meaning       String
+
+  @@map("wp_spenpo_mandarin")
 }
 
 model Truth {
   id            Int    @id @default(autoincrement())
   sentence      String
   is_true       Boolean
+
+  @@map("wp_spenpo_truth")
 }
