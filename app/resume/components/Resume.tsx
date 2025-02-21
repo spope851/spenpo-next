@@ -91,7 +91,9 @@ export const Resume: React.FC<ResumeProps> = ({ resumeData }: ResumeProps) => {
                         ) : (
                           <ListItem
                             key={j}
-                            sx={{ ml: `${detail.indent ? detail.indent * 8 : 0}px` }}
+                            sx={{
+                              pl: Number(detail.indent ? detail.indent : 0) + 2,
+                            }}
                           >
                             <Typography>{detail.text}</Typography>
                           </ListItem>

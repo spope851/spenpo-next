@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Resume } from './components/Resume'
 
 export default async function ResumePage() {
-  const resumeReq = await fetch('http://localhost:8080/wp-json/spenpo/v1/resume')
+  const resumeReq = await fetch(`${process.env.WP_ROOT}/wp-json/spcv/v1/resume`)
   const resumeData = await resumeReq.json()
 
   return (
