@@ -32,7 +32,7 @@ export default async function SitePage({ params }: PageProps) {
         complete: true,
         productId: 'landing-page',
         metadata: {
-          path: ['projectName', 'vercelApp'],
+          path: '$.projectName.vercelApp',
           equals: params?.appName,
         },
       },

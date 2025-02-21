@@ -21,7 +21,7 @@ export default async function Domains({ params }: PageProps) {
         productId: 'landing-page',
         complete: true,
         metadata: {
-          path: ['projectName', 'vercelApp'],
+          path: '$.projectName.vercelApp',
           equals: params?.appName,
         },
       },

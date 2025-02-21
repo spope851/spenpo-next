@@ -17,7 +17,7 @@ export default async function Deployment({ params, searchParams }: PageProps) {
         productId: 'landing-page',
         complete: true,
         metadata: {
-          path: ['projectName', 'vercelApp'],
+          path: '$.projectName.vercelApp',
           equals: params?.appName,
         },
       },
