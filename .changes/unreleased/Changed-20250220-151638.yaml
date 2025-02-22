@@ -1,3 +1,0 @@
-kind: Changed
-body: update prisma schema with bindings for table names in mysql
-time: 2025-02-20T15:16:38.736681+08:00

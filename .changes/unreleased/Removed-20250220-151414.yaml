@@ -1,3 +1,0 @@
-kind: Removed
-body: all postgres migrations from prisma/migrations. moved to prisma/archive_migrations
-time: 2025-02-20T15:14:14.140269+08:00
