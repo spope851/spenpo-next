@@ -93,7 +93,7 @@ const Body: React.FC<{
 }
 
 const getProjects = async () =>
-  fetch(`${WP_REST_URI}/pages?parent=215`).then((res) => res.json())
+  fetch(`${WP_REST_URI}/pages?parent=215&per_page=99`).then((res) => res.json())
 
 export default async function Projects({ params }: PageProps) {
   const projectsData = await getProjects()
